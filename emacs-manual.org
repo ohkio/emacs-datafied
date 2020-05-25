@@ -1,0 +1,1363 @@
+* Manual
+** Distribution
+** Introduction
+** The Organization of the Screen
+   Goes through an overview of
+   - Frame :: The Graphical window or entire terminal running emacs.
+   - Menu Bar :: Organization of various commands and instructions in
+                 emacss.
+   - Tool Bar :: Only appears when running emacs in a graphical
+                 display. List of shortcuts to common commands.
+   - Echo Area :: Where informative messages are displayed and where
+                  you enter information when Emacs asks for it.
+   - Window :: Area of editing below the tool bar (if one exists) and
+               above the echo area.
+   - Buffer :: the text or other graphics you are editing or viewing.
+   - Mode Line :: This displays various information about what is
+                  going on in the buffer.
+*** Point
+    Basically the cursor. Comes from ~.~ which was the original
+    command for accessing the editing position way back when.
+*** The Echo Area
+    Detailed explination of stuff.
+    - Minibuffer :: a special window where you can input arguments to
+                    commands within the [[Echo Area]]
+*** The Mode Line
+    #+BEGIN_SRC
+    cs:ch-fr  buf     pos line   (major minor)
+    #+END_SRC
+    Explination:
+    - ~cs~ :: Character Set. Depends on the encoding of the document
+    - ~:~ :: Changes depending on the newline convention.
+      - ~:~ or ~Unix~ :: Lines end in newline character
+      - ~\~ or ~DOS~ :: Lines end in carriage return, linefeed
+      - ~/~ or ~Mac~ :: Lines end in carriage return
+      - ~@~ :: When the frame was created for ~emacsclient~
+    - ~ch~ :: Status of buffer
+      - ~--~ :: Buffer is unchanged from file
+      - ~**~ :: Buffer is modified from file
+      - ~%%~ :: Unmodified read only buffer
+      - ~%*~ :: Modified read only buffer
+    - ~-~ :: Location of file for current buffer
+      - ~-~ :: Local file
+      - ~@~ :: Remote file
+    - ~fr~ :: Name of selected frame. Only relevant for text terminals
+      - ~F1~ :: Name of initial frame
+    - ~buf~ :: Name of buffer. Normally the file name.
+    - ~pos~ :: Indicates whether there is additional text above the
+      top of the window or below the bottom.
+      - ~All~ :: The entire buffer is visible in the window
+      - ~Top~ :: You are looking at the beginning of the buffer
+      - ~Bot~ :: You are looking at the end of the buffer
+      - ~nn%~ :: This means /nn/ is the percentage of the buffer above
+        the top of the window.
+    - ~line~ :: the character ~L~ followed by the line number at
+      point.
+    - ~major~ :: Name of the major mode used in the buffer.
+    - ~minor~ :: A list of some of the enabled minor modes, or
+      relevant features.
+      - ~Narrow~ :: Buffer being displayed has editing restricted to
+        only a portion of it's text.
+      - ~Def~ :: A keyboard macro is currently being defined.
+    - ~(...)~ :: If emacs is inside a recusive editing level, square
+      brackets ~[...]~ apppear around the parentheses that surround
+      the modes
+
+    Extra Functionality: 
+    - Hovering around the mode line shows tool tips.
+    - Clicking on different parts of the mode line performs various
+      commands
+
+    Words and concepts defined or mentioned:
+    - Major Mode :: the principal editing mode for a given buffer.
+    - Minor Mode :: Optional editing modes that provide additional
+      features on top of the major mode.
+    - Narrowing :: When you restrict editing to only a portion of
+      buffer.
+    - Keyboard Macro :: Mentioned not defined
+    - Recursive Edit :: Mentioned not defined
+    - Tooltips :: Mentioned not defined
+*** The Menu Bar
+    Some interesting details about the menu bar.
+
+    Mentions the concept:
+    - Variable
+** Kinds of User Input
+   Some Syntax
+   - <SPC> :: The spacebar
+   - <RET> :: The Return or Enter key
+   - <TAB> :: The Tab key
+   - <DEL> :: The Delete key
+   - <ESC> :: The Esc or Escape key
+   - <F1> :: The F1 or first function key
+   - <Home> :: The Home key
+   - <LEFT> :: The Left Arrow key
+   - <Control> or <Ctrl> :: The Control or Ctrl key (not different
+                            keys)
+   - <Meta> :: The Meta or Alt key
+   - ~Control-a~ or ~C-a~ :: Holding down the <Ctrl> key while
+     pressing ~a~
+   - ~<Meta>-a~ or ~M-a~ :: Holding down the <Alt> key while pressing
+     ~a~
+   - ~C-M-a~ :: Holding down <Ctrl> and <Alt> while pressing ~a~
+
+   These commands might be blocked by the OS
+   - ~M-<TAB>~
+   - ~M-<SPC>~
+   - ~C-M-d~
+   - ~C-M-l~
+** Keys
+   Definitions:
+   - Key Sequence or Key :: A sequence of one or more input events
+     that is meaningful as a unit.
+     - Complete Key :: A Key Sequence that invokes a command
+     - Prefix Key :: A Key Sequence that isn't long enough to invoke a
+       command
+
+   All Key Sequences are either Complete Keys or Prefix Keys.
+
+   These are the default Prefix Keys
+   - ~C-c~
+   - ~C-h~ or ~<F1>~
+   - ~C-x~
+   - ~C-x <RET>~
+   - ~C-x @~
+   - ~C-x a~
+   - ~C-x n~
+   - ~C-x r~
+   - ~C-x v~
+   - ~C-x 4~
+   - ~C-x 5~
+   - ~C-x 6~ or ~<F2>~
+   - ~<ESC>~
+   - ~M-g~
+   - ~M-o~
+** Keys and Commands
+   Definitions
+   - Command :: a name used to store an action to perform in emacs
+   - Function :: Not defined, but mentioned
+   - Keymaps :: Not defined, but mentioned
+   - Variable :: a name used to store a value
+** Entering Emacs
+   Start Emacs from the shell.
+   #+BEGIN_SRC sh
+   emacs
+   #+END_SRC
+
+   Run emacs in the bacground of a terminal to continue to use the
+   terminal.
+   #+BEGIN_SRC sh
+   emacs &
+   #+END_SRC
+
+   Open ~foo.txt~ in emacs
+   #+BEGIN_SRC sh
+   emacs foo.txt
+   #+END_SRC
+
+   Vocabulary mentioned or defined
+   - Kill Ring :: Not defined but mentioned
+   - Registers :: Not defined but mentioned
+   - Undo History :: Not defined but mentioned
+   - Mark Ring :: Not defined but mentioned
+** Exiting Emacs
+** Basic Editing Commands
+*** Inserting Text
+*** Changing the Location of Point
+*** Erasing Text
+*** Undoing Changes
+*** Files
+*** Help
+*** Blank Lines
+*** Continuation Lines
+*** Cursor Position Information
+*** Numberic Arguments
+    Examples
+    #+BEGIN_SRC
+    M-5 C-n
+    #+END_SRC
+    Move down five (5) lines.
+
+    #+BEGIN_SRC
+    M-- C-n
+    #+END_SRC
+    Move up one (1) line.
+
+    #+BEGIN_SRC
+    M-- 3 C-n
+    #+END_SRC
+    Move up three (3) lines
+
+    #+BEGIN_SRC
+    M-5 0 C-n
+    #+END_SRC
+    Move down fifty (50) lines.
+
+    #+BEGIN_SRC
+    M-5 C-u 0
+    #+END_SRC
+    Insert five (5) copies of ~0~.
+
+    #+BEGIN_SRC
+    C-u 2 5 C-n
+    #+END_SRC
+    Move down twenty-five (25) lines
+
+    #+BEGIN_SRC
+    C-u - 1 2 C-n
+    #+END_SRC
+    Move up twelve (12) lines
+
+    #+BEGIN_SRC
+    C-u - C-n
+    #+END_SRC
+    Move up one (1) line
+
+    #+BEGIN_SRC
+    C-u C-n
+    #+END_SRC
+    Move down four (4) lines
+
+    #+BEGIN_SRC
+    C-u C-u C-n
+    #+END_SRC
+    Move down sixteen (16) lines
+
+    #+BEGIN_SRC
+    C-u 6 4 a
+    #+END_SRC
+    Insert sixty-four (64) copies of the character ~a~.
+
+    #+BEGIN_SRC
+    C-u 6 4 C-u 1
+    #+END_SRC
+    Insert sixty-four (64) copies of the character ~1~.
+*** Repeating a Command
+    Example
+    #+BEGIN_SRC
+    C-u 2 0 C-d
+    C-x z z z
+    #+END_SRC
+    Delete 80 characters.
+** The Minibuffer
+*** Using the Minibuffer
+    Can exit the minibuffer using ~C-g~
+*** Minibuffers for File Names
+    Options to change file/directory
+    - ~M-n~ :: Next default for file name
+    - ~M-<DEL>~ :: Kill directory name backwards
+    - ~C-a C-k~ :: Clear entire minibuffer
+
+    When file is a remote file:
+    - a double slash ignores the file-name but keeps the method, host
+      and username.
+    - three slashes in a row ignores everything, both file-name and
+      the method, host and username.
+
+    #+BEGIN_SRC
+    ~/
+    #+END_SRC
+    home directory
+
+    #+BEGIN_SRC
+    ~user-id/
+    #+END_SRC
+    The home directory of a user whose login name is /user-id/
+*** Editing in the Minibuffer
+    The following commands behave differently in the minibuffer
+    compared with standard buffers:
+    - ~<RET>~
+    - ~<TAB>~
+    - ~<SPC>~
+    - ~?~
+
+    You can use ~C-q~ to insert these into the minibuffer as you would
+    expect them to be inserted.
+
+    The minibuffer is displayed in the Echo Area. When the minibuffer
+    is active, it can be thought of as it's own window. You can
+    navigate windows how you normally would and return to the
+    minibuffer as if it is it's own window. However standard windows
+    can be split, and the Echo Area cannot be split into multiple
+    windows.
+
+    Clicking ~mouse-1~ in the Echo Area when the minibuffer is not
+    active shows the ~*Messages*~ buffer in a new window.
+*** Completion
+    - Completion :: A helpful feature of Emacs to help enter
+      arguments. This means that after you type part of the argument,
+      Emacs can fill in the rest, or some of it, based on what was
+      typed so far.
+**** Completion Example
+     #+BEGIN_SRC
+     M-x c u s <TAB> i <TAB> - v <TAB> 
+     #+END_SRC
+     Enter ~customize-variable~ into the minibuffer as a command to
+     run.
+**** Completion Commands
+**** Completion Exit
+     There are Four types of behavior for the command
+     ~minibuffer-complete-and-exit~.
+
+     - Strict Completion
+       - If minibuffer is exact match :: Exits the minibuffer.
+       - If minibuffer completes to exact match :: Complete match and
+         exit the minibuffer.
+       - Else :: Attempts to complete, refuses to exit, displays "[No
+         match]"
+     - Cautious Completion
+       - If minibuffer is exact match :: Exits the minibuffer.
+       - If minibuffer completes to exact match :: Complete match,
+         does not exit the minibuffer.
+       - Else :: (unsure of exact behavior)
+     - Permissive Completion
+       - Any context :: Exits the minibuffer.
+     - Permissive Completion with Confirmation
+       - After typing <TAB> to partial completion :: does not exit
+         minibuffer, displays "[Confirm]".
+       - Else :: Exits the minibuffer.
+**** How Completion Alternatives Are Chosen
+     Completion tries each style and then moves onto the next in the
+     list if unsuccessful. Here is the list in order:
+     - ~basic~ :: A matching completion alternative must have the same
+       beginning as the text in the minibuffer before
+       point. Furthermore, if there is any text in the minibuffer
+       after point, the rest of the completion alterantive must
+       contain that text as a substring.
+     - ~partial-completion~ :: This aggressive completion style
+       divides the minibuffer text into words separated by hyphens or
+       spaces, and completes each word separately. (for example, when
+       completing comand names, 'em-l-m' completes to
+       'emacs-lisp-mode'.) Furthermore a '*' in the minibuffer text is
+       treated as a wildcard - it matches any string of characters at
+       the corresponding position in the completion alternative.
+     - ~emacs22~ :: This completion style is similar to ~basic~,
+       except that it ignores the text in the minibuffer after
+       point. It is so-named because it corresponds to the completion
+       behavior in Emacs 22.
+
+     Additional list options
+     - ~substring~ :: A matching completion alternative must contain
+       the text in the minibuffer before point, and the text in the
+       minibuffer after point, as substrings (in that same
+       order). Thus if the text in the minibuffer is 'foobar', with
+       point between 'foo' and 'bar', that matches 'dfooebarf', where
+       d, e, and f can be any string including the empty string.
+     - ~initials~ :: This very aggressive completion style attempts to
+       complete acronyms and initialisms. For example, when completing
+       command names, it matches 'lch' to 'list-command-history'.
+     - ~emacs21~ :: Only matches that start with the text in the
+       minibuffer are considered, regardless of point location.
+**** Completion Options     
+*** Minibuffer History
+*** Repeating Minibuffer Commands
+    Vocabulary
+    - Command History :: Special history list that records complex
+      commands that required an argument from the minibuffer.
+*** Entering passwords
+    Entering passwords is a slightly different context than the
+    minibuffer is normally.
+
+    Most features and commands associated with the minibuffer /cannot/
+    be used when entering a password. No completion, no changing
+    windows.
+
+    - ~<DEL>~ :: removes last character entered.
+    - ~C-u~ :: deletes everything you have typed so far.
+    - ~C-g~ :: quits the password prompt.
+    - ~C-y~ :: inserts the current kill into the password.
+    - ~<RET>~ OR ~<ESC>~ :: submit password.
+*** Yes or No Prompts
+    There are two types of yes or no prompts.
+
+    The first kind ends an Echo Area prompt with ~(y or n)~.
+    - ~C-l~ :: recenter the selected window
+    - ~C-v~ OR ~<PageDown>~ OR ~<next>~ :: scroll forward.
+    - ~M-v~ OR ~<PageUp>~ OR ~<prior>~ :: scroll backward.
+    - ~C-M-v~ :: scrolls forward in the next window.
+    - ~C-M-S-v~ :: scrolls backward in the next window.
+    - ~C-g~ :: dismisses query and quits the command.
+
+    The second kind ends an Echo Area prompt with ~(yes or no)~. This
+    behaves the exact same as standard minibuffer context
+** Running Commands by Name
+** Help
+* Vocabulary
+** Basics
+*** Frame
+    [[The Organization of the Screen][First Defined]]
+*** Menu Bar
+    [[The Organization of the Screen][First Defined]]
+*** Tool Bar
+    [[The Organization of the Screen][First Defined]]
+*** Echo Area
+    [[The Organization of the Screen][First Defined]]
+    [[The Echo Area][Details]]
+*** Window
+    [[The Organization of the Screen][First Defined]]
+*** Buffer
+    [[The Organization of the Screen][First Defined]]
+*** Mode Line
+    [[The Organization of the Screen][First Defined]]
+    [[The Mode Line][Details]]
+*** Point
+    [[Point][first Defined]]
+*** Major Mode
+    [[The Mode Line][First Defined]]
+*** Minor Mode
+    [[The Mode Line][First Defined]]
+*** Variable
+    [[The Menu Bar][first mentioned]]
+    [[Keys and Commands][First Defined]]
+** Keys
+*** Key Sequence
+    [[Keys][First Defined]]
+*** Complete Key
+    [[Keys][First Defined]]
+*** Prefix Key
+    [[Keys][First Defined]]
+** Minibuffer
+*** Minibuffer
+    [[The Echo Area][First Defined]]
+*** Completion
+    [[Completion][First Defined]]
+*** Command History
+    [[Repeating Minibuffer Commands][First Defined]]
+** Uncategorized
+*** Narrowing
+    [[The Mode Line][First Defined]]
+*** Keyboard Macro
+    [[The Mode Line][first mentioned]]
+*** Recursive Edit
+    [[The Mode Line][first mentioned]]
+*** Tooltips
+    [[The Mode Line][first mentioned]]
+*** Function
+    [[Keys and Commands][first mentioned]]
+*** Keymaps
+    [[Keys and Commands][first mentioned]]
+*** Kill Ring
+    [[Entering Emacs][first mentioned]]
+*** Registers
+    [[Entering Emacs][first mentioned]]
+*** Undo History
+    [[Entering Emacs][first mentioned]]
+*** Mark Ring
+    [[Entering Emacs][first mentioned]]
+* Mode
+** The Organization of the Screen
+*** Size Indication mode
+    you can display the size of the buffer in the Mode Line
+
+    [[The Mode Line][first mention]]
+*** Column Number mode
+    You can display the current column in the Mode Line
+
+    [[The Mode Line][first mention]]
+** Basic Editing Commands
+*** Auto Fill mode
+    Splits lines automatically when they get too long
+
+    [[Inserting Text][first mention]]
+*** Overwrite mode
+    Causes inserted characters to replace (overwrite) existing text,
+    instead of shoving it to the right.
+
+    [[Inserting Text][first mentioned]]
+*** Visual Line mode
+    Enables word wrapping: instead of wrapping long lines exactly at
+    the right window edge, Emacs wraps them at the word boundaries
+    (i.e., space or tab characters) nearest to the right window
+    edge. Visual Line mode also redefines editing commands such as
+    C-a, C-n, and C-k to operate on screen lines rather than logical
+    lines.
+*** Line Number mode
+    The current line number of point appears in the mode line when
+    this mode is enabled.
+*** Column Number mode
+    Display the current column number in the mode line.
+*** HL Line mode
+    Highlights the line containing point.
+** The Minibuffer
+*** Minibuffer Electric Default mode
+    Emacs hides the default argument as soon as you modify the
+    contents of the minibuffer.
+*** File Name Shadow mode
+    The ignored part of the file name is dimmed if the terminal allows
+    it. And to disable this dimming disable this mode.
+*** Minibuffer Inactive mode
+    When the minibuffer is not active in the Echo Area, then that is a
+    particular mode that has hooks etc.
+* Command
+** The Organization of the Screen
+*** what-cursor-position                                        :inform:char:
+    :PROPERTIES:
+    :Command:  C-x =
+    :Description: Display char code, position, column of character after point
+    :Context:  editing
+    :END:
+*** keyboard-quit                                              :undo:command:
+    :PROPERTIES:
+    :Command:  C-g
+    :Description: Quit: Cancel running or partially typed command
+    :Context:  anywhere
+    :END:
+*** menu-bar-open                                                      :menu:
+    :PROPERTIES:
+    :Command:  <F10>
+    :Description: Invoke first menu bar item.
+    :Context:  anywhere
+    :END:
+*** tmm-menubar                                                        :menu:
+    :PROPERTIES:
+    :Command:  M-`
+    :Description: Select a menu item with the keyboard
+    :Context:  anywhere
+    :END:
+** Keys
+*** Prefix Help Man                                :inform:helps:keys:window:
+    :PROPERTIES:
+    :Command:  <Prefix> C-h OR <Prefix> <F1>
+    :Description: Displays a list of the commands starting with that prefix
+    :Context:  anywhere
+    :END:
+    There is one exception. The key ~<ESC> C-h~ is equivalent to
+    ~C-M-h~ which is a different command. To list the commands that
+    start with <ESC> one should instead use the key ~<ESC> <F1>~.
+** Entering Emacs
+*** help-with-tutorial                                         :helps:buffer:
+    :PROPERTIES:
+    :Command:  C-h t
+    :Description: Open the Emacs tutorial
+    :Context:  anywhere
+    :END:
+** Exiting Emacs
+*** save-buffers-kill-terminal                                   :kill:frame:
+    :PROPERTIES:
+    :Command:  C-x C-c
+    :Description: Kill Emacs
+    :Context:  anywhere
+    :END:
+*** suspend-frame                                                     :frame:
+    :PROPERTIES:
+    :Command:  C-z
+    :Description: Minimize GUI, suspend terminal Emacs
+    :Context:  anywhere
+    :END:
+*** kill-emacs                                                   :kill:frame:
+    :PROPERTIES:
+    :Description: Kill Emacs without being prompted about saving
+    :Context:  anywhere
+    :END:
+** Basic Editing Commands
+*** newline                                                       :edit:char:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: End a line and start a new one
+    :Context:  editing
+    :END:
+    The binding of this and ~newline-and-indent~ may be swapped
+*** newline-and-indent                                            :edit:char:
+    :PROPERTIES:
+    :Command:  C-j
+    :Description: insert newline then indent according to mode
+    :Context:  editing
+    :END:
+    The binding of this and ~newline~ may be swapped
+*** delete-backward-char                                   :edit:char:delete:
+    :PROPERTIES:
+    :Command:  <DEL>
+    :Description: Delete character after point
+    :Context:  editing
+    :END:
+*** quoted-insert                                                 :edit:char:
+    :PROPERTIES:
+    :Command:  C-q
+    :Description: Insert a non-graphic character
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    There are two ways to use ~quoted-insert~.
+    - ~C-q~ followed by any non-graphic character inserts that
+      character
+    - ~C-q~ followed by a sequence of octal digits inserts the
+      character with the specified octal character code.
+    A numeric argument specifies how many copies of the character to
+    insert.
+*** Insert Char Help Man                      :inform:helps:edit:char:window:
+    :PROPERTIES:
+    :Command:  C-x 8 C-h
+    :Description: Show list of possible characters to insert
+    :Context:  editing
+    :END:
+    There are a lot of helpful characters one can insert. Check this
+    out.
+*** insert-char                                                   :edit:char:
+    :PROPERTIES:
+    :Command:  C-x 8 <RET>
+    :Description: Prompts for Unicode name or code-point and inserts
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument specifies how many copies of the character to
+    insert.
+*** forward-char                                                   :nav:char:
+    :PROPERTIES:
+    :Command:  C-f
+    :Description: Move forward one character
+    :Context:  editing
+    :END:
+*** right-char                                                     :nav:char:
+    :PROPERTIES:
+    :Command:  <RIGHT>
+    :Description: Move right one character
+    :Context:  editing
+    :END:
+*** backward-char                                                  :nav:char:
+    :PROPERTIES:
+    :Command:  C-b
+    :Description: Move backward one character
+    :Context:  editing
+    :END:
+*** left-char                                                      :nav:char:
+    :PROPERTIES:
+    :Command:  <LEFT>
+    :Description: Move left one character
+    :Context:  editing
+    :END:
+*** next-line                                                      :nav:line:
+    :PROPERTIES:
+    :Command:  C-n OR <DOWN>
+    :Description: Move down one screen line
+    :Context:  editing
+    :END:
+*** previous-line                                                  :nav:line:
+    :PROPERTIES:
+    :Command:  C-p OR <UP>
+    :Description: Move up one screen line
+    :Context:  editing
+    :END:
+*** move-beginning-of-line                                         :nav:line:
+    :PROPERTIES:
+    :Command:  C-a OR <Home>
+    :Description: Move to the beginning of the line
+    :Context:  editing
+    :END:
+*** move-end-of-line                                               :nav:line:
+    :PROPERTIES:
+    :Command:  C-e OR <End>
+    :Description: Move to the end of the line
+    :Context:  editing
+    :END:
+*** forward-word                                                   :nav:word:
+    :PROPERTIES:
+    :Command:  M-f
+    :Description: Move forward one word
+    :Context:  editing
+    :END:
+*** right-word                                                     :nav:word:
+    :PROPERTIES:
+    :Command:  C-<RIGHT> OR M-<RIGHT>
+    :Description: Move right one word
+    :Context:  editing
+    :END:
+*** backward-word                                                  :nav:word:
+    :PROPERTIES:
+    :Command:  M-b
+    :Description: Move backward one word
+    :Context:  editing
+    :END:
+*** left-word                                                      :nav:word:
+    :PROPERTIES:
+    :Command:  C-<LEFT> OR M-<LEFT>
+    :Description: Move left one word
+    :Context:  editing
+    :END:
+*** move-to-window-line-top-bottom                               :nav:window:
+    :PROPERTIES:
+    :Command:  M-r
+    :Description: Move point to left margin center, top, bottom
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numerid argument says which screen line to place point on,
+    counting downward from the top of the window (zero means the top
+    line). A negative argument counts lines up from the bottom (-1
+    means the bottom line).
+*** beginning-of-buffer                                          :nav:buffer:
+    :PROPERTIES:
+    :Command:  M-< OR C-<HOME>
+    :Description: Move to the top of the buffer
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    With numberic argument n, move to n/10 of the way from the top.
+*** end-of-buffer                                                :nav:buffer:
+    :PROPERTIES:
+    :Command:  M-> OR C-<END>
+    :Description: Move to the end of the buffer
+    :Context:  editing
+    :END:
+*** scroll-up-command                                            :nav:buffer:
+    :PROPERTIES:
+    :Command:  C-v OR <PageDown> OR <next>
+    :Description: Scroll the display one screen forward
+    :Context:  editing
+    :END:
+*** scroll-down-command                                          :nav:buffer:
+    :PROPERTIES:
+    :Command:  M-v OR <PageUp> OR <prior>
+    :Description: Scroll one screen backward
+    :Context:  editing
+    :END:
+*** goto-char                                                    :nav:buffer:
+    :PROPERTIES:
+    :Command:  M-g c
+    :Description: Go to 1 indexced character in buffer
+    :Context:  editing
+    :END:
+*** goto-line                                                    :nav:buffer:
+    :PROPERTIES:
+    :Command:  M-g M-g OR M-g g
+    :Description: Goto 1 indexed line number
+    :Context:  editing
+    :Argument: numeric, plain
+    :END:
+    You can specify line number by giving command a numeric prefix
+    argument. Plain prefix not yet defined.
+*** move-to-column                                                 :nav:line:
+    :PROPERTIES:
+    :Command:  M-g <TAB>
+    :Description: Move to 0 indexed column
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    If called with a prefix argument, move to the column number
+    specified by the argument's numeric value.
+*** set-goal-column                                              :nav:window:
+    :PROPERTIES:
+    :Command:  C-x C-n
+    :Description: Use current column as semipermanent goal column
+    :Context:  editing
+    :Argument: plain
+    :END:
+    With a plain prefix argument cancels the goal golumn
+*** delete-backward-char                            :delete:char:edit:region:
+    :PROPERTIES:
+    :Command:  <DEL> OR <BACKSPACE>
+    :Description: Delete character before point, or region if active
+    :Context:  editing
+    :END:
+*** delete-forward-char                             :delete:char:edit:region:
+    :PROPERTIES:
+    :Command:  <Delete>
+    :Description: Delete character after point, or region if active
+    :Context:  editing
+    :END:
+*** delete-char                                            :delete:char:edit:
+    :PROPERTIES:
+    :Command:  C-d
+    :Description: Delete the character after point
+    :Context:  editing
+    :END:
+*** kill-line                                         :kill:line:edit:delete:
+    :PROPERTIES:
+    :Command:  C-k
+    :Description: Kill to the end of the line
+    :Context:  editing
+    :END:
+*** kill-word                                         :kill:word:edit:delete:
+    :PROPERTIES:
+    :Command:  M-d
+    :Description: Kill forward to the end of the next word
+    :Context:  editing
+    :END:
+*** backward-kill-word                                :kill:word:edit:delete:
+    :PROPERTIES:
+    :Command:  M-<DEL> OR M-<BACKSPACE>
+    :Description: Kill back to the beginning of the previous word
+    :Context:  editing
+    :END:
+*** undo                                                   :undo:edit:buffer:
+    :PROPERTIES:
+    :Command:  C-/ OR C-x u OR C-_
+    :Description: Undo one entry of the undo records
+    :Context:  editing
+    :END:
+*** find-file                                                  :files:buffer:
+    :PROPERTIES:
+    :Command:  C-x C-f
+    :Description: Copy file into buffer
+    :Context:  anywhere
+    :END:
+*** save-buffer                                                :files:buffer:
+    :PROPERTIES:
+    :Command:  C-x C-s
+    :Description: Save current buffer into associated file
+    :Context:  editing
+    :END:
+*** describe-key                                        :helps:window:inform:
+    :PROPERTIES:
+    :Command:  C-h k
+    :Description: find out what a key does
+    :END:
+*** open-line                                                     :edit:line:
+    :PROPERTIES:
+    :Command:  C-o
+    :Description: Insert a blank line after the cursor
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    With a numeric argument you can make several blank lines.
+*** delete-blank-lines                                   :edit:buffer:delete:
+    :PROPERTIES:
+    :Command:  C-x C-o
+    :Description: Delete all but one of many consecutive blank lines
+    :Context:  editing
+    :END:
+*** what-line                                                 :inform:buffer:
+    :PROPERTIES:
+    :Description: Display the line number of point
+    :Context:  editing
+    :END:
+*** line-number-mode                                     :inform:buffer:mode:
+    :PROPERTIES:
+    :Description: Toggle automatic display of current line number
+    :Context:  editing
+    :END:
+*** column-number-mode                                     :inform:line:mode:
+    :PROPERTIES:
+    :Description: Toggle automatic display of current column number
+    :Context:  editing
+    :END:
+*** count-words-region                                        :inform:region:
+    :PROPERTIES:
+    :Command:  M-=
+    :Description: Display the number of lines, words, chars in region
+    :Context:  editing
+    :END:
+*** count-words                                        :inform:buffer:region:
+    :PROPERTIES:
+    :Command:  C-u M-=
+    :Description: Display number of lines, words, and characters in buffer or region
+    :Context:  editing
+    :END:
+*** what-cursor-position                            :inform:char:buffer:line:
+    :PROPERTIES:
+    :Command:  C-x =
+    :Description: Display code char, position, and column of point
+    :Context:  editing
+    :END:
+*** hl-line-mode                                          :mode:display:line:
+    :PROPERTIES:
+    :Description: Toggle highlighting of the current line
+    :Context:  editing
+    :END:
+*** size-indication-mode                                 :mode:inform:buffer:
+    :PROPERTIES:
+    :Description: Toggle automatic display of size of buffer
+    :Context:  editing
+    :END:
+*** display-line-numbers-mode                    :display:window:mode:inform:
+    :PROPERTIES:
+    :Description: Toggle displaying line numbers for every line in buffer
+    :Context:  editing
+    :END:
+*** digit-argument                                                     :keys:
+    :PROPERTIES:
+    :Command:  M-[0-9]
+    :Description: Compile numeric argument for next command
+    :Context:  anywhere
+    :END:
+*** negative-argument                                                  :keys:
+    :PROPERTIES:
+    :Command:  M--
+    :Description: Compile negative numeric argument for next command
+    :Context:  anywhere
+    :END:
+*** universal-argument                                                 :keys:
+    :PROPERTIES:
+    :Command:  C-u
+    :Description: start numeric, plain, double argument
+    :Context:  anywhere
+    :END:
+*** repeat                                                             :keys:
+    :PROPERTIES:
+    :Command:  C-x z
+    :Description: repeat the previous Emacs command.
+    :Context:  anywhere
+    :END:
+** The Minibuffer
+*** minibuffer-electric-default-mode                         :buffer:display:
+    :PROPERTIES:
+    :Description: Toggle Minibuffer Electric Default mode
+    :Context:  anywhere
+    :END:
+*** file-name-shadow-mode                                    :buffer:display:
+    :PROPERTIES:
+    :Description: Toggle File Name Shadow mode
+    :Context:  anywhere
+    :END:
+*** minibuffer-complete                                      :buffer:command:
+    :PROPERTIES:
+    :Command:  <TAB>
+    :Description: Complete the text in the minibuffer as much as possible
+    :Context:  minibuffer
+    :END:
+    If unable to complete, display a list of possible completions
+*** minibuffer-complete-word                                 :buffer:command:
+    :PROPERTIES:
+    :Command:  <SPC>
+    :Description: Complete up to one word from the minibuffer text before point
+    :Context:  minibuffer
+    :END:
+    This command is not available for arguments that often include
+    spaces, such as file names.
+*** minibuffer-complete-and-exit                             :buffer:command:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Submit minibuffer argument
+    :Context:  minibuffer
+    :END:
+*** minibuffer-completion-help   :buffer:helps:command:inform:window:display:
+    :PROPERTIES:
+    :Command:  ?
+    :Description: Display a list of completions
+    :Context:  minibuffer
+    :END:
+*** switch-to-completions                         :buffer:command:window:nav:
+    :PROPERTIES:
+    :Command:  M-v OR <PageUp> OR <prior>
+    :Description: Selects the window showing the completion list
+    :Context:  minibuffer
+    :END:
+*** choose-completion                                 :window:command:buffer:
+    :PROPERTIES:
+    :Command:  <RET> OR mouse-1 OR mouse-2
+    :Description: Chooses the completion at point
+    :Context:  completion-buffer
+    :END:
+*** next-completion                               :buffer:command:window:nav:
+    :PROPERTIES:
+    :Command:  <RIGHT>
+    :Description: This moves point to the following completion alternative
+    :Context:  completion-buffer
+    :END:
+*** previous-completion                           :buffer:command:window:nav:
+    :PROPERTIES:
+    :Command:  <LEFT>
+    :Description: This moves point to the previous completion alternative
+    :Context:  completion-buffer
+    :END:
+*** previous-history-element                               :buffer:line:hist:
+    :PROPERTIES:
+    :Command:  M-p
+    :Description: Move to the previous item in the minibuffer history
+    :Context:  minibuffer
+    :END:
+*** next-history-element                                   :buffer:line:hist:
+    :PROPERTIES:
+    :Command:  M-n
+    :Description: Move to the next item in the minibuffer history
+    :Context:  minibuffer
+    :END:
+    If you use this command in the minibuffer when there are no later
+    entries in the minibuffer history (e.g., if you haven't previously
+    typed M-p), Emacs tries fetching from a list of default arguments:
+    values that you are likely to enter. You can think of this as
+    moving through the "future history".
+*** previous-line-or-history-element                   :buffer:line:nav:hist:
+    :PROPERTIES:
+    :Command:  <UP>
+    :Description: Move previous line if exists, else previous minibuffer item
+    :Context:  minibuffer
+    :END:
+*** next-line-or-history-element                       :buffer:line:nav:hist:
+    :PROPERTIES:
+    :Command:  <DOWN>
+    :Description: Move next line if exists, else move next minibuffer item
+    :Context:  minibuffer
+    :END:
+*** previous-matching-history-element                      :buffer:line:hist:
+    :PROPERTIES:
+    :Command:  M-r
+    :Description: Move earlier minibuffer item that matches regexp
+    :Context:  minibuffer
+    :Argument: numeric
+    :END:
+    A numeric prefix argument /n/ means to fetch the /n/-th matching
+    entry.
+*** next-matching-history-element                          :buffer:line:hist:
+    :PROPERTIES:
+    :Command:  M-s
+    :Description: Move later minibuffer item that matches regexp
+    :Context:  minibuffer
+    :Argument: numeric
+    :END:
+    A numeric prefix argument /n/ means to fetch the /n/-th matching
+    entry.
+*** repeat-complex-command                              :command:buffer:hist:
+    :PROPERTIES:
+    :Command:  C-x <ESC> <ESC>
+    :Description: Re-execute a recent minibuffer command from Command History
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    With no argument, it repeats the last such command. A numeric
+    argument specifies which command to repeat; 1 means the last one,
+    2 the previous, and so on.
+*** list-command-history                         :window:command:inform:hist:
+    :PROPERTIES:
+    :Description: Display command history
+    :Context:  anywhere
+    :END:
+*** Password Delete Backwards Char                       :buffer:char:delete:
+    :PROPERTIES:
+    :Command:  <DEL>
+    :Description: Removes last character entered
+    :Context:  password
+    :END:
+*** Password Delete All                                  :buffer:delete:line:
+    :PROPERTIES:
+    :Command:  C-u
+    :Description: Deletes everything you have typed so far
+    :Context:  password
+    :END:
+*** Password Quit                                               :undo:buffer:
+    :PROPERTIES:
+    :Command:  C-g
+    :Description: Quits the password prompt
+    :Context:  password
+    :END:
+*** Password Yank                                               :buffer:edit:
+    :PROPERTIES:
+    :Command:  C-y
+    :Description: Inserts the current kill into the password
+    :Context:  password
+    :END:
+*** Password Submit                                     :buffer:command:line:
+    :PROPERTIES:
+    :Command:  <RET> OR <ESC>
+    :Description: Submits password
+    :Context:  password
+    :END:
+*** Yes No Recenter Selected Window                      :window:display:nav:
+    :PROPERTIES:
+    :Command:  C-l
+    :Description: Recenter the selected window
+    :Context:  yes-no
+    :END:
+*** Yes No Scroll Up                                             :nav:buffer:
+    :PROPERTIES:
+    :Command:  C-v OR <PageDown> OR <next>
+    :Description: Scroll forward
+    :Context:  yes-no
+    :END:
+*** Yes No Scroll Down                                           :nav:buffer:
+    :PROPERTIES:
+    :Command:  M-v OR <PageUp> OR <previous>
+    :Description: Scroll backward
+    :Context:  yes-no
+    :END:
+*** Yes No Scroll Up Next Window                          :nav:buffer:window:
+    :PROPERTIES:
+    :Command:  C-M-v
+    :Description: Scrolls forward in the next window
+    :Context:  yes-no
+    :END:
+*** Yes No Scroll Down Next Window                        :nav:buffer:window:
+    :PROPERTIES:
+    :Command:  C-M-S-v
+    :Description: Scrolls backward in the next window
+    :Context:  yes-no
+    :END:
+*** Yes No Quit                                                :undo:command:
+    :PROPERTIES:
+    :Command:  C-g
+    :Description: Dismisses query and quits the command
+    :Context:  yes-no
+    :END:
+** Running Commands by Name
+*** execute-extended-command                                 :command:buffer:
+    :PROPERTIES:
+    :Command:  M-x
+    :Description: Run a command by name
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    A numeric argument passes the same numeric argument along to the
+    command you are trying to execute.
+** Help
+*** help-for-help                                       :helps:inform:window:
+    :PROPERTIES:
+    :Command:  C-h C-h
+    :Description: View a list of help commands
+    :Context:  anywhere
+    :END:
+*** Help Scroll Up                                         :helps:nav:window:
+    :PROPERTIES:
+    :Command:  <SPC>
+    :Description: Scroll contents of help window up
+    :Context:  help
+    :END:
+*** Help Scroll Down                                       :helps:nav:window:
+    :PROPERTIES:
+    :Command:  <DEL>
+    :Description: Scroll contents of help window down.
+    :Context:  help
+    :END:
+* Variable
+** The Organization of the Screen
+*** tty-menu-open-use-ttm                                              :menu:
+    when invoking ~menu-bar-open~ invoke ~tmm-menubar~ instead.
+** Entering Emacs
+*** inhibit-startup-screen                                   :startup:buffer:
+    If one or more files were specified on the command line, emacs
+    simply displays those files; otherwise, it displays a buffer named
+    ~*scratch*~, which can be used to evaluate Emacs Lisp expressions
+    interactively.
+*** initial-buffer-choice                                    :startup:buffer:
+    Force Emacs to display a file or directory at startup, according
+    to filename, directory, or zero (0) argument Lisp Function that
+    returns a buffer.
+** Exiting Emacs
+*** confirm-kill-emacs                                           :kill:frame:
+    function to run before killing emacs. If result of function is
+    non-nil, the session is killed, otherwise Emacs continues to run.
+*** confirm-kill-processes                                             :kill:
+    If nil, does not ask for confirmation before killing subprocesses
+    started by emacs. ~t~ by default.
+** Basic Editing Commands
+*** read-quoted-char-radix                                        :edit:char:
+    To use decimal or hexidecimal when running ~quoted-insert~
+    command.
+*** line-move-visual                                             :nav:window:
+    You can force navigating up and down by line to move according to
+    logical lines (i.e., according to the text lines in the buffer) by
+    setting this variable to ~nil~.
+*** track-eol                                                    :nav:buffer:
+    When ~line-move-visual~ is nil, you can set this variable to a
+    non-nil value. Then ~C-n~ and ~C-p~, when starting at the end of
+    the logical line, move to the end of the next logical
+    line. Default is ~nil~.
+*** next-line-add-newlines                                  :nav:edit:buffer:
+    If you set this variable to a non-nil value, C-n on the last line
+    of a buffer creates an additional line at the end and moves down
+    into it.
+** The Minibuffer
+*** minibuffer-eldef-shorten-default                         :buffer:display:
+    with a non-nil value, the default argument is displayed as
+    ~[default-arg]~ instead of ~(default /default-arg/)~, saving some
+    screen space.
+*** insert-default-directory                                 :buffer:display:
+    To prevent Emacs from inserting the default directory when reading
+    file names, change this variable to ~nil~. Relative file name
+    arguments are still interpreted based on the same default
+    directory.
+*** resize-mini-windows                                      :buffer:display:
+    There are three possible values
+    - nil :: Do not resize minibuffer in Echo Area.
+    - grow-only :: Grow minibuffer when there is enough text to be
+      displayed on a new line. Do not ever shrink minibuffer
+    - t :: Grow minibuffer when there is enough text to be displayed
+      on a new line. Shrink when text can be desplayed on fewer lines
+*** max-mini-window-height                                   :buffer:display:
+    This variable controls the maximum height for resizing the
+    minibuffer window. A floating-point number specifies a fraction of
+    the frame's height; an integer specifies the maximum number of
+    lines; ~nil~ means do not resize the minibuffer window
+    automatically. The default value is ~0.25~.
+*** enable-recursive-minibuffers                             :buffer:command:
+    Emacs normally disallows most commands that use the minibuffer
+    while the minibuffer is active. To allow such commands in the
+    minibuffer, set this variable to ~t~.
+*** confirm-nonexistent-file-or-buffer                       :buffer:command:
+    Changes behavior of "Permissive Completion with Confirmation"
+    described in [[Completion Exit]]. Three possible values.
+    - ~after-completion~ :: Default value. Behaves exactly as
+      described in linked section.
+    - ~nil~ :: No longer asks for confirmation. Same behaviour as
+      "Permissive Completion"
+    - [other] :: Always asks for confirmation.
+*** completion-styles                                         :list:complete:
+    See current list and list options defined in:
+    [[How Completion Alternatives Are Chosen]]
+*** read-file-name-completion-ignore-case                    :files:complete:
+    When completing file names, case differences are ignored if this
+    variable is non-nil. The default value is nil on systems that have
+    case-sensitive file-names, such as GNU/Linux; it is non-nil on
+    systems that have case-insensitive file-names, such as Microsoft
+    Windows.
+*** read-buffer-completion-ignore-case                      :buffer:complete:
+    When completing buffer names, case differences are ignored if this
+    variable is non-nil; the default is nil.
+*** completion-ignored-extensions                       :files:complete:list:
+    When completing file names, Emacs usually omits certain
+    alternatives that are considered unlikely to be chosen, as
+    determined by the values on this list variable. If /all/ possible
+    completions end in otherwise-ignored strings, they are not
+    ignored. Emacs disgregards this variable when showing completion
+    alternatives in the completion list.
+*** completion-auto-help                              :complete:inform:helps:
+    If this variable is set to ~nil~, the completion commands never
+    display the completion list buffer; you must type ~?~ to display
+    the list. If the value is ~lazy~, Emacs only shows the completion
+    list buffer on the second attempt to complete. In other words, if
+    there is nothing to complete, the first <TAB> echos 'Next char not
+    unique'; the second <TAB> shows the completion list buffer.
+*** completion-cycle-threshold                        :complete:inform:helps:
+    If this variable is non-nil, completion commands can cycle through
+    completion alternatives. Normally when the variable is ~nil~, if
+    there is more than one completion alternative for the text in the
+    minibuffer, a completion command completes up to the longest
+    common substring. If you change this variable to ~t~, the
+    completion command instead completes to the first of those
+    completion alternatives; each subsequent invocation of the
+    completion command replaces that whith the next completion
+    alternative, in a cyclic manner. If you give this variable a
+    number value /n/, completion commands switch to this cycling
+    behavior only when there are /n/ or fewer alternatives.
+*** history-length                                              :buffer:hist:
+    This variable specifies the maximum length of a minibuffer history
+    list; adding a new element deletes the oldest element if the list
+    gets too long. If the value is ~t~, there is no maximum length.
+*** history-delete-duplicates                                          :hist:
+    This variable specifies whether to delete duplicates in
+    history. If it is non-nil, adding a new element deletes from the
+    list all other elements that are equal to it. The default is
+    ~nil~.
+*** isearch-resume-in-command-history                          :command:hist:
+    You can make incremental search commands appear in the history by
+    setting this variable to a non-nil value.
+*** command-history                                       :command:hist:list:
+    The list of previous minibuffer-using commands is stored as a Lisp
+    list in this variable.
+** Running Commands by Name
+*** suggest-key-bindings                                :inform:command:keys:
+    When the command you run with ~M-x~ has a key binding, Emacs
+    mentions this in the echo area after running the command. You can
+    turn off these messages by setting this variable to ~nil~. The
+    value can also be a number, in which case Emacs will show the
+    binding for that many seconds before removing it from display. The
+    default value is ~2~.
+*** extended-command-suggest-shorter                         :inform:command:
+    Commands that don't have key bindings can still be invoked after
+    typing less than their full name at the ~M-x~ prompt. Emacs
+    mentions such shorthands in the echo area if they are
+    significantly shorter than the full command name, and this
+    variable is non-nil. These suggestions won't get shown at all if
+    [[suggest-key-bindings]] is ~nil~.
+* Context
+** anywhere
+   literally anywhere
+** editing
+   when editing a buffer
+** minibuffer
+   when in the minibuffer
+** completion-buffer
+   when in the window with current completion options
+** password
+   when typing in a password for minibuffer
+   [[Entering passwords]]
+** yes-no
+   when echo prompt ends with ~(y or n)~
+   [[Yes or No Prompts]]
+** help
+   Window that appears below buffer with some contents of a help
+   buffer. One such help window is activated with [[help-for-help]]
+* .emacs addition
+* emacs lisp
+* Notes
+** Undo
+   There are a few ways someone can break a sweat in emacs and wonder
+   what has gone wrong. My experience has told me that emacs does not
+   immediately make it obvious how to undo each of these scenarios. It
+   is important to understand each one.
+*** My screen looks entirely different than what I had been working on
+    In this case it is likely that the user "switched buffers". You
+    can think of buffers as like different tabs in a browser. Emacs
+    has different tabs too that can hold different content that you
+    are working on. Likely you accidentally switched tabs (buffers)
+    without realizing it. Switching back to what you were working on
+    is simple. You can hit the keys ~C-x b <RET>~ and it should bring
+    you back to the tab (buffer) you were working in. If you are
+    nervous about keyboard shortcuts, likely you are using a version
+    of emacs that should have a menu at the top. One of the menu items
+    should say /Buffers/. Click on this menu item and you can see all
+    the open tabs. There are some tabs that are always available by
+    default like the /GNU Emacs/ welcome screen, or a space that
+    serves as essentially /scratch/ paper. Emacs requires that you
+    name each file that you work on, so you should find the name of
+    that file in this list of tabs (buffers). Try to think of this
+    separation of work as buffers though as it makes memorizing the
+    shortcut keys easier. In this case ~C-x~ is the command for what I
+    think of as e-*x*-tra commands, and then when I hit the key ~b~
+    I'm indicating I want to switch buffers. You can type the buffer
+    name explicitly, but normally when you switch away from a buffer,
+    just hitting enter will return you to the buffer you just left.
+*** My cursor isn't returning to the spot I was working on
+    Likely your cursor is at the bottom of the screen in what is
+    called the /Echo Area/. Your cursor gets moved here when you are
+    in the middle of an instruction to emacs. If you did not intend to
+    tell emacs anything, there are two methods to escaping this
+    area. One is ~C-g~. This is often a universal way to escape a
+    command. It is very helpful. I have found every once in a while
+    this method does not work in which case the command ~<ESC> <ESC>
+    <ESC>~ normally does the trick for me. Please note that it is best
+    practice after hitting ~<ESC> <ESC> <ESC>~ to then type
+    ~C-g~. This avoids unintended effects due to quirks in emacs
+    commands.
+
+    The ~<ESC>~ key can sometimes double as the ~<META>~ key if your
+    computer is missing an ~<ALT>~ key or a keybinding in emacs is
+    overridden by your computer. Sometimes when you are nervous it's
+    easy to just keep hitting ~<ESC>~ until the problem in emacs is
+    finished. If you hit ~<ESC>~ four (4) times, there's a possibility
+    the next key you hit will be interpreted as being tied to a meta
+    command. For example, ~<ESC> q~ will wrap text according to your
+    preferences (or preset preferences). For this reason, if you hit
+    ~C-g~ after hitting ~<ESC> <ESC> <ESC>~ you are less likely to
+    have unintended consequences.
+*** My emacs screen appears to be split in half
+    Each part of the screen is called a /window/. This can be
+    confusing for new users since we are used to a window being
+    whatever we can minimize in our operating system. The thing to
+    keep in mind is that emacs has been around for a long time, back
+    when computers were only text. It used to be that what you see in
+    the emacs frame was the entire screen of old computers. This is
+    why the word /window/ was used, and for consistency has not been
+    changed. There are two commands I use most to make it so there is
+    only one window, and it is the window I care about. The first is
+    ~C-x o~. This moves my cursor from window to window. I use this
+    until I see my cursor blinking in the window I care about. Once
+    the cursor is in the window I care about, I use the command ~C-x
+    1~. This is essentially saying "I want one (1) window, and I want
+    it to be the active window."
+*** I made a sudden huge edit I did not mean to make
+    This is the normal way we think of undo! This command is fairly
+    straight forward, but I have found the emacs documentation doesn't
+    make it easy to find. The command is ~C-/~.
+*** My screen looks like a long list, I can't type, what's happening?
+    Sometimes emacs switches into a special mode without making it
+    clear. If your screen looks like a long list do not type. So far
+    there have been two keys in these scenarios that appear to be
+    fairly universal regardless of the specific mode you have found
+    yourself in. ~h~ will bring up a small help window, and ~q~ will
+    quit the mode. Emacs and Emacs manuals do a terrible job
+    telegraphing this information to the user.
+** Language
+   There are times when first reading an emacs manual, you will run
+   into language that you don't understand because emacs hasn't
+   defined it yet. In an attempt to make this easier on people here is
+   some of the language emacs forgets is new for lots of people
+*** customize the variable
+    Emacs has so much customizability. Basically anything in emacs you
+    can imagine is possible to customize. This means that emacs makes
+    a lot of assumptions for you when you start up emacs. Each
+    assumption is held in a value called a /Variable/. If you want to
+    change one of the assumptions that emacs has made for you, then
+    you need to change the value of the associated variable. This is
+    what emacs means when they say "customize the variable". They are
+    saying "You can change the set of assumptions we made".
+
+    TODO: How do you actually make those changes.
