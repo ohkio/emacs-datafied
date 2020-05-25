@@ -800,6 +800,7 @@
     :PROPERTIES:
     :Command:  C-h k
     :Description: find out what a key does
+    :Context:  anywhere
     :END:
 *** open-line                                                     :edit:line:
     :PROPERTIES:
