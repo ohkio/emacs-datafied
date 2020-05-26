@@ -382,6 +382,24 @@
     behaves the exact same as standard minibuffer context
 ** Running Commands by Name
 ** Help
+   When looking for a feature but don't know what it's called, here is
+   the suggested method of how to find it in the following order:
+   - ~C-h a /topics/ <RET>~ :: This is an apropos command, literally
+     runs ~apropos-command~. Searches for commands whose names match
+     the argument /topics/
+   - ~C-h i d m emacs <RET> i /topic/ <RET>~ :: This navigates to the
+     Emacs manual and then searches for /topic/ in the indices.
+   - ~C-h i d m emacs <RET> s /topic/ <RET>~ :: Similar as above, but
+     searches the text of the manual rather than the indices
+   - ~C-h C-f~ :: Displays the Emacs FAQ, using Info.
+   - ~C-h p~ :: Displays the available Emacs packages based on
+     keywords.
+
+   Additionally, typing one of the following commands after a prefix
+   command can mean seeing a list of possible complete keys:
+   - ~C-h~
+   - ~<F1>~
+   - ~?~
 * Vocabulary
 ** Basics
 *** Frame
@@ -1095,17 +1113,77 @@
     :Description: View a list of help commands
     :Context:  anywhere
     :END:
-*** Help Scroll Up                                         :helps:nav:window:
+*** scroll-up-command                                      :helps:nav:window:
     :PROPERTIES:
     :Command:  <SPC>
     :Description: Scroll contents of help window up
     :Context:  help
     :END:
-*** Help Scroll Down                                       :helps:nav:window:
+*** scroll-down-command                                    :helps:nav:window:
     :PROPERTIES:
     :Command:  <DEL>
     :Description: Scroll contents of help window down.
     :Context:  help
+    :END:
+*** help-follow                                            :helps:nav:buffer:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Follow cross-reference at point
+    :Context:  help
+    :END:
+*** push-button                                               :helps:command:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Perform action specifid by a button at relevant location
+    :Context:  help
+    :END:
+*** apropos-command                                    :command:helps:window:
+    :PROPERTIES:
+    :Command:  C-h a
+    :Description: Searches for commands whose names match provided input
+    :Context:  navigating
+    :END:
+*** info                                                      :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h i
+    :Description: Enter Info, the documentation browser
+    :Context:  navigating
+    :END:
+*** Info-directory                                        :buffer:inform:nav:
+    :PROPERTIES:
+    :Command:  d
+    :Description: Go to the Info directory node.
+    :Context:  info
+    :END:
+*** Info-menu                                      :buffer:inform:search:nav:
+    :PROPERTIES:
+    :Command:  m
+    :Description: Go to the node pointed to by the menu item indicated
+    :Context:  info
+    :END:
+*** Info-index                                     :buffer:inform:search:nav:
+    :PROPERTIES:
+    :Command:  i
+    :Description: Look up given string in this manual's index and go there
+    :Context:  info
+    :END:
+*** Info-search                                    :buffer:inform:search:nav:
+    :PROPERTIES:
+    :Command:  s
+    :Description: Search for given REGEXP, starting from point, go to node
+    :Context:  info
+    :END:
+*** view-emacs-FAQ                                            :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-f
+    :Description: Display the Emacs Frequently Asked Questions (FAQ) file
+    :Context:  navigating
+    :END:
+*** finder-by-keyword                                         :window:inform:
+    :PROPERTIES:
+    :Command:  C-h p
+    :Description: Find packages matching a given keyword
+    :Context:  navigating
     :END:
 * Variable
 ** The Organization of the Screen
@@ -1253,6 +1331,9 @@
    literally anywhere
 ** editing
    when editing a buffer
+** navigating
+   When in a buffer that is possible to navigate with the standard
+   ~C-f~, ~C-b~, ~C-n~, ~C-p~ commands
 ** minibuffer
    when in the minibuffer
 ** completion-buffer
@@ -1266,6 +1347,9 @@
 ** help
    Window that appears below buffer with some contents of a help
    buffer. One such help window is activated with [[help-for-help]]
+** info
+   The documentation browser. Able to read just every possible
+   documentation imaginable.
 * .emacs addition
 * emacs lisp
 * Notes
@@ -1362,3 +1446,9 @@
     saying "You can change the set of assumptions we made".
 
     TODO: How do you actually make those changes.
+** Emacs manual
+   On my ubuntu computer, when I installed Emacs, the official Emacs
+   manual was not included for some strange reason. I needed to
+   install the package ~emacs-common-non-dfsg~ for Emacs 26 and up
+   onto my computer from the command line (it's a linux package, not
+   an emacs package).
