@@ -400,6 +400,7 @@
    - ~C-h~
    - ~<F1>~
    - ~?~
+*** Help Summary
 * Vocabulary
 ** Basics
 *** Frame
@@ -508,11 +509,11 @@
     particular mode that has hooks etc.
 * Command
 ** The Organization of the Screen
-*** what-cursor-position                                        :inform:char:
+*** what-cursor-position                                   :inform:char:echo:
     :PROPERTIES:
     :Command:  C-x =
     :Description: Display char code, position, column of character after point
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** keyboard-quit                                              :undo:command:
     :PROPERTIES:
@@ -582,12 +583,6 @@
     :Context:  editing
     :END:
     The binding of this and ~newline~ may be swapped
-*** delete-backward-char                                   :edit:char:delete:
-    :PROPERTIES:
-    :Command:  <DEL>
-    :Description: Delete character after point
-    :Context:  editing
-    :END:
 *** quoted-insert                                                 :edit:char:
     :PROPERTIES:
     :Command:  C-q
@@ -606,7 +601,7 @@
     :PROPERTIES:
     :Command:  C-x 8 C-h
     :Description: Show list of possible characters to insert
-    :Context:  editing
+    :Context:  navigating
     :END:
     There are a lot of helpful characters one can insert. Check this
     out.
@@ -623,79 +618,79 @@
     :PROPERTIES:
     :Command:  C-f
     :Description: Move forward one character
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** right-char                                                     :nav:char:
     :PROPERTIES:
     :Command:  <RIGHT>
     :Description: Move right one character
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** backward-char                                                  :nav:char:
     :PROPERTIES:
     :Command:  C-b
     :Description: Move backward one character
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** left-char                                                      :nav:char:
     :PROPERTIES:
     :Command:  <LEFT>
     :Description: Move left one character
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** next-line                                                      :nav:line:
     :PROPERTIES:
     :Command:  C-n OR <DOWN>
     :Description: Move down one screen line
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** previous-line                                                  :nav:line:
     :PROPERTIES:
     :Command:  C-p OR <UP>
     :Description: Move up one screen line
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** move-beginning-of-line                                         :nav:line:
     :PROPERTIES:
     :Command:  C-a OR <Home>
     :Description: Move to the beginning of the line
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** move-end-of-line                                               :nav:line:
     :PROPERTIES:
     :Command:  C-e OR <End>
     :Description: Move to the end of the line
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** forward-word                                                   :nav:word:
     :PROPERTIES:
     :Command:  M-f
     :Description: Move forward one word
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** right-word                                                     :nav:word:
     :PROPERTIES:
     :Command:  C-<RIGHT> OR M-<RIGHT>
     :Description: Move right one word
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** backward-word                                                  :nav:word:
     :PROPERTIES:
     :Command:  M-b
     :Description: Move backward one word
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** left-word                                                      :nav:word:
     :PROPERTIES:
     :Command:  C-<LEFT> OR M-<LEFT>
     :Description: Move left one word
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** move-to-window-line-top-bottom                               :nav:window:
     :PROPERTIES:
     :Command:  M-r
     :Description: Move point to left margin center, top, bottom
-    :Context:  editing
+    :Context:  navigating
     :Argument: numeric
     :END:
     A numerid argument says which screen line to place point on,
@@ -706,7 +701,7 @@
     :PROPERTIES:
     :Command:  M-< OR C-<HOME>
     :Description: Move to the top of the buffer
-    :Context:  editing
+    :Context:  navigating
     :Argument: numeric
     :END:
     With numberic argument n, move to n/10 of the way from the top.
@@ -714,31 +709,31 @@
     :PROPERTIES:
     :Command:  M-> OR C-<END>
     :Description: Move to the end of the buffer
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** scroll-up-command                                            :nav:buffer:
     :PROPERTIES:
     :Command:  C-v OR <PageDown> OR <next>
     :Description: Scroll the display one screen forward
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** scroll-down-command                                          :nav:buffer:
     :PROPERTIES:
     :Command:  M-v OR <PageUp> OR <prior>
     :Description: Scroll one screen backward
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** goto-char                                                    :nav:buffer:
     :PROPERTIES:
     :Command:  M-g c
     :Description: Go to 1 indexced character in buffer
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** goto-line                                                    :nav:buffer:
     :PROPERTIES:
     :Command:  M-g M-g OR M-g g
     :Description: Goto 1 indexed line number
-    :Context:  editing
+    :Context:  navigating
     :Argument: numeric, plain
     :END:
     You can specify line number by giving command a numeric prefix
@@ -747,7 +742,7 @@
     :PROPERTIES:
     :Command:  M-g <TAB>
     :Description: Move to 0 indexed column
-    :Context:  editing
+    :Context:  navigating
     :Argument: numeric
     :END:
     If called with a prefix argument, move to the column number
@@ -756,7 +751,7 @@
     :PROPERTIES:
     :Command:  C-x C-n
     :Description: Use current column as semipermanent goal column
-    :Context:  editing
+    :Context:  navigating
     :Argument: plain
     :END:
     With a plain prefix argument cancels the goal golumn
@@ -834,53 +829,53 @@
     :Description: Delete all but one of many consecutive blank lines
     :Context:  editing
     :END:
-*** what-line                                                 :inform:buffer:
+*** what-line                                                   :inform:echo:
     :PROPERTIES:
     :Description: Display the line number of point
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** line-number-mode                                     :inform:buffer:mode:
     :PROPERTIES:
     :Description: Toggle automatic display of current line number
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** column-number-mode                                     :inform:line:mode:
     :PROPERTIES:
     :Description: Toggle automatic display of current column number
-    :Context:  editing
+    :Context:  navigating
     :END:
-*** count-words-region                                        :inform:region:
+*** count-words-region                                   :inform:region:echo:
     :PROPERTIES:
     :Command:  M-=
     :Description: Display the number of lines, words, chars in region
-    :Context:  editing
+    :Context:  navigating
     :END:
-*** count-words                                        :inform:buffer:region:
+*** count-words                                          :inform:echo:region:
     :PROPERTIES:
     :Command:  C-u M-=
-    :Description: Display number of lines, words, and characters in buffer or region
-    :Context:  editing
+    :Description: Display number of lines, words, and chars in buffer or region
+    :Context:  navigating
     :END:
-*** what-cursor-position                            :inform:char:buffer:line:
+*** what-cursor-position                              :inform:char:echo:line:
     :PROPERTIES:
     :Command:  C-x =
     :Description: Display code char, position, and column of point
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** hl-line-mode                                          :mode:display:line:
     :PROPERTIES:
     :Description: Toggle highlighting of the current line
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** size-indication-mode                                 :mode:inform:buffer:
     :PROPERTIES:
     :Description: Toggle automatic display of size of buffer
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** display-line-numbers-mode                    :display:window:mode:inform:
     :PROPERTIES:
     :Description: Toggle displaying line numbers for every line in buffer
-    :Context:  editing
+    :Context:  navigating
     :END:
 *** digit-argument                                                     :keys:
     :PROPERTIES:
@@ -907,24 +902,24 @@
     :Context:  anywhere
     :END:
 ** The Minibuffer
-*** minibuffer-electric-default-mode                         :buffer:display:
+*** minibuffer-electric-default-mode                    :buffer:display:echo:
     :PROPERTIES:
     :Description: Toggle Minibuffer Electric Default mode
     :Context:  anywhere
     :END:
-*** file-name-shadow-mode                                    :buffer:display:
+*** file-name-shadow-mode                               :buffer:display:echo:
     :PROPERTIES:
     :Description: Toggle File Name Shadow mode
     :Context:  anywhere
     :END:
-*** minibuffer-complete                                      :buffer:command:
+*** minibuffer-complete                                 :buffer:command:echo:
     :PROPERTIES:
     :Command:  <TAB>
     :Description: Complete the text in the minibuffer as much as possible
     :Context:  minibuffer
     :END:
     If unable to complete, display a list of possible completions
-*** minibuffer-complete-word                                 :buffer:command:
+*** minibuffer-complete-word                            :buffer:command:echo:
     :PROPERTIES:
     :Command:  <SPC>
     :Description: Complete up to one word from the minibuffer text before point
@@ -932,49 +927,49 @@
     :END:
     This command is not available for arguments that often include
     spaces, such as file names.
-*** minibuffer-complete-and-exit                             :buffer:command:
+*** minibuffer-complete-and-exit                        :buffer:command:echo:
     :PROPERTIES:
     :Command:  <RET>
     :Description: Submit minibuffer argument
     :Context:  minibuffer
     :END:
-*** minibuffer-completion-help   :buffer:helps:command:inform:window:display:
+*** minibuffer-completion-help            :buffer:command:inform:window:echo:
     :PROPERTIES:
     :Command:  ?
     :Description: Display a list of completions
     :Context:  minibuffer
     :END:
-*** switch-to-completions                         :buffer:command:window:nav:
+*** switch-to-completions                    :buffer:command:window:nav:echo:
     :PROPERTIES:
     :Command:  M-v OR <PageUp> OR <prior>
     :Description: Selects the window showing the completion list
     :Context:  minibuffer
     :END:
-*** choose-completion                                 :window:command:buffer:
+*** choose-completion                            :window:command:buffer:echo:
     :PROPERTIES:
     :Command:  <RET> OR mouse-1 OR mouse-2
     :Description: Chooses the completion at point
     :Context:  completion-buffer
     :END:
-*** next-completion                               :buffer:command:window:nav:
+*** next-completion                                      :buffer:command:nav:
     :PROPERTIES:
     :Command:  <RIGHT>
     :Description: This moves point to the following completion alternative
     :Context:  completion-buffer
     :END:
-*** previous-completion                           :buffer:command:window:nav:
+*** previous-completion                                  :buffer:command:nav:
     :PROPERTIES:
     :Command:  <LEFT>
     :Description: This moves point to the previous completion alternative
     :Context:  completion-buffer
     :END:
-*** previous-history-element                               :buffer:line:hist:
+*** previous-history-element                          :buffer:line:hist:echo:
     :PROPERTIES:
     :Command:  M-p
     :Description: Move to the previous item in the minibuffer history
     :Context:  minibuffer
     :END:
-*** next-history-element                                   :buffer:line:hist:
+*** next-history-element                              :buffer:line:hist:echo:
     :PROPERTIES:
     :Command:  M-n
     :Description: Move to the next item in the minibuffer history
@@ -985,19 +980,19 @@
     typed M-p), Emacs tries fetching from a list of default arguments:
     values that you are likely to enter. You can think of this as
     moving through the "future history".
-*** previous-line-or-history-element                   :buffer:line:nav:hist:
+*** previous-line-or-history-element              :buffer:line:nav:hist:echo:
     :PROPERTIES:
     :Command:  <UP>
     :Description: Move previous line if exists, else previous minibuffer item
     :Context:  minibuffer
     :END:
-*** next-line-or-history-element                       :buffer:line:nav:hist:
+*** next-line-or-history-element                  :buffer:line:nav:hist:echo:
     :PROPERTIES:
     :Command:  <DOWN>
     :Description: Move next line if exists, else move next minibuffer item
     :Context:  minibuffer
     :END:
-*** previous-matching-history-element                      :buffer:line:hist:
+*** previous-matching-history-element                 :buffer:line:hist:echo:
     :PROPERTIES:
     :Command:  M-r
     :Description: Move earlier minibuffer item that matches regexp
@@ -1006,7 +1001,7 @@
     :END:
     A numeric prefix argument /n/ means to fetch the /n/-th matching
     entry.
-*** next-matching-history-element                          :buffer:line:hist:
+*** next-matching-history-element                     :buffer:line:hist:echo:
     :PROPERTIES:
     :Command:  M-s
     :Description: Move later minibuffer item that matches regexp
@@ -1015,7 +1010,7 @@
     :END:
     A numeric prefix argument /n/ means to fetch the /n/-th matching
     entry.
-*** repeat-complex-command                              :command:buffer:hist:
+*** repeat-complex-command                                     :command:hist:
     :PROPERTIES:
     :Command:  C-x <ESC> <ESC>
     :Description: Re-execute a recent minibuffer command from Command History
@@ -1030,31 +1025,31 @@
     :Description: Display command history
     :Context:  anywhere
     :END:
-*** Password Delete Backwards Char                       :buffer:char:delete:
+*** Password Delete Backwards Char                  :buffer:char:delete:echo:
     :PROPERTIES:
     :Command:  <DEL>
     :Description: Removes last character entered
     :Context:  password
     :END:
-*** Password Delete All                                  :buffer:delete:line:
+*** Password Delete All                             :buffer:delete:line:echo:
     :PROPERTIES:
     :Command:  C-u
     :Description: Deletes everything you have typed so far
     :Context:  password
     :END:
-*** Password Quit                                               :undo:buffer:
+*** Password Quit                                          :undo:buffer:echo:
     :PROPERTIES:
     :Command:  C-g
     :Description: Quits the password prompt
     :Context:  password
     :END:
-*** Password Yank                                               :buffer:edit:
+*** Password Yank                                          :buffer:edit:echo:
     :PROPERTIES:
     :Command:  C-y
     :Description: Inserts the current kill into the password
     :Context:  password
     :END:
-*** Password Submit                                     :buffer:command:line:
+*** Password Submit                                :buffer:command:line:echo:
     :PROPERTIES:
     :Command:  <RET> OR <ESC>
     :Description: Submits password
@@ -1097,7 +1092,7 @@
     :Context:  yes-no
     :END:
 ** Running Commands by Name
-*** execute-extended-command                                 :command:buffer:
+*** execute-extended-command                            :command:buffer:echo:
     :PROPERTIES:
     :Command:  M-x
     :Description: Run a command by name
@@ -1183,6 +1178,18 @@
     :PROPERTIES:
     :Command:  C-h p
     :Description: Find packages matching a given keyword
+    :Context:  navigating
+    :END:
+*** describe-bindings                                     :window:helps:keys:
+    :PROPERTIES:
+    :Command:  C-h b
+    :Description: Display all active key bindings: minor, major, global
+    :Context:  navigating
+    :END:
+*** describe-key-briefly                                   :echo:keys:inform:
+    :PROPERTIES:
+    :Command:  C-h c
+    :Description: Show name of command associated with key sequence
     :Context:  navigating
     :END:
 * Variable
