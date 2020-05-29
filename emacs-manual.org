@@ -1231,33 +1231,33 @@
     of a buffer creates an additional line at the end and moves down
     into it.
 ** The Minibuffer
-*** minibuffer-eldef-shorten-default                         :buffer:display:
+*** minibuffer-eldef-shorten-default                    :buffer:display:echo:
     with a non-nil value, the default argument is displayed as
     ~[default-arg]~ instead of ~(default /default-arg/)~, saving some
     screen space.
-*** insert-default-directory                                 :buffer:display:
+*** insert-default-directory                            :buffer:display:echo:
     To prevent Emacs from inserting the default directory when reading
     file names, change this variable to ~nil~. Relative file name
     arguments are still interpreted based on the same default
     directory.
-*** resize-mini-windows                                      :buffer:display:
+*** resize-mini-windows                                 :buffer:display:echo:
     There are three possible values
     - nil :: Do not resize minibuffer in Echo Area.
     - grow-only :: Grow minibuffer when there is enough text to be
       displayed on a new line. Do not ever shrink minibuffer
     - t :: Grow minibuffer when there is enough text to be displayed
       on a new line. Shrink when text can be desplayed on fewer lines
-*** max-mini-window-height                                   :buffer:display:
+*** max-mini-window-height                              :buffer:display:echo:
     This variable controls the maximum height for resizing the
     minibuffer window. A floating-point number specifies a fraction of
     the frame's height; an integer specifies the maximum number of
     lines; ~nil~ means do not resize the minibuffer window
     automatically. The default value is ~0.25~.
-*** enable-recursive-minibuffers                             :buffer:command:
+*** enable-recursive-minibuffers                        :buffer:command:echo:
     Emacs normally disallows most commands that use the minibuffer
     while the minibuffer is active. To allow such commands in the
     minibuffer, set this variable to ~t~.
-*** confirm-nonexistent-file-or-buffer                       :buffer:command:
+*** confirm-nonexistent-file-or-buffer                  :buffer:command:echo:
     Changes behavior of "Permissive Completion with Confirmation"
     described in [[Completion Exit]]. Three possible values.
     - ~after-completion~ :: Default value. Behaves exactly as
@@ -1268,30 +1268,30 @@
 *** completion-styles                                         :list:complete:
     See current list and list options defined in:
     [[How Completion Alternatives Are Chosen]]
-*** read-file-name-completion-ignore-case                    :files:complete:
+*** read-file-name-completion-ignore-case        :files:complete:buffer:echo:
     When completing file names, case differences are ignored if this
     variable is non-nil. The default value is nil on systems that have
     case-sensitive file-names, such as GNU/Linux; it is non-nil on
     systems that have case-insensitive file-names, such as Microsoft
     Windows.
-*** read-buffer-completion-ignore-case                      :buffer:complete:
+*** read-buffer-completion-ignore-case                 :buffer:complete:echo:
     When completing buffer names, case differences are ignored if this
     variable is non-nil; the default is nil.
-*** completion-ignored-extensions                       :files:complete:list:
+*** completion-ignored-extensions           :files:complete:list:buffer:echo:
     When completing file names, Emacs usually omits certain
     alternatives that are considered unlikely to be chosen, as
     determined by the values on this list variable. If /all/ possible
     completions end in otherwise-ignored strings, they are not
     ignored. Emacs disgregards this variable when showing completion
     alternatives in the completion list.
-*** completion-auto-help                              :complete:inform:helps:
+*** completion-auto-help                  :complete:inform:helps:buffer:echo:
     If this variable is set to ~nil~, the completion commands never
     display the completion list buffer; you must type ~?~ to display
     the list. If the value is ~lazy~, Emacs only shows the completion
     list buffer on the second attempt to complete. In other words, if
     there is nothing to complete, the first <TAB> echos 'Next char not
     unique'; the second <TAB> shows the completion list buffer.
-*** completion-cycle-threshold                        :complete:inform:helps:
+*** completion-cycle-threshold            :complete:inform:helps:buffer:echo:
     If this variable is non-nil, completion commands can cycle through
     completion alternatives. Normally when the variable is ~nil~, if
     there is more than one completion alternative for the text in the
@@ -1303,7 +1303,7 @@
     alternative, in a cyclic manner. If you give this variable a
     number value /n/, completion commands switch to this cycling
     behavior only when there are /n/ or fewer alternatives.
-*** history-length                                              :buffer:hist:
+*** history-length                                         :buffer:hist:echo:
     This variable specifies the maximum length of a minibuffer history
     list; adding a new element deletes the oldest element if the list
     gets too long. If the value is ~t~, there is no maximum length.
