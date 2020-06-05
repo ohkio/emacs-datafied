@@ -387,9 +387,9 @@
    - ~C-h a /topics/ <RET>~ :: This is an apropos command, literally
      runs ~apropos-command~. Searches for commands whose names match
      the argument /topics/
-   - ~C-h i d m emacs <RET> i /topic/ <RET>~ :: This navigates to the
+   - ~C-h r <RET> i /topic/ <RET>~ :: This navigates to the
      Emacs manual and then searches for /topic/ in the indices.
-   - ~C-h i d m emacs <RET> s /topic/ <RET>~ :: Similar as above, but
+   - ~C-h r <RET> s /topic/ <RET>~ :: Similar as above, but
      searches the text of the manual rather than the indices
    - ~C-h C-f~ :: Displays the Emacs FAQ, using Info.
    - ~C-h p~ :: Displays the available Emacs packages based on
@@ -1184,13 +1184,157 @@
     :PROPERTIES:
     :Command:  C-h b
     :Description: Display all active key bindings: minor, major, global
-    :Context:  navigating
+    :Context:  anywhere
     :END:
 *** describe-key-briefly                                   :echo:keys:inform:
     :PROPERTIES:
     :Command:  C-h c
     :Description: Show name of command associated with key sequence
+    :Context:  anywhere
+    :END:
+*** apropos-documentation                              :helps:command:window:
+    :PROPERTIES:
+    :Command:  C-h d
+    :Description: Display commands and variables with matching documentation
     :Context:  navigating
+    :END:
+*** view-echo-area-messages                                :echo:buffer:hist:
+    :PROPERTIES:
+    :Command:  C-h e
+    :Description: Display the *Messages* buffer
+    :Context:  anywhere
+    :END:
+*** describe-function                                          :window:helps:
+    :PROPERTIES:
+    :Command:  C-h f
+    :Description: Display documentation on function with provided name
+    :Context:  anywhere
+    :END:
+*** view-hello-file                                      :buffer:inform:char:
+    :PROPERTIES:
+    :Command:  C-h h
+    :Description: Display the ~HELLO~ file.
+    :Context:  anywhere
+    :END:
+*** info                                                      :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h i
+    :Description: Run Info, the GNU documentation browser.
+    :Context:  anywhere
+    :END:
+*** describe-key                                  :window:command:keys:helps:
+    :PROPERTIES:
+    :Command:  C-h k
+    :Description: Display name and documentation for associated key
+    :Context:  anywhere
+    :END:
+*** view-lossage                                          :window:helps:keys:
+    :PROPERTIES:
+    :Command:  C-h l
+    :Description: Display a description of last 300 keystrokes
+    :Context:  anywhere
+    :END:
+*** describe-mode                                         :window:mode:helps:
+    :PROPERTIES:
+    :Command:  C-h m
+    :Description: Display documentation of current major and minor modes
+    :Context:  anywhere
+    :END:
+*** view-emacs-news                                           :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h n
+    :Description: Display news of recent Emacs changes
+    :Context:  anywhere
+    :END:
+*** describe-symbol                                            :window:helps:
+    :PROPERTIES:
+    :Command:  C-h o
+    :Description: Display documentation of Lisp symbol provided
+    :Context:  anywhere
+    :END:
+*** finder-by-keyword                                   :window:inform:files:
+    :PROPERTIES:
+    :Command:  C-h p
+    :Description: Find packages by topic keyword
+    :Context:  anywhere
+    :END:
+*** describe-package                                     :window:helps:files:
+    :PROPERTIES:
+    :Command:  C-h P
+    :Description: Display documentation about the specified package
+    :Context:  navigating
+    :END:
+*** info-emacs-manual                                         :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h r
+    :Description: Display the Emacs manual in Info
+    :Context:  anywhere
+    :END:
+*** describe-syntax                                       :window:helps:char:
+    :PROPERTIES:
+    :Command:  C-h s
+    :Description: Display the contents of the current syntax table
+    :Context:  anywhere
+    :END:
+*** help-with-tutorial                          :buffer:startup:keys:command:
+    :PROPERTIES:
+    :Command:  C-h t
+    :Description: Enter the Emacs interactive tutorial
+    :Context:  anywhere
+    :END:
+*** describe-variable                                          :window:helps:
+    :PROPERTIES:
+    :Command:  C-h v
+    :Description: Display the documentation of the Lisp variable provided
+    :Context:  anywhere
+    :END:
+*** where-is                                              :echo:keys:command:
+    :PROPERTIES:
+    :Command:  C-h w
+    :Description: Show which keys run the command provided
+    :Context:  anywhere
+    :END:
+*** describe-coding-system                                     :window:helps:
+    :PROPERTIES:
+    :Command:  C-h C
+    :Description: Describe the coding system provided
+    :Context:  navigating
+    :END:
+*** Info-goto-emacs-command-node                      :buffer:inform:command:
+    :PROPERTIES:
+    :Command:  C-h F
+    :Description: Enter Info at node that describes command provided
+    :Context:  navigating
+    :END:
+*** describe-input-method                                      :window:helps:
+    :PROPERTIES:
+    :Command:  C-h I
+    :Description: Describe the input method provided
+    :Context:  anywhere
+    :END:
+*** Info-goto-emacs-key-command-node             :buffer:inform:command:keys:
+    :PROPERTIES:
+    :Command:  C-h K
+    :Description: Enter Info at node that documents provided key sequence
+    :Context:  anywhere
+    :END:
+*** describe-language-environment                              :window:helps:
+    :PROPERTIES:
+    :Command:  C-h L
+    :Description: Display information of language environment provided
+    :Context:  navigating
+    :END:
+*** info-lookup-symbol                                        :window:inform:
+    :PROPERTIES:
+    :Command:  C-h S
+    :Description: Display the info documentation on provided symbol in context
+    :Context:  navigating
+    :END:
+*** display-local-help                                          :echo:inform:
+    :PROPERTIES:
+    :Command:  C-h .
+    :Description: Display the help message for selected special text area
+    :Context:  special-text
     :END:
 * Variable
 ** The Organization of the Screen
@@ -1357,6 +1501,10 @@
 ** info
    The documentation browser. Able to read just every possible
    documentation imaginable.
+** special-text
+   When one location inside text might behave differently from the
+   rest of the text. For example, links in *Help* buffers. Seems to
+   mostly be for links or clickable locations in text.
 * .emacs addition
 * emacs lisp
 * Notes
