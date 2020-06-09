@@ -463,6 +463,9 @@
 
     The ~apropos-documentation~ command lists its results in order of
     relevance by default.
+*** Help Mode Commands
+    Vocabulary mentioned:
+    - Faces
 * Vocabulary
 ** Basics
 *** Frame
@@ -525,6 +528,8 @@
     [[Entering Emacs][first mentioned]]
 *** Mark Ring
     [[Entering Emacs][first mentioned]]
+*** Faces
+    [[Help Mode Commands][first mentioned]]
 * Mode
 ** The Organization of the Screen
 *** Size Indication mode
@@ -1436,6 +1441,36 @@
     :PROPERTIES:
     :Description: Search buffer-local variables that match specified pattern
     :Context:  navigating
+    :END:
+*** forward-button                                         :nav:helps:buffer:
+    :PROPERTIES:
+    :Command:  <TAB>
+    :Description: Move point forward to the next hyperlink
+    :Context:  help
+    :END:
+*** backward-button                                        :nav:helps:buffer:
+    :PROPERTIES:
+    :Command:  S-<TAB>
+    :Description: Move point back to the previous hyperlink
+    :Context:  help
+    :END:
+*** help-follow-symbol                                         :helps:buffer:
+    :PROPERTIES:
+    :Command:  C-c C-c
+    :Description: Show all documentation about the symbol at point
+    :Context:  help
+    :END:
+*** help-go-forward                                        :nav:buffer:helps:
+    :PROPERTIES:
+    :Command:  C-c C-f OR r
+    :Description: Go forward to the next help topic
+    :Context:  help
+    :END:
+*** help-go-back                                           :nav:buffer:helps:
+    :PROPERTIES:
+    :Command:  C-c C-b OR l
+    :Description: Go back to the previous help topic
+    :Context:  help
     :END:
 * Variable
 ** The Organization of the Screen
