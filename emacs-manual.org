@@ -466,6 +466,10 @@
 *** Help Mode Commands
     Vocabulary mentioned:
     - Faces
+*** Keyword Search for Packages
+*** Help for International Language Support
+*** Other Help Commands    
+*** Help Files
 * Vocabulary
 ** Basics
 *** Frame
@@ -1288,7 +1292,14 @@
     :Command:  C-h i
     :Description: Run Info, the GNU documentation browser.
     :Context:  anywhere
+    :Argument: numeric, plain
     :END:
+    With a numeric argument /n/, ~C-h i~ selects the Info buffer
+    '~*info*<n>'. This is useful if you want to browse multiple Info
+    manuals simultaneously. With just a plain argument, ~C-h i~
+    prompts for the name of a documentation file, so you can browse a
+    file which doesn't have an entry in the top-level Info
+    menu.
 *** describe-key                                  :window:command:keys:helps:
     :PROPERTIES:
     :Command:  C-h k
@@ -1471,6 +1482,60 @@
     :Command:  C-c C-b OR l
     :Description: Go back to the previous help topic
     :Context:  help
+    :END:
+*** describe-copying                                          :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-c
+    :Description: Display the rules under which you can copy Emacs
+    :Context:  anywhere
+    :END:
+*** view-emacs-debugging                                      :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-d
+    :Description: Display help for debugging Emacs
+    :Context:  anywhere
+    :END:
+*** view-external-packages                                    :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-e
+    :Description: Display information about where to get external packages
+    :Context:  anywhere
+    :END:
+*** describe-gnu-project                                       :frame:inform:
+    :PROPERTIES:
+    :Command:  C-h g
+    :Description: Visit the page with information about the GNU Project
+    :Context:  anywhere
+    :END:
+*** view-order-manuals                                        :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-m
+    :Description: Display info on printed copies of Emacs manuals
+    :Context:  anywhere
+    :END:
+*** describe-distribution                                     :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-o
+    :Description: Display how to download latest version of Emacs
+    :Context:  anywhere
+    :END:
+*** view-emacs-problems                                       :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-p
+    :Description: Display known Emacs problems, sometimes with workaround
+    :Context:  anywhere
+    :END:
+*** view-emacs-todo                                           :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-t
+    :Description: Display the Emacs to-do list
+    :Context:  anywhere
+    :END:
+*** describe-no-warranty                                      :buffer:inform:
+    :PROPERTIES:
+    :Command:  C-h C-w
+    :Description: Display full details on no warranty for GNU Emacs
+    :Context:  anywhere
     :END:
 * Variable
 ** The Organization of the Screen
