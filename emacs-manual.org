@@ -471,6 +471,19 @@
 *** Other Help Commands    
 *** Help Files
 *** Help on Active Text and Tooltips
+** The Mark and the Region
+   Vocabulary
+   - Mark :: An arbitrary point you define that stays in place while
+     you move the point around. Deactivates after editing or
+     quitting.
+   - Region :: The portion of the buffer that is contained between the
+     Mark and the Point. Only active when Mark is active.
+
+   Setting the mark in one buffer has no effect on the marks in other
+   buffers. When you return to a buffer with an active mark, the mark
+   is at the same place as before. When multiple windows show the same
+   buffer, they can have different values of point, and thus different
+   regions, but they all share one common mark position.
 * Vocabulary
 ** Basics
 *** Frame
@@ -512,6 +525,11 @@
     [[Completion][First Defined]]
 *** Command History
     [[Repeating Minibuffer Commands][First Defined]]
+** The Mark and the Region
+*** Mark
+    [[The Mark and the Region][First Defined]]
+*** Region
+    [[The Mark and the Region][First Defined]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -579,6 +597,19 @@
 *** Minibuffer Inactive mode
     When the minibuffer is not active in the Echo Area, then that is a
     particular mode that has hooks etc.
+** Help
+*** Help Mode
+    Help buffers provide the same commands as View mode (not yet
+    defined). Help buffers normally provide a definition, a list of
+    commands or symbols. Not as heavily formatted as documentation,
+    but still provides very helpful insight.
+** The Mark and the Region
+*** Transient Mark mode
+    When a region is active, Emacs indicates its extent by
+    highlighting the text within it. After certain non-motion
+    commands, including any command that changes the text in the
+    buffer, Emacs automatically deactivates the mark; this turns off
+    the highlighting.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -1694,6 +1725,13 @@
     To list the results of ~apropos-documentation~ in alphabetical
     order, change this variable to nil.
 *** help-at-pt-display-when-idle                   :word:inform:display:echo:
+    To display help text automatically whenever it is available at
+    point, set this variable to t.
+** The Mark and the Region
+*** highlight-nonselected-windows                     :display:region:window:
+    Ordinarily, only the selected window highlights its region;
+    however, if this variable is non-nil, each window highlights its
+    own region.
 * Context
 ** anywhere
    literally anywhere
