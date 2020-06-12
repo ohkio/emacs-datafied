@@ -470,6 +470,7 @@
 *** Help for International Language Support
 *** Other Help Commands    
 *** Help Files
+*** Help on Active Text and Tooltips
 * Vocabulary
 ** Basics
 *** Frame
@@ -1692,6 +1693,7 @@
 *** apropos-documentation-sort-by-scores                     :search:display:
     To list the results of ~apropos-documentation~ in alphabetical
     order, change this variable to nil.
+*** help-at-pt-display-when-idle                   :word:inform:display:echo:
 * Context
 ** anywhere
    literally anywhere
