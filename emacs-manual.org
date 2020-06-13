@@ -499,6 +499,18 @@
     mark at the other end of the inserted text, without activating
     it. You can tell that a command does this when it shows '~Mark
     set~' in the echo area.
+*** Commands to Mark Textual Objects
+    Repeated invocations of ~M-@~ extend the region by advancing the
+    mark one word at a time. As an exception, if the mark is active
+    and located before point, ~M-@~ moves the mark backwards from its
+    current position one word at a time.
+
+    Similarly repeated invocations of ~C-M-<SPC>~ extend the region to
+    subsequent expressions.
+
+    In fact for all ~mark~-COMMAND commands the following is
+    true. Repeated invocations play the same role as above, extending
+    the region to consecutive objects.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1625,6 +1637,57 @@
     :Description: Convert text in active region to upcase, deactivate mark
     :Context:  editing
     :END:
+*** mark-word                                            :buffer:region:word:
+    :PROPERTIES:
+    :Command:  M-@
+    :Description: Set mark at the end of the next word
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    This command also accepts a numeric argument /n/, which tells it
+    to advance the mark by /n/ words. A negative argument -/n/ moves
+    the mark back by /n/ words.
+*** mark-sexp                                            :buffer:region:word:
+    :PROPERTIES:
+    :Command:  C-M-<SPC> OR C-M-@
+    :Description: Set mark after end of following balanced expression
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    Positive or negative numeric arguments move the mark forward or
+    backward by the specified number of expressions.
+*** mark-paragraph                                   :buffer:region:line:nav:
+    :PROPERTIES:
+    :Command:  M-h
+    :Description: Move point to start of paragraph, set mark at end
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    numeric arguments specify how many objects to move the mark by.
+*** mark-defun                                       :buffer:region:line:nav:
+    :PROPERTIES:
+    :Command:  C-M-h
+    :Description: Move point to start of current defun, set mark at end
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    Numeric arguments specify how many objects to move the mark by.
+*** mark-page                                             :buffer:region:nav:
+    :PROPERTIES:
+    :Command:  C-x C-p
+    :Description: Move point to start of page, set mark at end
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    Numeric arguments specify how many objects to move the mark by.
+*** mark-whole-buffer                                     :buffer:region:nav:
+    :PROPERTIES:
+    :Command:  C-x h
+    :Description: Move point to start of buffer, set mark at end
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    Numeric arguments specify how many objects to move the mark by.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
