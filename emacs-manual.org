@@ -3,10 +3,10 @@
 ** Introduction
 ** The Organization of the Screen
    Goes through an overview of
-   - Frame :: The Graphical window or entire terminal running emacs.
+   - Frame :: The Graphical window or entire terminal running Emacs.
    - Menu Bar :: Organization of various commands and instructions in
-                 emacss.
-   - Tool Bar :: Only appears when running emacs in a graphical
+                 Emacs's.
+   - Tool Bar :: Only appears when running Emacs in a graphical
                  display. List of shortcuts to common commands.
    - Echo Area :: Where informative messages are displayed and where
                   you enter information when Emacs asks for it.
@@ -19,14 +19,14 @@
     Basically the cursor. Comes from ~.~ which was the original
     command for accessing the editing position way back when.
 *** The Echo Area
-    Detailed explination of stuff.
+    Detailed explanation of stuff.
     - Minibuffer :: a special window where you can input arguments to
                     commands within the [[Echo Area]]
 *** The Mode Line
     #+BEGIN_SRC
     cs:ch-fr  buf     pos line   (major minor)
     #+END_SRC
-    Explination:
+    Explanation:
     - ~cs~ :: Character Set. Depends on the encoding of the document
     - ~:~ :: Changes depending on the newline convention.
       - ~:~ or ~Unix~ :: Lines end in newline character
@@ -59,8 +59,8 @@
       - ~Narrow~ :: Buffer being displayed has editing restricted to
         only a portion of it's text.
       - ~Def~ :: A keyboard macro is currently being defined.
-    - ~(...)~ :: If emacs is inside a recusive editing level, square
-      brackets ~[...]~ apppear around the parentheses that surround
+    - ~(...)~ :: If Emacs is inside a recursive editing level, square
+      brackets ~[...]~ appear around the parentheses that surround
       the modes
 
     Extra Functionality: 
@@ -84,7 +84,7 @@
     - Variable
 ** Kinds of User Input
    Some Syntax
-   - <SPC> :: The spacebar
+   - <SPC> :: The space-bar
    - <RET> :: The Return or Enter key
    - <TAB> :: The Tab key
    - <DEL> :: The Delete key
@@ -134,7 +134,7 @@
    - ~M-o~
 ** Keys and Commands
    Definitions
-   - Command :: a name used to store an action to perform in emacs
+   - Command :: a name used to store an action to perform in Emacs
    - Function :: Not defined, but mentioned
    - Keymaps :: Not defined, but mentioned
    - Variable :: a name used to store a value
@@ -144,13 +144,13 @@
    emacs
    #+END_SRC
 
-   Run emacs in the bacground of a terminal to continue to use the
+   Run Emacs in the background of a terminal to continue to use the
    terminal.
    #+BEGIN_SRC sh
    emacs &
    #+END_SRC
 
-   Open ~foo.txt~ in emacs
+   Open ~foo.txt~ in Emacs
    #+BEGIN_SRC sh
    emacs foo.txt
    #+END_SRC
@@ -171,7 +171,7 @@
 *** Blank Lines
 *** Continuation Lines
 *** Cursor Position Information
-*** Numberic Arguments
+*** Numeric Arguments
     Examples
     #+BEGIN_SRC
     M-5 C-n
@@ -322,12 +322,12 @@
      - ~basic~ :: A matching completion alternative must have the same
        beginning as the text in the minibuffer before
        point. Furthermore, if there is any text in the minibuffer
-       after point, the rest of the completion alterantive must
-       contain that text as a substring.
+       after point, the rest of the completion alternative must
+       contain that text as a sub-string.
      - ~partial-completion~ :: This aggressive completion style
        divides the minibuffer text into words separated by hyphens or
        spaces, and completes each word separately. (for example, when
-       completing comand names, 'em-l-m' completes to
+       completing command names, 'em-l-m' completes to
        'emacs-lisp-mode'.) Furthermore a '*' in the minibuffer text is
        treated as a wildcard - it matches any string of characters at
        the corresponding position in the completion alternative.
@@ -339,7 +339,7 @@
      Additional list options
      - ~substring~ :: A matching completion alternative must contain
        the text in the minibuffer before point, and the text in the
-       minibuffer after point, as substrings (in that same
+       minibuffer after point, as sub-strings (in that same
        order). Thus if the text in the minibuffer is 'foobar', with
        point between 'foo' and 'bar', that matches 'dfooebarf', where
        d, e, and f can be any string including the empty string.
@@ -511,6 +511,8 @@
     In fact for all ~mark~-COMMAND commands the following is
     true. Repeated invocations play the same role as above, extending
     the region to consecutive objects.
+*** Operating on the Region
+    
 * Vocabulary
 ** Basics
 *** Frame
@@ -827,7 +829,7 @@
     :Context:  navigating
     :Argument: numeric
     :END:
-    A numerid argument says which screen line to place point on,
+    A numeric argument says which screen line to place point on,
     counting downward from the top of the window (zero means the top
     line). A negative argument counts lines up from the bottom (-1
     means the bottom line).
@@ -838,7 +840,7 @@
     :Context:  navigating
     :Argument: numeric
     :END:
-    With numberic argument n, move to n/10 of the way from the top.
+    With numeric argument n, move to n/10 of the way from the top.
 *** end-of-buffer                                                :nav:buffer:
     :PROPERTIES:
     :Command:  M-> OR C-<END>
@@ -860,7 +862,7 @@
 *** goto-char                                                    :nav:buffer:
     :PROPERTIES:
     :Command:  M-g c
-    :Description: Go to 1 indexced character in buffer
+    :Description: Go to 1 indexed character in buffer
     :Context:  navigating
     :END:
 *** goto-line                                                    :nav:buffer:
@@ -884,11 +886,11 @@
 *** set-goal-column                                              :nav:window:
     :PROPERTIES:
     :Command:  C-x C-n
-    :Description: Use current column as semipermanent goal column
+    :Description: Use current column as semi-permanent goal column
     :Context:  navigating
     :Argument: plain
     :END:
-    With a plain prefix argument cancels the goal golumn
+    With a plain prefix argument cancels the goal column
 *** delete-backward-char                            :delete:char:edit:region:
     :PROPERTIES:
     :Command:  <DEL> OR <BACKSPACE>
@@ -1263,7 +1265,7 @@
 *** push-button                                               :helps:command:
     :PROPERTIES:
     :Command:  <RET>
-    :Description: Perform action specifid by a button at relevant location
+    :Description: Perform action specified by a button at relevant location
     :Context:  help
     :END:
 *** apropos-command                             :command:helps:window:search:
@@ -1694,7 +1696,7 @@
     when invoking ~menu-bar-open~ invoke ~tmm-menubar~ instead.
 ** Entering Emacs
 *** inhibit-startup-screen                                   :startup:buffer:
-    If one or more files were specified on the command line, emacs
+    If one or more files were specified on the command line, Emacs
     simply displays those files; otherwise, it displays a buffer named
     ~*scratch*~, which can be used to evaluate Emacs Lisp expressions
     interactively.
@@ -1704,14 +1706,14 @@
     returns a buffer.
 ** Exiting Emacs
 *** confirm-kill-emacs                                           :kill:frame:
-    function to run before killing emacs. If result of function is
+    function to run before killing Emacs. If result of function is
     non-nil, the session is killed, otherwise Emacs continues to run.
 *** confirm-kill-processes                                             :kill:
-    If nil, does not ask for confirmation before killing subprocesses
-    started by emacs. ~t~ by default.
+    If nil, does not ask for confirmation before killing sub-processes
+    started by Emacs. ~t~ by default.
 ** Basic Editing Commands
 *** read-quoted-char-radix                                        :edit:char:
-    To use decimal or hexidecimal when running ~quoted-insert~
+    To use decimal or hexadecimal when running ~quoted-insert~
     command.
 *** line-move-visual                                             :nav:window:
     You can force navigating up and down by line to move according to
@@ -1742,7 +1744,7 @@
     - grow-only :: Grow minibuffer when there is enough text to be
       displayed on a new line. Do not ever shrink minibuffer
     - t :: Grow minibuffer when there is enough text to be displayed
-      on a new line. Shrink when text can be desplayed on fewer lines
+      on a new line. Shrink when text can be displayed on fewer lines
 *** max-mini-window-height                              :buffer:display:echo:
     This variable controls the maximum height for resizing the
     minibuffer window. A floating-point number specifies a fraction of
@@ -1758,7 +1760,7 @@
     described in [[Completion Exit]]. Three possible values.
     - ~after-completion~ :: Default value. Behaves exactly as
       described in linked section.
-    - ~nil~ :: No longer asks for confirmation. Same behaviour as
+    - ~nil~ :: No longer asks for confirmation. Same behavior as
       "Permissive Completion"
     - [other] :: Always asks for confirmation.
 *** completion-styles                                         :list:complete:
@@ -1778,7 +1780,7 @@
     alternatives that are considered unlikely to be chosen, as
     determined by the values on this list variable. If /all/ possible
     completions end in otherwise-ignored strings, they are not
-    ignored. Emacs disgregards this variable when showing completion
+    ignored. Emacs disregards this variable when showing completion
     alternatives in the completion list.
 *** completion-auto-help                  :complete:inform:helps:buffer:echo:
     If this variable is set to ~nil~, the completion commands never
@@ -1792,10 +1794,10 @@
     completion alternatives. Normally when the variable is ~nil~, if
     there is more than one completion alternative for the text in the
     minibuffer, a completion command completes up to the longest
-    common substring. If you change this variable to ~t~, the
+    common sub-string. If you change this variable to ~t~, the
     completion command instead completes to the first of those
     completion alternatives; each subsequent invocation of the
-    completion command replaces that whith the next completion
+    completion command replaces that with the next completion
     alternative, in a cyclic manner. If you give this variable a
     number value /n/, completion commands switch to this cycling
     behavior only when there are /n/ or fewer alternatives.
@@ -1883,8 +1885,8 @@
 * emacs lisp
 * Notes
 ** Undo
-   There are a few ways someone can break a sweat in emacs and wonder
-   what has gone wrong. My experience has told me that emacs does not
+   There are a few ways someone can break a sweat in Emacs and wonder
+   what has gone wrong. My experience has told me that Emacs does not
    immediately make it obvious how to undo each of these scenarios. It
    is important to understand each one.
 *** My screen looks entirely different than what I had been working on
@@ -1896,7 +1898,7 @@
     is simple. You can hit the keys ~C-x b <RET>~ and it should bring
     you back to the tab (buffer) you were working in. If you are
     nervous about keyboard shortcuts, likely you are using a version
-    of emacs that should have a menu at the top. One of the menu items
+    of Emacs that should have a menu at the top. One of the menu items
     should say /Buffers/. Click on this menu item and you can see all
     the open tabs. There are some tabs that are always available by
     default like the /GNU Emacs/ welcome screen, or a space that
@@ -1912,33 +1914,33 @@
 *** My cursor isn't returning to the spot I was working on
     Likely your cursor is at the bottom of the screen in what is
     called the /Echo Area/. Your cursor gets moved here when you are
-    in the middle of an instruction to emacs. If you did not intend to
-    tell emacs anything, there are two methods to escaping this
+    in the middle of an instruction to Emacs. If you did not intend to
+    tell Emacs anything, there are two methods to escaping this
     area. One is ~C-g~. This is often a universal way to escape a
     command. It is very helpful. I have found every once in a while
     this method does not work in which case the command ~<ESC> <ESC>
     <ESC>~ normally does the trick for me. Please note that it is best
     practice after hitting ~<ESC> <ESC> <ESC>~ to then type
-    ~C-g~. This avoids unintended effects due to quirks in emacs
+    ~C-g~. This avoids unintended effects due to quirks in Emacs
     commands.
 
     The ~<ESC>~ key can sometimes double as the ~<META>~ key if your
-    computer is missing an ~<ALT>~ key or a keybinding in emacs is
+    computer is missing an ~<ALT>~ key or a keybinding in Emacs is
     overridden by your computer. Sometimes when you are nervous it's
-    easy to just keep hitting ~<ESC>~ until the problem in emacs is
+    easy to just keep hitting ~<ESC>~ until the problem in Emacs is
     finished. If you hit ~<ESC>~ four (4) times, there's a possibility
     the next key you hit will be interpreted as being tied to a meta
     command. For example, ~<ESC> q~ will wrap text according to your
     preferences (or preset preferences). For this reason, if you hit
     ~C-g~ after hitting ~<ESC> <ESC> <ESC>~ you are less likely to
     have unintended consequences.
-*** My emacs screen appears to be split in half
+*** My Emacs screen appears to be split in half
     Each part of the screen is called a /window/. This can be
     confusing for new users since we are used to a window being
     whatever we can minimize in our operating system. The thing to
-    keep in mind is that emacs has been around for a long time, back
+    keep in mind is that Emacs has been around for a long time, back
     when computers were only text. It used to be that what you see in
-    the emacs frame was the entire screen of old computers. This is
+    the Emacs frame was the entire screen of old computers. This is
     why the word /window/ was used, and for consistency has not been
     changed. There are two commands I use most to make it so there is
     only one window, and it is the window I care about. The first is
@@ -1949,10 +1951,10 @@
     it to be the active window."
 *** I made a sudden huge edit I did not mean to make
     This is the normal way we think of undo! This command is fairly
-    straight forward, but I have found the emacs documentation doesn't
+    straight forward, but I have found the Emacs documentation doesn't
     make it easy to find. The command is ~C-/~.
 *** My screen looks like a long list, I can't type, what's happening?
-    Sometimes emacs switches into a special mode without making it
+    Sometimes Emacs switches into a special mode without making it
     clear. If your screen looks like a long list do not type. So far
     there have been two keys in these scenarios that appear to be
     fairly universal regardless of the specific mode you have found
@@ -1960,24 +1962,24 @@
     quit the mode. Emacs and Emacs manuals do a terrible job
     telegraphing this information to the user.
 ** Language
-   There are times when first reading an emacs manual, you will run
-   into language that you don't understand because emacs hasn't
+   There are times when first reading an Emacs manual, you will run
+   into language that you don't understand because Emacs hasn't
    defined it yet. In an attempt to make this easier on people here is
-   some of the language emacs forgets is new for lots of people
+   some of the language Emacs forgets is new for lots of people
 *** customize the variable
-    Emacs has so much customizability. Basically anything in emacs you
-    can imagine is possible to customize. This means that emacs makes
-    a lot of assumptions for you when you start up emacs. Each
+    Emacs has so much customizability. Basically anything in Emacs you
+    can imagine is possible to customize. This means that Emacs makes
+    a lot of assumptions for you when you start up Emacs. Each
     assumption is held in a value called a /Variable/. If you want to
-    change one of the assumptions that emacs has made for you, then
+    change one of the assumptions that Emacs has made for you, then
     you need to change the value of the associated variable. This is
-    what emacs means when they say "customize the variable". They are
+    what Emacs means when they say "customize the variable". They are
     saying "You can change the set of assumptions we made".
 
     TODO: How do you actually make those changes.
 ** Emacs manual
-   On my ubuntu computer, when I installed Emacs, the official Emacs
+   On my Ubuntu computer, when I installed Emacs, the official Emacs
    manual was not included for some strange reason. I needed to
    install the package ~emacs-common-non-dfsg~ for Emacs 26 and up
-   onto my computer from the command line (it's a linux package, not
-   an emacs package).
+   onto my computer from the command line (it's a Linux package, not
+   an Emacs package).
