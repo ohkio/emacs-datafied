@@ -484,6 +484,21 @@
    is at the same place as before. When multiple windows show the same
    buffer, they can have different values of point, and thus different
    regions, but they all share one common mark position.
+*** Setting the Mark
+    Vocabulary:
+    - Shift Selection :: You can set the mark by holding down the
+      shift key while typing certain cursor motion commands (such as
+      ~S-<RIGHT>~, ~S-C-f~, ~S-C-n~, etc.).
+    - Primary Selection :: Mentioned not well defined.
+
+    Whenever the mark is active, you can deactivate it by typing
+    ~C-g~. Most commands that operate on the region also automatically
+    deactivate the mark.
+
+    Many commands that insert text, such as ~C-y~ (~yank~), set the
+    mark at the other end of the inserted text, without activating
+    it. You can tell that a command does this when it shows '~Mark
+    set~' in the echo area.
 * Vocabulary
 ** Basics
 *** Frame
@@ -530,6 +545,8 @@
     [[The Mark and the Region][First Defined]]
 *** Region
     [[The Mark and the Region][First Defined]]
+*** Shift Selection
+    [[Setting the Mark][First Defined]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -553,6 +570,8 @@
     [[Entering Emacs][first mentioned]]
 *** Faces
     [[Help Mode Commands][first mentioned]]
+*** Primary Selection
+    [[Setting the Mark][first mentioned]]
 * Mode
 ** The Organization of the Screen
 *** Size Indication mode
@@ -1568,6 +1587,43 @@
     :Command:  C-h C-w
     :Description: Display full details on no warranty for GNU Emacs
     :Context:  anywhere
+    :END:
+** The Mark and the Region
+*** set-mark-command                                          :buffer:region:
+    :PROPERTIES:
+    :Command:  C-<SPC> OR C-@
+    :Description: Set the mark at point, and activate it
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    With plain prefix argument, move point to previous mark.
+*** exchange-point-and-mark                               :buffer:region:nav:
+    :PROPERTIES:
+    :Command:  C-x C-x
+    :Description: Swap mark and point and activate mark
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    If you call this with a plain prefix argument, it leaves the mark
+    inactive and the region unhighlighted; you can use this to jump to
+    the mark in a manner similar to ~C-u C-<SPC>~.
+*** mouse-set-region                                      :buffer:region:nav:
+    :PROPERTIES:
+    :Command:  <drag-mouse-1>
+    :Description: Set point and the mark around the text you drag across.
+    :Context:  anywhere
+    :END:
+*** mouse-save-then-kill                                  :buffer:region:nav:
+    :PROPERTIES:
+    :Command:  <mouse-3>
+    :Description: Set the mark at point, then move point to click
+    :Context:  anywhere
+    :END:
+*** upcase-region                                        :buffer:region:edit:
+    :PROPERTIES:
+    :Command:  C-x C-u
+    :Description: Convert text in active region to upcase, deactivate mark
+    :Context:  editing
     :END:
 * Variable
 ** The Organization of the Screen
