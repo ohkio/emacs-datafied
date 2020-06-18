@@ -526,6 +526,24 @@
     - ~C-x r s~ :: Save region in a register
     - Save region in a buffer or a file.
     - ~<DEL>~ OR ~<Delete>~ :: Delete the text in the region
+*** The Mark Ring
+    Each buffer remembers the previous locations of the mark, in the
+    mark ring. Commands that set the mark also push the old mark onto
+    this ring. One of the uses of the mark ring is to remember spots
+    that you may want to go back to.
+
+    ~C-<SPC> C-<SPC>~ is a way to set the mark, push it onto the mark
+    ring, all without activating it.
+
+    When Transient Mark mode is off, ~C-<SPC> C-<SPC>~ instead
+    activates Transient Mark mode temporarily.
+
+    To return to a marked position, use ~set-mark-command~ with a
+    prefix argument: ~C-u C-<SPC>~. This moves point to where the mark
+    was, and deactivates the mark if it was active. Each subsequent
+    ~C-u C-<SPC>~ jumps to a prior position stored in the mark
+    ring. The positions you move through in this way or not lost; they
+    go to the end of the ring.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1639,7 +1657,8 @@
     :Context:  anywhere
     :Argument: plain
     :END:
-    With plain prefix argument, move point to previous mark.
+    With plain prefix argument, move point to where the previous mark
+    was, and restore the mark from the ring of former marks.
 *** exchange-point-and-mark                               :buffer:region:nav:
     :PROPERTIES:
     :Command:  C-x C-x
@@ -1965,6 +1984,17 @@
     the position at which the mark was last set. To disable this
     behavior, change this variable to ~nil~. Then these commands will
     instead signal an error if the mark is inactive.
+*** set-mark-command-repeat-pop                        :nav:region:keys:hist:
+    If you set this variable to non-nil, then immediately after you
+    type ~C-u C-<SPC>~, you can type ~C-<SPC>~ instead of
+    ~C-u C-<SPC>~ to cycle through the mark ring. By default,
+    ~set-mark-command-repeat-pop~ is ~nil~.
+*** mark-ring-max                                               :region:hist:
+    This variable specifies the maximum number of entries to keep in
+    the mark ring. This defaults to 16 entries. If that many entries
+    exist and another one is pushed, the earliest one in the list is
+    discarded. Repeating ~C-u C-<SPC>~ cycles through the positions
+    currently in the ring.
 * Context
 ** anywhere
    literally anywhere
