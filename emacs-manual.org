@@ -512,7 +512,20 @@
     true. Repeated invocations play the same role as above, extending
     the region to consecutive objects.
 *** Operating on the Region
-    
+    Example commands on region:
+    - ~C-w~ :: Kill Region
+    - ~M-w~ :: Copy Region to kill ring
+    - ~C-x C-l~ :: Entire region to lower case
+    - ~C-x C-u~ :: Entire region to upper case
+    - ~C-u C-/~ :: Undo changes within region
+    - ~M-%~ :: Find and replace within region
+    - ~C-x <TAB>~ OR ~C-M-\~ :: Indent region
+    - ~M-x fill-region~ :: Fill it as text
+    - ~M-$~ :: Check spelling of words within region
+    - ~M-x eval-region~ :: Evaluate region as Lisp code
+    - ~C-x r s~ :: Save region in a register
+    - Save region in a buffer or a file.
+    - ~<DEL>~ OR ~<Delete>~ :: Delete the text in the region
 * Vocabulary
 ** Basics
 *** Frame
@@ -643,6 +656,13 @@
     commands, including any command that changes the text in the
     buffer, Emacs automatically deactivates the mark; this turns off
     the highlighting.
+*** Delete Selection mode
+    By default, text insertion occurs normally even if the mark is
+    active - for example, typing ~a~ inserts the character 'a', then
+    deactivates the mark. Delete Selection mode, a minor mode,
+    modifies this behavior: if you enable this mode, then inserting
+    text while the mark is active causes the text in the region to be
+    deleted first.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -896,13 +916,19 @@
     :Command:  <DEL> OR <BACKSPACE>
     :Description: Delete character before point, or region if active
     :Context:  editing
+    :Argument: numeric
     :END:
+    If you supply a numeric argument /n/, this commands delete /n/
+    characters.
 *** delete-forward-char                             :delete:char:edit:region:
     :PROPERTIES:
     :Command:  <Delete>
     :Description: Delete character after point, or region if active
     :Context:  editing
+    :Argument: numeric
     :END:
+    If you supply a numberic argument /n/, this commands delete /n/
+    characters.
 *** delete-char                                            :delete:char:edit:
     :PROPERTIES:
     :Command:  C-d
@@ -932,7 +958,10 @@
     :Command:  C-/ OR C-x u OR C-_
     :Description: Undo one entry of the undo records
     :Context:  editing
+    :Argument: plain
     :END:
+    When not in Transient Mark mode, using a plain argument limits
+    undo to changes within the current region.
 *** find-file                                                  :files:buffer:
     :PROPERTIES:
     :Command:  C-x C-f
@@ -1690,6 +1719,75 @@
     :Argument: numeric
     :END:
     Numeric arguments specify how many objects to move the mark by.
+*** kill-region                                     :kill:region:edit:delete:
+    :PROPERTIES:
+    :Command:  C-w
+    :Description: Kill ("cut") text between point and mark
+    :Context:  editing
+    :END:
+*** kill-ring-save                                              :kill:region:
+    :PROPERTIES:
+    :Command:  M-w
+    :Description: Save the region as if killed, but don't kill it. ("Copy")
+    :Context:  navigating
+    :END:
+*** downcase-region                                             :edit:region:
+    :PROPERTIES:
+    :Command:  C-x C-l
+    :Description: Convert the region to lower case
+    :Context:  editing
+    :END:
+*** upcase-region                                               :edit:region:
+    :PROPERTIES:
+    :Command:  C-x C-u
+    :Description: Convert the region to upper case
+    :Context:  editing
+    :END:
+*** query-replace                                               :edit:search:
+    :PROPERTIES:
+    :Command:  M-%
+    :Description: Replace some occurrences of one string with another
+    :Context:  editing
+    :END:
+*** indent-rigidly                                         :edit:line:region:
+    :PROPERTIES:
+    :Command:  C-x <TAB>
+    :Description: Indent all lines starting in the region
+    :Context:  editing
+    :END:
+*** indent-region                                          :edit:line:region:
+    :PROPERTIES:
+    :Command:  C-M-\
+    :Description: Indent each nonblank line in the region
+    :Context:  editing
+    :END:
+*** fill-region                                                 :edit:region:
+    :PROPERTIES:
+    :Description: Fill each of the paragraphs in the region
+    :Context:  editing
+    :END:
+*** ispell-word                                                   :word:edit:
+    :PROPERTIES:
+    :Command:  M-$
+    :Description: Check spelling of word under or before the cursor
+    :Context:  editing
+    :END:
+*** eval-region                                                     :command:
+    :PROPERTIES:
+    :Description: Execute the region as Lisp code
+    :Context:  anywhere
+    :END:
+*** copy-to-register                                                 :region:
+    :PROPERTIES:
+    :Command:  C-x r x OR C-x r s
+    :Description: Copy region into given register
+    :Context:  navigating
+    :END:
+*** delete-selection-mode                           :mode:delete:edit:region:
+    :PROPERTIES:
+    :Description: Toggle Delete Selection mode
+    :Context:  editing
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -1853,6 +1951,20 @@
     Ordinarily, only the selected window highlights its region;
     however, if this variable is non-nil, each window highlights its
     own region.
+*** use-empty-active-region                                  :region:command:
+    If you want region specific commands to perate on the empty
+    region, change this variable to ~t~.
+*** delete-active-region                            :region:edit:delete:kill:
+    If you change this variable to ~nil~, then ~<DEL>~ and ~<Delete>~
+    don't act differently when the mark is active. If you change the
+    value to ~kill~, these commands kill the region instead of
+    deleting it.
+*** mark-even-if-inactive                                    :region:command:
+    By default, if the mark is inactive, region only commands operate
+    on the inactive region - that is, on the text between point and
+    the position at which the mark was last set. To disable this
+    behavior, change this variable to ~nil~. Then these commands will
+    instead signal an error if the mark is inactive.
 * Context
 ** anywhere
    literally anywhere
