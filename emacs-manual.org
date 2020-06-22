@@ -607,6 +607,11 @@
     When you specify a region with the mouse, or with shift-selection,
     this likewise activates Transient Mark mode temporarily and
     highlights the region.
+** Killing and Moving Text
+   - Kill :: Erase text and copy text into the "kill ring".
+   - Yank :: Bring text from the "kill ring" back into the buffer.
+   - Kill Ring :: Can be visualized as a set of blocks of text
+     arranged in a ring, which you can access in cyclic order.
 * Vocabulary
 ** Basics
 *** Frame
@@ -659,6 +664,14 @@
 *** Mark Ring
     [[Entering Emacs][first mentioned]]
     [[The Mark Ring][First Defined]]
+** Killing and Moving Text
+*** Kill
+    [[Killing and Moving Text][First Defined]]
+*** Yank
+    [[Killing and Moving Text][First Defined]]
+*** Kill Ring
+    [[Entering Emacs][first mentioned]]
+    [[Killing and Moving Text][First Defined]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -672,8 +685,6 @@
     [[Keys and Commands][first mentioned]]
 *** Keymaps
     [[Keys and Commands][first mentioned]]
-*** Kill Ring
-    [[Entering Emacs][first mentioned]]
 *** Registers
     [[Entering Emacs][first mentioned]]
 *** Undo History
