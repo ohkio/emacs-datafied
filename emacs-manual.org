@@ -550,6 +550,33 @@
     this is recorded in the global mark ring in addition to the
     current buffer's own mark ring, if you have switched buffers since
     the previous mark setting.
+*** Shift Selection
+    Definition:
+    - Shift Selection :: If you hold down the shift key while typing a
+      cursor motion command, this sets the mark before the moving
+      point, so that the region extends from the original position of
+      point to its new position.
+
+    The mark set via shift-selection behaves a little differently from
+    what we have described above. Firstly, in addition to the usual
+    way of deactivating the mark (such as changing the buffer text or
+    typing ~C-g~), the mark is deactivated by any /unshifted/ cursor
+    motion command. Secondly, any subsequent /shifted/ cursor motion
+    command avoids setting the mark anew. Therefore, a series of
+    shifted cursor motion commands will continuously adjust the
+    region.
+
+    Shift-selection only works if the shifted cursor motion key is not
+    already bound to a separate command. For example, if you bind
+    ~S-C-f~ to another command, typing ~S-C-f~ runs that command
+    instead of performing a shift-selected version of ~C-f~
+    (~forward-char~).
+
+    A mark set via mouse commands behaves the same as a mark set via
+    shift-selection. For example, if you specify a region by dragging
+    the mouse, you can continue to extend the region using shifted
+    cursor motion commands. In either case, any unshifted cursor
+    motion command deactivates the mark.
 * Vocabulary
 ** Basics
 *** Frame
@@ -598,6 +625,7 @@
     [[The Mark and the Region][First Defined]]
 *** Shift Selection
     [[Setting the Mark][First Defined]]
+    [[Shift Selection][Fully Defined]]
 *** Mark Ring
     [[Entering Emacs][first mentioned]]
     [[The Mark Ring][First Defined]]
@@ -688,6 +716,9 @@
     modifies this behavior: if you enable this mode, then inserting
     text while the mark is active causes the text in the region to be
     deleted first.
+*** Shift Select mode
+    Minor mode specifying that shift selection is allowed. Set
+    corresponding variable to ~nil~ to turn off shift-selection
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -2011,6 +2042,9 @@
 *** global-mark-ring-max                                        :region:hist:
     The length of the global mark ring is controlled by this variable,
     and is 16 by default.
+*** shift-select-mode                                       :nav:region:mode:
+    Variable determining whether or not Shift Select mode is active/on
+    or not. To turn off set this variable to ~nil~.
 * Context
 ** anywhere
    literally anywhere
