@@ -638,6 +638,18 @@
     nontrivial data generally do a kill operation instead.
 
     You can also use the mouse to kill and yank.
+**** Deletion
+     The command ~cycle-spacing~ acts like a more flexible version of
+     ~just-one-space~. It does different things if you call it
+     repeatedly in succession. The first call acts like
+     ~just-one-space~, the next removes all whitespace, and a third
+     call restores the original whitespace.
+
+     ~C-x C-o~ (~delete-blank-lines~) deletes all blank lines after
+     the current line. If the current line is blank, it deletes all
+     blank lines preceding the current line as well (leaving one blank
+     line, the current line). On a solitary blank line, it deletes
+     that line.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1923,6 +1935,55 @@
     :Description: Toggle Transient Mark mode
     :Context:  navigating
     :END:
+** Killing and Moving Text
+*** delete-horizontal-space                                     :delete:char:
+    :PROPERTIES:
+    :Command:  M-\
+    :Description: Delete spaces and tabs around point
+    :Context:  editing
+    :Argument: plain
+    :END:
+    With a prefix argument, this only deletes spaces and tab
+    characters before point.
+*** just-one-space                                              :delete:char:
+    :PROPERTIES:
+    :Command:  M-<SPC>
+    :Description: Delete spaces and tabs around point, leaving one space
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    With a numeric argument /n/, it leaves /n/ spaces before point if
+    /n/ is positive; if /n/ is negative, it deletes newlines in
+    addition to spaces and tabs, leaving /-n/ spaces before point.
+*** delete-blank-lines                                          :delete:line:
+    :PROPERTIES:
+    :Command:  C-x C-o
+    :Description: Delete blank lines around the current line
+    :Context:  editing
+    :END:
+*** delete-indentation                                          :delete:line:
+    :PROPERTIES:
+    :Command:  M-^
+    :Description: Join two lines by deleting newline and indentation
+    :Context:  editing
+    :END:
+*** cycle-spacing                                               :delete:char:
+    :PROPERTIES:
+    :Description: Manipulate whitespace around point in a smart way
+    :Context:  editing
+    :END:
+*** delete-duplicate-lines                                      :delete:line:
+    :PROPERTIES:
+    :Description: Delete all but one copy of any identical lines in the region
+    :Context:  editing
+    :Argument: plain, double, tripple
+    :END:
+    - By default keeps first instance of each repeated line
+    - With a plain prefix it keeps the last instance of each repeated
+      line
+    - With a double prefix argument, it only searches for adjacent
+      identical lines.
+    - With a tripple prefix argument, it retains repeated blank lines
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
