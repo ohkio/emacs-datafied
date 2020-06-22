@@ -639,6 +639,7 @@
 
     You can also use the mouse to kill and yank.
 **** Deletion
+**** Killing by Lines
 * Vocabulary
 ** Basics
 *** Frame
@@ -1064,7 +1065,27 @@
     :Command:  C-k
     :Description: Kill to the end of the line
     :Context:  editing
+    :Argument: numeric
     :END:
+    If used at the end of a line, it kills the line-ending newline
+    character, merging the next line into the current one (thus, a
+    blank line is entirely removed). Otherwise, this command kills all
+    the text from the point up to the end of the line; if point was
+    originally at the beginning of the line, this leaves the line
+    blank.
+
+    Spaces and tabs at the end of the line are ignored when deciding
+    which case applies. As long as point is after the last
+    non-whitespace character in the line, you can be sure that ~C-k~
+    will kill the newline. To kill an entire non-blank line, go to the
+    beginning and type ~C-k~ twice.
+
+    When ~C-k~ is given a positive argument /n/, it kills /n/ lines
+    and the newlines that follow them (text on the current line before
+    point is not killed). With a negative /-n/, it kills /n/ lines
+    preceding the current line, together with the text on the current
+    line before point. C-k with an argument of zero kills the text
+    vefore the point on the current line.
 *** kill-word                                         :kill:word:edit:delete:
     :PROPERTIES:
     :Command:  M-d
@@ -1988,6 +2009,8 @@
     :Description: Kill an entire line at once
     :Context:  editing
     :END:
+    Note that many text terminals will prevent you from typing the key
+    sequence ~C-S-<DEL>~
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2182,6 +2205,11 @@
 *** shift-select-mode                                       :nav:region:mode:
     Variable determining whether or not Shift Select mode is active/on
     or not. To turn off set this variable to ~nil~.
+** Killing and Moving Text
+*** kill-whole-line                                        :kill:delete:line:
+    If this variable is non-nil, ~C-k~ at the very beginning of a line
+    kills the entire line including the following newline. The
+    variable is normally ~nil~.
 * Context
 ** anywhere
    literally anywhere
