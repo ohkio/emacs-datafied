@@ -796,6 +796,7 @@
      - ~mouse-start-secondary~
      - ~mouse-secondary-save-then-kill~
      - ~mouse-yank-secondary~
+*** Accumulating Text
 * Vocabulary
 ** Basics
 *** Frame
@@ -2310,6 +2311,58 @@
     :Context:  editing
     :END:
     Places point at the end of the yanked text
+*** append-to-buffer                                          :region:buffer:
+    :PROPERTIES:
+    :Description: Append region to the contents of a specified buffer
+    :Context:  navigating
+    :END:
+    This reads a buffer name, then inserts a copy of the region into
+    the buffer specified. If you specify a nonexistent buffer, this
+    command creates the buffer.
+
+    Point in that buffer is left at the end of the copied text, so
+    successive uses of this command accumulate the text in the
+    specified buffer in the same order as they were copied. Strictly
+    speaking, the command does not always append to the text already
+    in the buffer - it appends only if point in that buffer is at the
+    end. However, if the command is the only command you use to alter
+    a buffer then point is always at the end.
+*** prepend-to-buffer                                         :region:buffer:
+    :PROPERTIES:
+    :Description: Prepend region to the contents of a specified buffer
+    :Context:  navigating
+    :END:
+    This command is just like ~append-to-buffer~ except that point in
+    the other buffer is left before the copied text, so successive
+    uses of this command add text in reverse order.
+*** copy-to-buffer                                     :region:buffer:delete:
+    :PROPERTIES:
+    :Description: Copy region into specified buffer, deleting the contents
+    :Context:  navigating
+    :END:
+*** insert-buffer                                               :edit:buffer:
+    :PROPERTIES:
+    :Description: Insert specified buffer into current buffer at point
+    :Context:  editing
+    :END:
+    This prompts for the name of a buffer, and inserts a copy of all
+    the text in that buffer into the curreng buffer at point, leaving
+    point at the beginning of the inserted text. It also adds the
+    position of the end of the inserted text to the mark ring, without
+    activating the mark.
+*** append-to-file                                             :region:files:
+    :PROPERTIES:
+    :Description: Append region to contents of specified file, at the end
+    :Context:  navigating
+    :END:
+    This prompts for a filename, and adds the text of the region to
+    the end of the specified file. The file is changed immediately on
+    disk.
+
+    You should only use this command with files that are /not/ being
+    visited in Emacs. Using it on a file that you are editing in Emacs
+    would change the file behind Emac's back, which can lead to losing
+    some of your editing.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
