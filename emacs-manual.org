@@ -786,6 +786,16 @@
      the primary selection work on Windows as they do on X, for
      cutting and pasting within the same session, but not across Emacs
      sessions or with other applications.
+**** Secondary Selection
+     In addition to the primary selection, the X Window System
+     provides a second similar facility known as the /secondary
+     selection/. Nowadays, few X applications make use of the
+     secondary selection, but you can access it using the following
+     Emacs commands:
+     - ~mouse-set-secondary~
+     - ~mouse-start-secondary~
+     - ~mouse-secondary-save-then-kill~
+     - ~mouse-yank-secondary~
 * Vocabulary
 ** Basics
 *** Frame
@@ -850,6 +860,9 @@
 *** Clipboard
     [["Cut and Paste" Operations on Graphical Displays][first mentioned]]
     [[Using the Clipboard][First Defined]]
+*** Primary Selection
+    [["Cut and Paste" Operations on Graphical Displays][first mentioned]]
+    [[Cut and Paste with Other Window Applications][First Defined]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -2258,6 +2271,45 @@
     :Description: Insert primary selection in Emacs buffer at point or click
     :Context:  editing
     :END:
+*** mouse-set-secondary                                              :region:
+    :PROPERTIES:
+    :Command:  <M-Drag-mouse-1>
+    :Description: Set secondary selection within dragged region
+    :Context:  navigating
+    :END:
+    The selected text is highlighted, using the ~secondary-selection~
+    face, as you drag. The window scrolls automatically if you drag
+    the mouse off the top or bottom of the window, just like
+    ~mouse-set-region~.
+
+    This command does not alter the kill ring
+*** mouse-start-secondary                                            :region:
+    :PROPERTIES:
+    :Command:  <M-mouse-1>
+    :Description: Set one endpoint for the secondary selection
+    :Context:  navigating
+    :END:
+    Use ~M-mouse-3~ to set the other end and complete the
+    selection. This command cancels any existing secondary selection,
+    when it starts a new one.
+
+    Double or triple clicking of ~M-mouse-1~ operates on words and
+    lines, much like ~mouse-1~.
+*** mouse-secondary-save-then-kill                              :region:kill:
+    :PROPERTIES:
+    :Command:  <M-mouse-3>
+    :Description: Set the secondary selection and copy to kill ring
+    :Context:  navigating
+    :END:
+    A second ~M-mouse-3~ at the same place kills the text selected by
+    the secondary selection just made.
+*** mouse-yank-secondary                                               :edit:
+    :PROPERTIES:
+    :Command:  <M-mouse-2>
+    :Description: Insert secondary selection at point or click
+    :Context:  editing
+    :END:
+    Places point at the end of the yanked text
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2511,6 +2563,10 @@
     mouse or with shift selection. If you change this variable to
     ~nil~, Emacs avoids saving active regions to the primary selection
     entirely.
+*** mouse-yank-at-point                                                :edit:
+    If this variable is non-nil, ~M-mouse-2~ yanks at point. Then it
+    does not matter precisely where you click, or even which of the
+    frame's windows you click on.
 * Context
 ** anywhere
    literally anywhere
@@ -2539,6 +2595,23 @@
    When one location inside text might behave differently from the
    rest of the text. For example, links in *Help* buffers. Seems to
    mostly be for links or clickable locations in text.
+* Faces
+** The Minibuffer
+*** minibuffer-prompt                                          :echo:display:
+    When the minibuffer is in use, it appears in the echo area, with a
+    cursor. The minibuffer starts with a /prompt/, usually ending with
+    a colon. The prompt states what kind of input is expected, and how
+    it will be used. The prompt is highlighting using this face.
+** The Mark and the Region
+*** region                                                   :region:display:
+    Setting the mark at a position in the text /activates/ it. When
+    the mark is active, we say that the region is active; Emacs
+    indicates its extent by highlighting the text within it, using
+    this face.
+** Killing and Moving Text
+*** secondary-selection                                      :region:display:
+    When using ~mouse-set-secondary~ the selected text is highlighted,
+    using this face as you drag.
 * .emacs addition
 * emacs lisp
 * Notes
