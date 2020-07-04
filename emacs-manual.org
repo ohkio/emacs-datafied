@@ -711,6 +711,20 @@
 
      A kill command following ~M-w~ (~kill-ring-save~) does not append
      to the text that ~M-w~ copied into the kill ring.
+*** "Cut and Paste" Operations on Graphical Displays
+    In most graphical desktop environments, you can transfer data
+    (usually text) between different applications using a system
+    facility called the /clipboard/. On X, two other similar
+    facilities are available: the primary selection and the secondary
+    selection. When Emacs is run on a graphical disply, its kill and
+    yank commands integrate with these facilities, so that you can
+    easily transfer text between Emacs and other graphical
+    applications.
+
+    By default, Emacs uses UTF-8 as the coding system for
+    inter-program text transfers. If you find that the pasted text is
+    not what you expected, you can specify another coding system by
+    typing ~C-x <RET> x~ or ~C-x <RET> X~.
 * Vocabulary
 ** Basics
 *** Frame
@@ -2144,6 +2158,18 @@
     :Description: Cause following kill command to append to previous kill
     :Context:  editing
     :END:
+*** set-selection-coding-system                                 :kill:coding:
+    :PROPERTIES:
+    :Command:  C-x <RET> x
+    :Description: set coding system for killed text in clipboard
+    :Context:  navigating
+    :END:
+*** set-next-selection-coding-system                            :kill:coding:
+    :PROPERTIES:
+    :Command:  C-x <RET> X
+    :Description: Use coding-system for only next communication with other apps
+    :Context:  navigating
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2357,6 +2383,9 @@
     this variable. The default is 60.
 *** kill-ring                                                     :kill:hist:
     The actual contents of the kill ring are stored in this variable.
+*** x-select-request-type                                       :kill:coding:
+    You can request a different data type to copy to clipboard by
+    customizing this variable
 * Context
 ** anywhere
    literally anywhere
