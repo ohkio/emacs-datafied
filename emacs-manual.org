@@ -765,6 +765,27 @@
      use the following commands to act explicitly on the clipboard:
      ~clipboard-kill-region~; ~clipboard-kill-ring-save~; and
      ~clipboard-yank~.
+**** Cut and Paste with Other Window Applications
+     Under the X Window System, there exists a /primary selection/
+     containing the last stretch of text selected in an X application
+     (usually by dragging the mouse). Typically, this text can be
+     inserted into other X applications by ~mouse-2~ clicks. The
+     primary selection is separate from the clipboard. Its contents
+     are more fragile; they are overwritten each time you select text
+     with the mouse, whereas the clipboard is only overwritten by
+     explicit cut or copy commands.
+
+     Under X, whenever the region is active, the text in the region is
+     saved in the primary selection. This applies regardless of
+     whether the region was made by dragging or clicking the mouse, or
+     by keyboard commands.
+
+     MS-Windows provides no primary selection, but Emacs emulates it
+     within a single Emacs session by storing the selected text
+     internally. Therefore, all the features and commands related to
+     the primary selection work on Windows as they do on X, for
+     cutting and pasting within the same session, but not across Emacs
+     sessions or with other applications.
 * Vocabulary
 ** Basics
 *** Frame
@@ -2231,6 +2252,12 @@
     :Description: yanks the contents of the clipboard at point
     :Context:  editing
     :END:
+*** mouse-yank-primary                                                 :edit:
+    :PROPERTIES:
+    :Command:  <mouse-2>
+    :Description: Insert primary selection in Emacs buffer at point or click
+    :Context:  editing
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2478,6 +2505,12 @@
 *** mouse-drag-copy-region                                      :kill:region:
     If non-nil, copy to kill-ring upon mouse adjustments of the
     region.
+*** select-active-regions                                            :region:
+    If you change this variable to ~only~, Emacs saves only temprarily
+    active regions to the primary selection, i.e., those made with the
+    mouse or with shift selection. If you change this variable to
+    ~nil~, Emacs avoids saving active regions to the primary selection
+    entirely.
 * Context
 ** anywhere
    literally anywhere
