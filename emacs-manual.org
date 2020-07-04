@@ -640,6 +640,77 @@
     You can also use the mouse to kill and yank.
 **** Deletion
 **** Killing by Lines
+**** Other Kill Commands
+**** Options for Killing
+     The kill commands work specially in a read-only buffer: they move
+     over text and copy it to the kill ring, without actually deleting
+     it from the buffer.
+*** Yanking
+    Vocabulary:
+    - Yanking :: Reinserting text previously killed.
+
+    On graphical displays, ~C-y~ first checks if another application
+    has placed any text in the system clipboard more recently than the
+    last Emacs kill. If so, it inserts the clipboard's text
+    instead. Thus Emacs effectively treats "cut" or "copy" clipboard
+    operations performed in other applications like Emacs kills,
+    except that they are not recorded in the kill ring.
+**** The Kill Ring
+     Vocabulary
+     - Kill Ring :: A list of blocks of text that were previously
+       killed.
+
+     There is only one Kill Ring, shared by all buffers, so you can
+     kill text in one buffer and yank it in another buffer.
+
+     If you make a new kill when the limit defined in ~kill-ring-max~
+     has been reached, Emacs makes room by deleting the oldest entry
+     in the kill ring.
+**** Yanking Earlier Kills
+     If the previous command was a yank command, ~M-y~ takes the text
+     that was yanked and replaces it with the text from an earlier
+     kill. So to recover the text of the next-to-the-last kill, first
+     use ~C-y~ to yank the last kill, and then use ~M-y~ to replace it
+     with the previous kill. ~M-y~ is allowed only after a ~C-y~ or
+     another ~M-y~.
+
+     You can understand ~M-y~ in terms of a last-yank pointer which
+     points at an entry in the kill ring. Each time you kill, the
+     last-yank pointer moves to the newly made entry at the front of
+     the ring. ~C-y~ yanks the entry with the last-yank pointer points
+     to. ~M-y~ moves the last-yank pointer to a different entry, and
+     the text in the buffer changes to match. Enough ~M-y~ commands
+     can move the pointer to any entry in the ring, so you can get any
+     entry into the buffer. Eventually the pointer reaches the end of
+     the ring; the next ~M-y~ loops back around to the first entry
+     again.
+
+     ~M-y~ moves the last-yank pointer around the ring, but it does
+     not change the order of the entries in the ring, which always
+     runs from the most recent kill at the front to the oldest one
+     still remembered.
+
+     As long as no new killing is done, the last-hank pointer remains
+     at the same place in the kill ring, so repeating ~C-y~ will yank
+     another copy of the same previous kill.
+**** Appending Kills
+     Normally, each kill command pushes a new entry onto the kill
+     ring. However, two or more kill commands in a row combine their
+     text into a single entry, so that a single ~C-y~ yanks all the
+     text as a unit, just as it was before it was killed.
+
+     Commands that kill forward from point add onto the end of the
+     previous killed text. Commands that kill backward from point add
+     text onto the beginning. This way, any sequence of mixed forward
+     and backward kill commands puts all the killed text into one
+     entry without rearrangement.
+
+     If a kill command is separated from the last kill command by
+     other commands (not just numeric arguments), it starts a new
+     entry on the kill ring.
+
+     A kill command following ~M-w~ (~kill-ring-save~) does not append
+     to the text that ~M-w~ copied into the kill ring.
 * Vocabulary
 ** Basics
 *** Frame
@@ -697,6 +768,7 @@
     [[Killing and Moving Text][First Defined]]
 *** Yank
     [[Killing and Moving Text][First Defined]]
+    [[Yanking][Fully Defined]]
 *** Kill Ring
     [[Entering Emacs][first mentioned]]
     [[Killing and Moving Text][First Defined]]
@@ -2011,6 +2083,67 @@
     :END:
     Note that many text terminals will prevent you from typing the key
     sequence ~C-S-<DEL>~
+*** backward-kill-sentence                                      :delete:kill:
+    :PROPERTIES:
+    :Command:  C-x <DEL>
+    :Description: Kill back to the beginning of sentence
+    :Context:  editing
+    :END:
+*** kill-sentence                                               :kill:delete:
+    :PROPERTIES:
+    :Command:  M-k
+    :Description: Kill to the end of the sentence
+    :Context:  editing
+    :END:
+*** kill-sexp                                                   :delete:kill:
+    :PROPERTIES:
+    :Command:  C-M-k
+    :Description: Kill the following balanced expression
+    :Context:  editing
+    :END:
+*** zap-to-char                                            :char:delete:kill:
+    :PROPERTIES:
+    :Command:  M-z <char>
+    :Description: Kill through the next occurrence of <char>
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument acts as a repeat count; a negative argument
+    means to search backward and kill text before point.
+*** yank                                                               :edit:
+    :PROPERTIES:
+    :Command:  C-y
+    :Description: Yank the last kill into the buffer, at point
+    :Context:  editing
+    :Argument: numeric, plain
+    :END:
+    Inserts the most recent kill, leaving the cursor at the end of the
+    inserted text. It also sets the mark at the beginning of the
+    inserted text, without activating the mark.
+
+    With a plain prefix argument (~C-u C-y~), the command instead
+    leaves the cursor in front of the inserted text, and sets the mark
+    at the end.
+
+    Using a numeric argument /n/ specifies reinserting the /n/-th
+    earlier kill. And keeps the last-yank pointer at that kill.
+*** yank-pop                                                      :edit:hist:
+    :PROPERTIES:
+    :Command:  M-y
+    :Description: Replace recent yanked text with earlier batch of killed text
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument defines how many entries to advance the
+    last-yank pointer by. A negative argument moves the pointer toward
+    the front of the ring; from the front of the ring, it moves around
+    to the last entry and continues forward from there.
+*** append-next-kill                                              :kill:hist:
+    :PROPERTIES:
+    :Command:  C-M-w
+    :Description: Cause following kill command to append to previous kill
+    :Context:  editing
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2210,6 +2343,20 @@
     If this variable is non-nil, ~C-k~ at the very beginning of a line
     kills the entire line including the following newline. The
     variable is normally ~nil~.
+*** kill-read-only-ok                                                  :kill:
+    Normally, using a kill command in a read only buffer causes Emacs
+    to beep and display an error message, but if you set this variable
+    to a non-nil value, they just print a message in the echo area to
+    explain why the text has not been erased.
+*** kill-do-not-save-duplicates                                   :kill:hist:
+    If you change this vairable to a non-nil value, identical
+    subsequent kills yield a single kill-ring entry, without
+    duplication.
+*** kill-ring-max                                                 :kill:hist:
+    The maximum number of entries in the kill ring is controlled by
+    this variable. The default is 60.
+*** kill-ring                                                     :kill:hist:
+    The actual contents of the kill ring are stored in this variable.
 * Context
 ** anywhere
    literally anywhere
