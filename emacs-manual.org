@@ -797,6 +797,38 @@
      - ~mouse-secondary-save-then-kill~
      - ~mouse-yank-secondary~
 *** Accumulating Text
+*** Rectangles
+    Rectangle commands operate on rectangular areas of the text: all
+    the characters between a certain pair of columns, in a certain
+    range of lines. Emacs has commands to kill rectangles, yank killed
+    rectangles, clear them out, fill them with blanks or text, or
+    delete them. Rectangle commands are useful with text in
+    multicolumn formats, and for changing text into or out of such
+    formats.
+
+    To specify a rectangle for a command to work on, set the mark at
+    one corner and point at the opposite corner. The rectangle thus
+    specified is called the /region-rectangle/. If point and the mark
+    are in the same column, the region-rectangle is empty. If they are
+    in the same line, the region-rectangle is one line high.
+
+    The region-rectangle is controlled in much the same way as the
+    region is controlled. But remember that a given combination of
+    point and mark values can be interpreted either as a region or as
+    a rectangle, depending on the command that uses them.
+
+    Killing a rectangle is not killing in the usual sense; the
+    rectangle is not stored in the kill ring, but in a special place
+    that only records the most recent rectangle killed. This is
+    because yanking a rectangle is so different from yanking linear
+    text that different yank commands yave to be used. Yank-popping is
+    not defined for rectangles.
+
+    When yanking a rectangle, the rectangle's first line is inserted
+    at point, the rectangle's second line is inserted at the same
+    horizontal position one line vertically below, and so on. The
+    number of lines affected is determined by the height of the saved
+    rectangle.
 * Vocabulary
 ** Basics
 *** Frame
@@ -952,6 +984,12 @@
 *** Shift Select mode
     Minor mode specifying that shift selection is allowed. Set
     corresponding variable to ~nil~ to turn off shift-selection
+** Killing and Moving Text
+*** Rectangle Mark mode
+    When this mode is enabled, commands that resize the region do so
+    in a rectangular fashion, and killing and yanking operate on the
+    rectangle. The mode persists only as long as the region is
+    active.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -2363,6 +2401,90 @@
     visited in Emacs. Using it on a file that you are editing in Emacs
     would change the file behind Emac's back, which can lead to losing
     some of your editing.
+*** kill-rectangle                                       :region:kill:delete:
+    :PROPERTIES:
+    :Command:  C-x r k
+    :Description: Kill text of region-rectangle, save as last killed rectangle
+    :Context:  editing
+    :END:
+*** copy-rectangle-as-kill                                      :region:kill:
+    :PROPERTIES:
+    :Command:  C-x r M-w
+    :Description: Save the text of region-rectangle as last killed rectangle
+    :Context:  navigating
+    :END:
+*** delete-rectangle                                          :region:delete:
+    :PROPERTIES:
+    :Command:  C-x r d
+    :Description: Delete the text of region-rectangle
+    :Context:  editing
+    :END:
+*** yank-rectangle                                              :region:edit:
+    :PROPERTIES:
+    :Command:  C-x r y
+    :Description: Yank last killed rectangle with up left corner at point
+    :Context:  editing
+    :END:
+*** open-rectangle                                              :region:edit:
+    :PROPERTIES:
+    :Command:  C-x r o
+    :Description: Insert blank space to fill region-rectangle, push right
+    :Context:  editing
+    :END:
+*** rectangle-number-lines                                      :region:edit:
+    :PROPERTIES:
+    :Command:  C-x r N
+    :Description: Insert line numbers on left of region-rectangle, push right
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    Normally, the numbering begins from 1 (for the first line of the
+    rectangle). With a numeric argument, the command prompts for a
+    number to begin from, and for a format string with which to print
+    the numbers.
+*** clear-rectangle                                             :region:edit:
+    :PROPERTIES:
+    :Command:  C-x r c
+    :Description: Clear region-rectangle by replacing contents with spaces
+    :Context:  editing
+    :END:
+*** delete-whitespace-rectangle                               :region:delete:
+    :PROPERTIES:
+    :Description: Delete whitespace in region-rectangle along left edge
+    :Context:  editing
+    :END:
+    Deletes horizontal whitespace starting from a particular
+    column. This applies to each of the lines in the rectangle, and
+    the column is specified by the left edge of the rectangle. The
+    right edge of the rectangle does not make any difference to this
+    command.
+*** string-rectangle                                            :region:edit:
+    :PROPERTIES:
+    :Command:  C-x r t
+    :Description: Replace rectangle contents with given string on each line
+    :Context:  editing
+    :END:
+    The string's width need not be the same width of the rectangle. If
+    the string's width is less, the text after the rectangle shifts
+    left; if the string is wider than the rectangle, the text after
+    the rectangle shifts right.
+*** string-insert-rectangle                                     :region:edit:
+    :PROPERTIES:
+    :Description: Insert given string on each line of rectangle
+    :Context:  editing
+    :END:
+*** rectangle-mark-mode                                 :region:display:mode:
+    :PROPERTIES:
+    :Command:  C-x <SPC>
+    :Description: Toggle Rectangle Mark mode
+    :Context:  navigating
+    :END:
+*** rectangle-exchange-point-and-mark                        :region:display:
+    :PROPERTIES:
+    :Command:  C-x C-x
+    :Description: Cycle between four corners of region-rectangle
+    :Context:  rectangle
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2648,6 +2770,9 @@
    When one location inside text might behave differently from the
    rest of the text. For example, links in *Help* buffers. Seems to
    mostly be for links or clickable locations in text.
+** rectangle
+   When Rectangle Mark mode is enabled and therefore an active region
+   is highlighted as a rectangle.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt                                          :echo:display:
