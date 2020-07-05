@@ -829,6 +829,7 @@
     horizontal position one line vertically below, and so on. The
     number of lines affected is determined by the height of the saved
     rectangle.
+*** CUA Bindings    
 * Vocabulary
 ** Basics
 *** Frame
@@ -990,6 +991,52 @@
     in a rectangular fashion, and killing and yanking operate on the
     rectangle. The mode persists only as long as the region is
     active.
+*** CUA mode
+    Sets up key bindings that are compatible with the Common User
+    Access (CUA) system used in many other applications.
+
+    When CUA mode is enabled, they keys ~C-x~, ~C-c~, ~C-v~, and ~C-z~
+    invoke commands that cut (kill), copy, paste (yank), and undo
+    respectively. The ~C-x~ and ~C-c~ keys perform cut and copy only
+    if the region is active. Otherwise, they still act as prefix keys,
+    so that standard Emacs commands like ~C-x C-c~ still work.
+
+    To enter an Emacs command like ~C-x C-f~ while the mark is active,
+    use one of the following methods: either hold ~<Shift>~ together
+    with the prefix key, e.g., ~S-C-x C-f~, or quickly type the prefix
+    key twice, e.g., ~C-x C-x C-f~.
+
+    this mode by default activates Delete-Selection mode so that typed
+    text replaces the active region.
+
+    This mode provides enhanced rectangle support with visible
+    rectangle highlighting. Use ~C-<RET>~ to start a rectangle, extend
+    it using the movment commands, and cut or copy it using ~C-x~ or
+    ~C-c~. ~<RET>~ moves the cursor to the next (clockwise) corner of
+    the rectangle, so you can easily expand it in any
+    direction. Normal text you type is inserted to the left or right
+    of each line in the rectangle (on the same side as the cursor).
+
+    With CUA you can easily copy text and rectangles into and out of
+    registers by providing a one-digit numeric prefix to the kill,
+    copy, and yank commands, e.g., ~C-1 C-c~ copies the region into
+    register 1, and ~C-2 C-v~ yanks the contents of register 2.
+
+    This mode also has a global mark feature which allows easy moving
+    and copying of text between buffers. Use ~C-S-<SPC>~ to toggle the
+    global mark on and off. When the global mark is on, all text that
+    you kill or copy is automatically inserted at the global mark, and
+    text you type is inserted at the global mark rather than at the
+    current position.
+*** CUA Rectangle Mark mode
+    Uses the same rectantle support as the CUA mode without needing to
+    enable CUA mode.
+
+    Use ~C-<RET>~ to start a rectangle, extend it using the movement
+    commands. <RET> moves the cursor to the next (clockwise) corner of
+    the rectangle, so you can easily expand it in any
+    direction. Normal text you type is inserted to the left or right
+    of each line in the rectangle (on the same side as the cursor).
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -2485,6 +2532,62 @@
     :Description: Cycle between four corners of region-rectangle
     :Context:  rectangle
     :END:
+*** cua-mode                               :command:keys:mode:edit:kill:undo:
+    :PROPERTIES:
+    :Description: Toggle CUA mode
+    :Context:  navigating
+    :END:
+*** kill-region                                     :kill:region:edit:delete:
+    :PROPERTIES:
+    :Command:  C-x <timeout>
+    :Description: Kill ("cut") text between point and mark
+    :Context:  cua
+    :Argument: numeric
+    :END:
+    With a one digit numeric prefix kill text into that numbered
+    register.
+*** copy-region-as-kill                                         :kill:region:
+    :PROPERTIES:
+    :Command:  C-c <timeout>
+    :Description: Save the region as if killed, but don't kill it
+    :Context:  cua
+    :Argument: numeric
+    :END:
+    With a one digit numeric prefix copy text into that numbered
+    register.
+*** cua-paste                                                          :edit:
+    :PROPERTIES:
+    :Command:  C-v
+    :Description: Paste last cut or copied region or rectangle
+    :Context:  cua
+    :Argument: numeric
+    :END:
+    With a one digit numeric prefix paste text from that numbered
+    register.
+*** undo                                                               :undo:
+    :PROPERTIES:
+    :Command:  C-z
+    :Description: Undo some previous changes
+    :Context:  cua
+    :END:
+*** cua-set-rectangle-mark                                      :region:mode:
+    :PROPERTIES:
+    :Command:  C-<RET>
+    :Description: Set mark and start in CUA rectangle mode
+    :Context:  cua
+    :END:
+*** cua-rotate-rectangle                                         :region:nav:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Move to next corner of rectangle selection (clockwise)
+    :Context:  cua-rectangle
+    :END:
+*** cua-toggle-global-mark                                             :edit:
+    :PROPERTIES:
+    :Command:  C-S-<SPC>
+    :Description: Set or cancel the global marker
+    :Context:  cua
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2742,6 +2845,13 @@
     If this variable is non-nil, ~M-mouse-2~ yanks at point. Then it
     does not matter precisely where you click, or even which of the
     frame's windows you click on.
+*** cua-enable-cua-keys                          :region:display:edit:delete:
+    To disable the overriding of standard Emacs binding by CUA mode,
+    while retaining the other features of CUA mode described in the
+    mode, set this variable to ~nil~.
+*** cua-delete-selection                                      :delete:region:
+    To use CUA mode without activating Delete-Selection mode set this
+    variable to ~nil~.
 * Context
 ** anywhere
    literally anywhere
@@ -2773,6 +2883,12 @@
 ** rectangle
    When Rectangle Mark mode is enabled and therefore an active region
    is highlighted as a rectangle.
+** cua
+   CUA mode which sets up key bindings that are compatible with the
+   Common User Access (CUA) system used in many other applications.
+** cua-rectangle
+   The enhanced rectangle selection mode provided by cua. Check out
+   CUA Rectangle Mark mode
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt                                          :echo:display:
