@@ -871,6 +871,24 @@
 *** Keyboard Macro Registers
     If you need to execute a keyboard macro frequently, it is more
     convenient to put it in a register or save it.
+*** Bookmarks
+    Vocabulary:
+    - Bookmark :: Record a position you can jump to using long
+      names. They persist automatically across Emacs
+      sessions. Normally used to record where you left off reading in
+      various files.
+
+    When you kill Emacs, Emacs saves your bookmarks, if you have
+    changed any bookmark values. Bookmarks are saved to the file
+    '~/.emacs.d/bookmarks' (for compatibility with older versions of
+    Emacs, if you have a file named '~/.emacs.bmk', that is used
+    instead). The bookmark commands load your default bookmark file
+    automatically. This saving and loading is how bookmarks persist
+    from one Emacs session to the next.
+
+    Bookmark position values are saved with surrounding context, so
+    that ~bookmark-jump~ can find the proper position even if the file
+    is modified slightly.
 * Vocabulary
 ** Basics
 *** Frame
@@ -943,6 +961,7 @@
     [[Registers][First Defined]]
 *** Bookmark
     [[Registers][first mentioned]]
+    [[Bookmarks][First Defined]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -2779,6 +2798,64 @@
     :Description: Stores the last keyboard macro in given register
     :Context:  anywhere
     :END:
+*** bookmark-set                                                 :buffer:nav:
+    :PROPERTIES:
+    :Command:  C-x r m
+    :Description: Set the bookmark named with given name at point
+    :Context:  navigating
+    :END:
+    Default name for bookmark is the file name.
+*** bookmark-set-no-overwrite                                    :buffer:nav:
+    :PROPERTIES:
+    :Command:  C-x r M
+    :Description: set bookmark without overwriting existing bookmark
+    :Context:  navigating
+    :END:
+    Displays error if attempting to overwrite an existing bookmark
+*** bookmark-jump                                                :buffer:nav:
+    :PROPERTIES:
+    :Command:  C-x r b
+    :Description: Jump to bookmark with given name
+    :Context:  anywhere
+    :END:
+*** list-bookmarks                                          :buffer:list:nav:
+    :PROPERTIES:
+    :Command:  C-x r l
+    :Description: List all bookmarks
+    :Context:  anywhere
+    :END:
+*** bookmark-save                                          :files:nav:buffer:
+    :PROPERTIES:
+    :Description: Save all current bookmark values in default bookmark file
+    :Context:  anywhere
+    :END:
+*** bookmark-load                                          :buffer:nav:files:
+    :PROPERTIES:
+    :Description: Load file with given name containing bookmarks
+    :Context:  anywhere
+    :END:
+    You can use this command to work with other files of bookmark
+    values in addition to your default bookmark file.
+*** bookmark-write                                         :buffer:nav:files:
+    :PROPERTIES:
+    :Description: Save all current bookmark values in given file
+    :Context:  anywhere
+    :END:
+*** bookmark-delete                                       :buffer:nav:delete:
+    :PROPERTIES:
+    :Description: Delete bookmark with given name
+    :Context:  anywhere
+    :END:
+*** bookmark-insert-location                          :buffer:nav:files:edit:
+    :PROPERTIES:
+    :Description: Insert in buffer the filename pointed to by given bookmark
+    :Context:  editing
+    :END:
+*** bookmark-insert                                         :buffer:nav:edit:
+    :PROPERTIES:
+    :Description: Insert in buffer the content that given bookmark points to
+    :Context:  editing
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3058,6 +3135,20 @@
 
     When this variable is set to ~nil~ no extra text will be put in
     between text when using the previously mentioned commands.
+*** bookmark-save-flag                                     :files:nav:buffer:
+    If you set this variable to ~1~, each command that sets a bookmark
+    will also save your bookmarks; this way, you don't lose any
+    bookmark values even if Emacs crashes. The value, if a number,
+    says how many bookmark modifications should go by between
+    saving. If you set this variable to ~nil~, Emacs only saves
+    bookmarks if you explicitly use ~bookmark-save~. Default value is
+    ~t~ which means bookmarks save when Emacs is killed.
+*** bookmark-default-file                                  :files:nav:buffer:
+    The value of this variable specifies the file in which to save
+    bookmarks by default.
+*** bookmark-search-size                                    :buffer:hist:nav:
+    This variable says how many characters of context to record on
+    each side of the bookmark's position.
 * Context
 ** anywhere
    literally anywhere
@@ -3097,6 +3188,8 @@
    CUA Rectangle Mark mode
 ** register
    When there is a prompt for a register in the minibuffer
+** bookmark
+   Bookmark Menu mode
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt                                          :echo:display:
@@ -3138,7 +3231,15 @@
     (set-register ?z '(file . "/gd/gnu/emacs/19.0/src/ChangeLog"))
     #+END_SRC
     puts the file name shown into register 'z'.
-* emacs lisp
+* Niche Modes
+** Bookmark Menu
+*** Description
+    Use this buffer to edit bookmark definitions or annotate the
+    bookmarks.
+*** Enter Mode
+    ~C-x r l~
+*** Find Commands
+    ~C-h m~
 * Notes
 ** Undo
    There are a few ways someone can break a sweat in Emacs and wonder
