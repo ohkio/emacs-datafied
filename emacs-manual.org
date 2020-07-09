@@ -868,6 +868,9 @@
     number in the buffer in decimal, and to increment it. These
     commands can be useful in keyboard macros.
 *** Keeping File Names in Registers
+*** Keyboard Macro Registers
+    If you need to execute a keyboard macro frequently, it is more
+    convenient to put it in a register or save it.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1903,7 +1906,7 @@
     :Description: Show which keys run the command provided
     :Context:  anywhere
     :END:
-*** describe-coding-system                                     :window:helps:
+*** describe-coding-system                              :window:helps:coding:
     :PROPERTIES:
     :Command:  C-h C
     :Description: Describe the coding system provided
@@ -2676,6 +2679,9 @@
 
     If given register stored a complete filename with path then this
     command visits that file.
+
+    If given register stored a keyboard macro this command executes
+    the keyboard macro.
 *** copy-to-register                                        :region:register:
     :PROPERTIES:
     :Command:  C-x r s
@@ -2767,6 +2773,12 @@
     :END:
     With a numeric argument store that number into the given
     register.
+*** kmacro-to-register                                       :macro:register:
+    :PROPERTIES:
+    :Command:  C-x C-k x
+    :Description: Stores the last keyboard macro in given register
+    :Context:  anywhere
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3126,7 +3138,6 @@
     (set-register ?z '(file . "/gd/gnu/emacs/19.0/src/ChangeLog"))
     #+END_SRC
     puts the file name shown into register 'z'.
-
 * emacs lisp
 * Notes
 ** Undo
