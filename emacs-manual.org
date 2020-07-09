@@ -856,8 +856,17 @@
    - file name
 *** Saving Positions in Registers
 *** Saving Text in Registers
+    When you want to insert a copy of the same piece of text several
+    times, it may be inconvenient to yank it from the kill ring, since
+    each subsequent kill moves that entry further down the ring. An
+    alternative is to store the text in a register and later retrieve
+    it.
 *** Saving Rectangles in Registers
 *** Saving Window Configurations in Registers
+*** Keeping Numbers in Registers
+    There are commands to store a number in a register, to insert the
+    number in the buffer in decimal, and to increment it. These
+    commands can be useful in keyboard macros.
 * Vocabulary
 ** Basics
 *** Frame
@@ -2689,6 +2698,9 @@
     the mark after.
 
     Will insert rectangle if given register contains a rectangle.
+
+    When contents of register is a number, will insert number from
+    given register at point.
 *** append-to-register                                      :region:register:
     :PROPERTIES:
     :Description: Append region to text in given register
@@ -2742,6 +2754,15 @@
     :Description: Save state of all frames, all windows, in given register
     :Context:  anywhere
     :END:
+*** number-to-register                                             :register:
+    :PROPERTIES:
+    :Command:  C-x r n
+    :Description: Store number 0 in given register
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    With a numeric argument store that number into the given
+    register.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
