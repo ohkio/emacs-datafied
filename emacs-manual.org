@@ -830,6 +830,30 @@
     number of lines affected is determined by the height of the saved
     rectangle.
 *** CUA Bindings    
+** Registers
+   Vocabulary:
+   - Register :: compartments were you can save test, rectangles,
+     positions ans other things for later use.
+   - Bookmark :: record files and positions in them
+
+   Valid register names:
+   - characters (case sensitive) :: a, b, A, C
+   - digits :: 1, 2, 3
+   - non-alphanumeric :: *, #, ?
+   - single input event with multiple keystrokes :: C-d, M-v
+
+   Invalid register names:
+   - C-g
+   - <ESC>
+
+   Registers can store one thing at a time including but not limited
+   to the following options:
+   - position
+   - piece of text
+   - rectangle
+   - number
+   - window configuration
+   - file name
 * Vocabulary
 ** Basics
 *** Frame
@@ -897,6 +921,11 @@
 *** Primary Selection
     [["Cut and Paste" Operations on Graphical Displays][first mentioned]]
     [[Cut and Paste with Other Window Applications][First Defined]]
+** Registers
+*** Register
+    [[Registers][First Defined]]
+*** Bookmark
+    [[Registers][first mentioned]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -2588,6 +2617,19 @@
     :Description: Set or cancel the global marker
     :Context:  cua
     :END:
+** Registers
+*** view-register                                     :window:register:helps:
+    :PROPERTIES:
+    :Description: Display a description of what given register contains
+    :Context:  anywhere
+    :END:
+    test
+*** Display Available Registers
+    :PROPERTIES:
+    :Command:  C-h OR <F1>
+    :Description: Explicitly request to preview available registers
+    :Context:  register
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2852,6 +2894,12 @@
 *** cua-delete-selection                                      :delete:region:
     To use CUA mode without activating Delete-Selection mode set this
     variable to ~nil~.
+** Registers
+*** register-preview-delay                     :register:command:echo:window:
+    All commands that prompt for a register will display a preview
+    window that lists the existing registers (if there are any) after
+    a short delay. To change the length of the delay, customize this
+    variable. To prevent this display, set this variable to ~nil~.
 * Context
 ** anywhere
    literally anywhere
@@ -2889,6 +2937,8 @@
 ** cua-rectangle
    The enhanced rectangle selection mode provided by cua. Check out
    CUA Rectangle Mark mode
+** register
+   When there is a prompt for a register in the minibuffer
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt                                          :echo:display:
