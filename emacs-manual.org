@@ -857,6 +857,7 @@
 *** Saving Positions in Registers
 *** Saving Text in Registers
 *** Saving Rectangles in Registers
+*** Saving Window Configurations in Registers
 * Vocabulary
 ** Basics
 *** Frame
@@ -2642,13 +2643,26 @@
 *** jump-to-register                                    :register:nav:buffer:
     :PROPERTIES:
     :Command:  C-x r j
-    :Description: Jump to saved position and buffer in given register
+    :Description: Restore state saved in given register
     :Context:  anywhere
+    :Argument: plain
     :END:
+    If given register stored a position in a buffer then this command
+    jumps to saved position and buffer in given register.
+    
     If you use this command to go to a saved position, but the buffer
     it was saved from has been killed, the command tries to create the
     buffer again by visiting the same file. Of course, this works only
     for buffers that were visiting files.
+
+    If given register stored a window configuration then using this
+    command restores the window configuration. When you restore a
+    frame configuration, any existing frames not included in the
+    configuration become invisible.
+
+    If given register stored a window configuration then with a plain
+    argument this command will delete any frames that are not included
+    in the configuration.
 *** copy-to-register                                        :region:register:
     :PROPERTIES:
     :Command:  C-x r s
@@ -2716,6 +2730,18 @@
     :END:
     With a plain argument, delete the rectangle in addition to copying
     the rectangle to the given register.
+*** window-configuration-to-register                  :window:frame:register:
+    :PROPERTIES:
+    :Command:  C-x r w
+    :Description: Save state of selected frame's windows in given register
+    :Context:  anywhere
+    :END:
+*** frameset-to-register                              :window:frame:register:
+    :PROPERTIES:
+    :Command:  C-x r f
+    :Description: Save state of all frames, all windows, in given register
+    :Context:  anywhere
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
