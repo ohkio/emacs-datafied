@@ -867,6 +867,7 @@
     There are commands to store a number in a register, to insert the
     number in the buffer in decimal, and to increment it. These
     commands can be useful in keyboard macros.
+*** Keeping File Names in Registers
 * Vocabulary
 ** Basics
 *** Frame
@@ -2672,6 +2673,9 @@
     If given register stored a window configuration then with a plain
     argument this command will delete any frames that are not included
     in the configuration.
+
+    If given register stored a complete filename with path then this
+    command visits that file.
 *** copy-to-register                                        :region:register:
     :PROPERTIES:
     :Command:  C-x r s
@@ -3109,6 +3113,20 @@
     (set-register register-separator "\n\n")
     #+END_SRC
     
+*** Keeping File Names in Registers
+    Generic lisp code for storing a file name in a particular
+    register.
+
+    #+BEGIN_SRC emacs-lisp
+    (set-register <r> '(file . <name>))
+    #+END_SRC
+
+    Example code
+    #+BEGIN_SRC emacs-lisp
+    (set-register ?z '(file . "/gd/gnu/emacs/19.0/src/ChangeLog"))
+    #+END_SRC
+    puts the file name shown into register 'z'.
+
 * emacs lisp
 * Notes
 ** Undo
