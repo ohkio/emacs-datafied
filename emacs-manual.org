@@ -856,6 +856,7 @@
    - file name
 *** Saving Positions in Registers
 *** Saving Text in Registers
+*** Saving Rectangles in Registers
 * Vocabulary
 ** Basics
 *** Frame
@@ -2663,7 +2664,7 @@
 *** insert-register                                    :region:register:edit:
     :PROPERTIES:
     :Command:  C-x r i
-    :Description: Insert text from given register at point
+    :Description: Insert contents from given register at point
     :Context:  editing
     :Argument: plain
     :END:
@@ -2672,6 +2673,8 @@
 
     With a prefix argument, it instead puts point before the text and
     the mark after.
+
+    Will insert rectangle if given register contains a rectangle.
 *** append-to-register                                      :region:register:
     :PROPERTIES:
     :Description: Append region to text in given register
@@ -2704,6 +2707,15 @@
     :END:
     If invoked with a prefix argument, it deletes the region after
     prepending it to the given register.
+*** copy-rectangle-to-register                              :region:register:
+    :PROPERTIES:
+    :Command:  C-x r r
+    :Description: Copy region-rectangle into given register
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    With a plain argument, delete the rectangle in addition to copying
+    the rectangle to the given register.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
