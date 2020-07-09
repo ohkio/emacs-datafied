@@ -854,6 +854,7 @@
    - number
    - window configuration
    - file name
+*** Saving Positions in Registers
 * Vocabulary
 ** Basics
 *** Frame
@@ -2624,12 +2625,28 @@
     :Context:  anywhere
     :END:
     test
-*** Display Available Registers
+*** Display Available Registers                  :window:register:char:helps:
     :PROPERTIES:
     :Command:  C-h OR <F1>
     :Description: Explicitly request to preview available registers
     :Context:  register
     :END:
+*** point-to-register                                   :register:nav:buffer:
+    :PROPERTIES:
+    :Command:  C-x r <SPC>
+    :Description: Record current buffer and position in given register
+    :Context:  navigating
+    :END:
+*** jump-to-register                                    :register:nav:buffer:
+    :PROPERTIES:
+    :Command:  C-x r j
+    :Description: Jump to saved position and buffer in given register
+    :Context:  anywhere
+    :END:
+    If you use this command to go to a saved position, but the buffer
+    it was saved from has been killed, the command tries to create the
+    buffer again by visiting the same file. Of course, this works only
+    for buffers that were visiting files.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
