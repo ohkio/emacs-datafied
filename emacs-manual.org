@@ -855,6 +855,7 @@
    - window configuration
    - file name
 *** Saving Positions in Registers
+*** Saving Text in Registers
 * Vocabulary
 ** Basics
 *** Frame
@@ -2647,6 +2648,62 @@
     it was saved from has been killed, the command tries to create the
     buffer again by visiting the same file. Of course, this works only
     for buffers that were visiting files.
+*** copy-to-register                                        :region:register:
+    :PROPERTIES:
+    :Command:  C-x r s
+    :Description: Copy region into given register
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    If the mark is inactive, Emacs first reactivates the mark where it
+    was last set. The mark is deactivated at the end of this command.
+
+    With a plain argument this command copies the text into given
+    register and deletes the text from the buffer as well.
+*** insert-register                                    :region:register:edit:
+    :PROPERTIES:
+    :Command:  C-x r i
+    :Description: Insert text from given register at point
+    :Context:  editing
+    :Argument: plain
+    :END:
+    Normally this leaves point after the text and sets the mark
+    before, without activating it.
+
+    With a prefix argument, it instead puts point before the text and
+    the mark after.
+*** append-to-register                                      :region:register:
+    :PROPERTIES:
+    :Description: Append region to text in given register
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    If invoked with a plain argument, it deletes the region after
+    appending it to the register.
+*** increment-register                                             :register:
+    :PROPERTIES:
+    :Command:  C-x r +
+    :Description: Behaves different depending on contents of register
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    When given register contains text, this command appends text in
+    region to that register.
+
+    When given register contains a number, this command increases that
+    number by 1.
+
+    With a numeric argument, when the register contains a number, this
+    adds the number in the register with the numeric argument and
+    stores the sum in the register.
+*** prepend-to-register                                     :region:register:
+    :PROPERTIES:
+    :Description: Prepend region to text in given register
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    If invoked with a prefix argument, it deletes the region after
+    prepending it to the given register.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -2917,6 +2974,15 @@
     window that lists the existing registers (if there are any) after
     a short delay. To change the length of the delay, customize this
     variable. To prevent this display, set this variable to ~nil~.
+*** register-separator                                             :register:
+    This variable stores which register should be considered the
+    ~register-separator~ register and then will use the contents of
+    this register to put in between text inserted into any other
+    register using the commands either ~append-to-register~ or
+    ~prepend-to-register~. By default the register ~+~ is used.
+
+    When this variable is set to ~nil~ no extra text will be put in
+    between text when using the previously mentioned commands.
 * Context
 ** anywhere
    literally anywhere
@@ -2974,6 +3040,16 @@
     When using ~mouse-set-secondary~ the selected text is highlighted,
     using this face as you drag.
 * .emacs addition
+** Registers
+*** Saving Text in Registers
+    If you always want to use a register separator in all buffers you
+    can use the following setting.
+
+    #+BEGIN_SRC emacs-lisp
+    (setq register-separator ?+)
+    (set-register register-separator "\n\n")
+    #+END_SRC
+    
 * emacs lisp
 * Notes
 ** Undo
