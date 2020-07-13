@@ -889,6 +889,24 @@
     Bookmark position values are saved with surrounding context, so
     that ~bookmark-jump~ can find the proper position even if the file
     is modified slightly.
+** Controlling the Display
+*** Scrolling
+    Scrolling forward or up advances the portion of the buffer
+    displayed in the window; equivalently, it moves the buffer text
+    upwards relative to the window. Scrolling backward or down
+    displays an earlier portion of the buffer, and moves the text
+    downwards relative to the window.
+
+    In Emacs, scrolling up or down refers to the direction that the
+    text moves in the window, /not/ the direction that the window
+    moves relative to the text. This terminology was adopted by Emacs
+    before the modern meaning of "scrolling up" and "scrolling down"
+    became widespread. Hence the strange result that ~<PageDown>~
+    scrolls up in the Emacs sense.
+
+    The portion of a buffer displayed in a window always contains
+    point. If you move point past the bottom or top of the window,
+    scrolling occurs automatically to bring it back onscreen.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1311,13 +1329,23 @@
     :Command:  C-v OR <PageDown> OR <next>
     :Description: Scroll the display one screen forward
     :Context:  navigating
+    :Argument: numeric
     :END:
+    With a numeric argument, /n/, you scroll by /n/ lines; Emacs
+    attempts to leave point unchanged, so that the text and point move
+    up or down together. With a negative argument this behaves like
+    ~scroll-down-command~.
 *** scroll-down-command                                          :nav:buffer:
     :PROPERTIES:
     :Command:  M-v OR <PageUp> OR <prior>
     :Description: Scroll one screen backward
     :Context:  navigating
+    :Argument: numeric
     :END:
+    With a numeric argument, /n/, you scroll by /n/ lines; Emacs
+    attempts to leave point unchanged, so that the text and point move
+    up or down together. With a negative argument this behaves like
+    ~scroll-down-command~.
 *** goto-char                                                    :nav:buffer:
     :PROPERTIES:
     :Command:  M-g c
@@ -2856,6 +2884,26 @@
     :Description: Insert in buffer the content that given bookmark points to
     :Context:  editing
     :END:
+** Controlling the Display
+*** scroll-up                                                   :display:nav:
+    :PROPERTIES:
+    :Description: Like ~C-v~ but disobeys ~scroll-error-top-bottom~
+    :Context:  navigating
+    :END:
+*** scroll-down                                                 :display:nav:
+    :PROPERTIES:
+    :Description: Like ~M-v~ but disobeys ~scroll-error-top-bottom~
+    :END:
+*** scroll-up-line                                              :display:nav:
+    :PROPERTIES:
+    :Description: Scroll the current window up by one line at a time
+    :Context:  navigating
+    :END:
+*** scroll-down-line                                            :display:nav:
+    :PROPERTIES:
+    :Description: Scroll current window down by one line at a time
+    :Context:  navigating
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3149,6 +3197,29 @@
 *** bookmark-search-size                                    :buffer:hist:nav:
     This variable says how many characters of context to record on
     each side of the bookmark's position.
+** Controlling the Display
+*** next-screen-context-lines                                   :display:nav:
+    The number of lines of overlap left by the commands
+    ~scroll-up-command~ and ~scroll-down-command~ is controlled by
+    this variable, whose default value is 2.
+*** scroll-error-top-bottom                                     :display:nav:
+    By default, the commands ~scroll-up-command~ and
+    ~scroll-down-command~ signal an error (by beeping or flashing the
+    screen) if no more scrolling is possible, because the window has
+    reached the beginning or end of the buffer. If you change this
+    variable to ~t~, these commands move point to the farthest
+    possible position. If point is already there, the commands signal
+    an error.
+*** scroll-preserve-screen-position                             :display:nav:
+    If the value is ~t~, Emacs adjusts point to keep the cursor at the
+    same screen position whenever a scroll command moves it
+    off-window, rather than moving it to the topmost or bottommost
+    line. With any other non-nil value, emacs adjusts point this way
+    even if the scroll command leaves point in the window. This
+    variable affects all scroll commands in the section named
+    [[Controlling the Display]], as well as scrolling with the mouse
+    wheel; in general, it affects any command that has a non-nil
+    ~scroll-command~ property.
 * Context
 ** anywhere
    literally anywhere
