@@ -913,6 +913,21 @@
     screen becomes garbled for any reason. Read the documentation for
     ~recenter-top-bottom~ and ~recenter-redisplay~ for more
     information.
+*** Automatic Scrolling
+    Emacs performs automatic scrolling when point moves out of the
+    visible portion of the text. Normally, automatic scrolling centers
+    point vertically in the window, but there are several ways to
+    alter this behavior. Check out the documentation for the following
+    variables:
+    - ~scroll-conservitavely~
+    - ~scroll-step~
+    - ~scroll-up-aggressively~ / ~scroll-down-aggressively~
+
+    Note that these variables control automatic scrolling in
+    contradictory ways. Therefore, you should pick no more than one of
+    these methods to customize automatic scrolling. In case you
+    customize multiple variables, the order of priority is in the same
+    order listed above.
 * Vocabulary
 ** Basics
 *** Frame
@@ -3272,11 +3287,60 @@
     If you change this variable to a non-zero value /n/, then
     ~recenter-top-bottom~ always leaves at least /n/ screen lines
     between point and the top or bottom of the window.
-*** recenter-redisplay
+*** recenter-redisplay                                       :display:window:
     If this variable has a non-nil value, each invocation of
     ~recenter-top-bottom~ also clears and redisplays the screen; The
     special value ~tty~ (the default) says to do this on text-terminal
     frames only.
+*** scroll-conservitavely                                    :display:window:
+    If you set this variable to a small number /n/, then moving point
+    just a little off screen (no more than /n/ lines) causes Emacs to
+    scroll just enough to bring point back on screen; If doing so
+    fails to make point visible, Emacs scrolls just far enough to
+    center point in the window. If you set this variable to a large
+    number (larger than 100), automatic scrolling never centers point,
+    no matter how far point moves; Emacs always scrolls text just
+    enough to bring point into view, either at the top or bottom of
+    the window depending on the scroll direction. By default, the
+    variable is 0, which means to always center point in the window.
+*** scroll-step                                              :display:window:
+    The value of this valuable determines the number of lines by which
+    to automatically scroll, when point moves off the screen. If
+    scrolling by that number of lines fails to bring point back into
+    view, point is centered instead. The default value is zero, which
+    (by default) causes point to always be centered after scrolling.
+*** scroll-up-aggressively                                   :display:window:
+    This variable directly specifies the vertical position of point
+    after scrolling. The value of this variable should be either ~nil~
+    (the default), or a floating point number /f/ between 0 and 1. The
+    latter means that when point goes below the bottom window edge
+    (i.e., scrolling forward), Emacs scrolls the window so that point
+    is /f/ parts of the window height from the bottom window
+    edge. Thus, larger /f/ means more aggressive scrolling: more new
+    text is brought into view. The default value, ~nil~, is equivalent
+    to 0.5.
+*** scroll-down-aggressively                                 :display:window:
+    This variable directly specifies the vertical position of point
+    after scrolling. The value of this variable should be either ~nil~
+    (the default), or a floating point number /f/ between 0 and 1. The
+    latter means that when point goes above the top window edge (i.e.,
+    scrolling backward), Emacs scrolls the window so that point is /f/
+    parts of the window height from the top window edge. This, larger
+    /f/ means more aggressive scrolling: more new text is brought into
+    view. The default value, ~nil~, is equivalent to 0.5.
+*** scroll-margin                                            :display:window:
+    This variable restricts how close point can come to the top of
+    bottom of a window (even if aggressive scrolling specifies a
+    fraction /f/ that is larger than the window portion between the
+    top and bottom margins). It's value is a number of screen lines;
+    If point comes within that many lines of the top or bottom of the
+    window, Emacs performs automatic scrolling. By default, this
+    variable is 0. The effective margin size is limited to a quarter
+    of the window height by default.
+*** maximum-scroll-margin                                    :display:window:
+    The effective margin size is limited to a quarter of the window
+    height by default, but this limit can be increased up to half (or
+    decreased down to zero) by customizing this variable.
 * Context
 ** anywhere
    literally anywhere
