@@ -907,6 +907,12 @@
     The portion of a buffer displayed in a window always contains
     point. If you move point past the bottom or top of the window,
     scrolling occurs automatically to bring it back onscreen.
+*** Recentering
+    Some combinations of variables and commands can lead to clearing
+    and redisplaying the screen. Redisplaying is useful in case the
+    screen becomes garbled for any reason. Read the documentation for
+    ~recenter-top-bottom~ and ~recenter-redisplay~ for more
+    information.
 * Vocabulary
 ** Basics
 *** Frame
@@ -2904,6 +2910,39 @@
     :Description: Scroll current window down by one line at a time
     :Context:  navigating
     :END:
+*** recenter-top-bottom                                         :display:nav:
+    :PROPERTIES:
+    :Command:  C-l
+    :Description: Scroll selected window so current line is center
+    :Context:  navigating
+    :Argument: numeric, plain
+    :END:
+    On subsequent consecutive invocations, make the current line the
+    top line, the bottom line, and so on in cyclic order. Possibly
+    redisplay the screen too.
+
+    With a plain prefix argument, the command simply recenters the
+    line showing point.
+
+    A positive argument /n/ moves the line showing point /n/ lines
+    down from the top of the window. An argument of zero moves point's
+    line to the top of the window. A negative argument /-n/ moves
+    point's line /n/ lines from the bottom of the window.
+
+    When given an argument, the command does not clear the screen or
+    cycle through different screen positions
+*** recenter                                                    :display:nav:
+    :PROPERTIES:
+    :Description: Scroll selected window so current line is center
+    :Context:  navigating
+    :END:
+    Possibly redisplay the screen too.
+*** reposition-window                                           :display:nav:
+    :PROPERTIES:
+    :Command:  C-M-l
+    :Description: Scroll heuristically to bring useful information on screen
+    :Context:  navigating
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3220,6 +3259,24 @@
     [[Controlling the Display]], as well as scrolling with the mouse
     wheel; in general, it affects any command that has a non-nil
     ~scroll-command~ property.
+*** recenter-positions                      :list:window:display:nav:command:
+    You can change the cycling order of the command
+    ~recenter-top-bottom~ by customizing this list variable. Each list
+    element should be the symbol ~top~, ~middle~, or ~bottom~, or a
+    number; an integer means to move the line to the specified screen
+    line, while a floating point number between 0.0 and 1.0 specifies
+    a percentage of the screen space from the top of the window. The
+    default, ~(middle top bottom)~, is the cycling order described in
+    the documentation of ~recenter-top-bottom~.
+*** scroll-margin                                        :window:display:nav:
+    If you change this variable to a non-zero value /n/, then
+    ~recenter-top-bottom~ always leaves at least /n/ screen lines
+    between point and the top or bottom of the window.
+*** recenter-redisplay
+    If this variable has a non-nil value, each invocation of
+    ~recenter-top-bottom~ also clears and redisplays the screen; The
+    special value ~tty~ (the default) says to do this on text-terminal
+    frames only.
 * Context
 ** anywhere
    literally anywhere
