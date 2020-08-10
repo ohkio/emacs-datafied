@@ -928,6 +928,23 @@
     these methods to customize automatic scrolling. In case you
     customize multiple variables, the order of priority is in the same
     order listed above.
+*** Horizontal Scrolling
+    Horizontal scrolling means shifting all the lines sideways withing
+    a window, so that some of the text near the left margin is not
+    displayed.
+
+    When the text in a window is scrolled horizontally, text lines are
+    truncated rather than continued. If a window shows truncated
+    lines, Emacs performs automatic horizontal scrolling whenever the
+    point moves off the left or right edge of the screen.
+
+    If you use the commands ~scroll-left~ and ~scroll-right~ to scroll
+    a window horizontally, that sets a lower bound for automatic
+    horizontal scrolling. Automatic scrolling will continue to scroll
+    the window, but never farther to the right than the amount you
+    previously set by ~scroll-left~. When ~auto-hscroll-mode~ is set
+    to ~current-line~, all the lines other than the one showing the
+    cursor will be scrolled by that minimal amount.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1001,6 +1018,9 @@
 *** Bookmark
     [[Registers][first mentioned]]
     [[Bookmarks][First Defined]]
+** Controlling the Display
+*** Horizontal Scrolling
+    [[Horizontal Scrolling][First Defined]]
 ** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
@@ -2958,6 +2978,38 @@
     :Description: Scroll heuristically to bring useful information on screen
     :Context:  navigating
     :END:
+*** scroll-left                                                 :display:nav:
+    :PROPERTIES:
+    :Command:  C-x <
+    :Description: Scroll text in current window to the left
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    scrolls text in the selected window to the left by the full width
+    of the window, less two columns. (In other words, the text in the
+    window moves left relative to the window.) with a numeric argument
+    /n/, it scrolls by /n/ columns.
+
+    If the text is scrolled to the left, and point moves off the left
+    edge of the window, the cursor will freeze at the left edge of the
+    window, the cursor will freeze at the left edge of the window,
+    until point moves back to the displayed portion of the text. This
+    is independent of the current setting of ~auto-hscroll-mode~,
+    which for text scrolled to the left, only affects the behavior at
+    the right edge of the window.
+*** scroll-right                                                :display:nav:
+    :PROPERTIES:
+    :Command:  C-x >
+    :Description: Scroll to the right
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    Scrolls similarly as ~scroll-left~ but to the right. The window
+    cannot be scrolled any farther to the right once it is displayed
+    normally, with each line starting at the window's left margin;
+    attmpeting to do so has no effect. This means that you don't have
+    to calculate the numeric argument precisely for this command; any
+    sufficiently large argument will restpore the normal display.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3341,6 +3393,28 @@
     The effective margin size is limited to a quarter of the window
     height by default, but this limit can be increased up to half (or
     decreased down to zero) by customizing this variable.
+*** auto-hscroll-mode                                        :display:window:
+    By default, all the lines in the window are scrolled horizontally
+    together, but if you set this variable to the special value of
+    ~current-line~, only the line showing the cursor will be
+    scrolled. To disable automatic horizontal scrolling entirely, set
+    this variable to ~nil~. Note that when the automatic horizontal
+    scrolling is turned off, if point moves off the edge of the
+    screen, the cursor disappears to indicate that. (On text
+    terminals, the cursor is left at the edge instead.)
+*** hscroll-margin                                           :display:window:
+    This variable controlls how close point can get to the window's
+    left and right edges before automatic scrolling occurs. It is
+    measured in columns. For example, if the value is 5, then moving
+    point within 5 columns of an edge causes horizontal scrolling away
+    from that edge.
+*** hscroll-step                                             :display:window:
+    This variable determines how many columns to scroll the window
+    when point gets too close to the edge. Zero, the default value,
+    means to center point horizontally within the window. A positive
+    integer value specifies the number of columns to scroll by. A
+    floating-point number (whose value should be between 0 and 1)
+    specifies the fraction of the window's width to scroll by.
 * Context
 ** anywhere
    literally anywhere
