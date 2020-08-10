@@ -468,7 +468,7 @@
     - Faces
 *** Keyword Search for Packages
 *** Help for International Language Support
-*** Other Help Commands    
+*** Other Help Commands
 *** Help Files
 *** Help on Active Text and Tooltips
 ** The Mark and the Region
@@ -945,6 +945,34 @@
     previously set by ~scroll-left~. When ~auto-hscroll-mode~ is set
     to ~current-line~, all the lines other than the one showing the
     cursor will be scrolled by that minimal amount.
+*** Narrowing
+    *Narrowing* means focusing in on some portion of the buffer, making
+    the rest temporarily inaccessible. The portion which you can still
+    get to is called the accessible portion.
+
+    Canceling the narrowing, which makes the entire buffer once again
+    accessible, is called *widening*.
+
+    The bounds of narrowing in effect in a buffer are called the
+    buffer's *restriction*.
+
+    When you have narrowed down to a part of the buffer, that part
+    appears to be all there is. You can't see the rest, you can't move
+    into it (motion commands won't go inside the accessible part), you
+    can't change it in any way. However, it is not gone, and if you
+    save the file all the inaccessible text will be saved. The word
+    ~Narrow~ appears in the mode line whenever narrowing is in
+    effect.
+
+    You can get information on what part of the buffer you are
+    narrowed down to using the command ~what-cursor-position~,
+    normally: ~C-x =~.
+
+    Because narrowing can easily confuse users who do not understand
+    it, ~narrow-to-region~ is normally a disabled command. Attempting
+    to use this command asks for confirmation and gives you the option
+    of enabling it; if you enable the command, confirmation will no
+    longer be required for it.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1021,9 +1049,14 @@
 ** Controlling the Display
 *** Horizontal Scrolling
     [[Horizontal Scrolling][First Defined]]
-** Uncategorized
 *** Narrowing
     [[The Mode Line][First Defined]]
+    [[Narrowing][Fully Defined]]
+*** Widening
+    [[Narrowing][First Defined]]
+*** Buffer Restriction
+    [[Narrowing][First Defined]]
+** Uncategorized
 *** Keyboard Macro
     [[The Mode Line][first mentioned]]
 *** Recursive Edit
@@ -1042,6 +1075,10 @@
     [[Help Mode Commands][first mentioned]]
 *** Primary Selection
     [[Setting the Mark][first mentioned]]
+*** Defun
+    [[Commands to Mark Textual Objects][first mentioned]]
+*** Pages
+    [[Commands to Mark Textual Objects][first mentioned]]
 * Mode
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3010,6 +3047,34 @@
     attmpeting to do so has no effect. This means that you don't have
     to calculate the numeric argument precisely for this command; any
     sufficiently large argument will restpore the normal display.
+*** narrow-to-region                                  :buffer:display:region:
+    :PROPERTIES:
+    :Command:  C-x n n
+    :Description: Narrow down to between point and mark
+    :Context:  navigating
+    :END:
+    This sets the current buffer's restrictions so that the text in
+    the current region remains accessible, but all the text before the
+    region or after the region is inaccessible. Point and mark do not
+    change.
+*** widen                                                    :buffer:display:
+    :PROPERTIES:
+    :Command:  C-x n w
+    :Description: Widen to make the entire buffer accessible again.
+    :Context:  navigating
+    :END:
+*** narrow-to-page                                           :buffer:display:
+    :PROPERTIES:
+    :Command:  C-x n p
+    :Description: Narrow down to the current page
+    :Context:  navigating
+    :END:
+*** narrow-to-defun                                          :buffer:display:
+    :PROPERTIES:
+    :Command:  C-x n d
+    :Description: Narrow down to the current defun
+    :Context:  navigating
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
