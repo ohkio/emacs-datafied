@@ -974,6 +974,7 @@
     of enabling it; if you enable the command, confirmation will no
     longer be required for it.
 *** View Mode
+*** Follow Mode
 * Vocabulary
 ** Basics
 *** Frame
@@ -1207,6 +1208,19 @@
     usual Emacs cursor motion commands, you can type ~<SPC>~ to scroll
     forward one window, ~S-<SPC>~ or ~<DEL>~ to scroll backward, and
     ~s~ to start an incremental search.
+*** Follow mode
+    Follow mode is a minor mode that makes two windows, both showing
+    the same buffer, scroll as a single tall virtual window. To use
+    Follow mode, go to a frame with just one window, split it into two
+    side-by-side windows using ~split-window-right~ usually ~C-x 3~,
+    and then use the command ~follow-mode~. From then on, you can edit
+    the buffer in either of the two windows, or scroll either one; the
+    other window follows it.
+
+    In Follow mode, if you move point outside the portion visible in
+    one window and into the portion visible in the other window, that
+    selects the other window - again, treating the two as if they were
+    parts of one large window.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -3106,6 +3120,11 @@
     :Description: Enables View mode on provided file
     :Context:  anywhere
     :END:
+*** follow-mode                             :display:nav:window:frame:buffer:
+    :PROPERTIES:
+    :Description: Enable/disable Follow mode
+    :Context:  follow-ready
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3554,6 +3573,9 @@
    Bookmark Menu mode
 ** view
    View mode
+** follow-ready
+   A frame is ready for Follow mode when a frame contains two windows
+   side by side with the same buffer in both windows.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt                                          :echo:display:
