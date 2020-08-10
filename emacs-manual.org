@@ -975,6 +975,43 @@
     longer be required for it.
 *** View Mode
 *** Follow Mode
+*** Text Faces
+    Emacs can display text in several different styles, called
+    faces. Each face can specify various face attributes, such as the
+    font, height, weignt, slant, foreground and background color, and
+    underlining or overlining. Most major modes assign faces to the
+    text automatically, via Font Lock mode.
+
+    It's possible for a given face to look different in different
+    frames. For instance, some text terminals do not support all face
+    attributes, particularly font, height, and width, and some support
+    a limited range of colors. In addition, most Emacs faces are
+    defined so that their attributes are different on light and dark
+    frame backgrounds, for reasons of legibility.
+
+    You can customize a face to alter its attributes, and save those
+    customizations for future Emacs sessions.
+
+    The ~default~ face is the default for displaying text, and all of
+    its attributes are specified. Its background color is also used as
+    the frame's background color.
+
+    Another special face is the ~cursor~ face. On graphical displays,
+    the background color of this face is used to draw the the text
+    color. None of the other attributes of this face have any effect;
+    the foreground color for text under the cursor is taken from the
+    background color of the underlying text. On text terminals, the
+    appearance of the text cursor is determined by the terminal, not
+    by the ~cursor~ face.
+
+    You can also use X resources to specify attributes of any
+    particular face.
+
+    Emacs can display variable-width fonts, but some Emacs commands,
+    particularly indentation commands, do not account for variable
+    character display widths. Therefore, we recommend not using
+    variable-width fonts for most faces, particularly those assigned
+    by Font Lock mode.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1058,6 +1095,9 @@
     [[Narrowing][First Defined]]
 *** Buffer Restriction
     [[Narrowing][First Defined]]
+*** Faces
+    [[Help Mode Commands][first mentioned]]
+    [[Text Faces][First Defined]]
 ** Uncategorized
 *** Keyboard Macro
     [[The Mode Line][first mentioned]]
@@ -1073,8 +1113,6 @@
     [[Entering Emacs][first mentioned]]
 *** Undo History
     [[Entering Emacs][first mentioned]]
-*** Faces
-    [[Help Mode Commands][first mentioned]]
 *** Primary Selection
     [[Setting the Mark][first mentioned]]
 *** Defun
@@ -3125,6 +3163,15 @@
     :Description: Enable/disable Follow mode
     :Context:  follow-ready
     :END:
+*** list-faces-display                                 :window:helps:display:
+    :PROPERTIES:
+    :Description: See what faces are currently defined
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    With a plain prefix argument, this prompts for a regular
+    expression, and displays only faces with names matching that
+    regular expression
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3530,6 +3577,14 @@
     integer value specifies the number of columns to scroll by. A
     floating-point number (whose value should be between 0 and 1)
     specifies the fraction of the window's width to scroll by.
+*** frame-background-mode                                      :display:char:
+    By default, Emacs automatically chooses which set of face
+    attributes to display on each frame, based on the frame's current
+    background color. However you can override this by giving this
+    variable a non-nil value. A value of ~dark~ makes Emacs treat all
+    frames as if they have a dark background, whereas a value of
+    ~light~ makes it treat all frames as if they have a light
+    background.
 * Context
 ** anywhere
    literally anywhere
