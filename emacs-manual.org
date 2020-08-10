@@ -973,6 +973,7 @@
     to use this command asks for confirmation and gives you the option
     of enabling it; if you enable the command, confirmation will no
     longer be required for it.
+*** View Mode
 * Vocabulary
 ** Basics
 *** Frame
@@ -1198,6 +1199,14 @@
     the rectangle, so you can easily expand it in any
     direction. Normal text you type is inserted to the left or right
     of each line in the rectangle (on the same side as the cursor).
+** Controlling the Display
+*** View mode
+    View mode is a minor mode that lets you scan a buffer by
+    sequential screenfuls. It provides commands for scrolling through
+    the buffer conveniently but not for changing it. Apart from the
+    usual Emacs cursor motion commands, you can type ~<SPC>~ to scroll
+    forward one window, ~S-<SPC>~ or ~<DEL>~ to scroll backward, and
+    ~s~ to start an incremental search.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -3075,6 +3084,28 @@
     :Description: Narrow down to the current defun
     :Context:  navigating
     :END:
+*** View-quit                                               :nav:mode:buffer:
+    :PROPERTIES:
+    :Command:  q
+    :Description: Disables View mode, restoring prev buffer and position
+    :Context:  view
+    :END:
+*** View-exit                                               :nav:mode:buffer:
+    :PROPERTIES:
+    :Command:  e
+    :Description: Disables View mode keeping buffer and position
+    :Context:  view
+    :END:
+*** view-buffer                                          :display:buffer:nav:
+    :PROPERTIES:
+    :Description: Enables View mode on provided buffer
+    :Context:  anywhere
+    :END:
+*** view-file                                             :display:files:nav:
+    :PROPERTIES:
+    :Description: Enables View mode on provided file
+    :Context:  anywhere
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3521,6 +3552,8 @@
    When there is a prompt for a register in the minibuffer
 ** bookmark
    Bookmark Menu mode
+** view
+   View mode
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt                                          :echo:display:
