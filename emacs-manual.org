@@ -1029,6 +1029,7 @@
     two digits are used). The components must have the same number of
     digits. For hexadecimal values A to F, either upper or lower case
     are acceptable.
+*** Standard Faces
 * Vocabulary
 ** Basics
 *** Frame
@@ -3678,21 +3679,146 @@
    side by side with the same buffer in both windows.
 * Faces
 ** The Minibuffer
-*** minibuffer-prompt                                          :echo:display:
+*** minibuffer-prompt
     When the minibuffer is in use, it appears in the echo area, with a
     cursor. The minibuffer starts with a /prompt/, usually ending with
     a colon. The prompt states what kind of input is expected, and how
     it will be used. The prompt is highlighting using this face.
 ** The Mark and the Region
-*** region                                                   :region:display:
+*** region
     Setting the mark at a position in the text /activates/ it. When
     the mark is active, we say that the region is active; Emacs
     indicates its extent by highlighting the text within it, using
     this face.
 ** Killing and Moving Text
-*** secondary-selection                                      :region:display:
+*** secondary-selection
     When using ~mouse-set-secondary~ the selected text is highlighted,
     using this face as you drag.
+** Controlling the Display
+*** standard faces
+**** default
+     This face is used for ordinary text that doesn't specify any
+     face. Its background color is used as the frame's background
+     color.
+**** bold
+     This face uses bold variant of the default font.
+**** italic
+     This face uses an italic variant of the default font.
+**** bold-italic
+     This face uses a bold italic variant of the default font.
+**** underline
+     This face underlines text.
+**** fixed-pitch
+     This face forces use of a fixed-width font. It's reasonable to
+     customize this face to use a different fixed-width font, if you
+     like, but you should not make it a variable-width font.
+**** fixed-pitch-serif
+     This face is like ~fixed-pitch~, except the font has serifs and
+     looks more like traditional typewriting.
+**** variable-pitch
+     This face forces use of a variable-width font.
+**** shadow
+     This face is used for making the text less noticeable than the
+     surrounding ordinary text. Usually this can be achieved by using
+     shades of grey in contrast with either black or white default
+     foreground color.
+*** highlight faces
+**** highlight
+     This face is used for text highlighting in various contexts, such
+     as when the mouse cursor is moved over a hyperlink.
+**** isearch
+     The face is used to highlight the current Isearch match
+**** query-replace
+     This face is used to highlight the current Query Replace match
+**** lazy-highlight
+     This face is used to highlight lazy matches for Isearch and Query
+     Replace (matches other than the current one).
+**** region
+     This face is used for displaying an active region. When Emacs is
+     built with GTK+ support, its colors are taken from the current
+     GTK+ theme.
+**** secondary-selection
+     This face is used for displaying a secondary X selection.
+**** trailing-whitespace
+     The face for highlighting excess spaces and tabs at the end of a
+     line when ~show-trailing-whitespace~ is non-nil.
+**** escape-glyph
+     The face for displaying control characters and escape sequences.
+**** homoglyph
+     The face for displaying lookalike characters, i.e., characters
+     that look like but are not the characters being represented.
+**** nobreak-space
+     The face for displaying no-break space characters.
+**** nobreak-hyphen
+     The face for displaying no-break hyphen characters
+*** frame faces
+**** mode-line
+     This faces is used for the mode line of the currently selected
+     window, and for menu bars when toolkit menus are not used. By
+     default, it's drawn with shadows for a raised effect on graphical
+     displays, and drawn as the inverse of the default face on
+     non-windowed terminals.
+**** mode-line-inactive
+     Like ~mode-line~, but used for mode lines of the windows other
+     than the selected one (if ~mode-line-in-non-selected-windows~ is
+     non-nil). This face inherits from ~mode-line~, so changes in that
+     face affect mode lines in all windows.
+**** mode-line-highlight
+     Like ~highlight~, but used for mouse-sensitive portions of text
+     on mode lines. Such portions of text typically pop up tooltips
+     when the mouse pointer hovers above them.
+**** mode-line-buffer-id
+     This face is used for buffer identification parts in the mode
+     line.
+**** header-line
+     Similar to ~mode-line~ for a window's header line, which appears
+     at the top of a window just as the mode line appears at the
+     bottom. Most windows do not have a header line - only some
+     special modes, such as Info mode, create one.
+**** header-line-highlight
+     Similar to ~highlight~ and ~mode-line-highlight~, but used for
+     mous sensitive portions of text on header lines. This is a
+     separate face because the ~header-line~ face might be customized
+     in a way that does not interact well with ~highlight~.
+**** vertical-border
+     This face is used for the vertical divider between windows on
+     text terminals.
+**** minibuffer-prompt
+     This face is used for the prompt strings displayed in the
+     minibuffer. By default, Emacs automatically adds this face to the
+     value of ~minibuffer-prompt-properties~, which is a list of text
+     properties used to display the prompt text. (This variable takes
+     effect when you enter the minibuffer.)
+**** fringe
+     The face for the fringes to the left and right of windows on
+     graphic displays. (The fringes are the narrow portions of the
+     Emacs frame between the text area and the window's right and left
+     borders.)
+**** cursor
+     The ~:background~ aattribute of this face specifies the color of
+     the text cursor.
+**** tooltip
+     This face is used for tooltip text. By default, if Emacs is built
+     with GTK+ support, tooltips are drawn via GTK+ and this face has
+     no effect.
+**** mouse
+     This face determines the color of the mouse pointer.
+*** text frame faces
+**** scroll-bar
+     This face determines the visual appearance of the scroll bar.
+**** tool-bar
+     This face determines the color of tool bar icons.
+**** menu
+     This face determines the colors and font of Emacs's menus.
+**** tty-menu-enabled-face
+     This face is used to display enabled menu item on text-mode
+     terminals.
+**** tty-menu-disabled-face
+     This face is used to display disabled menu items on text-mode
+     terminals.
+**** tty-menu-selected-face
+     This face is used to display on text-mode terminals the menu item
+     that would be selected if you click a mouse or press ~<RET>~.
 * .emacs addition
 ** Registers
 *** Saving Text in Registers
