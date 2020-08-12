@@ -1012,6 +1012,23 @@
     character display widths. Therefore, we recommend not using
     variable-width fonts for most faces, particularly those assigned
     by Font Lock mode.
+*** Colors for Faces
+    Faces can have farious foreground and background colors. When you
+    specify a color for a face you can use either a color name or an
+    RGB triplet.
+
+    A color name is a pre-defined name, such as ~dark orange~ or
+    ~medium sea green~. These are standard X11 color names, defined in
+    X's ~rgb.txt~ file. Emacs understands X11 color names even on text
+    terminals; if a face is given a color specified by an X11 color
+    name, it is displayed using the closest-matching terminal color.
+
+    An RGB triplet is a string of the form ~#RRGGBB~. Each of the R,
+    G, and B components is a hexadecimal number specifying the
+    componnent's relative intensity, one to four digits long (usually
+    two digits are used). The components must have the same number of
+    digits. For hexadecimal values A to F, either upper or lower case
+    are acceptable.
 * Vocabulary
 ** Basics
 *** Frame
@@ -3172,6 +3189,31 @@
     With a plain prefix argument, this prompts for a regular
     expression, and displays only faces with names matching that
     regular expression
+*** list-colors-display                                :window:display:helps:
+    :PROPERTIES:
+    :Description: View list of color names
+    :Context:  anywhere
+    :END:
+    If you run the command on a text terminal, it shows only a small
+    subset of colors that can be safely displayed on such
+    terminals.
+
+    Also shows the equivalent RGB triplet for each named color. For
+    instance, ~medium sea green~ is equivalent to ~#3CB371~.
+*** set-face-foreground                                        :display:echo:
+    :PROPERTIES:
+    :Description: Change foreground color of a face
+    :Context:  anywhere
+    :END:
+    Affects the face colors on all frames, but the effect does not
+    persist for future Emacs sessions.
+*** set-face-background                                        :display:echo:
+    :PROPERTIES:
+    :Description: Change background color of a face
+    :Context:  anywhere
+    :END:
+    Affects the face colors on all frames, but the effect does not
+    persist for future Emacs sessions.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3585,6 +3627,9 @@
     frames as if they have a dark background, whereas a value of
     ~light~ makes it treat all frames as if they have a light
     background.
+*** list-colors-sort                                   :display:helps:window:
+    To control the order in which colors are shown with the command
+    ~list-colors-display~, customize this variable.
 * Context
 ** anywhere
    literally anywhere
