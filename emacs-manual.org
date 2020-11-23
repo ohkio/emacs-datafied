@@ -1031,6 +1031,30 @@
     are acceptable.
 *** Standard Faces
 *** Text Scale
+*** Font Lock mode
+    The easiest way to find all of the faces Font Lock mode uses to do
+    it's job is to use ~M-x customize-group RET font-lock-faces
+    RET~. You can then use that customization buffer to customize the
+    appearance of these faces.
+
+    Comment and string fontification (or "syntatic" fontification)
+    relies on analysis of the syntactic structure of the buffer
+    text. For the sake of speed, some modes, including Lisp mode, rely
+    on a special convention: an open-parenthesis or open-prace in the
+    leftmost column always defines the beginning of a defun, and is
+    thus always outside any string or comment. Therefore, you should
+    avoid placing an open-parenthesis or open-brace in the leftmost
+    column, if it is inside a string or comment.
+
+    Fontifying large buffers can take a long time. To avoid large
+    delays when a file is visited, Emacs initially fontifies only the
+    visible portion of a buffer. As you scroll through the buffer,
+    each portion that becomes visible is fontified as soon as it is
+    displayed; this type of Font Lock is called /Just-In-Time/ (or
+    /JIT/) Lock. You can control how JIT Lock behaves, including
+    telling it to perform fontification while idle, by customizing
+    variables in the customization group '~jit-lock~'.
+*** Interactive Highlighting
 * Vocabulary
 ** Basics
 *** Frame
@@ -1278,6 +1302,28 @@
     one window and into the portion visible in the other window, that
     selects the other window - again, treating the two as if they were
     parts of one large window.
+*** Text Scale mode
+    Absolutely unclear what the heck this mode is
+*** Font Lock mode
+    Font Lock mode is a minor mode, always local to a particular
+    buffer, which assigns faces to (or fontifies) the text in the
+    buffer. Each buffer's major mode tells Font Lock mode which text
+    to fontify; for instance, programming language modes fontify
+    syntactically relevant constructs like comments, strings, and
+    function names.
+
+    Font Lock mode is enabled by default in major modes that support
+    it.
+*** Highlight Changes mode
+    Highlight Changes mode is a minor mode that /highlights/ the parts
+    of the buffer that were changed most recently, by giving that text
+    a different face.
+*** Hi Lock mode
+    Hi Lock mode is a minor mode that highlights text that matches
+    regular expressions you specify. For example, you can use it to
+    highlight all the references to a certain variable in a program
+    source file, highlight certain parts in a voluminous output of
+    some program, or highlight certain names in an article.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -1712,12 +1758,12 @@
     :Context:  anywhere
     :END:
 ** The Minibuffer
-*** minibuffer-electric-default-mode                    :buffer:display:echo:
+*** minibuffer-electric-default-mode               :buffer:display:echo:mode:
     :PROPERTIES:
     :Description: Toggle Minibuffer Electric Default mode
     :Context:  anywhere
     :END:
-*** file-name-shadow-mode                               :buffer:display:echo:
+*** file-name-shadow-mode                          :buffer:display:echo:mode:
     :PROPERTIES:
     :Description: Toggle File Name Shadow mode
     :Context:  anywhere
@@ -2440,7 +2486,7 @@
     :Description: Jumps to last buffer and position of global mark ring
     :Context:  navigating
     :END:
-*** transient-mark-mode                                  :display:region:nav:
+*** transient-mark-mode                             :display:region:nav:mode:
     :PROPERTIES:
     :Description: Toggle Transient Mark mode
     :Context:  navigating
@@ -3167,17 +3213,17 @@
     :Description: Disables View mode keeping buffer and position
     :Context:  view
     :END:
-*** view-buffer                                          :display:buffer:nav:
+*** view-buffer                                     :display:buffer:nav:mode:
     :PROPERTIES:
     :Description: Enables View mode on provided buffer
     :Context:  anywhere
     :END:
-*** view-file                                             :display:files:nav:
+*** view-file                                        :display:files:nav:mode:
     :PROPERTIES:
     :Description: Enables View mode on provided file
     :Context:  anywhere
     :END:
-*** follow-mode                             :display:nav:window:frame:buffer:
+*** follow-mode                        :display:nav:window:frame:buffer:mode:
     :PROPERTIES:
     :Description: Enable/disable Follow mode
     :Context:  follow-ready
@@ -3251,7 +3297,7 @@
     :END:
     You may find it convenient to bind the key ~C-x C--~ to this
     command rather than ~text-scale-adjust~.
-*** text-scale-set                                                  :display:
+*** text-scale-set                                             :display:mode:
     :PROPERTIES:
     :Description: Scales height of default face to level of prefix argument
     :Context:  anywhere
@@ -3260,6 +3306,104 @@
     This command automatically enables the minor mode
     ~text-scale-mode~ if the current font scaling is other than 1, and
     disable it otherwise.
+*** font-lock-mode                                      :display:mode:buffer:
+    :PROPERTIES:
+    :Description: Toggle Font Lock mode in current buffer
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    A positive numeric argument unconditionally enables Font Lock
+    mode, and a negative or zero argument disables it.
+*** global-font-lock-mode                               :display:mode:buffer:
+    :PROPERTIES:
+    :Description: Toggle Font Lock mode in all buffers
+    :Context:  anywhere
+    :END:
+*** highlight-changes-mode                              :display:buffer:mode:
+    :PROPERTIES:
+    :Description: Toggle Highlight Changes mode
+    :Context:  editing
+    :END:
+*** hi-lock-mode                                        :display:buffer:mode:
+    :PROPERTIES:
+    :Description: Toggle Hi Lock mode
+    :Context:  navigating
+    :END:
+*** global-hi-lock-mode                                 :display:buffer:mode:
+    :PROPERTIES:
+    :Description: Toggle Hi Lock mode in all buffers
+    :Context:  anywhere
+    :END:
+*** highlight-regexp                                  :display:buffer:search:
+    :PROPERTIES:
+    :Command:  M-s h r
+    :Description: Highlight text that matches given regexp using given face
+    :Context:  navigating
+    :END:
+    While being prompted for a face use ~M-n~ and ~M-p~ to cycle
+    through them.
+    
+    You can use this command multiple times, specifying various
+    regular expressions to highlight in different ways.
+*** next-history-element                                  :echo:hist:display:
+    :PROPERTIES:
+    :Command:  M-n
+    :Description: Select next available list option in minibuffer
+    :Context:  mini-select-list
+    :END:
+*** previous-history-element                              :echo:hist:display:
+    :PROPERTIES:
+    :Command:  M-p
+    :Description: Select previous available list option in minibuffer
+    :Context:  mini-select-list
+    :END:
+*** unhighlight-regexp                                       :display:buffer:
+    :PROPERTIES:
+    :Command:  M-s h u
+    :Description: Unhighlight given regexp
+    :Context:  navigating
+    :END:
+    If you invoke this from the menu, you select the expression to
+    unhighlight from a list. If you invoke this from the keyboard, you
+    use the minibuffer. It will show the most recently added regular
+    expression; use ~M-n~ to show the next older expression and ~M-p~
+    to select the next newer expression. (You can also type the
+    expression by hand, with completion.) When the expression you want
+    to unhighlight appears in the minibuffer, press ~RET~ to exit the
+    minibuffer and unhighlight it.
+*** highlight-lines-matching-regexp              :display:buffer:line:search:
+    :PROPERTIES:
+    :Command:  M-s h l
+    :Description: Hi-lght lines with match for given regexp using given face
+    :Context:  navigating
+    :END:
+*** highlight-phrase                                  :display:buffer:search:
+    :PROPERTIES:
+    :Command:  M-s h p
+    :Description: Highlight matches of given phrase using given face
+    :Context:  navigating
+    :END:
+    Given phrase can be any regexp, but spaces will be replaced by
+    matches to whitespace and initial lower-case letters will become
+    case insensitive.
+*** highlight-symbol-at-point                           :display:buffer:word:
+    :PROPERTIES:
+    :Command:  M-s h .
+    :Description: Highlight the symbol found near point, using next face
+    :Context:  navigating
+    :END:
+*** hi-lock-write-interactive-patterns                  :display:buffer:edit:
+    :PROPERTIES:
+    :Command:  M-s h w
+    :Description: Insert all highlight regexp/face pairs commented at point
+    :Context:  editing
+    :END:
+*** hi-lock-find-patterns                             :display:buffer:search:
+    :PROPERTIES:
+    :Command:  M-s h f
+    :Description: Extract regexp/face pairs from comments in buffer
+    :Context:  navigating
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3679,6 +3823,30 @@
 *** text-scale-mode-step                                            :display:
     Each call to ~text-scale-adjust~ scales the text height by a
     factor of 1.2; to change this factor, customize this variable.
+*** global-font-lock-mode                       :buffer:display:mode:startup:
+    To impose the setting where Font Lock mode is either enabled or
+    disabled in all buffers for future Emacs sessions, customize this
+    variable.
+*** font-lock-maximum-decoration                               :display:mode:
+    You can customize this variable to alter the amount of
+    fontification applied by Font Lock mode, for major modes that
+    support this feature, the value should be a number (with 1
+    representing a minimal amount of fontification; some modes support
+    levels as high as 3); or ~t~, meaning "as high as possible" (the
+    default). To be effective for a given file buffer, the
+    customization of the variable ~font-lock-maximum-decoration~
+    should be done /before/ the file is visited; if you already have a
+    file visited in a buffer when you customize this variable, kill
+    the buffer and visit the file again after the customization.
+
+    You can also specify different numbers for particular major modes;
+    for example, to use level 1 for C/C++ modes, and the default level
+    otherwise, use the value ~'((c-mode . 1) (c++-mode . 1))~
+*** hi-lock-auto-select-face                           :echo:command:display:
+    Setting this variable to a non-nil value causes the command
+    ~highlight-regexp~ (and other Hi Lock commands that read faces) to
+    automatically choose the next face from the default list without
+    prompting.
 * Context
 ** anywhere
    literally anywhere
@@ -3725,6 +3893,12 @@
 ** follow-ready
    A frame is ready for Follow mode when a frame contains two windows
    side by side with the same buffer in both windows.
+** mini-select-list
+   Some commands have an option for selecting something from a list
+   including faces, previous commands, etc. to complete the
+   command. This context is when you are at the point in the command
+   where the minibuffer is asking you to provide one of these options
+   from a particular list.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
@@ -3867,6 +4041,9 @@
 **** tty-menu-selected-face
      This face is used to display on text-mode terminals the menu item
      that would be selected if you click a mouse or press ~<RET>~.
+*** other faces
+**** font-lock-string-face
+**** font-lock-comment-face
 * .emacs addition
 ** Registers
 *** Saving Text in Registers
@@ -3891,6 +4068,47 @@
     (set-register ?z '(file . "/gd/gnu/emacs/19.0/src/ChangeLog"))
     #+END_SRC
     puts the file name shown into register 'z'.
+** Controlling the Display
+*** Font Lock mode
+    To impose the setting to disable Font Lock mode in all buffers for
+    future Emacs sessions, add the following line to your init file:
+
+    #+BEGIN_SRC emacs-lisp
+    (global-font-lock-mode 0)
+    #+END_SRC
+
+    If you have disabled Global Font Lock mode, you can still enable
+    Font Lock for specific major modes by adding the function
+    ~font-lock-mode~ to the mode hooks. For example, to enable Font
+    Lock mode for editing C files, you can do this:
+
+    #+BEGIN_SRC emacs-lisp
+    (add-hook 'c-mode-hook 'font-lock-mode)
+    #+END_SRC
+
+    Font Lock highlighting patterns already exist for most modes, but
+    you may want to fontify additional patterns. You can use the
+    function ~font-lock-add-keywords~, to add your own highlighting
+    patterns for a particular mode. For example, to highlight
+    '~FIXME:~' words in C comments, use this:
+
+    #+BEGIN_SRC emacs-lisp
+    (add-hook 'c-mode-hook
+              (lambda ()
+	       (font-lock-add-keywords nil
+	        '(("\\<\\(FIXME\\):" 1
+		   font-lock-warning-face t)))))
+    #+END_SRC
+
+    To remove keywords from the font-lock highlighting patterns, use
+    the function ~font-lock-remove-keywords~.
+*** Interactive Highlighting
+    To enable Hi Lock mode for all buffers, place
+
+    #+BEGIN_SRC emacs-lisp
+    (global-hi-lock-mode 1)
+    #+END_SRC
+    
 * Niche Modes
 ** Bookmark Menu
 *** Description
