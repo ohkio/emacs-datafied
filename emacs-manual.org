@@ -1090,6 +1090,7 @@
     fill column indicator is a useful functionality especially in
     ~prog-moce~ to indicate the position of a specific column.
 *** Useless Whitespace
+*** Selective Display
 * Vocabulary
 ** Basics
 *** Frame
@@ -3525,6 +3526,28 @@
     :Context:  anywhere
     :END:
     See ~whitespace-toggle-options~ for some examples
+*** set-selective-display                               :display:buffer:line:
+    :PROPERTIES:
+    :Command:  C-x $
+    :Description: Hide lines with indent given by numeric argument
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    To hide lines in the current buffer, use this command with a
+    numeric argument /n/. Then lines with at least /n/ columns of
+    indentation disappear from the screen. The only indication of
+    their presence is that three dots ('...') appear at the end of
+    each visible line that is followed by one or more hidden ones.
+
+    The hidden lines are still present in the buffer, and most editing
+    commands see them as usual, so you may find point in the middle of
+    the hidden text. When this happens, the cursor appears at the end
+    of the previous line, after the three dots. If the point is at the
+    end of the visible line, before the newline that ends it, the
+    cursor appears before the three dots.
+
+    To make all lines visible again, use the command with no
+    argument.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -4040,6 +4063,12 @@
 *** whitespace-big-indent-regexp                             :display:buffer:
     When highlighting ~big-indent~ customize this regular expression
     to change when to highlight a big indent at the start of a line.
+*** selective-display-ellipses                          :display:buffer:line:
+    If you set this variable to ~nil~, when you have hidden lines
+    using the command ~set-selective-display~, then the three dots do
+    not appear at the end of a line that precedes hidden lines. There
+    is no visible indication of the hidden lines. This variable
+    becomes local automatically when set.
 * Context
 ** anywhere
    literally anywhere
