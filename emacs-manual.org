@@ -1085,6 +1085,10 @@
     truncation and continuation indicators, because these indicators
     are displayed on opposite sides of the window in right-to-left
     paragraphs.
+*** Displaying Boundaries
+    Emacs can add an indicator to display a fill column position. The
+    fill column indicator is a useful functionality especially in
+    ~prog-moce~ to indicate the position of a specific column.
 * Vocabulary
 ** Basics
 *** Frame
@@ -3448,6 +3452,17 @@
     :Description: Toggle Fringe mode in current frame
     :Context:  anywhere
     :END:
+*** display-fill-column-indicator-mode                :display:window:buffer:
+    :PROPERTIES:
+    :Description: Toggle Display Fill Column Indicator mode in buffer
+    :Context:  navigating
+    :END:
+    Can be used as a hook
+*** global-display-fill-column-indicator-mode                :display:window:
+    :PROPERTIES:
+    :Description: Toggle Display Fill Column Indicator mode globally
+    :Context:  anywhere
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3894,12 +3909,43 @@
 *** fringe-mode                                   :window:frame:mode:display:
     You can make your changes to the fringes permanent by customizing
     this variable. Such as setting the width of the fringes.
-*** overflow-newoline-into-fringe
+*** overflow-newline-into-fringe                             :display:window:
     By default set to a non nil value. This means if the current line
     is exactly as wide as the window and point is at the end of the
     line then the fringe will draw the cursor. To disable this, change
     this variable to ~nil~; this causes Emacs to continue or truncate
     lines that are exactly as wide as the window.
+*** display-fill-column-indicator                     :display:window:buffer:
+    This is a buffer-local variable used to activate the fill column
+    indicator.
+*** display-fill-column-indicator-character      :display:window:buffer:char:
+    This is a buffer-local variable used to control how the fill
+    column indicator looks.
+*** display-fill-column-indicator-column              :display:window:buffer:
+    Specifies the column number where the indicator should be set. It
+    can take positive numerical values for the column or the special
+    value ~t~ which means that the variable ~fill-column~ will be
+    used.
+
+    Any other value disables the indicator. The default value is ~t~.
+*** indicate-buffer-boundaries                                :display:frame:
+    This is a buffer-local variable that controls how the buffer
+    boundaries and window scrolling is indicated in the fringes. If
+    the value is ~left~ or ~right~, both angle and arrow bitmaps are
+    displayed in the left or right fringe, respectively.
+
+    If value is an alist, each element ~(/indicator/ . /position/)~
+    specifies the position of one of the indicators. The /indicator/
+    must be one of ~top~, ~bottom~, ~up~, ~down~, or ~t~ which
+    specifies the default position for the indicators not present in
+    the alist. The /position/ is one of ~left~, ~right~, or ~nil~
+    which specifies not to show this indicator.
+
+    For example, ~((top . left) (t . right))~ places the top angle
+    bitmap in left fringe, the bottom angle bitmap in right fringe,
+    and both arrow bitmaps in right fringe. To show just the angle
+    bitmaps in the left fringe, but no arrow bitmaps, use ~((top
+    . left) (bottom . left))~.
 * Context
 ** anywhere
    literally anywhere
@@ -4096,7 +4142,14 @@
      that would be selected if you click a mouse or press ~<RET>~.
 *** other faces
 **** font-lock-string-face
+     Face for how to display strings in font lock mode.
 **** font-lock-comment-face
+     Face for how to display comments in font lock mode.
+**** fill-column-indicator
+     Specifies the face used to display the indicator. It inherits its
+     default values from the face ~shadow~ but without background
+     color. To change the indicator color you need only set the
+     foreground color of this face.
 * .emacs addition
 ** Registers
 *** Saving Text in Registers
