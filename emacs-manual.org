@@ -1055,6 +1055,36 @@
     telling it to perform fontification while idle, by customizing
     variables in the customization group '~jit-lock~'.
 *** Interactive Highlighting
+*** Window Fringes
+    On graphical displays, each Emacs window normally has narrow
+    /fringes/ on the left and right edges. The fringes are used to
+    display symbols that provide information about the text in the
+    window.
+
+    Uses of fringes:
+    - Continuation Lines (most common)
+    - Line Truncation
+    - Buffer boundaries
+    - Unused lines near the end of the window
+    - Where a program you are debugging is executing
+    - Draw the cursor, if the current line is exactly as wide as the
+      window and point is at the end of the line.
+
+    If you customize the ~fringe-mode~ variable to remove the fringes
+    on one or both sides of the window display, these are the only
+    features still available:
+    - Continuation Lines
+    - Line Truncation
+
+    This reduces the width available for displaying text on each line,
+    because the character cells used for truncation and continuation
+    indicators are reserved for that purpose. Since buffer text can
+    include bidirectional text, and thus both left-to-right and
+    right-to-left paragraphs, removing only one of the fringes still
+    reserves two character cells, one on each side of the window, for
+    truncation and continuation indicators, because these indicators
+    are displayed on opposite sides of the window in right-to-left
+    paragraphs.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1124,6 +1154,7 @@
     [[Cut and Paste with Other Window Applications][First Defined]]
 ** Registers
 *** Register
+    [[Entering Emacs][first mentioned]]
     [[Registers][First Defined]]
 *** Bookmark
     [[Registers][first mentioned]]
@@ -1141,6 +1172,9 @@
 *** Faces
     [[Help Mode Commands][first mentioned]]
     [[Text Faces][First Defined]]
+*** Fringes
+    [[Continuation Lines][first mentioned]]
+    [[Window Fringes][First Defined]]
 ** Uncategorized
 *** Keyboard Macro
     [[The Mode Line][first mentioned]]
@@ -1152,8 +1186,6 @@
     [[Keys and Commands][first mentioned]]
 *** Keymaps
     [[Keys and Commands][first mentioned]]
-*** Registers
-    [[Entering Emacs][first mentioned]]
 *** Undo History
     [[Entering Emacs][first mentioned]]
 *** Primary Selection
@@ -1324,6 +1356,8 @@
     highlight all the references to a certain variable in a program
     source file, highlight certain parts in a voluminous output of
     some program, or highlight certain names in an article.
+*** Fringe mode
+    Display fringes on left and right edges of each Emacs window.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -3404,6 +3438,16 @@
     :Description: Extract regexp/face pairs from comments in buffer
     :Context:  navigating
     :END:
+*** fringe-mode                                   :window:display:mode:frame:
+    :PROPERTIES:
+    :Description: Toggle Fringe mode in all frames
+    :Context:  anywhere
+    :END:
+*** set-fringe-style                                   :window:display:frame:
+    :PROPERTIES:
+    :Description: Toggle Fringe mode in current frame
+    :Context:  anywhere
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3847,6 +3891,15 @@
     ~highlight-regexp~ (and other Hi Lock commands that read faces) to
     automatically choose the next face from the default list without
     prompting.
+*** fringe-mode                                   :window:frame:mode:display:
+    You can make your changes to the fringes permanent by customizing
+    this variable. Such as setting the width of the fringes.
+*** overflow-newoline-into-fringe
+    By default set to a non nil value. This means if the current line
+    is exactly as wide as the window and point is at the end of the
+    line then the fringe will draw the cursor. To disable this, change
+    this variable to ~nil~; this causes Emacs to continue or truncate
+    lines that are exactly as wide as the window.
 * Context
 ** anywhere
    literally anywhere
