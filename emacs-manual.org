@@ -616,7 +616,7 @@
     Most commands which erase text from the buffer save it in the kill
     ring. These are known as kill commands, and their names normally
     contain the word '~kill~' (e.g., ~kill-line~). The kill ring
-    stores several recent kills, not just the last oen, so killing is
+    stores several recent kills, not just the last one, so killing is
     a very safe operation: you don't have to worry much about losing
     text that you previously killed. The kill ring is shared by all
     buffers, so text that is killed in one buffer can be yanked into
@@ -716,7 +716,7 @@
     (usually text) between different applications using a system
     facility called the /clipboard/. On X, two other similar
     facilities are available: the primary selection and the secondary
-    selection. When Emacs is run on a graphical disply, its kill and
+    selection. When Emacs is run on a graphical display, its kill and
     yank commands integrate with these facilities, so that you can
     easily transfer text between Emacs and other graphical
     applications.
@@ -750,16 +750,16 @@
      Many X desktop environments support a feature called the
      /clipboard manager/. If you exit Emacs while it is the current
      "owner" of the clipboard data, and there is a clipboard manager
-     running, Emacs trahsfers the clipboard data to the clipboard
+     running, Emacs transfers the clipboard data to the clipboard
      manager so that it is not lost. In some circumstances, this may
      cause a delay when exiting Emacs.
 
      Since strings containing NUL bytes are usually truncated when
-     passed throug the clipboard, Emacs replaces such characters with
+     passed through the clipboard, Emacs replaces such characters with
      "\0" before transferring them to the system's clipboard.
 
      Prior to Emacs 24, the kill and yank commands used the primary
-     selection, not the clipboard. If you prefer this bejavior, change
+     selection, not the clipboard. If you prefer this behavior, change
      ~select-enable-clipboard~ to ~nil~, ~select-enable-primary~ to
      ~t~, and ~mouse-drag-copy-region~ to ~t~. In this case, you can
      use the following commands to act explicitly on the clipboard:
@@ -803,7 +803,7 @@
     range of lines. Emacs has commands to kill rectangles, yank killed
     rectangles, clear them out, fill them with blanks or text, or
     delete them. Rectangle commands are useful with text in
-    multicolumn formats, and for changing text into or out of such
+    multi-column formats, and for changing text into or out of such
     formats.
 
     To specify a rectangle for a command to work on, set the mark at
@@ -821,7 +821,7 @@
     rectangle is not stored in the kill ring, but in a special place
     that only records the most recent rectangle killed. This is
     because yanking a rectangle is so different from yanking linear
-    text that different yank commands yave to be used. Yank-popping is
+    text that different yank commands have to be used. Yank-popping is
     not defined for rectangles.
 
     When yanking a rectangle, the rectangle's first line is inserted
@@ -919,7 +919,7 @@
     point vertically in the window, but there are several ways to
     alter this behavior. Check out the documentation for the following
     variables:
-    - ~scroll-conservitavely~
+    - ~scroll-conservatively~
     - ~scroll-step~
     - ~scroll-up-aggressively~ / ~scroll-down-aggressively~
 
@@ -978,7 +978,7 @@
 *** Text Faces
     Emacs can display text in several different styles, called
     faces. Each face can specify various face attributes, such as the
-    font, height, weignt, slant, foreground and background color, and
+    font, height, weight, slant, foreground and background color, and
     underlining or overlining. Most major modes assign faces to the
     text automatically, via Font Lock mode.
 
@@ -1013,7 +1013,7 @@
     variable-width fonts for most faces, particularly those assigned
     by Font Lock mode.
 *** Colors for Faces
-    Faces can have farious foreground and background colors. When you
+    Faces can have various foreground and background colors. When you
     specify a color for a face you can use either a color name or an
     RGB triplet.
 
@@ -1025,7 +1025,7 @@
 
     An RGB triplet is a string of the form ~#RRGGBB~. Each of the R,
     G, and B components is a hexadecimal number specifying the
-    componnent's relative intensity, one to four digits long (usually
+    component's relative intensity, one to four digits long (usually
     two digits are used). The components must have the same number of
     digits. For hexadecimal values A to F, either upper or lower case
     are acceptable.
@@ -1037,10 +1037,10 @@
     RET~. You can then use that customization buffer to customize the
     appearance of these faces.
 
-    Comment and string fontification (or "syntatic" fontification)
+    Comment and string fontification (or "syntactic" fontification)
     relies on analysis of the syntactic structure of the buffer
     text. For the sake of speed, some modes, including Lisp mode, rely
-    on a special convention: an open-parenthesis or open-prace in the
+    on a special convention: an open-parenthesis or open-brace in the
     leftmost column always defines the beginning of a defun, and is
     thus always outside any string or comment. Therefore, you should
     avoid placing an open-parenthesis or open-brace in the leftmost
@@ -1088,9 +1088,31 @@
 *** Displaying Boundaries
     Emacs can add an indicator to display a fill column position. The
     fill column indicator is a useful functionality especially in
-    ~prog-moce~ to indicate the position of a specific column.
+    ~prog-mode~ to indicate the position of a specific column.
 *** Useless Whitespace
 *** Selective Display
+*** Optional Mode Line Features
+    If you have narrowed the buffer, the displayed line number is
+    relative to the accessible portion of the buffer. Thus, it isn't
+    suitable as an argument to ~goto-line~. (Use ~what-line~ command
+    to see the line number relative to the whole file.)
+
+    On graphical displays, the mode line is drawn as a 3D box. If you
+    don't like this effect, you can disable it by customizing the
+    ~mode-line~ face and setting its ~box~ attribute to ~nil~.
+
+    By default, the mode line of nonselected windows is displayed in a
+    different face, called ~mode-line-inactive~. Only the selected
+    window is displayed in the ~mode-line~ face. This helps show which
+    window is selected. When the minibuffer is selected, since it has
+    no mode line, the window from which you activated the minibuffer
+    has its mode line displayed using ~mode-line~; as a result,
+    ordinary entry to the minibuffer does not change any mode lines.
+
+    You can customize the mode line display for each of the
+    end-of-line formats by setting each of the variables
+    ~eol-mnemonic-unix~, ~eol-mnemonic-mac~, and
+    ~eol-mnemonic-undecided~ to the strings you prefer.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1293,7 +1315,7 @@
 
     This mode provides enhanced rectangle support with visible
     rectangle highlighting. Use ~C-<RET>~ to start a rectangle, extend
-    it using the movment commands, and cut or copy it using ~C-x~ or
+    it using the movement commands, and cut or copy it using ~C-x~ or
     ~C-c~. ~<RET>~ moves the cursor to the next (clockwise) corner of
     the rectangle, so you can easily expand it in any
     direction. Normal text you type is inserted to the left or right
@@ -1311,7 +1333,7 @@
     text you type is inserted at the global mark rather than at the
     current position.
 *** CUA Rectangle Mark mode
-    Uses the same rectantle support as the CUA mode without needing to
+    Uses the same rectangle support as the CUA mode without needing to
     enable CUA mode.
 
     Use ~C-<RET>~ to start a rectangle, extend it using the movement
@@ -1372,6 +1394,68 @@
 *** Global Whitespace mode
     A global minor mode that lets you visualize whitespace in all
     buffers.
+*** Size Indication mode
+    The buffer percentage /pos/ indicates the percentage of the buffer
+    above the top of the window. You can additionally display the size
+    of the buffer by turning on this mode. The size will be displayed
+    immediately following the buffer percentage like this:
+    #+BEGIN_SRC emacs-lisp
+    pos of size
+    #+END_SRC
+
+    Here /size/ is the human readable representation of the number of
+    characters in the buffer, which means that '~k~' for 10^3, '~M~'
+    for 10^6, '~G~' for 10^9, etc., are used to abbreviate.
+*** Line Number mode
+    The current line number of point appears in the mode line when
+    this mode is enabled. The line number appears after the buffer
+    percentage /pos/, with the letter '~L~' to indicate what it
+    is. However, when both this mode and Column Number mode are
+    enabled, the line and column numbers are displayed in parentheses,
+    the line number first, rather than with '~L~' and '~C~'. For
+    example '~(561, 2)~'.
+*** Column Number mode
+    You can display the current column number by turning on Column
+    Number mode. The column number is indicated by the letter
+    '~C~'. However, when both this mode and Line Number mode are
+    enabled, the line and column numbers are displayed in parentheses,
+    the line number first, rather than with '~L~' and '~C~'. For
+    example '~(561, 2)~'.
+
+    In this mode, the displayed column number counts from zero
+    starting at the left margin of the window.
+*** Display Time mode
+    Emacs can optionally display the time and system load in all mode
+    lines. This minor mode is the mode that accomplishes this. The
+    information added to the mode line looks like this:
+
+    #+BEGIN_SRC
+    hh:mmPM l.ll
+    #+END_SRC
+
+    Here /hh/ and /mm/ are the hour and minute, followed always be
+    '~AM~' or '~PM~'. /l.ll/ is the average number, collected for the
+    last few minutes, of processes in the whole system that were
+    either running or ready to run (i.e., were waiting for an
+    available processor). (Some fields may be missing if your
+    operating system cannot support them.)
+
+    If you prefer time displays in 24-hour format, set the variable
+    ~display-time-24hr-format~ to ~t~.
+
+    The word '~Mail~' appears after the load level if there is mail
+    for you that you have not read yet. On graphical displays, you can
+    use an icon instead of '~Mail~' by customizing
+    ~display-time-use-mail-icon~; this may save some space on the mode
+    line. You can customize ~display-time-mail-face~ to make the mail
+    indicator prominent. Use ~display-time-mail-file~ to specify the
+    mail file to check, or set ~display-time-mail-directory~ to
+    specify the directory to check for incoming mail (any nonempty
+    regular file in the directory is considered to be newly arrived
+    mail).
+*** Display Battery mode
+    When running Emacs on a laptop computer, you can display the
+    battery charge on the mode-line using this mode.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -1646,7 +1730,7 @@
     :Context:  editing
     :Argument: numeric
     :END:
-    If you supply a numberic argument /n/, this commands delete /n/
+    If you supply a numeric argument /n/, this commands delete /n/
     characters.
 *** delete-char                                            :delete:char:edit:
     :PROPERTIES:
@@ -1679,7 +1763,7 @@
     point is not killed). With a negative /-n/, it kills /n/ lines
     preceding the current line, together with the text on the current
     line before point. C-k with an argument of zero kills the text
-    vefore the point on the current line.
+    before the point on the current line.
 *** kill-word                                         :kill:word:edit:delete:
     :PROPERTIES:
     :Command:  M-d
@@ -2589,14 +2673,14 @@
     :PROPERTIES:
     :Description: Delete all but one copy of any identical lines in the region
     :Context:  editing
-    :Argument: plain, double, tripple
+    :Argument: plain, double, triple
     :END:
     - By default keeps first instance of each repeated line
     - With a plain prefix it keeps the last instance of each repeated
       line
     - With a double prefix argument, it only searches for adjacent
       identical lines.
-    - With a tripple prefix argument, it retains repeated blank lines
+    - With a triple prefix argument, it retains repeated blank lines
 *** kill-whole-line                                        :kill:line:delete:
     :PROPERTIES:
     :Command:  C-S-<DEL>
@@ -2776,7 +2860,7 @@
     :Context:  editing
     :END:
     This prompts for the name of a buffer, and inserts a copy of all
-    the text in that buffer into the curreng buffer at point, leaving
+    the text in that buffer into the current buffer at point, leaving
     point at the beginning of the inserted text. It also adds the
     position of the end of the inserted text to the mark ring, without
     activating the mark.
@@ -2791,7 +2875,7 @@
 
     You should only use this command with files that are /not/ being
     visited in Emacs. Using it on a file that you are editing in Emacs
-    would change the file behind Emac's back, which can lead to losing
+    would change the file behind Emacs's back, which can lead to losing
     some of your editing.
 *** kill-rectangle                                       :region:kill:delete:
     :PROPERTIES:
@@ -3218,9 +3302,9 @@
     Scrolls similarly as ~scroll-left~ but to the right. The window
     cannot be scrolled any farther to the right once it is displayed
     normally, with each line starting at the window's left margin;
-    attmpeting to do so has no effect. This means that you don't have
+    attempting to do so has no effect. This means that you don't have
     to calculate the numeric argument precisely for this command; any
-    sufficiently large argument will restpore the normal display.
+    sufficiently large argument will restore the normal display.
 *** narrow-to-region                                  :buffer:display:region:
     :PROPERTIES:
     :Command:  C-x n n
@@ -3313,7 +3397,7 @@
 *** text-scale-adjust                                               :display:
     :PROPERTIES:
     :Command:  C-x C-0 OR C-x C-= OR C-x C-- OR C-x C-+
-    :Description: Adjust the hight of the default face
+    :Description: Adjust the height of the default face
     :Context:  anywhere
     :Argument: numeric
     :END:
@@ -3422,7 +3506,7 @@
 *** highlight-lines-matching-regexp              :display:buffer:line:search:
     :PROPERTIES:
     :Command:  M-s h l
-    :Description: Hi-lght lines with match for given regexp using given face
+    :Description: Hi-light lines with match for given regexp using given face
     :Context:  navigating
     :END:
 *** highlight-phrase                                  :display:buffer:search:
@@ -3548,6 +3632,31 @@
 
     To make all lines visible again, use the command with no
     argument.
+*** size-indication-mode                                :display:mode:inform:
+    :PROPERTIES:
+    :Description: Toggle Size Indication mode
+    :Context:  anywhere
+    :END:
+*** column-number-mode                                  :display:mode:inform:
+    :PROPERTIES:
+    :Description: Toggle Column Number mode
+    :Context:  anywhere
+    :END:
+*** display-time                                        :display:mode:inform:
+    :PROPERTIES:
+    :Description: Enable Display Time mode
+    :Context:  anywhere
+    :END:
+*** display-time-mode                                   :display:mode:inform:
+    :PROPERTIES:
+    :Description: Toggle Display Time mode
+    :Context:  anywhere
+    :END:
+*** display-battery-mode                                :display:mode:inform:
+    :PROPERTIES:
+    :Description: Toggle Display Battery mode
+    :Context:  anywhere
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -3753,7 +3862,7 @@
     to a non-nil value, they just print a message in the echo area to
     explain why the text has not been erased.
 *** kill-do-not-save-duplicates                                   :kill:hist:
-    If you change this vairable to a non-nil value, identical
+    If you change this variable to a non-nil value, identical
     subsequent kills yield a single kill-ring entry, without
     duplication.
 *** kill-ring-max                                                 :kill:hist:
@@ -3790,13 +3899,13 @@
     applicable.
 *** select-enable-primary                                              :kill:
     Non-nil means cutting and pasting uses the primary selection. The
-    esistence of a primary selection depends on the underlying GUI you
+    existence of a primary selection depends on the underlying GUI you
     use. E.g. it doesn't exist under MS-Windows.
 *** mouse-drag-copy-region                                      :kill:region:
     If non-nil, copy to kill-ring upon mouse adjustments of the
     region.
 *** select-active-regions                                            :region:
-    If you change this variable to ~only~, Emacs saves only temprarily
+    If you change this variable to ~only~, Emacs saves only temporarily
     active regions to the primary selection, i.e., those made with the
     mouse or with shift selection. If you change this variable to
     ~nil~, Emacs avoids saving active regions to the primary selection
@@ -3857,7 +3966,7 @@
 *** scroll-preserve-screen-position                             :display:nav:
     If the value is ~t~, Emacs adjusts point to keep the cursor at the
     same screen position whenever a scroll command moves it
-    off-window, rather than moving it to the topmost or bottommost
+    off-window, rather than moving it to the topmost or bottom-most
     line. With any other non-nil value, emacs adjusts point this way
     even if the scroll command leaves point in the window. This
     variable affects all scroll commands in the section named
@@ -3882,7 +3991,7 @@
     ~recenter-top-bottom~ also clears and redisplays the screen; The
     special value ~tty~ (the default) says to do this on text-terminal
     frames only.
-*** scroll-conservitavely                                    :display:window:
+*** scroll-conservatively                                    :display:window:
     If you set this variable to a small number /n/, then moving point
     just a little off screen (no more than /n/ lines) causes Emacs to
     scroll just enough to bring point back on screen; If doing so
@@ -4042,7 +4151,7 @@
     the location of point is enough to show you that the spaces are
     present.
 *** delete-trailing-lines                               :edit:command:buffer:
-    Normally when using the command ~delte-trailing-whitespace~ the
+    Normally when using the command ~delete-trailing-whitespace~ the
     command deletes all extra space at the end of each line in the
     buffer, and all empty lines at the end of the buffer; to ignore
     the latter, change this variable to ~nil~.
@@ -4069,6 +4178,59 @@
     not appear at the end of a line that precedes hidden lines. There
     is no visible indication of the hidden lines. This variable
     becomes local automatically when set.
+*** column-number-indicator-zero-based                       :display:inform:
+    When Column Number mode is enabled, if you would prefer for the
+    displayed column number to count from one, you may set this
+    variable to ~nil~.
+*** line-number-display-limit                           :line:display:inform:
+    When the number of characters in a file is larger than the integer
+    in this variable the mode line stops trying to compute the line
+    number in a file. To remove this limit, set this variable to
+    ~nil~.
+*** line-number-display-limit-width                     :line:display:inform:
+    Line-number computation can also be slow if the lines in the
+    buffer are too long. For this reason, Emacs doesn't display line
+    numbers if the average width, in characters, of lines near point
+    is larger than the value of this variable. The default value is
+    200 characters.
+*** display-time-24hr-format                                 :display:inform:
+    If you have Display Time mode enabled and what the time to appear
+    in 24 hour mode, set this variable to ~t~.
+*** display-time-use-mail-icon                               :display:inform:
+    If you have Display Time mode enabled, and you want the mail
+    indicator to be an icon instead of the word '~Mail~', then you can
+    customize this variable
+*** display-time-mail-file                             :display:inform:files:
+    Use this variable to specify the mail file to check when Display
+    Time mode is enabled.
+*** display-time-mail-directory                        :display:inform:files:
+    Use this variable to specify the directory to check for incoming
+    mail (any nonempty regular file in the directory is considered to
+    be newly arrived mail).
+*** display-battery-mode                                :display:inform:mode:
+    Set whether Display Battery mode is enabled or not using this
+    mode.
+*** battery-mode-line-format                                 :display:inform:
+    This variable determines the way the battery charge is displayed;
+    the exact mode-line message depends on the operating system, and
+    it usually shows the current battery charge as a percentage of the
+    total charge.
+*** mode-line-in-non-selected-windows                               :display:
+    You can disable use of the ~mode-line-inactive~ face by setting
+    this variable to ~nil~; then all mode lines are displayed in the
+    ~mode-line~ face.
+*** eol-mnemonic-unix                                          :display:char:
+    This variable determines what character is used to indicate in the
+    mode line whether the current file uses a unix style end of line
+    encoding.
+*** eol-mnemonic-mac                                           :display:char:
+    This variable determines what character is used to indicate in the
+    mode line whether the current file uses a mac style end of line
+    encoding.
+*** eol-mnemonic-undecided                                     :display:char:
+    This variable determines what character is used to indicate in the
+    mode line whether the current file uses a undecided style end of
+    line encoding.
 * Context
 ** anywhere
    literally anywhere
@@ -4221,7 +4383,7 @@
      special modes, such as Info mode, create one.
 **** header-line-highlight
      Similar to ~highlight~ and ~mode-line-highlight~, but used for
-     mous sensitive portions of text on header lines. This is a
+     mouse sensitive portions of text on header lines. This is a
      separate face because the ~header-line~ face might be customized
      in a way that does not interact well with ~highlight~.
 **** vertical-border
@@ -4239,7 +4401,7 @@
      Emacs frame between the text area and the window's right and left
      borders.)
 **** cursor
-     The ~:background~ aattribute of this face specifies the color of
+     The ~:background~ attribute of this face specifies the color of
      the text cursor.
 **** tooltip
      This face is used for tooltip text. By default, if Emacs is built
@@ -4276,6 +4438,18 @@
 **** trailing-whitespace
      This is the face used to display trailing whitespace when
      ~show-trailing-whitespace~ is set to ~t~.
+**** display-time-mail-face
+     Face used to customize how prominent the mail indicator is when
+     Display Time mode is enabled.
+**** mode-line
+     On graphical displays, the mode line is drawn as a 3D box. If you
+     don't like this effect, you can disable it by customizing this
+     face and setting the ~box~ attribute to ~nil~.
+
+     This is the face specifically for the mode-line of the active
+     window.
+**** mode-line-inactive
+     The mode line of nonselected windows is displayed in this face.
 * .emacs addition
 ** Registers
 *** Saving Text in Registers
