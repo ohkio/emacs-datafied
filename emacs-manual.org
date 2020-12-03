@@ -1139,10 +1139,10 @@
     hyphen), ~U+2010~ (hyphen), and ~U+2011~ (non-breaking hyphen)
     with the ~nobreak-hyphen~ face.
 
-    Emacs tries to determine if the curved quotes '~‘~' and '~’~' can
+    Emacs tries to determine if the curved quotes `~‘~' and `~’~' can
     be displayed on the current display. By default, if this seems to
-    be so, then Emacs will translate the ASCII quotes ('~`~' and
-    '~'~'), when they appear in messages and help texts, to these
+    be so, then Emacs will translate the ASCII quotes (`~`~' and
+    `~'~'), when they appear in messages and help texts, to these
     curved quotes.
 
     If the curved quotes ~‘~, ~’~, ~“~, and ~”~ are known to look just
@@ -1188,6 +1188,39 @@
 
     You can customize the way any particular character code is
     displayed by means of a display table.
+*** Displaying the Cursor
+    On a text terminal, the cursor's appearance is controlled by the
+    terminal, largely out of the control of Emacs. Some terminals
+    offer two different cursors: a visible static cursor, and a very
+    visible blinking cursor. By default, Emacs uses the very visible
+    curosr, and switches to it when you start or resume Emacs.
+
+    On a graphical display, many more properties of the text curosr
+    can be altered. To customize its color, change the ~:background~
+    attribute of the face named ~cursor~. To change its chape,
+    customize the buffer-local variable ~cursor-type~.
+
+    By default, the cursor stops blinking after 10 blinks, if Emacs
+    does not get any input during that time; any input event restarts
+    the count. You can customize the variable ~blink-curosr-blinks~ to
+    control that.
+
+    You can change how the cursor looks when it blinks off by
+    customizing the list variable ~blink-cursor-alist~.
+
+    Some characters, such as tab characters, are extra wide. When the
+    cursor is positioned over such a character, it is normally drawn
+    with the default character width. You can make the cursor stretch
+    to cover wide characters, by changing the variable
+    ~x-stretch-cursor~ to a non-nil value.
+
+    The cursor normally appears in non-selected windows as a
+    non-blinking hollow box. (for a bar cursor, it instead appears as
+    a thinner bar.) To turn off cursors in non-selected windows,
+    change the variable ~cursor-in-non-selected-windows~ to ~nil~.
+
+    To make the cursor even more visible, you can use HL Line mode, a
+    minor mode that highlights the line containing point.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1537,6 +1570,9 @@
 *** Display Battery mode
     When running Emacs on a laptop computer, you can display the
     battery charge on the mode-line using this mode.
+*** Blink Cursor mode
+    Minor mode that makes sure the cursor blinks a number of times
+    based on the variable ~blink-cursor-blinks~.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -3126,7 +3162,7 @@
     :END:
     If given register stored a position in a buffer then this command
     jumps to saved position and buffer in given register.
-    
+
     If you use this command to go to a saved position, but the buffer
     it was saved from has been killed, the command tries to create the
     buffer again by visiting the same file. Of course, this works only
@@ -3555,7 +3591,7 @@
     :END:
     While being prompted for a face use ~M-n~ and ~M-p~ to cycle
     through them.
-    
+
     You can use this command multiple times, specifying various
     regular expressions to highlight in different ways.
 *** next-history-element                                  :echo:hist:display:
@@ -3736,6 +3772,16 @@
 *** display-battery-mode                                :display:mode:inform:
     :PROPERTIES:
     :Description: Toggle Display Battery mode
+    :Context:  anywhere
+    :END:
+*** blink-cursor-mode                                           :display:nav:
+    :PROPERTIES:
+    :Description: Toggle Blink Cursor mode
+    :Context:  anywhere
+    :END:
+*** global-hl-line-mode                                         :display:nav:
+    :PROPERTIES:
+    :Description: Toggle HL Line mode globally
     :Context:  anywhere
     :END:
 * Variable
@@ -4339,6 +4385,45 @@
     they appear in messages and help texts, to these curved
     quotes. You can influence or inhibit this translation by
     customizing this variable.
+*** visible-cursor                                              :display:nav:
+    By default, Emacs uses the very visible cursor when it Emacs is
+    being run via a text terminal. If this variable is ~nil~ when
+    Emacs starts or resumes, then it uses the normal cursor.
+*** cursor-type                                                 :display:nav:
+    To change the shape of the cursor in graphical displays, customize
+    this buffer-local variable; possible values are:
+    - ~box~ :: (the default)
+    - ~hollow~ :: a hollow box
+    - ~bar~ :: a vertical bar
+    - ~(bar . n)~ :: a vertical bar /n/ pixels wide
+    - ~hbar~ :: a horizontal bar
+    - ~(hbar . n)~ :: a horizontal bar /n/ pixels tall
+    - ~nil~ :: no cursor at all
+*** blink-cursor-blinks                                         :display:nav:
+    By default, the cursor stops blinking after 10 blinks. You can
+    customize this variable to control that: its value says how many
+    times to blink without input before stopping. Setting that
+    variable to a zero or negative value will make the cursor blink
+    forever.
+*** blink-cursor-mode                                           :display:nav:
+    To disable cursor blinking altogether, change this variable to
+    ~nil~.
+*** blink-cursor-alist                                     :display:nav:list:
+    You can change how the cursor looks when it blinks off by
+    customizing this list variable. Each element in the list should
+    have the form ~(on-type . off-type)~; this means that if the
+    cursor is displayed as /on-type/ when it plinks on (where
+    /on-type/ is one of the cursor types described in ~cursor-type~),
+    then it is displayed as /off-type/ when it blinks off.
+*** x-stretch-cursor                                            :display:nav:
+    Some characters, such as tab characters, are extra wide. When the
+    cursor is positioned over such a character, it is normally drawn
+    with the default character width. You can make the cursor stretch
+    to cover wide characters, by changing this variable to a non-nil
+    value.
+*** cursor-in-non-selected-windows                            :display:frame:
+    To turn off cursors in non-selected windows, change this variable
+    to ~nil~.
 * Context
 ** anywhere
    literally anywhere
@@ -4472,6 +4557,10 @@
      default, it's drawn with shadows for a raised effect on graphical
      displays, and drawn as the inverse of the default face on
      non-windowed terminals.
+
+     On graphical displays, the mode line is drawn as a 3D box. If you
+     don't like this effect, you can disable it by customizing this
+     face and setting the ~box~ attribute to ~nil~.
 **** mode-line-inactive
      Like ~mode-line~, but used for mode lines of the windows other
      than the selected one (if ~mode-line-in-non-selected-windows~ is
@@ -4511,6 +4600,9 @@
 **** cursor
      The ~:background~ attribute of this face specifies the color of
      the text cursor.
+
+     The other attributes of this face have no effect; the text shown
+     under the cursor is drawn using the frame's background color.
 **** tooltip
      This face is used for tooltip text. By default, if Emacs is built
      with GTK+ support, tooltips are drawn via GTK+ and this face has
@@ -4543,44 +4635,12 @@
      default values from the face ~shadow~ but without background
      color. To change the indicator color you need only set the
      foreground color of this face.
-**** trailing-whitespace
-     This is the face used to display trailing whitespace when
-     ~show-trailing-whitespace~ is set to ~t~.
 **** display-time-mail-face
      Face used to customize how prominent the mail indicator is when
      Display Time mode is enabled.
-**** mode-line
-     On graphical displays, the mode line is drawn as a 3D box. If you
-     don't like this effect, you can disable it by customizing this
-     face and setting the ~box~ attribute to ~nil~.
-
-     This is the face specifically for the mode-line of the active
-     window.
-**** mode-line-inactive
-     The mode line of nonselected windows is displayed in this face.
-**** escape-glyph
-     This face is used to display some control characters when one
-     needs to display a control character explicitly. Known example
-     are all control characters whose codes are below ~U+0020~ and are
-     also not ~U+000A~ nor ~U+0009~ since those are the newline
-     character and tab character respectively and are displayed
-     specially. For instance the '~control-A~' character, ~U+0001~,
-     would be displayed as '~^A~' in this face.
-**** nobreak-space
-     A special face specifically for all characters that may look
-     exactly like an ASCII space, but are not coded as an ASCII
-     space. This is for characters like ~U+00A0~ (no-break space).
-**** nobreak-hyphen
-     A special face specifically for all characters that may look
-     exactly like an ASCII hyphen, but are not coded as an ASCII
-     hyphen. This is for characters like ~U+00AD~ (soft hyphen),
-     ~U+2010~ (hyphen), and ~U+2011~ (non-breaking hyphen).
 **** glyphless-char
      The face applied to all characters that cannot find a glyph in
      any available font.
-**** homoglyph
-     This face is used when two different character codes map to the
-     same looking glyph.
 * .emacs addition
 ** Registers
 *** Saving Text in Registers
@@ -4670,6 +4730,12 @@
 
     #+BEGIN_SRC emacs-lisp
     (setq-default indicate-empty-lines t)
+    #+END_SRC
+
+*** Displaying the Cursor
+    To disable cursor blinking altogether add this line:
+    #+BEGIN_SRC emacs-lisp
+    (blink-cursor-mode 0)
     #+END_SRC
 
 * Niche Modes
