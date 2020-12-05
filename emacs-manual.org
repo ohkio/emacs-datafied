@@ -1221,6 +1221,19 @@
 
     To make the cursor even more visible, you can use HL Line mode, a
     minor mode that highlights the line containing point.
+*** Line Truncation
+    As an alternative to continuation, Emacs can display long lines by
+    /truncation/. This means that all the characters that do not fit
+    in the width of the screen or window do not appear at all. On
+    graphical displays, a small straight arrow in the fringe indicates
+    truncation at either end of the line. On text terminals, this is
+    indicated with '~$~' signs in the rightmost and/or leftmost
+    columns.
+
+    Horizontal scrolling automatically causes line truncation.
+
+    If a split window becomes too narrow, Emacs may automatically
+    enable line truncation.
 * Vocabulary
 ** Basics
 *** Frame
@@ -1317,6 +1330,8 @@
     [[How Text Is Displayed][First Defined]]
 *** Glyphless Characters
     [[How Text Is Displayed][First Defined]]
+*** Truncation
+    [[Line Truncation][First Defined]]
 ** Uncategorized
 *** Keyboard Macro
     [[The Mode Line][first mentioned]]
@@ -3784,6 +3799,12 @@
     :Description: Toggle HL Line mode globally
     :Context:  anywhere
     :END:
+*** toggle-truncate-lines                                      :display:line:
+    :PROPERTIES:
+    :Description: Toggle Truncate Lines
+    :Context:  navigating
+    :END:
+    This works by locally changing the variable ~truncate-lines~.
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -4424,6 +4445,12 @@
 *** cursor-in-non-selected-windows                            :display:frame:
     To turn off cursors in non-selected windows, change this variable
     to ~nil~.
+*** truncate-lines                                             :display:line:
+    If this variable is non-nil, long lines are truncated; if it is
+    ~nil~, they are continued onto multiple screen lines. Setting this
+    variable in any way makes it local to the current buffer; until
+    that time, the default value, which is normally ~nil~, is in
+    effect.
 * Context
 ** anywhere
    literally anywhere
