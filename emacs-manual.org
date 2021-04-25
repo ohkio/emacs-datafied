@@ -1245,6 +1245,9 @@
     To move by logical lines, use the commands ~M-x next-logical-line~
     and ~M-x previous-logical-line~. If you use these commands
     frequently, it may be convenient to assign key bindings to them.
+*** Customization of Display
+** Searching and Replacement
+*** Incremental Search
 * Vocabulary
 ** Basics
 *** Frame
@@ -1617,6 +1620,56 @@
     contain many long logical lines, so having a fringe indicator for
     each wrapped line would be visually distracting. You can change
     this by customizing the variable ~visual-line-fringe-indicators~.
+*** Display Line Numbers mode
+    If you want to have Emacs display line numbers for every line in
+    the buffer, you can turn on this mode. The variable
+    ~display-line-numbers-type~ controls which sub-mode of line-number
+    display will be active for this mode. Here is a description of
+    these sub-modes:
+    - ~t~ :: Display (an absolute) line number before each
+      non-continuation screen line that displays buffer text. If the
+      line is a continuation line, or if the entire screen line
+      displays a display or an overlay string, that line will not be
+      numbered.
+    - ~relative~ :: Display relative line numbers before
+      non-continuation lines which show buffer text. The line numbers
+      are relative to the line showing point, so the numbers grow both
+      up and down as lines become farther from the current line
+    - ~visual~ :: This value causes Emacs to count lines visually: only
+      lines actually shown on the display will be counted
+      (disregarding any lines in invisible parts of text), and lines
+      which wrap to consume more than one screen line will be numbered
+      that many times. The displayed numbers are relative, as with
+      ~relative~ value above. This is handy in modes that fold text,
+      such as outline mode, and when you need to move by exact number
+      of screen lines.
+    - anything else :: Any other non-nil value is treated as ~t~.
+
+    Note that line numbers are not displayed in the minibuffer and in
+    the tooltips, even if you turn on ~display-line-numbers-mode~
+    globally.
+
+    When Emacs displays relative line numbers, you can control the
+    number displayed before the current line, the line showing
+    point. By default, Emacs displays the absolute number of the
+    current line there, even though all the other line numbers are
+    relative. If you customize the variable
+    ~display-line-numbers-current-absolute~ to a ~nil~ value, the
+    number displayed for the current line will be zero.
+
+    In a narrowed buffer lines are normally numbered starting at the
+    beginning of the narrowing. However, if you customize the variable
+    ~display-line-numbers-widen~ to a non-nil value, line numbers will
+    disregard any narrowing and will start at the first character of
+    the buffer
+
+    In Selective Display mode, and other modes that hide many lines
+    from display (such as Outline and Org modes), you may wish to
+    customize the variables ~display-line-numbers-width-start~ and
+    ~display-line-numbers-grow-only~, or set
+    ~display-line-numbers-width~ to a large enough value, to avoid
+    occasional miscalculations of space reserved for the line
+    numbers.
 * Command
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -3874,6 +3927,29 @@
     :Context:  navigating
     :END:
     This works regardless of whether Visual Line mode is enabled.
+*** display-line-numbers-mode                         :display:buffer:window:
+    :PROPERTIES:
+    :Description: Toggle Display Line Numbers mode for buffer
+    :Context:  navigating
+    :END:
+*** global-display-line-numbers-mode                  :display:buffer:window:
+    :PROPERTIES:
+    :Description: Doggle Display Line Numbers mode for all buffers
+    :Context:  navigating
+    :END:
+** Searching and Replacement
+*** isearch-forward                                                  :search:
+    :PROPERTIES:
+    :Command:  C-s
+    :Description: Incremental search forward
+    :Context:  navigating
+    :END:
+*** isearch-backward                                                 :search:
+    :PROPERTIES:
+    :Command:  C-r
+    :Description: Incremental search backward
+    :Context:  navigating
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -4524,6 +4600,126 @@
     When Visual Line mode is enabled, by default, word-wrapped lines
     do not display fringe indicators. You can change this by
     customizing this variable
+*** display-line-numbers                         :display:buffer:window:line:
+    If you want to have Emacs display line numbers for every line in
+    the buffer, customize this buffer-local variable; it is ~nil~ by
+    default. This variable can have several different values to
+    support various modes of line-number display:
+    - ~t~ :: Display (an absolute) line number before each
+      non-continuation screen line that displays buffer text. If the
+      line is a continuation line, or if the entire screen line
+      displays a display or an overlay string, that line will not be
+      numbered.
+    - ~relative~ :: Display relative line numbers before
+      non-continuation lines which show buffer text. The line numbers
+      are relative to the line showing point, so the numbers grow both
+      up and down as lines become farther from the current line
+    - ~visual~ :: This value causes Emacs to count lines visually: only
+      lines actually shown on the display will be counted
+      (disregarding any lines in invisible parts of text), and lines
+      which wrap to consume more than one screen line will be numbered
+      that many times. The displayed numbers are relative, as with
+      ~relative~ value above. This is handy in modes that fold text,
+      such as outline mode, and when you need to move by exact number
+      of screen lines.
+    - anything else :: Any other non-nil value is treated as ~t~.
+*** display-line-numbers-type               :display:buffer:window:mode:line:
+    This variable controls which sub-mode of line-number display will
+    be active when you turn on Display Line Numbers mode. See that
+    section of the document for details
+*** display-line-numbers-current-absolute        :display:buffer:window:line:
+    Either when ~display-line-numbers~ is set to ~relative~ or when
+    ~display-line-numbers-type~ is set to ~relative~ and Display Line
+    Numbers mode is turned on for the buffer in question. This
+    variable controls what line number is displayed for the current
+    line, the line showing point. By default, Emacs displays the
+    absolute number of the current line there, even though all the
+    other line numbers are relative. If you set this variable to a
+    ~nil~ value, the number displayed for the current line will be
+    zero.
+*** display-line-numbers-widen                   :display:buffer:window:line:
+    In a narrowed buffer, if line numbers are being displayed
+    absolutely, lines are normally numbered starting at the beginning
+    of the narrowing. However, if you customize this variable to a
+    non-nil value, line numbers will disregard any narrowing and will
+    start at the first character of the buffer.
+*** display-line-numbers-offset                  :display:buffer:window:line:
+    If the value of this variable is non-zero, it is added to each
+    absolute line number, and lines are counted from the beginning of
+    the buffer, as if ~display-line-numbers-widen~ were non-nil. It
+    has no effect when set to zero, or when line numbers are not
+    absolute.
+*** display-line-numbers-width-start             :display:window:buffer:line:
+    If non-nil, count number of lines to use for line number width.
+
+    If ~nil~ when ~display-line-numbers-mode~ is turned on,
+    ‘display-line-numbers-width’ is set to the minimum width necessary
+    to display all line numbers in the buffer.
+*** display-line-numbers-grow-only               :display:window:buffer:line:
+    If non-nil, do not shrink line number width.
+*** display-line-numbers-width                   :display:window:buffer:line:
+    Minimum width of space reserved for line number display. A
+    positive number means reserve that many columns for line numbers,
+    even if the actual number needs less space. The default value of
+    nil means compute the space dynamically. Any other value is
+    treated as nil.
+*** display-line-numbers-major-tick              :display:window:buffer:line:
+    If an integer N > 0, highlight line number of every Nth line. The
+    line number is shown with the ~line-number-major-tick~
+    face. Otherwise, no special highlighting is done every Nth
+    line. Note that major ticks take precidence over minor ticks.
+*** display-line-numbers-minor-tick              :display:window:buffer:line:
+    If an integer N > 0, highlight line number of every Nth line. The
+    line number is shown with the ~line-number-minor-tick~
+    face. Otherwise, no special highlighting is done every Nth
+    line. Note that major ticks take precedence over minor ticks.
+*** visible-bell                                             :display:window:
+    If this variable is non-nil, Emacs attempts to make the whole
+    screen blink when it would normally make an audible bell
+    sound. This variable has no effect if your terminal does not have
+    a way to make the screen blink.
+*** echo-keystrokes                                       :keys:echo:display:
+    This variable controls the echoing of multi-character keys; its
+    value is the number of seconds of pause required to cause echoing
+    to start, or zero, meaning don't echo at all. The value takes
+    effect when there is something to echo.
+*** display-hourglass                                         :display:frame:
+    On graphical displays, Emacs displays the mouse pointer as an
+    hourglass if Emacs is busy. To disable this feature, set this
+    variable to ~nil~.
+*** hourglass-delay                                           :display:frame:
+    This variable determines the number of seconds of busy time before
+    the hourglass is shown; the default is 1.
+*** make-pointer-invisible                                    :display:frame:
+    If the mouse pointer lies inside an Emacs frame, Emacs makes it
+    invisible each time you type a character to insert text, to
+    prevent it from obscuring the text. (To be precise, the hiding
+    occurs when you type a self-inserting character.) Moving the mouse
+    pointer makes it visible again. To disable this feature, set this
+    variable to ~nil~.
+*** underline-minimum-offset                              :char:display:edit:
+    On graphical displays, this variable determines the minimum
+    distance between the baseline and underline, in pixels, for
+    underlined text. By default, the value is 1; increasing it may
+    improve the legibility of underlined text for certain
+    fonts. (However, Emacs will never draw the underline below the
+    current line area.)
+*** x-underline-at-descent-line                           :char:display:edit:
+    This variable determines how to draw underlined text. The default
+    is ~nil~, which means to draw it at the baseline level of the
+    font; if you change it to ~t~, Emacs draws the underline at the
+    same height as the font's descent line. (If non-default line
+    spacing was specified for the underlined text, Emacs draws the
+    underline below the additional spacing.)
+*** overline-margin                                       :char:display:edit:
+    This variable specifies the vertical position of an overline above
+    the text, including the height of the overline itself, in pixels;
+    the default is 2.
+*** display-raw-bytes-as-hex                            :char:coding:display:
+    Raw bytes are displayed in octal format by default, for example a
+    byte with a decimal value of 128 is displayed as ~\200~. To change
+    display to the hexadecimal format of \x80, set this variable to
+    ~t~.
 * Context
 ** anywhere
    literally anywhere
@@ -4712,6 +4908,21 @@
      no effect.
 **** mouse
      This face determines the color of the mouse pointer.
+**** line-number
+     The line numbers that are displayed when
+     ~display-line-numbers-mode~ is turned on, are displayed in this
+     special face.
+**** line-number-current-line
+     The current line number is displayed in a different face, namely
+     this face, so you can make the current line's number have a
+     distinct appearance, which will help locating the line showing
+     point.
+**** line-number-major-tick
+     This is an additional face that can be used to highlight the line
+     numbers of lines which are multiple of certain numbers.
+**** line-number-minor-tick
+     This is yet an additional face that can be used to highlight the
+     line numbers of lines which are multiple of certain numbers.
 *** text frame faces
 **** scroll-bar
      This face determines the visual appearance of the scroll bar.
@@ -4839,6 +5050,15 @@
     To disable cursor blinking altogether add this line:
     #+BEGIN_SRC emacs-lisp
     (blink-cursor-mode 0)
+    #+END_SRC
+
+*** Customization of Display
+    On some text terminals, bold face and inverse video together
+    result in text that is hard to read. Put the following code in
+    your .emacs file to suppress the effect of bold-face in this
+    case.
+    #+BEGIN_SRC emacs-lisp
+    (tty-suppress-bold-inverse-default-colors t)
     #+END_SRC
 
 * Niche Modes
