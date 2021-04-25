@@ -1248,6 +1248,43 @@
 *** Customization of Display
 ** Searching and Replacement
 *** Incremental Search
+**** Basics of Incremental Search
+     ~isearch-forward~ starts a forward incremental search. It reads
+     characters from the keyboard, and moves point just past the end
+     of the next occurrence of those characters in the buffer.
+
+     Emacs records a new /input item/ whenever you type a command
+     that changes:
+     - the search string
+     - the position of point
+     - the success or failure of the search
+     - the direction of the search
+     - the position of the other end of the current search result
+     - the "wrappedness" of the search.
+
+     When you are satisfied with the place you have reached, type
+     ~<RET>~. This stops searching, leaving the cursor where the
+     search brought it. Also, any command not specifically meaningful
+     in searches stops the searching and is then executed. Thus,
+     typing ~C-a~ exits the search and then moves to the beginning of
+     the line; typing one of the arrow keys exits the search and
+     performs the respective movement command; etc. ~<RET>~ is
+     necessary only if the next command you want to type is a printing
+     character, ~<DEL>~, ~RET~, or another character that is special
+     within searches (~C-q~, ~C-w~, ~C-r~, ~C-s~, ~C-y~, ~M-y~, ~M-r~,
+     ~M-c~, ~M-e~, and some others described below). You can fine-tune
+     the commands that exit the search.
+
+     As a special exception, entering ~RET~ when the search string is
+     empty launches nonincremental search.
+
+     When you exit the incremental search, it adds the original value
+     of point to the mark ring, without activating the mark; you can
+     thus use ~C-u C-<SPC>~ or ~C-x C-x~ to return to where you were
+     before beginning the search. (Emacs only does this if the mark
+     was not already active; if the mark was active when you started
+     the search, both ~C-u C-<SPC>~ and ~C-x C-x~ will go to the
+     mark.)
 * Vocabulary
 ** Basics
 *** Frame
@@ -3950,6 +3987,30 @@
     :Description: Incremental search backward
     :Context:  navigating
     :END:
+*** isearch-delete-char                                  :search:edit:delete:
+    :PROPERTIES:
+    :Command:  <DEL>
+    :Description: cancel the last input item entered during isearch
+    :Context:  isearch
+    :END:
+*** isearch-exit                                                 :search:nav:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Stops searching, leaving the cursor at search result
+    :Context:  isearch
+    :END:
+*** isearch-cancel                                              :search:undo:
+    :PROPERTIES:
+    :Command:  <ESC> <ESC> <ESC>
+    :Description: Abandon the search and return to where you started
+    :Context:  isearch
+    :END:
+*** isearch-abort                                               :search:undo:
+    :PROPERTIES:
+    :Command:  C-g C-g
+    :Description: Abandon the search and return to where you started
+    :Context:  isearch
+    :END:
 * Variable
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -4775,6 +4836,9 @@
 ** visual-line-mode
    In Visual Line mode, some editing commands work on screen lines
    instead of logical lines.
+** isearch
+   Whenever incremental search is currently activated. See commands
+   ~isearch-forward~ and ~isearch-backward~.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
