@@ -1319,6 +1319,7 @@
      finish editing the string and search for it. Type ~C-f~ or
      ~<RIGHT>~ to add to the search string characters following point
      from the buffer from which you started the search
+**** Isearch Yanking
 * Vocabulary
 ** Basics
 *** Frame
@@ -1436,6 +1437,155 @@
     [[Commands to Mark Textual Objects][first mentioned]]
 *** Pages
     [[Commands to Mark Textual Objects][first mentioned]]
+* New Vocab Section
+** Distribution
+*** Free Software
+** Introduction
+*** Advanced Editor
+*** Self-Documenting Editor
+*** Customizable Editor
+*** Extensible Editor
+** The Organization of the Screen
+*** Frame
+*** Menu Bar
+*** Tool Bar
+*** Echo Area
+*** The Window
+*** Buffer
+*** Scroll Bar
+*** Mode Line
+*** Selected Window
+*** Current Buffer
+*** Point
+*** Echoing
+*** Error Message
+*** Informative Message
+*** Minibuffer
+*** Prompt String
+*** Submenu
+** Kinds of User Input
+*** Modifier Keys
+*** Input Events
+** Keys
+*** Key Sequence
+*** Complete Key
+*** Prefix Key
+** Keys and Commands
+*** Commands
+*** Binding
+*** Function
+*** Keymaps
+** Entering Emacs
+*** Startup Screen
+*** Links
+** Exiting Emacs
+*** Killing Emacs
+*** Suspend Emacs
+** Basic Editing Commands
+*** Graphic Character
+*** Minor Modes
+*** Quote
+*** Arrow Keys
+*** Semipermanent Goal Column
+*** Screen Lines
+*** Logical Lines
+*** Minibuffer
+*** Line Wrapping
+*** Continuation
+*** Continued Line
+*** Truncate
+*** Word Wrapping
+*** Argument
+*** Numeric Argument
+*** Prefix Argument
+** The Minibuffer
+*** Minibuffer
+*** Prompt
+*** Default Argument
+*** Default Directory
+*** Read-Only
+*** Completion
+*** Completion Alternatives
+*** Strict Completion
+*** Cautious Completion
+*** Permissive Completion
+*** Permissive Completion with Confirmation
+*** Completion Styples
+*** Wildcard
+*** Minibuffer History List
+*** Regular Expression
+*** Command History
+** Running Commands by Name
+*** Prompt
+*** Obsolete Commands
+** Help
+*** Syntax Table
+*** Documentation String
+*** Apropos
+*** Apropos Pattern
+*** Hyperlink
+*** Packages
+*** Keywords
+*** Active Text
+*** Tooltip
+** The Mark and the Region
+*** The Mark
+*** The Region
+*** Activate The Mark
+*** Deactivate The Mark
+*** Shift-Selection
+*** Primary Selection
+*** Kill
+*** Inactive Region
+*** Mark Ring
+*** Global Mark Ring
+*** Unshifted Cursor Motion Command
+*** Shifted Cursor Motion Command
+** Killing and Moving Text
+*** Killing
+*** Kill Ring
+*** Yanking
+*** Kill Commands
+*** Read-Only Text
+*** Clipboard
+*** Clipboard Manager
+*** Primary Selection
+*** Secondary Selection
+*** Rectangles
+*** Region-Rectangle
+*** Last Killed Rectangle
+** Registers
+*** Registers
+*** Bookmarks
+** Controlling the Display
+*** Scrolling
+*** Recentering
+*** Automatic Scrolling
+*** Horizaontal Scrolling
+*** Narrowing
+*** Accessible Portion
+*** Widening
+*** Restriction
+*** Follow Mode
+*** Faces
+*** Face Attributes
+*** Color Name
+*** RGB Triplet
+*** Fontifies
+*** Just-In-Time Lock
+*** Highlighting
+*** Fringes
+*** Trailing Whitespace
+*** Printing Characters
+*** Control Characters
+*** Octal Escape Sequences
+*** Glyphless Characters
+*** Truncation
+*** Word Wrap
+** Searching and Replacement
+*** Incremental Search
+*** Current Match
+*** Wrapping Around
 * Mode
 ** The Organization of the Screen
 *** Size Indication mode
