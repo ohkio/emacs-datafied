@@ -1285,6 +1285,40 @@
      was not already active; if the mark was active when you started
      the search, both ~C-u C-<SPC>~ and ~C-x C-x~ will go to the
      mark.)
+**** Repeating Incremental Search
+     After exiting a search, you can search for the same string again
+     by typing just ~C-s C-s~. The first ~C-s~ is the key that invokes
+     incremental search, and the second ~C-s~ means to search again
+     for the last search string. Similarly, ~C-r C-r~ searches
+     backward for the last search string. In determining the last
+     search string, it doesn't matter whether that string was searched
+     for with ~C-s~ or ~C-r~.
+
+     If you are searching forward but you realize you were looking for
+     something before the starting point, type ~C-r~ to switch to a
+     backward search, leaving the search string unchanged. Similarly,
+     ~C-s~ in a backward search switches to a forward search.
+
+     If a search is failing and you ask to repeat it by typing another
+     ~C-s~, it starts again from the beginning of the
+     buffer. Repeating a failing reverse search with ~C-r~ starts
+     again from the end. This is called /wrapping around/, and
+     '~Wrapped~' appears in the search prompt once this has
+     happened. If you keep on going past the original starting point
+     of the search, it changes to '~Overwrapped~', which means that
+     you are revisiting matches that you have already seen.
+
+     To reuse earlier search strings, use the /search ring/. The
+     commands ~M-p~ and ~M-n~ move through the ring to pick a search
+     string to reuse. These commands leave the selected search ring
+     element in the minibuffer, where you can edit it.
+
+     To edit the current search string in the minibuffer without
+     replacing it with items from the search ring, type ~M-e~ or click
+     ~mouse-1~ in the minibuffer. Type ~<RET>~, ~C-S~ or ~C-r~ to
+     finish editing the string and search for it. Type ~C-f~ or
+     ~<RIGHT>~ to add to the search string characters following point
+     from the buffer from which you started the search
 * Vocabulary
 ** Basics
 *** Frame
@@ -3975,25 +4009,25 @@
     :Context:  navigating
     :END:
 ** Searching and Replacement
-*** isearch-forward                                                  :search:
+*** isearch-forward                                           :search:buffer:
     :PROPERTIES:
     :Command:  C-s
     :Description: Incremental search forward
     :Context:  navigating
     :END:
-*** isearch-backward                                                 :search:
+*** isearch-backward                                          :search:buffer:
     :PROPERTIES:
     :Command:  C-r
     :Description: Incremental search backward
     :Context:  navigating
     :END:
-*** isearch-delete-char                                  :search:edit:delete:
+*** isearch-delete-char                                       :search:buffer:
     :PROPERTIES:
     :Command:  <DEL>
     :Description: cancel the last input item entered during isearch
     :Context:  isearch
     :END:
-*** isearch-exit                                                 :search:nav:
+*** isearch-exit                                          :search:nav:buffer:
     :PROPERTIES:
     :Command:  <RET>
     :Description: Stops searching, leaving the cursor at search result
@@ -4009,6 +4043,42 @@
     :PROPERTIES:
     :Command:  C-g C-g
     :Description: Abandon the search and return to where you started
+    :Context:  isearch
+    :END:
+*** isearch-repeat-forward                                :search:nav:buffer:
+    :PROPERTIES:
+    :Command:  C-s
+    :Description: Move to the next occurrence of the search string
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    You can supply a numeric prefix argument of /n/ to this command to
+    find the /n/-th next occurrence.
+*** isearch-repeat-backward                               :search:nav:buffer:
+    :PROPERTIES:
+    :Command:  C-r
+    :Description: Move to the previous occurrence of the search string
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    You can supply a numeric prefix argument of /n/ to this command to
+    find the /n/-th previous occurrence.
+*** isearch-ring-retreat                                        :search:edit:
+    :PROPERTIES:
+    :Command:  M-p
+    :Description: Iterate through the search ring backwards
+    :Context:  isearch
+    :END:
+*** isearch-ring-advance                                        :search:edit:
+    :PROPERTIES:
+    :Command:  M-n
+    :Description: Iterate through the search ring forwards
+    :Context:  isearch
+    :END:
+*** isearch-edit-string                                         :search:edit:
+    :PROPERTIES:
+    :Command:  M-e
+    :Description: Edit current search string in minibuffer
     :Context:  isearch
     :END:
 * Variable
@@ -4781,6 +4851,17 @@
     byte with a decimal value of 128 is displayed as ~\200~. To change
     display to the hexadecimal format of \x80, set this variable to
     ~t~.
+** Searching and Replacement
+*** isearch-lazy-highlight                            :search:display:buffer:
+    If you pause for a little while during incremental search, Emacs
+    highlights all the other possible matches for the search string
+    that are present on the screen. The other matches are highlighted
+    differently from the current match, using the customizable face
+    ~lazy-highlight~. If you don't like this feature, you can disable
+    it by setting this variable to ~nil~.
+*** search-ring-max                                                  :search:
+    The number of most recently used search strings saved in the
+    search ring is specified by this variable, 16 by default.
 * Context
 ** anywhere
    literally anywhere
