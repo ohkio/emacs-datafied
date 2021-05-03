@@ -1321,271 +1321,566 @@
      from the buffer from which you started the search
 **** Isearch Yanking
 * Vocabulary
-** Basics
-*** Frame
-    [[The Organization of the Screen][First Defined]]
-*** Menu Bar
-    [[The Organization of the Screen][First Defined]]
-*** Tool Bar
-    [[The Organization of the Screen][First Defined]]
-*** Echo Area
-    [[The Organization of the Screen][First Defined]]
-    [[The Echo Area][Details]]
-*** Window
-    [[The Organization of the Screen][First Defined]]
-*** Buffer
-    [[The Organization of the Screen][First Defined]]
-*** Mode Line
-    [[The Organization of the Screen][First Defined]]
-    [[The Mode Line][Details]]
-*** Point
-    [[Point][first Defined]]
-*** Major Mode
-    [[The Mode Line][First Defined]]
-*** Minor Mode
-    [[The Mode Line][First Defined]]
-*** Variable
-    [[The Menu Bar][first mentioned]]
-    [[Keys and Commands][First Defined]]
-** Keys
-*** Key Sequence
-    [[Keys][First Defined]]
-*** Complete Key
-    [[Keys][First Defined]]
-*** Prefix Key
-    [[Keys][First Defined]]
-** Minibuffer
-*** Minibuffer
-    [[The Echo Area][First Defined]]
-*** Completion
-    [[Completion][First Defined]]
-*** Command History
-    [[Repeating Minibuffer Commands][First Defined]]
-** The Mark and the Region
-*** Mark
-    [[The Mark and the Region][First Defined]]
-*** Region
-    [[The Mark and the Region][First Defined]]
-*** Shift Selection
-    [[Setting the Mark][First Defined]]
-    [[Shift Selection][Fully Defined]]
-*** Mark Ring
-    [[Entering Emacs][first mentioned]]
-    [[The Mark Ring][First Defined]]
-** Killing and Moving Text
-*** Kill
-    [[Killing and Moving Text][First Defined]]
-*** Yank
-    [[Killing and Moving Text][First Defined]]
-    [[Yanking][Fully Defined]]
-*** Kill Ring
-    [[Entering Emacs][first mentioned]]
-    [[Killing and Moving Text][First Defined]]
-*** Clipboard
-    [["Cut and Paste" Operations on Graphical Displays][first mentioned]]
-    [[Using the Clipboard][First Defined]]
-*** Primary Selection
-    [["Cut and Paste" Operations on Graphical Displays][first mentioned]]
-    [[Cut and Paste with Other Window Applications][First Defined]]
-** Registers
-*** Register
-    [[Entering Emacs][first mentioned]]
-    [[Registers][First Defined]]
-*** Bookmark
-    [[Registers][first mentioned]]
-    [[Bookmarks][First Defined]]
-** Controlling the Display
-*** Horizontal Scrolling
-    [[Horizontal Scrolling][First Defined]]
-*** Narrowing
-    [[The Mode Line][First Defined]]
-    [[Narrowing][Fully Defined]]
-*** Widening
-    [[Narrowing][First Defined]]
-*** Buffer Restriction
-    [[Narrowing][First Defined]]
-*** Faces
-    [[Help Mode Commands][first mentioned]]
-    [[Text Faces][First Defined]]
-*** Fringes
-    [[Continuation Lines][first mentioned]]
-    [[Window Fringes][First Defined]]
-*** Printing Characters
-    [[How Text Is Displayed][First Defined]]
-*** Control Characters
-    [[How Text Is Displayed][First Defined]]
-*** Glyphless Characters
-    [[How Text Is Displayed][First Defined]]
-*** Truncation
-    [[Line Truncation][First Defined]]
-** Uncategorized
-*** Keyboard Macro
-    [[The Mode Line][first mentioned]]
-*** Recursive Edit
-    [[The Mode Line][first mentioned]]
-*** Tooltips
-    [[The Mode Line][first mentioned]]
-*** Function
-    [[Keys and Commands][first mentioned]]
-*** Keymaps
-    [[Keys and Commands][first mentioned]]
-*** Undo History
-    [[Entering Emacs][first mentioned]]
-*** Primary Selection
-    [[Setting the Mark][first mentioned]]
-*** Defun
-    [[Commands to Mark Textual Objects][first mentioned]]
-*** Pages
-    [[Commands to Mark Textual Objects][first mentioned]]
-* New Vocab Section
 ** Distribution
 *** Free Software
+    GNU Emacs is /free software/; this means that everyone is free to
+    use it and free to redistribute it under certain conditions.
 ** Introduction
 *** Advanced Editor
+    We call Emacs /advanced/ because it can do much more than simple
+    insertion and deletion of text.
 *** Self-Documenting Editor
+    The fact we call Emacs /self-documenting/ means that at any time
+    you can use special commands to find out what your options are, or
+    to find our what any command does, or to find all the commands
+    that pertain to a given topic.
+*** Help Commands
+    /Help commands/ are special commands you can use at any time to
+    find out what your options are, or to find out what any command
+    does, or to find all the commands that pertain to a given topic.
 *** Customizable Editor
+    The fact we call Emacs /customizable/ means that you can easily
+    alter the behavior of Emacs commands in simple ways.
 *** Extensible Editor
+    The fact we call Emacs /extensible/ means that you can go beyond
+    simple customization and create entirely new commands.
 ** The Organization of the Screen
 *** Frame
+    We will use the term /frame/ to mean a graphical window or
+    terminal screen occupied by Emacs. Each frame consists of several
+    distinct regions.
 *** Menu Bar
+    At the top of the frame is a /menu bar/, which allows you to
+    access commands via a series of menus.
 *** Tool Bar
+    On a graphical display, directly below the menu bar is a /tool
+    bar/, a row of icons that perform editing commands when you click
+    on them.
 *** Echo Area
+    At the very bottom of the frame is an /echo area/, where
+    informative messages are displayed and where you enter information
+    when Emacs asks for it.
 *** The Window
+    This is the main area of the frame, below the tool bar (if one
+    exists) and above the echo area. Henceforth in this manual, we
+    will use the word "window" in this sense. Graphical display
+    systems commonly use the word "window" with a different meaning;
+    but, as stated above, we refer to those graphical windows as
+    "frames".
 *** Buffer
+    An Emacs window is where the /buffer/ - the text or other graphics
+    you are editing or viewing - is displayed.
 *** Scroll Bar
+    On a graphical display, the window possesses a /scroll bar/ on one
+    side, which can be used to scroll through the buffer.
 *** Mode Line
+    The last line of the window is a /mode line/. This displays
+    various information about what is going on in the buffer, such as
+    whether there are unsaved changes, the editing modes that are in
+    use, the current line number, and so forth.
 *** Selected Window
+    At any time, one window is the /selected window/. On a graphical
+    display, the selected window shows a more prominent cursor
+    (usually solid and blinking); other windows show a less prominent
+    cursor (usually a hollow box). On a text terminal, there is only
+    one cursor, which is shown in the selected window.
 *** Current Buffer
+    The buffer displayed in the selected window is called the /current
+    buffer/, and it is where everything happens.
 *** Point
+    The cursor in the selected window shows the location where most
+    editing commands take effect, which is called /point/.
 *** Echoing
+    The echo area is so-named because one of the things it is used for
+    is /echoing/, which means displaying the characters of a
+    multi-character command as you type.
 *** Error Message
+    The echo area is also used to display an /error message/ when a
+    command cannot do its job. Error messages may be accompanied by
+    beeping or by flashing the screen.
 *** Informative Message
+    Some commands display /informative messages/ in the echo area to
+    tell you what the command has done, or to provide you with some
+    specific information. These informative messages, unlike error
+    messages, are not accompanied with a beep or a flash.
 *** Minibuffer
+    The echo area is also used to display the /minibuffer/, a special
+    window where you can input arguments to commands, such as the name
+    of a file to be edited.
 *** Prompt String
+    When the minibuffer is in use, the text displayed in the echo area
+    begins with a /prompt string/, and the active cursor appears
+    within the minibuffer, which is temporarily considered the
+    selected window.
+*** Coding System
+    A /coding system/ is the character set of the text in the buffer.
+*** Newline Characters
+    Lines of text are separated by /newline characters/ in a file.
+*** Major Mode
+    A major mode is the principal editing mode for the buffer, such as
+    Text mode, Lisp mode, C mode, and so forth.
+*** Minor Mode
+    /Minor modes/ are optional editing modes that provide additional
+    features on top of the major mode.
 *** Submenu
+    An arrow on the right edge of a menu item means that it leads to a
+    subsidiary menu, or /submenu/.
 ** Kinds of User Input
+*** Simple Characters
+    /Simple characters/, like '~a~', '~B~', '~3~', '~=~', and the
+    space character (denoted as ~SPC~), are entered by typing the
+    corresponding key.
+*** Control Characters
+    /Control characters/, such as ~RET~, ~TAB~, ~DEL~, ~ESC~, ~F1~,
+    ~Home~, and ~LEFT~, are also entered by typing the corresponding
+    key.
 *** Modifier Keys
+    Emacs also recognizes control characters that are entered using
+    /modifier keys/. Two commonly-used modifier keys are ~Control~
+    (usually labeled ~Ctrl~), and ~Meta~ (usually labeled ~Alt~).
 *** Input Events
+    Simple characters and control characters, as well as certain
+    non-keyboard inputs such as mouse clicks, are collectively
+    referred to as /input events/.
 ** Keys
 *** Key Sequence
+    A /key sequence/, or /key/ for short, is a sequence of one or more
+    input events that is meaninful as a unit.
 *** Complete Key
+    If a key sequence invokes a command, we call it a /complete key/;
+    for example, ~C-f~, ~C-x C-f~ and ~C-x 4 C-f~ are all complete
+    keys.
 *** Prefix Key
+    If a key sequence isn't long enough to invoke a command, we call
+    it a /prefix key/; from the preceding example, we see that ~C-x~
+    and ~C-x 4~ are prefix keys.
 ** Keys and Commands
 *** Commands
+    This manual is full of passages that tell you what particular keys
+    do. But Emacs does not assign meanings to keys directly. Instead,
+    Emacs assigns meanings to named /commands/.
 *** Binding
+    Emacs gives keys their meanings by /binding/ them to commands.
 *** Function
+    Internally, each command is a special type of Lisp /function/, and
+    the actions associated with the command are performed by running
+    the function.
 *** Keymaps
+    The bindings between keys and commands are recorded in tables
+    called /keymaps/.
+*** Variables
+    A /variable/ is a name used to store a value. Most of the
+    variables documented in this manual are meant for customization:
+    some command or other part of Emacs examines the variable and
+    behaves differently according to the value that you set.
 ** Entering Emacs
 *** Startup Screen
+    When Emacs starts up, the initial fram displays a special buffer
+    named '~*GNU Emacs*~'. This /startup screen/ contains information
+    about Emacs and links to common tasks that are useful for
+    beginning users.
 *** Links
+    To activate a link, either move point onto it and type ~RET~, or
+    click on it with ~mouse-1~ (the left mouse button).
 ** Exiting Emacs
 *** Killing Emacs
+    /Killing Emacs/ means terminating the Emacs program.
+*** Minimize
+    On a graphical display, the command ~suspend-frame~ /minimizes/
+    (or /iconifies/) the selected Emacs frame, hiding it in a way that
+    lets you bring it back later (exactly how this hiding occurs
+    depends on the window system).
 *** Suspend Emacs
+    On a text terminal, the ~suspend-frame~ command /suspends Emacs/,
+    stopping the program temporarily and returning control to the
+    parent process (usually a shell); in most shells, you can resume
+    Emacs after suspending it with the shell command ~%emacs~.
 ** Basic Editing Commands
 *** Graphic Character
-*** Minor Modes
+    You can insert an ordinary /graphic character/ (e.g., '~a~',
+    '~B~', '~3~', and '~=~') by typing the associated key.
 *** Quote
+    To insert a non-graphic character, or a character that your
+    keyboard does not support, first /quote/ it by typing ~C-q~
+    (~quoted-insert~).
 *** Arrow Keys
+    Most folks will recognize the /arrow keys/ present on most
+    keyboards: ~RIGHT~, ~LEFT~, ~DOWN~, and ~UP~.
 *** Semipermanent Goal Column
+    When a /semipermanent goal column/ is in effect, the commands
+    ~C-n~ and ~C-p~ always try to move to this column, or as close as
+    possible to it, after moving vertically.
 *** Screen Lines
+    When a line of text in the buffer is longer than the width of the
+    window, Emacs usually displays it on two or more /screen lines/.
 *** Logical Lines
-*** Minibuffer
+    /Logical lines/ are calculated according to the text lines in the
+    buffer, rather than according to how the screen wrapped a long
+    line into screen lines.
+*** File
+    Text that you insert in an Emacs buffer lasts only as long as the
+    Emacs session. To keep any text permanently, you must put it in a
+    /file/.
+*** Minibuffer Argument
+    Many commands use the minibuffer to read a /minibuffer argument/,
+    and you type ~RET~ to terminate the argument.
+*** Visiting
+    Emacs obays the command ~find-file~ by /visiting/ the file: it
+    creates a buffer, copies the contents of the file into the buffer,
+    and displays the buffer for editing.
+*** Save
+    If you alter the text in a file that you are visiting via Emacs,
+    you can /save/ the new text in the file by typing ~C-x C-s~
+    (~save-buffer~). This copies the altered buffer contents back into
+    the file you are visiting, making them permanent.
 *** Line Wrapping
-*** Continuation
+    Sometimes, a line of text in the buffer - a logical line - is too
+    long to fit in the window, and Emacs displays it as two or more
+    screen lines. This is called /line wrapping/ or /continuation/.
 *** Continued Line
+    Sometimes, a line of text in the buffer - a logical line - is too
+    long to fit in the window, and Emacs displays it as two or more
+    screen lines. This long logical line is called a /continued
+    line/.
 *** Truncate
+    Emacs can optionally /truncate/ long logical lines instead of
+    continuing them. This means that every logical line occupies a
+    single screen line; if it is longer than the width of the window,
+    the rest of the line is not displayed.
 *** Word Wrapping
+    Sometimes, you may need to edit files containing many long logical
+    lines, and it may not be practical to break them all up by adding
+    newlines. In that case, you can use Visual Line mode, which
+    enables /word wrapping/: instead of wrapping long lines exactly at
+    the right window edge, Emacs wraps them at the word boundaries
+    (i.e., space or tab characters) nearest to the right window edge.
 *** Argument
+    In the terminology of mathematics and computing, /argument/ means
+    "data provided to a function or operation".
 *** Numeric Argument
+    You can give any Emacs command a /numeric argument/. The easiest
+    way to specify a numeric argument is to type a digit and/or a
+    minus sign while holding down the ~Meta~ key.
 *** Prefix Argument
+    We use the term /prefix argument/ to emphasize that you type such
+    arguments *before* the command, and to distinguish them from
+    minibuffer arguments, which are entered *after* invoking the
+    command.
 ** The Minibuffer
 *** Minibuffer
+    The /minibuffer/ is where Emacs commands read complicated
+    arguments, such as file names, buffer names, Emacs command names,
+    or Lisp expressions. We call it the "minibuffer" because it's a
+    special-purpose buffer with a small amount of screen space.
 *** Prompt
+    When the minibuffer is in use, it appears in the echo area, with a
+    cursor. The minibuffer starts with a /prompt/, usually ending with
+    a colon. The prompt states what kind of input is expected, and how
+    it will be used.
 *** Default Argument
+    Sometimes, the prompt shows a /default argument/, inside
+    parentheses before the colon. This default will be used as the
+    argument if you just type ~RET~.
 *** Default Directory
+    When the minibuffer is used to read a file name, it typically
+    starts out with some initial text ending in a slash. This is the
+    /default directory/.
 *** Read-Only
+    A buffer that is /read-only/ usually can be navigated, but it
+    cannot be changed.
+*** Completion Commands
+    Inside a minibuffer, the keys ~TAB~, ~SPC~, and ~?~ are often
+    bound to /completion commands/, which allow you to easily fill in
+    the desired text without typing all of it.
 *** Completion
+    You can often use a feature called /completion/ to help enter
+    minibuffer arguments. This means that after you type part of the
+    argument, Emacs can fill in the rest, or some of it, based on what
+    was typed so far.
 *** Completion Alternatives
-*** Strict Completion
-*** Cautious Completion
-*** Permissive Completion
-*** Permissive Completion with Confirmation
-*** Completion Styples
+    When completion is available, certain keys (usually ~TAB~, ~RET~,
+    and ~SPC~) are rebound in the minibuffer to special completion
+    commands. These commands attempt to complete the text in the
+    minibuffer, based on a set of /completion alternatives/ provided
+    by the command that requested the argument.
+*** Completion Styles
+    Emacs performs completion using one or more /completion styles/ -
+    sets of criteria for matching minibuffer text to completion
+    alternatives.
 *** Wildcard
+    A '~*~' in the minibuffer text is treated as a /wildcard/ - it
+    matches any string of characters at the corrosponding position in
+    the completion alternative.
 *** Minibuffer History List
-*** Regular Expression
+    Every argument that you enter with the minibuffer is saved in a
+    /minibuffer history list/ so you can easily use it again later.
 *** Command History
+    Every command that uses the minibuffer once is recorded on a
+    special history list, the /command history/, together with the
+    values of its arguments, so that you can repeat the entire
+    command.
 ** Running Commands by Name
-*** Prompt
 *** Obsolete Commands
+    /Obsolete commands/ are those for which newer, better alternatives
+    exist, and which are slated for removal in some future Emacs
+    release.
 ** Help
+*** Help Buffer
+    Many help commands display their information in a special /help
+    buffer/. In this buffer, you can type ~SPC~ and ~DEL~ to scroll
+    and type ~RET~ to follow hyperlinks.
 *** Syntax Table
+    The /syntax table/ says which characters are opening delimiters,
+    which are parts of words, and so on.
 *** Documentation String
+    The /documentation string/ describes exactly what the command
+    does.
 *** Apropos
+    The /apropos/ commands answer questions like, "what are the
+    commands for working with files?"
 *** Apropos Pattern
+    An /apropos pattern/, is either a word, a list of words, or a
+    regular expression.
 *** Hyperlink
+    When a function name, variable name, or face name appears in the
+    documentation in the help buffer, it is normally an underlined
+    /hyperlink/. To view the associated documentation, move point
+    there and type ~RET~ (~help-follow~), or click on the hyperlink
+    with ~mouse-1~ or ~mouse-2~. Doing so replaces the contents of the
+    help buffer.
 *** Packages
+    Most optional features in Emacs are grouped into /packages/. Emacs
+    contains several hundred built-in packages, and more can be
+    installed over the network.
 *** Keywords
+    To make it easier to find packages related to a topic, most
+    packages are associated with one more more /keywords/ based on
+    what they do.
 *** Active Text
+    /Active text/ is text that does something special in response to
+    mouse clicks or ~RET~.
 *** Tooltip
+    On graphical displays, as well as some text terminals which
+    support mouse tracking, moving the mouse over the active text
+    displays the help text as a /tooltip/.
 ** The Mark and the Region
 *** The Mark
+    Many Emacs commands operate on an arbitrary contiguous part of the
+    current buffer. To specify the text for such a command to operate
+    on, you set /the mark/ at one end of it, and move point to the
+    other end.
 *** The Region
+    The text between the point and the mark is called /the
+    region/. The region always extends between point and the mark, no
+    matter which one comes earlier in the text; each time you move
+    point, the region changes.
 *** Activate The Mark
+    Setting the mark at a position in the text also /activates the
+    mark/. When the mark is active, we also say that the region is
+    active; Emacs indicates its extent by highlighting the text within
+    it.
 *** Deactivate The Mark
+    After certain non-motion commands, including any command that
+    changes the text in the buffer, Emacs automatically /deactivates
+    the mark/; this turns off the highlighting.
 *** Shift-Selection
+    You can set the mark by holding down the shift key while typing
+    certain cursor motion commands (such as ~S-RIGHT~, ~S-C-f~,
+    ~S-C-n~, etc.). This is called /shift-selection/. It sets the mark
+    at point before moving point, but only if there is no active mark
+    set via a previous shift-selection or mouse commands.
 *** Primary Selection
-*** Kill
+    Under X, every timme the active region changes, Emacs saves the
+    text in the region to the /primary selection/.
 *** Inactive Region
+    The /inactive region/ is the text between point and the position
+    at which the mark was last set.
 *** Mark Ring
+    Each buffer remembers previous locations of the mark, in the /mark
+    ring/. Commands that set the mark also push the old mark onto this
+    ring. One of the uses of the mark ring is to remember spots that
+    you may want to go back to.
 *** Global Mark Ring
-*** Unshifted Cursor Motion Command
-*** Shifted Cursor Motion Command
+    In addition to the ordinary mark ring that belongs to each buffer,
+    Emacs has a single /global mark ring/. Each time you set a mark,
+    this is recorded in the global mark ring in addition to the
+    current buffer's own mark ring, if you have switched buffers since
+    the previous mark setting. Hence, the global mark ring records a
+    sequence of buffers that you have been in, and, for each buffer, a
+    place where you set the mark.
 ** Killing and Moving Text
 *** Killing
+    In Emacs, /killing/ means erasing text and copying it to remember
+    for later.
 *** Kill Ring
+    In Emacs, killing text copies it into the /kill ring/. The kill
+    ring is a list of blocks of text that were previously killed.
 *** Yanking
+    /Yanking/ means bringing text from the kill ring back into the
+    buffer.
 *** Kill Commands
+    Most commands which erase text from the buffer save it in the kill
+    ring. These are known as /kill commands/, and their names normally
+    contain the word '~kill~'.
+*** Delete Commands
+    Commands that erase text but do not save it in the kill ring are
+    known as /delete commands/; their names usually contain the word
+    '~delete~'.
 *** Read-Only Text
+    Some specialized buffers contain /read-only text/, which cannot be
+    modified and therefore cannot be killed.
 *** Clipboard
+    In most graphical desktop environments, you can transfer data
+    (usually text) between different applications using a system
+    facility called the /clipboard/.
 *** Clipboard Manager
+    Many X desktop environments support a feature called the
+    /clipboard manager/. If you exit Emacs while it is the current
+    "owner" of the clipboard data, and there is a clipboard manager
+    running, Emacs transfers the clipboard data to the clipboard
+    manager so that it is not lost.
 *** Primary Selection
+    Under the X Window System, there exists a /primary selection/
+    containing the last stretch of text selected in an X application
+    (usually by dragging the mouse). Typically, this text can be
+    inserted into other X applications by ~mouse-2~ clicks. The
+    primary selection is separate from the clipboard. Its contents are
+    more fragile; they are overwritten each time you select text with
+    the mouse, whereas the clipboard is only overwritten by explicit
+    cut or copy commands.
 *** Secondary Selection
+    In addition to the primary selection, the X Window System provides
+    a second similar facility known as the /secondary
+    selection/.
 *** Rectangles
+    /Rectangle/ commands operate on rectangular areas of the text: all
+    the characters between a certain pair of columns, in a certain
+    range of lines.
 *** Region-Rectangle
+    To specify a rectangle for a command to work on, set the mark at
+    one corner and point at the opposite corner. The rectangle thus
+    specified is called the /region-rectangle/.
 *** Last Killed Rectangle
+    There are two ways to erase the text in a rectangle: ~C-x r d~
+    (~delete-rectangle~) to delete the text outright, or ~C-x r k~
+    (~kill-rectangle~) to remove the text and save it as the /last
+    killed rectangle/.
 ** Registers
 *** Registers
+    Emacs /registers/ are compartments where you can save, rectangles,
+    positions, and other things for later use.
 *** Bookmarks
+    /Bookmarks/ record files and positions in them, so you can return
+    to those positions when you look at the file again.
 ** Controlling the Display
 *** Scrolling
+    If a window is too small to display all the text in its buffer, it
+    displays only a portion of it. /Scrolling/ commands change which
+    portion of the buffer is displayed.
 *** Recentering
+    The ~C-l~ (~recenter-top-bottom~) command /recenters/ the selected
+    window, scrolling it so that the current screen line is exactly in
+    the center of the window, or as close to the center as possible.
 *** Automatic Scrolling
+    Emacs performs /automatic scrolling/ when point moves out of the
+    visible portion of the text.
 *** Horizaontal Scrolling
+    /Horizontal scrolling/ means shifting all the lines sideways
+    within a window, so that some of the text near the left margin is
+    not displayed.
 *** Narrowing
+    /Narrowing/ means focusing in on some portion of the buffer,
+    making the rest temporarily inaccessible.
 *** Accessible Portion
+    The portion of a narrowed buffer which you can still get to is
+    called the /accessible portion/.
 *** Widening
+    Canceling the narrowing, which makes the entire buffer once again
+    accessible, is called /widening/.
 *** Restriction
-*** Follow Mode
+    The bounds of narrowing in effect in a buffer are called the
+    buffer's /restriction/.
 *** Faces
+    Emacs can display text in several different styles, called
+    /faces/.
 *** Face Attributes
+    Each face can specify various /face attributes/, such as the font,
+    height, weignt, slant, foreground and background color, and
+    underling or overling.
 *** Color Name
+    A /color name/ is a pre-defined name, such as '~dark orange~' or
+    '~medium sea green~'.
 *** RGB Triplet
+    An /RGB triplet/ is a string of the form '~#RRGGBB~'. Each of the
+    primary color components is represented by a hexadecminal number
+    between '~00~' (intencity 0) and '~FF~' (the maximum intencity).
 *** Fontifies
+    Font Lock mode is a minor mode, always local to a particular
+    buffer, which assigns faces to (or /fontifies/) the text in the buffer.
 *** Just-In-Time Lock
+    As you scroll through the buffer, each portion that becomes
+    visible is fontified as soon as it is displayed; this type of Font
+    Lock is called /Just-In-Time Lock/ (or /JIT Lock/).
 *** Highlighting
+    Highlight Changes mode is a minor mode that /highlights/ the part
+    of the buffer that were changed most recently, by giving that text
+    a different face.
 *** Fringes
+    On graphical displays, each Emacs window normally has narrow
+    /fringes/ on the left and right edges. The fringes are used to
+    display symbols that provide information about the text in the
+    window.
 *** Trailing Whitespace
+    It is easy to leave unnecessary spaces at the end of a line, or
+    empty lines at the end of a buffer, without realizing it. In most
+    cases, this /trailing whitespace/ has no effect, but sometimes it
+    can be a nuisance.
 *** Printing Characters
+    Most characters are /printing characters/: when they appear in a
+    buffer, they are displayed literally on the screen. Printing
+    characters include ASCII numbers, letters, and punctuation
+    characters, as well as many non-ASCII characters.
 *** Control Characters
+    The ASCII character set contains non-printing /control
+    characters/. Two of these are displayed specially: the newline
+    character (Unicode code point ~U+000A~) is displayed by starting a
+    new line, while the tab character (~U+0009~) is displayed as a
+    space that is extended to the next tab stop column (normally every
+    8 columns).
 *** Octal Escape Sequences
+    The raw bytes with codes ~U+0080~ (octal 200) through ~U+009F~
+    (octal 237) are displayed as /octal escape sequences/, with the
+    ~escape-glyph~ face.
 *** Glyphless Characters
+    On graphical displays, some characters may have no glyphs in any
+    of the fonts available to Emacs. These /glyphless characters/ are
+    normally displayed as boxes containing the hexadecimal character code.
 *** Truncation
+    As an alternative to continuation, Emacs can display long lines by
+    /truncation/. This means that all the characters that do not fit
+    in the width of the screen or window do not appear at all.
 *** Word Wrap
+    Another alternative to ordinary line continuation is to use /word
+    wrap/. Here, each long logical line is divided into two or more
+    screen lines, like in ordinary line continuation. However, Emacs
+    attempts to wrap the line at the word boundaries near the right
+    window edge.
 ** Searching and Replacement
 *** Incremental Search
+    The principal search command in Emacs is /incremental/: it begins
+    searching as soon as you type the first character of the search
+    string. As you type in the search string, Emacs shows you where
+    the string (as you have typed it so far) would be found.
 *** Current Match
+    The /current match/ is the buffer text that matches the search
+    string.
 *** Wrapping Around
+    If a search is failing and you ask to repeat it by typing another
+    ~C-s~, it starts again from the beginning of the buffer. Repeating
+    a failing reverse search with ~C-r~ starts again from the
+    end. This is called /wrapping around/.
+*** Search Ring
+    To reuse earlier search strings, use the /search ring/.
 * Mode
 ** The Organization of the Screen
 *** Size Indication mode
