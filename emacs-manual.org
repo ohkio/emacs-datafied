@@ -946,9 +946,9 @@
     to ~current-line~, all the lines other than the one showing the
     cursor will be scrolled by that minimal amount.
 *** Narrowing
-    *Narrowing* means focusing in on some portion of the buffer, making
-    the rest temporarily inaccessible. The portion which you can still
-    get to is called the accessible portion.
+    *Narrowing* means focusing in on some portion of the buffer,
+    making the rest temporarily inaccessible. The portion which you
+    can still get to is called the accessible portion.
 
     Canceling the narrowing, which makes the entire buffer once again
     accessible, is called *widening*.
@@ -2325,6 +2325,12 @@
     :Context:  anywhere
     :END:
 ** The Minibuffer
+*** exit-minibuffer                                     :echo:command:buffer:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Submit provided argument and exit minibuffer
+    :Context:  minibuffer
+    :END:
 *** minibuffer-electric-default-mode               :buffer:display:echo:mode:
     :PROPERTIES:
     :Description: Toggle Minibuffer Electric Default mode
@@ -3172,7 +3178,7 @@
     :PROPERTIES:
     :Command:  M-y
     :Description: Replace recent yanked text with earlier batch of killed text
-    :Context:  editing
+    :Context:  after-yank
     :Argument: numeric
     :END:
     A numeric argument defines how many entries to advance the
@@ -4225,10 +4231,96 @@
     :Description: Iterate through the search ring forwards
     :Context:  isearch
     :END:
-*** isearch-edit-string                                         :search:edit:
+*** isearch-edit-string                             :search:edit:echo:buffer:
     :PROPERTIES:
     :Command:  M-e
     :Description: Edit current search string in minibuffer
+    :Context:  isearch
+    :END:
+*** isearch-forward-exit-minibuffer              :search:command:echo:buffer:
+    :PROPERTIES:
+    :Command:  C-s
+    :Description: Finish editing search string and search forward
+    :Context:  isearch-after-edit
+    :END:
+*** isearch-reverse-exit-minibuffer              :search:command:echo:buffer:
+    :PROPERTIES:
+    :Command:  C-r
+    :Description: Finish editing search string and reverse search
+    :Context:  isearch-after-edit
+    :END:
+*** isearch-yank-char-in-minibuffer                 :search:edit:echo:buffer:
+    :PROPERTIES:
+    :Command:  <right> OR C-f
+    :Description: Add to search string chars following point in buffer
+    :Context:  isearch-after-edit
+    :END:
+*** isearch-yank-word-or-char                                   :edit:search:
+    :PROPERTIES:
+    :Command:  C-w
+    :Description: Appends next char or word at point to search string
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    With a prefix numeric argument of /n/, append the next /n/
+    characters or words.
+*** isearch-yank-symbol-or-char                                 :search:edit:
+    :PROPERTIES:
+    :Command:  C-M-w
+    :Description: Appends next char or symbol at point to search string
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    With a prefix numeric argument of /n/, append the next /n/
+    characters or symbols.
+*** isearch-yank-line                                           :search:edit:
+    :PROPERTIES:
+    :Command:  M-s C-e
+    :Description: Append rest of current line to search string
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    If point is already at the end of a line, it appends the next
+    line. With a prefix argument /n/, it appends the next /n/ lines.
+*** isearch-yank-until-char                                     :search:edit:
+    :PROPERTIES:
+    :Command:  C-M-z
+    :Description: appends to search string from point to given char
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    With a prefix numeric argument of /n/, the command appends
+    everything from point to the /n/-th occurrence of the specified
+    character.
+*** isearch-yank-kill                                           :search:edit:
+    :PROPERTIES:
+    :Command:  C-y
+    :Description: Appends the current kill to the search string
+    :Context:  isearch
+    :END:
+*** isearch-yank-pop                                            :search:edit:
+    :PROPERTIES:
+    :Command:  M-y
+    :Description: Replaces most recent yank with an earlier kill
+    :Context:  isearch-after-yank
+    :END:
+*** isearch-yank-x-selection                                    :search:edit:
+    :PROPERTIES:
+    :Command:  <mouse-2>
+    :Description: Appends current X selection to search string
+    :Context:  isearch
+    :END:
+    Must be clicked in the echo area during an isearch
+*** isearch-del-char                                     :search:delete:edit:
+    :PROPERTIES:
+    :Command:  C-M-d
+    :Description: Deletes the last character from the search string
+    :Context:  isearch
+    :END:
+*** isearch-yank-char                                           :search:edit:
+    :PROPERTIES:
+    :Command:  C-M-y
+    :Description: Appends character after point to search string
     :Context:  isearch
     :END:
 * Variable
@@ -5012,6 +5104,11 @@
 *** search-ring-max                                                  :search:
     The number of most recently used search strings saved in the
     search ring is specified by this variable, 16 by default.
+*** search-upper-case                                                :search:
+    Normally, when the search is case-insensitive, text yanked into
+    the search string is converted to lower case, so that the search
+    remains case-insensitive. However, if the value of this variable
+    is other than ~not-yanks~, that disables this down-casing.
 * Context
 ** anywhere
    literally anywhere
@@ -5040,6 +5137,9 @@
    When one location inside text might behave differently from the
    rest of the text. For example, links in *Help* buffers. Seems to
    mostly be for links or clickable locations in text.
+** after-yank
+   Occasionally a command will only work when it is made immediately
+   after making a yank. Particularly: ~C-y~
 ** rectangle
    When Rectangle Mark mode is enabled and therefore an active region
    is highlighted as a rectangle.
@@ -5070,6 +5170,14 @@
 ** isearch
    Whenever incremental search is currently activated. See commands
    ~isearch-forward~ and ~isearch-backward~.
+** isearch-after-edit
+   There are some commands that only work within isearch and after
+   having made an edit. For example after the following commands: ~C-s
+   M-e~.
+** isearch-after-yank
+   There are some commands that only work within isearch and after
+   having made a yank. For example after the following commands: ~C-s
+   C-y~.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
