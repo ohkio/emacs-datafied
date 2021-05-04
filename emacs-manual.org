@@ -1363,6 +1363,12 @@
      Where /im/ is the mnemonic of the active input method. Any input
      method you enable during incremental search remains enabled in
      the current buffer afterwards.
+**** Not Exiting Incremental Search
+     In incremental search, when you type a command that specifies a
+     prefix argument, by default it will apply either to the next
+     action in the search or to the command that exits the search. In
+     other words, entering a prefix argument will not by itself
+     terminate the search.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -1924,7 +1930,7 @@
     end. This is called /wrapping around/.
 *** Search Ring
     To reuse earlier search strings, use the /search ring/.
-* Mode
+* Modes
 ** The Organization of the Screen
 *** Size Indication mode
     you can display the size of the buffer in the Mode Line
@@ -2229,7 +2235,76 @@
     ~display-line-numbers-width~ to a large enough value, to avoid
     occasional miscalculations of space reserved for the line
     numbers.
-* Command
+* Contexts
+** anywhere
+   literally anywhere
+** editing
+   when editing a buffer
+** navigating
+   When in a buffer that is possible to navigate with the standard
+   ~C-f~, ~C-b~, ~C-n~, ~C-p~ commands
+** minibuffer
+   when in the minibuffer
+** completion-buffer
+   when in the window with current completion options
+** password
+   when typing in a password for minibuffer
+   [[Entering passwords]]
+** yes-no
+   when echo prompt ends with ~(y or n)~
+   [[Yes or No Prompts]]
+** help
+   Window that appears below buffer with some contents of a help
+   buffer. One such help window is activated with [[help-for-help]]
+** info
+   The documentation browser. Able to read just every possible
+   documentation imaginable.
+** special-text
+   When one location inside text might behave differently from the
+   rest of the text. For example, links in *Help* buffers. Seems to
+   mostly be for links or clickable locations in text.
+** after-yank
+   Occasionally a command will only work when it is made immediately
+   after making a yank. Particularly: ~C-y~
+** rectangle
+   When Rectangle Mark mode is enabled and therefore an active region
+   is highlighted as a rectangle.
+** cua
+   CUA mode which sets up key bindings that are compatible with the
+   Common User Access (CUA) system used in many other applications.
+** cua-rectangle
+   The enhanced rectangle selection mode provided by cua. Check out
+   CUA Rectangle Mark mode
+** register
+   When there is a prompt for a register in the minibuffer
+** bookmark
+   Bookmark Menu mode
+** view
+   View mode
+** follow-ready
+   A frame is ready for Follow mode when a frame contains two windows
+   side by side with the same buffer in both windows.
+** mini-select-list
+   Some commands have an option for selecting something from a list
+   including faces, previous commands, etc. to complete the
+   command. This context is when you are at the point in the command
+   where the minibuffer is asking you to provide one of these options
+   from a particular list.
+** visual-line-mode
+   In Visual Line mode, some editing commands work on screen lines
+   instead of logical lines.
+** isearch
+   Whenever incremental search is currently activated. See commands
+   ~isearch-forward~ and ~isearch-backward~.
+** isearch-after-edit
+   There are some commands that only work within isearch and after
+   having made an edit. For example after the following commands: ~C-s
+   M-e~.
+** isearch-after-yank
+   There are some commands that only work within isearch and after
+   having made a yank. For example after the following commands: ~C-s
+   C-y~.
+* Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
     :PROPERTIES:
@@ -4782,7 +4857,7 @@
     :Description: Go to the first occurrence of search string
     :Context:  isearch
     :END:
-* Variable
+* Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
     when invoking ~menu-bar-open~ invoke ~tmm-menubar~ instead.
@@ -5568,75 +5643,55 @@
     the search string is converted to lower case, so that the search
     remains case-insensitive. However, if the value of this variable
     is other than ~not-yanks~, that disables this down-casing.
-* Context
-** anywhere
-   literally anywhere
-** editing
-   when editing a buffer
-** navigating
-   When in a buffer that is possible to navigate with the standard
-   ~C-f~, ~C-b~, ~C-n~, ~C-p~ commands
-** minibuffer
-   when in the minibuffer
-** completion-buffer
-   when in the window with current completion options
-** password
-   when typing in a password for minibuffer
-   [[Entering passwords]]
-** yes-no
-   when echo prompt ends with ~(y or n)~
-   [[Yes or No Prompts]]
-** help
-   Window that appears below buffer with some contents of a help
-   buffer. One such help window is activated with [[help-for-help]]
-** info
-   The documentation browser. Able to read just every possible
-   documentation imaginable.
-** special-text
-   When one location inside text might behave differently from the
-   rest of the text. For example, links in *Help* buffers. Seems to
-   mostly be for links or clickable locations in text.
-** after-yank
-   Occasionally a command will only work when it is made immediately
-   after making a yank. Particularly: ~C-y~
-** rectangle
-   When Rectangle Mark mode is enabled and therefore an active region
-   is highlighted as a rectangle.
-** cua
-   CUA mode which sets up key bindings that are compatible with the
-   Common User Access (CUA) system used in many other applications.
-** cua-rectangle
-   The enhanced rectangle selection mode provided by cua. Check out
-   CUA Rectangle Mark mode
-** register
-   When there is a prompt for a register in the minibuffer
-** bookmark
-   Bookmark Menu mode
-** view
-   View mode
-** follow-ready
-   A frame is ready for Follow mode when a frame contains two windows
-   side by side with the same buffer in both windows.
-** mini-select-list
-   Some commands have an option for selecting something from a list
-   including faces, previous commands, etc. to complete the
-   command. This context is when you are at the point in the command
-   where the minibuffer is asking you to provide one of these options
-   from a particular list.
-** visual-line-mode
-   In Visual Line mode, some editing commands work on screen lines
-   instead of logical lines.
-** isearch
-   Whenever incremental search is currently activated. See commands
-   ~isearch-forward~ and ~isearch-backward~.
-** isearch-after-edit
-   There are some commands that only work within isearch and after
-   having made an edit. For example after the following commands: ~C-s
-   M-e~.
-** isearch-after-yank
-   There are some commands that only work within isearch and after
-   having made a yank. For example after the following commands: ~C-s
-   C-y~.
+*** search-exit-option                                  :search:edit:command:
+    Normally, typing a command that is not bound by the incremental
+    search exits the search before executing the command. Thus, the
+    command operates on the buffer from which you invoked the
+    search. However, if you customize this variable to ~append~, the
+    characters which you type that are not interpreted by the
+    incremental search are simply appended to the search string.
+*** isearch-allow-prefix                                     :search:command:
+    In previous versions of Emacs, entering a prefix argument always
+    terminated the search. You can revert to this behavior by setting
+    this variable to ~nil~.
+
+    When ~isearch-allow-scroll~ is non-nil, prefix arguments always
+    have the default behavior described in "Not Exiting Incremental
+    Search", i.e., they don't terminate the search, even if this
+    variable is ~nil~.
+*** isearch-allow-scroll                                     :search:command:
+    Normally, scrolling commands exit incremental search. If you
+    change this variable to a non-nil value, that enables the use of
+    the scroll-bar, as well as keyboard scrolling commands like ~C-v~,
+    ~M-v~, and ~C-l~. This applies only to calling these commands via
+    their bound key sequences - typing ~M-x~ will still exit the
+    search. You can give prefix arguments to these commands in the
+    usual way. This feature normally won't let you scroll the current
+    match out of visibility; but if you customize this variable to the
+    special value ~unlimited~, that restriction is lifted.
+
+    The ~isearch-allow-scroll~ feature also affects some other
+    commands, such as ~C-x 2~ (~split-window-below~) and ~C-x ^~
+    (~enlarge-window~), which don't exactly scroll but do affect where
+    the text appears on the screen. It applies to any command whose
+    name has a non-nil ~isearch-scroll~ property. So you can control
+    which commands are affected by changing these properties.
+
+    This feature can be applied to any command that doesn't
+    permanently change point, the buffer contents, the match data, the
+    current buffer, or the selected window and frame. The command must
+    not itself attempt an incremental search. This feature is disabled
+    if this variable is ~nil~ (which it is by default).
+*** isearch-yank-on-move
+    When this variable is customized to ~shift~, you can etend the
+    search string by holding down the shift key while typing cursor
+    motion commands. It will yank text that ends at the new position
+    after moving point in the current buffer.
+
+    When this variable is ~t~, you can extend the search string
+    without using the shift key for cursor motion commands, but it
+    applies only for certain motion command that have the
+    ~isearch-move~ property on their symbols.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
@@ -5822,7 +5877,7 @@
     If your string is not found at all, the echo area says '~Failing
     I-Search~', and the part of the search string that failed to match
     is highlighted using this face
-* .emacs addition
+* .emacs additions
 ** Registers
 *** Saving Text in Registers
     If you always want to use a register separator in all buffers you
@@ -5928,6 +5983,35 @@
     (tty-suppress-bold-inverse-default-colors t)
     #+END_SRC
 
+** Searching and Replacement
+*** Incremental Search
+**** Not Exiting Incremental Search
+     The ~isearch-allow-scroll~ feature also affects some other
+     commands, such as ~C-x 2~ (~split-window-below~) and ~C-x ^~
+     (~enlarge-window~), which don't exactly scroll but do affect
+     where the text appears on the screen. It applies to any command
+     whose name has a non-nil ~isearch-scroll~ property. So you can
+     control which commands are affected by changing these properties.
+
+     For example, to make ~C-h l~ usable within an incremental search
+     in all future Emacs sessions, use ~C-h c~ to find what command it
+     runs, which is ~view-lossage~. Then you can put the following
+     line in your init file:
+
+     #+BEGIN_SRC emacs-lisp
+     (put 'view-lossage 'isearch-scroll t)
+     #+END_SRC
+
+     This feature can be applied to any command that doesn't
+     permanently change point, the buffer contents, the match data,
+     the current buffer, or the selected window and frame. The command
+     must not itself attempt an incremental search.
+* Command Properties
+** Searching and Replacement
+*** isearch-scroll
+    See variable ~isearch-allow-scroll~ for details
+*** isearch-move
+    See variable ~isearch-yank-on-move~ for details
 * Niche Modes
 ** Bookmark Menu
 *** Description
