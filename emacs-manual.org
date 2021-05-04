@@ -1349,6 +1349,20 @@
      have not been found are discarded from the search string. With
      them gone, the search is now successful and waiting for more
      input, so a second ~C-g~ will cancel the entire search.
+**** Special Input for Incremental Search
+     If an input method is enabled in the current buffer when you
+     start the search, the same input method will be active in the
+     minibuffer when you type the search string. When an input method
+     is active during incremental search, the search prompt includes
+     the input method mnemonic, like this:
+
+     #+BEGIN_SRC org
+     I-search [im]:
+     #+END_SRC
+
+     Where /im/ is the mnemonic of the active input method. Any input
+     method you enable during incremental search remains enabled in
+     the current buffer afterwards.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4645,6 +4659,127 @@
     :PROPERTIES:
     :Command:  C-M-y
     :Description: Appends character after point to search string
+    :Context:  isearch
+    :END:
+*** isearch-toggle-lax-whitespace                               :search:menu:
+    :PROPERTIES:
+    :Command:  M-s <SPC>
+    :Description: Toggle lax space matching
+    :Context:  isearch
+    :END:
+*** isearch-toggle-case-fold                                    :search:menu:
+    :PROPERTIES:
+    :Command:  M-c OR M-s c
+    :Description: Toggle isearch case sensitivity
+    :Context:  isearch
+    :END:
+*** isearch-toggle-char-fold                                    :search:menu:
+    :PROPERTIES:
+    :Command:  M-s '
+    :Description: Toggle considering character folding like diacritics
+    :Context:  isearch
+    :END:
+*** isearch-toggle-invisible                                    :search:menu:
+    :PROPERTIES:
+    :Command:  M-s i
+    :Description: Toggle searching for invisible text
+    :Context:  isearch
+    :END:
+*** isearch-toggle-regexp                                       :search:menu:
+    :PROPERTIES:
+    :Command:  M-r OR M-s r
+    :Description: Toggle between non-regexp and regexp inc search
+    :Context:  isearch
+    :END:
+*** isearch-toggle-symbol                                       :search:menu:
+    :PROPERTIES:
+    :Command:  M-s _
+    :Description: Toggle symbol search
+    :Context:  isearch
+    :END:
+*** isearch-printing-char                                       :search:edit:
+    :PROPERTIES:
+    :Command:  C-j
+    :Description: Search for a newline character
+    :Context:  isearch
+    :END:
+*** isearch-quote-char                                          :search:edit:
+    :PROPERTIES:
+    :Command:  C-q
+    :Description: Add character to search by octal character code
+    :Context:  isearch
+    :END:
+*** isearch-char-by-name                                        :search:edit:
+    :PROPERTIES:
+    :Command:  C-x 8 <RET>
+    :Description: Add char by unicode name or hex code to search
+    :Context:  isearch
+    :END:
+*** isearch-toggle-input-method                                 :search:menu:
+    :PROPERTIES:
+    :Command:  C-\
+    :Description: Toggle the input method
+    :Context:  isearch
+    :END:
+*** isearch-toggle-specified-input-method                       :search:menu:
+    :PROPERTIES:
+    :Command:  C-^
+    :Description: Turn on a non-default input method
+    :Context:  isearch
+    :END:
+*** isearch-occur                                               :search:edit:
+    :PROPERTIES:
+    :Command:  M-s o
+    :Description: Runs ~occur~ with the current search string
+    :Context:  isearch
+    :END:
+*** isearch-query-replace                                       :search:menu:
+    :PROPERTIES:
+    :Command:  M-%
+    :Description: Invokes find replace with current search string
+    :Context:  isearch
+    :Argument: numeric
+    :END:
+    A negative prefix argument means to replace backward.
+*** isearch-query-replace-regexp                                :search:menu:
+    :PROPERTIES:
+    :Command:  C-M-%
+    :Description: Invokes find replace with current string as regexp
+    :Context:  isearch
+    :END:
+*** isearch-complete                                            :search:edit:
+    :PROPERTIES:
+    :Command:  M-<TAB>
+    :Description: Attempts to complete search string using search ring
+    :Context:  isearch
+    :END:
+*** isearch-highlight-regexp                                 :search:display:
+    :PROPERTIES:
+    :Command:  M-s h r
+    :Description: Exit search highlighting search string matches
+    :Context:  isearch
+    :END:
+*** isearch-highligh-lines-matching-regexp              :search:display:line:
+    :PROPERTIES:
+    :Command:  M-s h l
+    :Description: Exit search highlighting lines of matches
+    :Context:  isearch
+    :END:
+*** isearch-help-map                                           :search:helps:
+    :PROPERTIES:
+    :Command:  C-h C-h
+    :Description: Access interactive help options
+    :Context:  isearch
+    :END:
+*** isearch-end-of-buffer                                        :search:nav:
+    :PROPERTIES:
+    :Command:  M-s M->
+    :Description: Go to the last occurrence of search string
+    :END:
+*** isearch-beginning-of-buffer                                  :search:nav:
+    :PROPERTIES:
+    :Command:  M-s M-<
+    :Description: Go to the first occurrence of search string
     :Context:  isearch
     :END:
 * Variable
