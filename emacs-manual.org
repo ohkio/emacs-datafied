@@ -1391,6 +1391,30 @@
      in the minibuffer afterwards. Canceling the search, with ~C-g~,
      restores the contents of the minibuffer when you began the
      search.
+*** Nonincremental Search
+    Emacs also has conventional nonincremental search commands, which
+    require you to type the entire search string before searching
+    begins.
+
+    To start a nonincremental search, first type ~C-s RET~. This
+    enters the minibuffer to read the search string; terminate the
+    string with ~RET~, and then the search takes place. If the string
+    is not found, the search command signals an error.
+
+    When you type ~C-s RET~, the ~C-s~ invokes incremental search as
+    usual. That command is specially programmed to invoke the command
+    for nonincremental search, if the string you specify is
+    empty. (Such an empty argument would otherwise be useless.) ~C-r
+    RET~ does likewise, invoking the nonincremental backward-searching
+    command.
+
+    Nonincremental search can also be invoked from the menu bar's
+    '~Edit->Search~' menu.
+
+    You can also use two simpler commands, ~M-x search-forward~ and
+    ~M-x search-backward~. These commands look for the literal strings
+    you specify, and don't support any of the lax-search features
+    except for case folding.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4604,13 +4628,13 @@
     :PROPERTIES:
     :Command:  C-s
     :Description: Incremental search forward
-    :Context:  navigating
+    :Context:  anywhere
     :END:
 *** isearch-backward                                          :search:buffer:
     :PROPERTIES:
     :Command:  C-r
     :Description: Incremental search backward
-    :Context:  navigating
+    :Context:  anywhere
     :END:
 *** isearch-delete-char                                       :search:buffer:
     :PROPERTIES:
@@ -4878,6 +4902,16 @@
     :Command:  M-s M-<
     :Description: Go to the first occurrence of search string
     :Context:  isearch
+    :END:
+*** search-forward                                                   :search:
+    :PROPERTIES:
+    :Description: Nonincremental forward search for literal strings
+    :Context:  navigating
+    :END:
+*** search-backward                                                  :search:
+    :PROPERTIES:
+    :Description: Nonincremental backward search for literal strings
+    :Context:  navigating
     :END:
 * Variables
 ** The Organization of the Screen
