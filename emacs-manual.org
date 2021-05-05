@@ -1415,6 +1415,20 @@
     ~M-x search-backward~. These commands look for the literal strings
     you specify, and don't support any of the lax-search features
     except for case folding.
+*** Word Search
+    Incremental and nonincremental word searches differ slightly in
+    the way they find a match. In a nonincremental word search, each
+    word in the search string must exactly match a whole word. In an
+    incremental word search, the matching is more lax: while you are
+    typing the search string, its first and last words need not match
+    whole words. This is so that the matching can proceed
+    incrementally as you type. This additional laxity does not apply
+    to the lazy highlight, which always matches whole words. While you
+    are typing the search string, '~Pending~' appears in the search
+    prompt until you use a search repeating key like ~C-s~.
+
+    The word search commands don't perform character folding, and
+    toggling lax whitespace matching has no effect on them.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -1976,6 +1990,9 @@
     end. This is called /wrapping around/.
 *** Search Ring
     To reuse earlier search strings, use the /search ring/.
+*** Word Search
+    A /word search/ finds a sequence of words without regard to the
+    type of punctuation between them.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -4911,6 +4928,30 @@
 *** search-backward                                                  :search:
     :PROPERTIES:
     :Description: Nonincremental backward search for literal strings
+    :Context:  navigating
+    :END:
+*** isearch-forward-word                                             :search:
+    :PROPERTIES:
+    :Command:  M-s w
+    :Description: Begin an incremental forward word search
+    :Context:  navigating
+    :END:
+*** eww-search-words                                                 :search:
+    :PROPERTIES:
+    :Command:  M-s M-w
+    :Description: Search the Web for the text in region
+    :Context:  navigating
+    :END:
+*** word-search-forward                                              :search:
+    :PROPERTIES:
+    :Command:  M-s w <RET>
+    :Description: Begin a nonincremental forward word search
+    :Context:  navigating
+    :END:
+*** word-search-backward                                             :search:
+    :PROPERTIES:
+    :Command:  M-s w C-r <RET>
+    :Description: To begin a nonincremental backward word search
     :Context:  navigating
     :END:
 * Variables
