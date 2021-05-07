@@ -1,0 +1,172 @@
+#+STARTUP: overview
+
+# The first line of this file, above ^^^, is a feature of "Org Mode"
+# one of the pieces of software this tutorial attempts to explain.
+
+# This document begins in earnest below this line.
+
+Hello and welcome to this combined Emacs and Org Mode tutorial! This
+tutorial assumes you know nothing about either Emacs nor Org mode and
+at each step attempts to teach you just enough so that you can play
+around and start using Emacs and Org Mode for yourself.
+
+The first thing to understand about Emacs is that Emacs is
+fundamentally a text editor. You can always navigate this text editor
+using the arrow keys. When you press the arrow keys and let go you may
+notice a box that rapidly blinks on and off. This is called the
+<<<Point>>>. Using the arrow keys on your keyboard you can direct
+where the point moves in the Emacs "window". If you press the down
+arrow enough times you will scroll the text on the screen so that you
+can see more of the text in this document that is below the bounds of
+the Emacs "window". If you haven't already, take this time to move the
+point around the screen. Press the down arrow enough times to scroll
+and then press the up arrow enough times to scroll. Then obviously
+scroll the window as you need to in order to continue reading this
+tutorial.
+
+This tutorial focuses on a breadth first approach, attempting to let
+the reader know about what is possible when using both Emacs and Org
+Mode in a fairly comprehensive way and trusts that the reader will
+read some of the official documentation for each software if they are
+interested in understanding some of the depth involved.
+
+If you follow this tutorial in order, then it focuses on first
+exploring and understanding Emacs with very occasional explinations
+into Org Mode and then focuses on exploring and understanding Org
+Mode. This tutorial is designed to make it easy to explore in any
+order you desire and skip things you feel confident on.
+
+You have already learned a way to navigate text that appears in
+Emacs. Since Emacs is a text editor you can also add and delete
+text. There is some space below noted where you can safely type text
+and use the "Backspace" key and the "Delete" key to delete text. At
+this time do not attempt to copy and paste text. There is a way to
+copy and paste, but it works a little different in Emacs. For now
+simply type and delete like you would in any other text editor.
+
+[Start of Practice 0 - type and delete text]
+
+
+
+
+
+
+
+
+[End of Practice 0 - type and delete text]
+
+Before you attempt to edit any of the tutorial text let us first
+acknowledge one way you can open a fresh copy of this tutorial. In the
+upper lefthand corner of the Emacs "Window" you should notice the word
+"File". If you click on that with the mouse, the menu associated with
+"File" will appear. Once this menu appears you can then click on the
+option "Open File...". A file select menu will then appear allowing
+you to open any text file. We trust the reader will know how to
+redownload this tutorial file wherever they first found it, and we
+trust the reader to then find that file using a file select menu.
+
+With these fundamentals out of the way we are ready to start exploring
+the power of Emacs and Org Mode combined. Below you should see some
+colored text that looks like this:
+
+#+BEGIN_SRC org
+* Top level headline...
+* Fundamentals...
+* Troubleshooting...
+* Emacs...
+* Org Mode...
+* Reference...
+#+END_SRC
+
+If the text above looks fundamentally different from any text that
+appears below, then the text that appears below "* Fundamentals" and
+"* Troubleshooting" will help in resolving this discrepency.
+
+If however the text indicated above does match text that appears below
+then the first thing to learn about Org Mode is about the
+<<<Headline>>>. Headlines are the fundamental building block of Org
+Mode. They start a line of text in a file with one or more of the
+following symbol: '*' also known as a "Star" or "Asterisk". After the
+stars the headline must be followed by at least one space and then any
+text on the same line can follow. You can see some headlines with
+exactly one star below as was mentioned previously. We call headlines
+with exactly one star a "Top level headline". When the text of a top
+level headline ends with three dots "..." that means there is more
+text associated with that headline that is hiding from you. To reveal
+the text that is hidden, move the point to be on the same line as the
+top level headline and press the "Tab" key. Try it now on the top
+level headline titled "Top level headline" and any of the other
+headlines you discover along the way. Try pressing the "Tab" key
+multiple times on a single headline and see what happens.
+
+After doing so you are ready to explore the rest of this tutorial
+which is folded in the other headlines below "Top level headline"
+Again, you may do so in any order, but since the tutorial is written
+assuming minimal prior knowledge, it does help to read the tutorial in
+order for people who are new to Emacs or Org Mode or both.
+
+* Top level headline
+** Second level
+*** Third level
+    some text
+*** Third level
+    more text
+** Another second level headline
+* Fundamentals
+** Basics of This Tutorial
+   This tutorial will will always attempt to explain the minimum
+   amount about both how the tutorial is set up and about Emacs or Org
+   Mode for you to be able to go ahead and play around yourself.
+
+   That said, there are some fundamentals around language, syntax, and
+   other things currently on screen that will be easier to discuss if
+   we first discuss some fundamental <<<Vocabulary>>>. Any word that
+   is surrounded by three angle brackets like the previous instance of
+   the word "vocabulary" is considered a vocabulary word. This is a
+   word that is important for the tutorial, Emacs, or Org Mode and
+   will be used multiple times throughout the tutorial.
+
+   All vocabulary words can be found under the headline titled
+   [[Reference]] henceforth called the "[[Reference]] section" organized in
+   various different ways such as alphabetically or by section.
+
+   You may have also noticed that vocabulary words are underlined and
+   colored different from other text. This is a feature of Org Mode
+   that will be explained later. For now the important thing to know
+   is that if you click on one of these underlined vocabulary words
+   the tutorial will move the point back to where the vocabulary word
+   is first defined. You can try that now.
+
+   Any section that has vocabulary words defined will also have a
+   subheadline called "Vocabulary" that will list all vocabulary words
+   that are defined in that section. This is because this tutorial
+   considers vocabulary a <<<Fundamental Explination Category>>>. A
+   fundamental explination category is just that. A category of
+   explination that is fundamental. In the same way that vocabulary
+   helps you understand new words, there are other categories of
+   concepts that help the reader understand other new ideas that make
+   sense to group them together.
+
+   As an example, even though we will not be defining these
+   fundamental explination categories until later in the tutorial, we
+   will eventually learn about "Modes" which are fundamental to
+   Emacs. Or in the Org Mode section we will add the fundamental
+   explination category of "Document Customization"
+
+   Every fundamental explination category will have it's own section
+   in the [[Reference]] section organized in ways that make sense for each
+   category. Additionally any section of this tutorial that has any
+   content related to a fundamental explination category will also
+   have a subsection that lists all of that content in one place. You
+   can check out the vocabulary of this very section and the
+   vocabulary defined earlier in the document below.
+*** Vocabulary
+    - Point
+    - Headline
+    - Vocabulary
+    - Fundamental Explination Category
+** The Screen
+* Troubleshooting
+* Emacs
+* Org Mode
+* Reference

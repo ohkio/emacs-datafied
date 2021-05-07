@@ -1429,6 +1429,14 @@
 
     The word search commands don't perform character folding, and
     toggling lax whitespace matching has no effect on them.
+*** Symbol Search
+    - ~M-s _ RET symbol RET~ :: Search forward for /symbol/,
+      nonincrementally.
+    - ~M-s _ C-r RET symbol RET :: Search backward for /symbol/,
+      nonincrementally.
+
+    The symbol search commands don't perform character folding, and
+    toggling lax whitespace matching has no effect on them.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -1993,6 +2001,13 @@
 *** Word Search
     A /word search/ finds a sequence of words without regard to the
     type of punctuation between them.
+*** Symbol
+    The meaning of /symbol/ can depend on the major mode, and usually
+    refers to a source code token, such as a Lisp symbol in Emacs Lisp
+    mode.
+*** Symbol Search
+    A /symbol search/ is much like an ordinary search, except that the
+    boundaries of the search must match the boundaries of a symbol.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -4954,6 +4969,22 @@
     :Description: To begin a nonincremental backward word search
     :Context:  navigating
     :END:
+*** isearch-forward-symbol                                           :search:
+    :PROPERTIES:
+    :Command:  M-s _
+    :Description: Begin an incremental forward symbol search
+    :Context:  navigating
+    :END:
+*** isearch-forward-symbol-at-point                                  :search:
+    :PROPERTIES:
+    :Command:  M-s .
+    :Description: Symbol incremental search forward using symbol at point
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    With a numeric prefix argument of /n/, this command will search
+    for the /n/-th next occurrence of the symbol at point; negative
+    values of /n/ search backwards.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
