@@ -1437,6 +1437,37 @@
 
     The symbol search commands don't perform character folding, and
     toggling lax whitespace matching has no effect on them.
+*** Regular Expression Search
+    All of the special key sequences in an ordinary incremental search
+    do similar things in an incremental regexp search. For instance,
+    typing ~C-s~ immediately after starting the search retrieves the
+    last incremental search regexp used and searches forward for
+    it. Incremental regexp and non-regexp searches have independent
+    defaults. They also have separate search rings, which you can
+    access with ~M-p~ and ~M-n~.
+
+    Unlike ordinary incremental search, incremental regexp search does
+    not use lax space matching by default.
+
+    Also unlike ordinary incremental search, incremental regexp search
+    cannot use character folding. (If you toggle character folding
+    during incremental regexp searches with ~M-s '~, the search
+    becomes a non-regexp search and the search pattern you typed is
+    interpreted as a literal string.)
+
+    In some cases, adding characters to the regexp in an incremental
+    regexp search can make the cursor move back and start again. For
+    example, if you have searched for '~foo~' and you add '~\|bar~',
+    the cursor backs up in case the first '~bar~' precedes the first
+    '~foo~'.
+
+    Forward and backward regexp search are not symmetrical, because
+    regexp matching in Emacs always operates forward, starting with
+    the beginning of the regexp. Thus forward regexp search scans
+    forward, trying a forward match at each possible starting
+    position. Backward regexp search scans backward, trying a forward
+    match at each possible starting position. These search methods are
+    not mirror images.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2008,6 +2039,12 @@
 *** Symbol Search
     A /symbol search/ is much like an ordinary search, except that the
     boundaries of the search must match the boundaries of a symbol.
+*** Regular Expression
+    A /regular expression/ is a pattern that denotes a class of
+    alternative strings to match.
+*** Regexp
+    The term /regexp/ is an abbreviation of the phrase "Regular
+    Expression".
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -4661,13 +4698,18 @@
     :Command:  C-s
     :Description: Incremental search forward
     :Context:  anywhere
+    :Argument: plain
     :END:
+    With a plain argument this invokes an incremental search for a
+    regexp
 *** isearch-backward                                          :search:buffer:
     :PROPERTIES:
     :Command:  C-r
     :Description: Incremental search backward
     :Context:  anywhere
+    :Argument: plain
     :END:
+    With a plain argument this invokes searching backward for a regexp
 *** isearch-delete-char                                       :search:buffer:
     :PROPERTIES:
     :Command:  <DEL>
@@ -4985,6 +5027,36 @@
     With a numeric prefix argument of /n/, this command will search
     for the /n/-th next occurrence of the symbol at point; negative
     values of /n/ search backwards.
+*** isearch-aforward-regexp                                          :search:
+    :PROPERTIES:
+    :Command:  C-M-s
+    :Description: Begin incremental regexp search
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    If you use this command with a prefix argument, it performs
+    ordinary string search, like ~isearch-forward~.
+*** isearch-backward-regexp                                          :search:
+    :PROPERTIES:
+    :Command:  C-M-r
+    :Description: Begin reverse incremental regexp search
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    If you use this command with a prefix argument, it performs
+    ordinary search string, like ~isearch-backward~.
+*** re-search-forward                                                :search:
+    :PROPERTIES:
+    :Command:  C-M-s <RET>
+    :Description: Nonincremental regexp forward search
+    :Context:  anywhere
+    :END:
+*** re-search-backward                                               :search:
+    :PROPERTIES:
+    :Command:  C-M-r <RET>
+    :Description: Nonincremental backward regexp search
+    :Context:  anywhere
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -5810,7 +5882,7 @@
     current buffer, or the selected window and frame. The command must
     not itself attempt an incremental search. This feature is disabled
     if this variable is ~nil~ (which it is by default).
-*** isearch-yank-on-move
+*** isearch-yank-on-move                                 :search:region:edit:
     When this variable is customized to ~shift~, you can etend the
     search string by holding down the shift key while typing cursor
     motion commands. It will yank text that ends at the new position
@@ -5820,6 +5892,11 @@
     without using the shift key for cursor motion commands, but it
     applies only for certain motion command that have the
     ~isearch-move~ property on their symbols.
+*** regexp-search-ring-max                                           :search:
+    The maximum number of search regexps saved in the search ring is
+    determined by the value of this variable, 16 by default.
+*** search-whitespace-regexp
+    This variable specifies the regexp for the lax space matching.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
