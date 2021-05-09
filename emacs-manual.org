@@ -1149,7 +1149,7 @@
     like ASCII characters, they are shown with the ~homoglyph~
     face. Curved quotes that are known not to be displayable are shown
     as their ASCII approximations ~`~ and ~'~ and ~"~ with the
-    ~homoglyph~ face.
+    ~homoglyph~ face. (Emacs bug ")
 
     On graphical displays, some characters may have no glyphs in any
     of the fonts available to Emacs. These /glyphless characters/ are
@@ -1468,6 +1468,113 @@
     position. Backward regexp search scans backward, trying a forward
     match at each possible starting position. These search methods are
     not mirror images.
+*** Syntax of Regular Expressions
+    Regular expressions have a syntax in which a few characters are
+    special constructs and the rest are ordinary. An ordinary
+    character matches that same character and nothing else. The
+    special characters are '~$^.*+?[\~'. The character '~]~' is
+    special if it ends a character alternative. The character '~-~' is
+    special inside a character alternative. Any other character
+    appearing in a regular expression is ordinary, unless a '~\~'
+    precedes it. (When you use regular expressions in a Lisp program,
+    each '~\~' must be doubled.)
+
+    Any two regular expressions /a/ and /b/ can be concatenated. The
+    result is a regular expression which matches a string if /a/
+    matches some amount of the beginning of that string and /b/
+    matches the rest of the string. To do something less trivial, you
+    need to use one of the special characters. Here is a list of
+    them.
+
+    - ~.~ (Period) :: Is a special character that matches any single
+      character except a newline.
+    - ~*~ :: Is not a construct by itself; it is a postfix operator
+      that means to match the preceding regular expression
+      repetitively any number of times, as many times as
+      possible. '~*~' always applies to the smallest possible
+      preceding expression. The matcher processes a '~*~' construct by
+      matching, immediately, as many repetitions as can be found. Then
+      it continues with the rest of the pattern. If that fails,
+      backtracking occurs, discarding some of the matches of the
+      '~*~'-modified construct in case that makes it possible to match
+      the rest of the pattern.
+    - ~+~ :: Is a postfix operator, similar to '~*~' except that it
+      must match the preceding expression at least once.
+    - ~?~ :: Is a postfix operator, similar to '~*~' except that it
+      can match the preceding expression either once or not at all.
+    - ~*?~, ~+?~, ~??~ :: are non-greedy variants of the operators
+      above. The normal operators '~*~', '~+~', '~?~' match as much as
+      they can, as long as the overall regexp can still match. With a
+      following '~?~', they will match as little as
+      possible. Non-greedy operators match the shortest possible
+      string starting at a given starting point; in a forward search,
+      though, the earliest possible starting point for match is always
+      the one chosen.
+    - ~\{n\]~ :: is a postfix operator specifying /n/ repetitions -
+      that is, the preceding regular expression must match exactly
+      /n/ times in a row.
+    - ~\{n,m\}~ :: Is a postfix operator specifying between /n/ and
+      /m/ repetitions - that is, the preceding regular expression must
+      match at least /n/ times, but no more than /m/ times. If /m/ is
+      omitted, then there is no upper limit, but the preceding regular
+      expression must match at least /n/ times.
+      - '~\{0,1\}~' is equibalent to '~?~'
+      - '~\{0,\}~' is equivalent to '~*~'
+      - '~\{1,\}~' is equivalent to '~+~'
+    - ~[ ... ]~ :: Is a character set, beginning with '~[~' and
+      terminated by '~]~'. In the simplest case, the characters
+      between the two brackets are what this set can match. You can
+      also include character ranges in a character set, by writing the
+      starting and eding characters with '~-~' between them. You can
+      also include certain special character classes in a character
+      set. A '~[:~' and balancing '~:]~' enclose a /character class/
+      inside a character set. To include a '~]~' in a character set,
+      you must make it the first character. To include a '~-~', write
+      '~-~' as the last character of the set, tho you can also put it
+      first or after a range. To include '~^~' in a set, put it
+      anywhere but at the beginning of the set. (at the beginning, it
+      compliments the set - see below.) When you use a range in
+      case-insensitive search, you should write both ends of the range
+      in upper case, or both in lower case, or both should be
+      non-letters. The behavior of a mixed-case range such as '~A-z~'
+      is somewhat ill-defined, and it may change in future Emacs
+      versions.
+    - ~[^ ... ]~ :: '~[^~' begins a complemented character set, which
+      matches any character except the ones specified. '~^~' is not
+      special in a character set unless it is the first character. The
+      character following the '~^~' is treated as if it were first (in
+      other words, '~-~' and '~]~' are not special there). A
+      complemented character set can match a newline, unless newline
+      is mentioned as one of the characters not to match. This is in
+      contrast to the handling of regexps in programs such as ~grep~.
+    - ~^~ :: Is a special character that matches the empty string, but
+      only at the beginning of a line in the text being
+      matched. Otherwise it fails to match anything. For historical
+      compatibility reasons, '~^~' can be used with this meaning only
+      at the beginning of the regular expression, or after '~\(~' or
+      '~\|~'.
+    - ~$~ :: Is similar to '~^~' but matches only at the end of a
+      line. For historical compatibility reasons, '~$~' can be used
+      with this meaning only at the end of the regular expression, or
+      before '~\)~' or '~\|~'.
+    - ~\~ :: has two functions: it quotes the special characters
+      (including '~\~'), and it introduces additional special
+      constructs. See the following section for the special constructs
+      that begin with '~\~'.
+
+    Note: for historical compatibility, special characters are treated
+    as ordinary ones if they are in contexts where their special
+    meanings make no sense. It is poor practice to depend on this
+    behavior; it is better to quote the special character anyway,
+    regardless of where it appears.
+
+    As a '~\~' is not special inside a character alternative, it can
+    never remove the special meaning of '~-~' or '~]~'. So you should
+    not quote these characters when they have no special meaning
+    either. This would not clarify anything, since backslashes can
+    legitimately precede these characters where they have special
+    meaning, as in '~[^\]~' ("~[^\\]~" for List string syntax), which
+    matches any single character except a backslash.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2045,6 +2152,24 @@
 *** Regexp
     The term /regexp/ is an abbreviation of the phrase "Regular
     Expression".
+*** Ordinary Characters
+    An /ordinary character/ in the context of regular expressions
+    matches that same character and nothing else.
+*** Special Characters
+    The /special characters/ are '~$^.*+?[\~'. The character '~]~' is
+    special if it ends a character alternative. The character '~-~' is
+    special inside a character alternative. Some characters are
+    special if it is preceded by '~\~'.
+*** Character Set
+    In the simiplest case, the characters between the two brackets in
+    a /character set/ are what the set can match in the context of a
+    regular expression.
+*** Character Class
+    A '~[:~' and balancing '~:]~' enclose a /character class/ inside a
+    character set.
+*** Complemented Character Set
+    A /complemented character set/ matches any character except the
+    ones specified. This is in the context of a regular expression
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
