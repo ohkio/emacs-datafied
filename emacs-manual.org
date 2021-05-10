@@ -1689,6 +1689,7 @@
     The replace commands normally operate on the text from point to
     the end of the buffer. When the region is active, they operate on
     it instead.
+**** Unconditional Replacement
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -5346,6 +5347,26 @@
     :Description: Describe of the known character categories
     :Context:  anywhere
     :END:
+*** replace-string                                              :search:edit:
+    :PROPERTIES:
+    :Description: Replace every occurrence of given string with newstring
+    :Context:  editing
+    :Argument: plain
+    :END:
+    Replacement happens only in the text after point, so if you want
+    to cover the whole buffer you must go to the beginning first. All
+    occurrences up to the end of the buffer are replaced; to limit
+    replacement to part of the buffer, activate the region around that
+    part. When the region is active, replacement is limited to the
+    region.
+
+    When a given string argument exists, it leaves point at the last
+    occurrence replaced. It adds the prior position of point (where
+    this command was issued) to the mark ring, without activating the
+    mark.
+
+    A prefix argument restricts replacement to matches that are
+    surrounded by word boundaries.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
