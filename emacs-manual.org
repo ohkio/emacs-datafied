@@ -1685,6 +1685,10 @@
     search case-sensitive. This applies to regular expression search
     as well as to literal tring search. The effect ceases if you
     delete the upper-case letter from the search string.
+*** Replacement Commands
+    The replace commands normally operate on the text from point to
+    the end of the buffer. When the region is active, they operate on
+    it instead.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2318,6 +2322,13 @@
 *** Equivalent Character Sequences
     Character sequences that are not identical, but match under
     character folding are known as /equivalent character sequences/.
+*** Search String
+    The /search string/ is the string or regular expression that you
+    use to find appropriate matches that already exist within the
+    buffer you are searching.
+*** Replacement String
+    When searching, the /replacement string/ is the string of text
+    that you can opt to replace any match you found while searching.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
