@@ -1670,6 +1670,21 @@
     The constructs that pertain to words and syntax are controlled by
     the setting of the syntax table.
 *** Regular Expression Example
+*** Lax Matching During Searching
+    By default, search commands perform /lax space matching/: each
+    space, or sequence of spaces, matches any sequence of one or more
+    whitespace characters in the text.
+
+    Searches in Emacs by default ignore the case of the text they are
+    searching through, if you specify the search string in lower
+    case. Regexps and in particular character sets, behave
+    likewise. This feature is known as /case folding/, and it is
+    supported in both incremental and non-incremental search modes.
+
+    An upper-case letter anywhere in the search string makes the
+    search case-sensitive. This applies to regular expression search
+    as well as to literal tring search. The effect ceases if you
+    delete the upper-case letter from the search string.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2274,6 +2289,35 @@
     digit from 1 thru 9, matches the same text that matched the /d/-th
     occurrence of a '~\( ... \)~' construct. This is called a /back
     reference/.
+*** Character Equivalence
+    Normally, you'd want search commands to disregard certain minor
+    differences between the search string you type and the text being
+    searched. For example, sequences of whitespace characters of
+    different length are usually perceived as equivalent; letter-case
+    differences usually don't matter; etc. This is known as /character
+    equivalence/.
+*** Lax Space Matching
+    By default, search commands perform /lax space matching/: each
+    space, or sequence of spaces, matches any sequence of one or more
+    whitespace characters in the text.
+*** Case Folding
+    Searches in Emacs by default ignore the case of the text they are
+    searching through, if you specify the search string in lower
+    case. Regexps and in particular character sets, behave
+    likewise. This feature is known as /case folding/, and it is
+    supported in both incremental and non-incremental search modes.
+*** Character Folding
+    Case folding disregards case distinctions among characters, making
+    upper-case characters match lower-case variants, and vice versa. A
+    generalization of case folding is /character folding/, which
+    disregards wider classes of distinctions among similar
+    characters. Matches disregard the diacritics that distinguish
+    these variants. In addition, letters match other characters that
+    resemble it, or have it as a part of their graphical
+    representation.
+*** Equivalent Character Sequences
+    Character sequences that are not identical, but match under
+    character folding are known as /equivalent character sequences/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -6077,6 +6121,18 @@
     the search string is converted to lower case, so that the search
     remains case-insensitive. However, if the value of this variable
     is other than ~not-yanks~, that disables this down-casing.
+
+    An upper-case letter anywhere in the search string makes the
+    search case-sensitive. This applies to regular expression search
+    as well as to literal tring search. The effect ceases if you
+    delete the upper-case letter from the search string. This variable
+    controls this: if it is non-nil, an upper-case character in the
+    search string makes the search case-sensitive; setting it to ~nil~
+    disables this effect of upper-case characters. The default value
+    of this variable is ~not-yanks~, which makes search case-sensitive
+    if there are upper-case letters in the search string, and also
+    causes text yanked into the search string to be down-cased, so
+    that such searches are case-insensitive by default.
 *** search-exit-option                                  :search:edit:command:
     Normally, typing a command that is not bound by the incremental
     search exits the search before executing the command. Thus, the
@@ -6129,8 +6185,42 @@
 *** regexp-search-ring-max                                           :search:
     The maximum number of search regexps saved in the search ring is
     determined by the value of this variable, 16 by default.
-*** search-whitespace-regexp
+*** search-whitespace-regexp                                    :search:char:
     This variable specifies the regexp for the lax space matching.
+
+    For example, to make spaces match sequences of newlines as well as
+    spaces, set it to '~"[[:space:]\n]+"~'. The default value of this
+    variable depends on the buffer's major mode; most major modes
+    classify spaces, tabs, and formfeed characters as whitespace.
+
+    To disable lax whitespace matching for all searches, change this
+    variable to ~nil~; then each space in the search string matches
+    exactly one space.
+*** case-fold-search                                     :search:buffer:char:
+    If you set this variable to ~nil~, then all letters must match
+    exactly, including case. This is a per-buffer variable; altering
+    the variable normally affects only the current buffer, unless you
+    change its default value. This variable applies to nonincremental
+    searches also, including those performed by the replace commands
+    and the minibuffer history matching commands.
+*** search-default-mode                                         :search:char:
+    Generally, search commands in Emacs do not by default perform
+    character folding in order to match equivalent character
+    sequences. You can enable this behavior by customizing this
+    variable to ~char-fold-to-regexp~.
+*** char-fold-symmetric                                         :search:char:
+    By default, typing an explicit variant of a character, such as
+    ~ä~, as part of the search string doesn't match its base
+    character, such as ~a~. But if you customize this variable to ~t~,
+    then search commands treat equivalent characters the same and use
+    of any of a set of equivalent characters in a search string finds
+    any of them in the text being searched, so typing an accented
+    character ~ä~ matches the letter ~a~ as well as all the other
+    variants like ~á~.
+*** char-fold-include                                           :search:char:
+    You can add new character foldings using this variable.
+*** char-fold-exclude                                           :search:char:
+    You can remove existing character foldings using this variable.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
