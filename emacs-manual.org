@@ -1691,6 +1691,22 @@
     it instead.
 **** Unconditional Replacement
 **** Regexp Replacement
+**** Replace Commands and Lax Matches
+     If the first argument of a replace command is all lower case, the
+     command ignores case while searching for occurrences to replace
+     according to how the variables: ~case-fold-search~ and
+     ~search-upper-case~ are set.
+
+     In addition, when the newstring argument is all or partly lower
+     case, replacement commands try to preserve the case pattern of
+     each occurrence. ~replace-string~ can distinguish between three
+     capitalization alternatives - lower case, all caps, and
+     capitalized.
+
+     If upper-case letters are used in the replacement string, they
+     remain upper case every time that text is inserted. If upper-case
+     letters are used in the first argument, the second argument is
+     always substituted exactly as given, with no case conversion.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -6274,6 +6290,31 @@
     You can add new character foldings using this variable.
 *** char-fold-exclude                                           :search:char:
     You can remove existing character foldings using this variable.
+*** replace-lax-whitespace                                      :search:char:
+    Unlike incremental search, the replacement commands do not use lax
+    space matching by default. To enable lax space matching for
+    replacement, change this variable to non-nil. (This only affects
+    how Emacs finds the text to replace, not the replacement text.)
+*** replace-regexp-lax-whitespace                               :search:char:
+    Unlike incremental search, the replacement commands do not use lax
+    space matching by default. This is a companion variable to
+    ~replace-lax-whitespace~ which controls whether the command
+    ~query-replace-regexp~ uses lax whitespace matching when searching
+    for patterns.
+*** case-replace                                                :search:char:
+    If upper-case letters are used in the replacement string, they
+    remain upper case every time that text is inserted. If upper-case
+    letters are used in the first argument, the second argument is
+    always substituted exactly as given, with no case conversion. If
+    this variable is set to ~nil~, replacement is done without case
+    conversion.
+*** replace-char-fold                                           :search:char:
+    The replacement commands by default do not use character folding
+    when looking for the text to replace. To enable character folding
+    for matching in ~query-replace~ and ~replace-string~, set this
+    variable to a non-nil value. (This setting does not affect the
+    replacement text, only how Emacs finds the text to replace. It
+    also doesn't affect ~replace-regexp~.)
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
