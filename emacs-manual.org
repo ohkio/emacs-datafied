@@ -1707,6 +1707,25 @@
      remain upper case every time that text is inserted. If upper-case
      letters are used in the first argument, the second argument is
      always substituted exactly as given, with no case conversion.
+**** Query Replace
+     You can reuse earlier replacements with the commands
+     ~query-replace~ or ~query-replace-regexp~. When either these
+     commands prompts for the search string, use ~M-p~ and ~M-n~ to
+     show previous replacements in the form '~from -> to~', where
+     /from/ is the search pattern, /to/ is its replacement, and the
+     separator between them is determined by the value of the variable
+     ~query-replace-from-to-separator~.
+
+     If you type any other key, besides the predefined keys when in
+     the ~query-replace~ context, then you exit the ~query-replace~,
+     and the key is reread as part of a key sequence. Thus, if you
+     type ~C-k~, it exits the ~query-replace~ and then kills to the
+     end of line. In particular, ~C-g~ simply exits the
+     ~query-replace~.
+
+     To restart a ~query-replace~ once it is exited, use ~C-x ESC
+     ESC~, which repeats the ~query-replace~ because it used the
+     minibuffer to read its argument.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2721,6 +2740,13 @@
    There are some commands that only work within isearch and after
    having made a yank. For example after the following commands: ~C-s
    C-y~.
+** query-replace
+   There are some commands that are only valid as you are working on a
+   ~query-replace~ or a ~query-replace-regexp~ command.
+** recursive-edit
+   A recursive edit is a situation in which you are using Emacs
+   commands to perform arbitrary editing while in the middle of
+   another Emacs command.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -5404,6 +5430,123 @@
     time, use '~\?~' in the replacement string. Each replacement will
     ask you to edit the replacement string in the minibuffer, putting
     point where the '~\?~' was.
+*** query-replace                                               :search:edit:
+    :PROPERTIES:
+    :Command:  M-%
+    :Description: Replace some occurrences of given string with newstring
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument means to consider only occurrences that are
+    bounded by word-delimiter characters. A negative prefix argument
+    replaces backward.
+*** query-replace-regexp                                        :search:edit:
+    :PROPERTIES:
+    :Command:  C-M-%
+    :Description: Replace some matches for given regexp with newstring
+    :Context:  editing
+    :END:
+*** QR Yes                                                      :search:edit:
+    :PROPERTIES:
+    :Command:  <SPC> OR y
+    :Description: to replace the occurrence with newstring
+    :Context:  query-replace
+    :END:
+*** QR Next                                                      :search:nav:
+    :PROPERTIES:
+    :Command:  <DEL> OR <Delete> OR <BACKSPACE> OR n
+    :Description: to skip to the next occurrence without replacing this one
+    :Context:  query-replace
+    :END:
+*** QR Replace and Stay                                         :search:edit:
+    :PROPERTIES:
+    :Command:  , <Comma>
+    :Description: To replace this occurrence and display the result
+    :Context:  query-replace
+    :END:
+*** QR Quit                                                          :search:
+    :PROPERTIES:
+    :Command:  <RET> OR q
+    :Description: To exit without doing any more replacements
+    :Context:  query-replace
+    :END:
+*** QR Replace and Quit                                         :search:edit:
+    :PROPERTIES:
+    :Command:  . <Period>
+    :Description: To replace this occurrence and exit with no more replace
+    :END:
+*** QR Replace All                                              :search:edit:
+    :PROPERTIES:
+    :Command:  !
+    :Description: To replace all remaining occurrences without asking again
+    :Context:  query-replace
+    :END:
+*** QR Go Back                                                   :search:nav:
+    :PROPERTIES:
+    :Command:  ^
+    :Description: To go back to the position of the previous occurrence
+    :Context:  query-replace
+    :END:
+*** QR Undo Previous                                            :search:undo:
+    :PROPERTIES:
+    :Command:  u
+    :Description: To undo the last replacement and go back there
+    :Context:  query-replace
+    :END:
+*** QR Undo All                                                 :search:undo:
+    :PROPERTIES:
+    :Command:  U
+    :Description: To undo all the replacements and go to first
+    :Context:  query-replace
+    :END:
+*** QR Recursive Edit                                           :search:edit:
+    :PROPERTIES:
+    :Command:  C-r
+    :Description: To enter a recursive editing level
+    :Context:  query-replace
+    :END:
+*** exit-recursive-edit                                         :search:edit:
+    :PROPERTIES:
+    :Command:  C-M-c
+    :Description: Exit recursive edit to previous command
+    :Context:  recursive-edit
+    :END:
+*** QR Delete and Recursive Edit                         :search:edit:delete:
+    :PROPERTIES:
+    :Command:  C-w
+    :Description: To delete the occurrence, then enter recursive edit
+    :Context:  query-replace
+    :END:
+*** QR Edit Replace String                                      :search:edit:
+    :PROPERTIES:
+    :Command:  e OR E
+    :Description: To edit replacement string in minibuffer
+    :Context:  query-replace
+    :END:
+*** QR Redisplay                                             :search:display:
+    :PROPERTIES:
+    :Command:  C-l
+    :Description: To redisplay the screen
+    :Context:  query-replace
+    :END:
+*** QR Replace All Multi Buffer                                 :search:edit:
+    :PROPERTIES:
+    :Command:  Y
+    :Description: replace all remaining matches in all buffers
+    :Context:  query-replace
+    :END:
+*** QR Next All Multi Buffer                              :search:nav:buffer:
+    :PROPERTIES:
+    :Command:  N
+    :Description: To skip to next buffer in multi-buffer replacements
+    :Context:  query-replace
+    :END:
+*** QR Help                                                    :search:helps:
+    :PROPERTIES:
+    :Command:  C-h OR ? OR <F1>
+    :Description: To display a message of all QR options
+    :Context:  query-replace
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -6315,6 +6458,36 @@
     variable to a non-nil value. (This setting does not affect the
     replacement text, only how Emacs finds the text to replace. It
     also doesn't affect ~replace-regexp~.)
+*** query-replace-from-to-separator                          :search:display:
+    You can reuse earlier replacements with the commands
+    ~query-replace~ or ~query-replace-regexp~. When either these
+    commands prompts for the search string, use ~M-p~ and ~M-n~ to
+    show previous replacements in the form '~from -> to~', where
+    /from/ is the search pattern, /to/ is its replacement, and the
+    separator between them is determined by the value of this
+    variable. If the value of this variable is ~nil~, replacements are
+    not added to the command history, and cannot be reused.
+*** query-replace-highlight                                  :search:display:
+    The commands ~query-replace~ and ~query-replace-regexp~ highlight
+    the current match using the face ~query-replace~. You can disable
+    this highlight by setting this variable to ~nil~.
+*** query-replace-lazy-highlight                             :search:display:
+    The commands ~query-replace~ and ~query-replace-regexp~ highlight
+    any match that is not the current match using the ~lazy-highlight~
+    face just link incremental search; this can be disabled by setting
+    this variable to ~nil~.
+*** query-replace-show-replacement                           :search:display:
+    By default, ~query-replace-regexp~ will show the substituted
+    replacement string for the current match in the minibuffer. If you
+    want to keep special sequences '~\&~' and '~\n~' unexpanded,
+    customize this variable
+*** query-replace-skip-read-only                                 :search:nav:
+    This variable, if set non-nil, will cause replacement commands to
+    ignore matches in read-only text. The default is not to ignore
+    them.
+*** search-invisible                                                 :search:
+    This variable determines how ~query-replace~ treats invisible
+    text.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
