@@ -11,24 +11,24 @@
 *** Summary
     Nothing to practice
 *** Installation
- Already installed wanna keep moving
+    Already installed wanna keep moving
 *** Activation
 **** Activate Org Mode
 ***** File Extension
       Any file that ends in '.org' will turn on org mode.
 ***** File Text                                                    :confused:
       Start a file of any extension with the following text
- #+BEGIN_SRC org
- MY PROJECTS    -*- mode: org; -*-
- #+END_SRC
+      #+BEGIN_SRC org
+	MY PROJECTS    -*- mode: org; -*-
+      #+END_SRC
       Not able to get this to work, must need something else unspoken.
 **** Suggested Key Bindings
 ***** .emacs addition
- #+BEGIN_SRC emacs-lisp
- (global-set-key (kbd "C-c l") 'org-store-link)
- (global-set-key (kbd "C-c a") 'org-agenda)
- (global-set-key (kbd "C-c c") 'org-capture)
- #+END_SRC
+      #+BEGIN_SRC emacs-lisp
+	(global-set-key (kbd "C-c l") 'org-store-link)
+	(global-set-key (kbd "C-c a") 'org-agenda)
+	(global-set-key (kbd "C-c c") 'org-capture)
+      #+END_SRC
 *** Feedback
 **** Problems, Questions, Remarks, Ideas
 ***** email
@@ -45,36 +45,38 @@
        + M-x emacs-version <RET>
        + M-x org-version <RET>
 
- Everything at once:
- M-x org-submit-bug-report <RET>
+       Everything at once:
+       M-x org-submit-bug-report <RET>
 **** Minimal mode                                                  :confused:
- I don't fully understand this yet, but minimal mode should have the following code
- #+BEGIN_SRC emacs-lisp
- ;;; Minimal setup to load latest `org mode'.
+     I don't fully understand this yet, but minimal mode should have
+     the following code
+     #+BEGIN_SRC emacs-lisp
+       ;;; Minimal setup to load latest `org mode'.
 
- ;; Activation debugging.
- (setq debug-on-error t
-       debug-on-signal nil
-       debug-on-quit nil)
+       ;; Activation debugging.
+       (setq debug-on-error t
+	     debug-on-signal nil
+	     debug-on-quit nil)
 
- ;; Add latest Org mode to load path.
- (add-to-list 'load-path (expand-file-name "/path/to/org-mode/listp"))
- (add-to-list 'load-path (expand-file-name "/path/to/org-mode/contrib/lisp" t))
- #+END_SRC
- The paths to org-mode confuse me a little. And I'm not sure if there's a specific place I'm
- supposed to store this code. I'm supposed to start it like this:
- #+BEGIN_SRC sh
- $emacs -Q -l /path/to/minimal-org.el
- #+END_SRC
+       ;; Add latest Org mode to load path.
+       (add-to-list 'load-path (expand-file-name "/path/to/org-mode/listp"))
+       (add-to-list 'load-path (expand-file-name "/path/to/org-mode/contrib/lisp" t))
+     #+END_SRC
+     The paths to org-mode confuse me a little. And I'm not sure if
+     there's a specific place I'm supposed to store this code. I'm
+     supposed to start it like this:
+     #+BEGIN_SRC sh
+       $emacs -Q -l /path/to/minimal-org.el
+     #+END_SRC
 **** Backtrace
- When encountering a bug do the following:
- 1) Reload uncompiled versions of org mode. This helps make helpful backtrace
-    C-u M-x org-reload <RET>
- 2) Activate debugger
-    M-x toggle-debug-on-error <RET>
- 3) Recreate error
- 4) Save backtrace buffer to file
-    C-x C-w
+     When encountering a bug do the following:
+     1) Reload uncompiled versions of org mode. This helps make helpful backtrace
+     C-u M-x org-reload <RET>
+     2) Activate debugger
+     M-x toggle-debug-on-error <RET>
+     3) Recreate error
+     4) Save backtrace buffer to file
+     C-x C-w
 
 ***** Note                                                             :typo:
       Current: M-x toggle-debug-or-error <RET>
@@ -82,36 +84,36 @@
 *** Typesetting Conventions Used in this Manual
 **** 'TODO' keywords
 ***** built in keywords
- All caps:
- TODO
- DONE
+      All caps:
+      TODO
+      DONE
 ***** user defined
- still all caps:
- WAITING
- FOUND
- FIXED
+      still all caps:
+      WAITING
+      FOUND
+      FIXED
 **** tags
- case-sensitive
+     case-sensitive
 ***** user defined
- should be all lower case:
- confused
- typo
+      should be all lower case:
+      confused
+      typo
 ***** built in tags
- use whatever is specified, usually all caps:
- ARCHIVE
+      use whatever is specified, usually all caps:
+      ARCHIVE
 **** property keywords
 ***** user defined
- Capitalized:
- Release
- Information
+      Capitalized:
+      Release
+      Information
 ***** built in
- all caps:
- PRIORITY
- CUSTOM_ID
+      all caps:
+      PRIORITY
+      CUSTOM_ID
 **** other keywords and blocks
- Normally written in upper case for "readability" but lower case still works:
- TITLE
- BEGIN...END
+     Normally written in upper case for "readability" but lower case still works:
+     TITLE
+     BEGIN...END
 ** Document Structure
 *** Headlines
 **** This
@@ -121,27 +123,26 @@
 ****** Example
 *** Visibility Cycling
 **** Global and local cycling                                      :practice:
- [[https://orgmode.org/manual/Global-and-local-cycling.html#Global-and-local-cycling][cycling keys]]
- Basically use tab or shift tab or variations on tab to get the visibility you want
+     [[https://orgmode.org/manual/Global-and-local-cycling.html#Global-and-local-cycling][cycling keys]] Basically use tab or shift tab or variations on tab
+     to get the visibility you want
 **** Initial visibility
      :PROPERTIES:
      :VISIBILITY: all
      :END:
- See the top of the file for an example of startup visibility. See the property for this header
- for more specific visibility. Hit
- C-u C-u TAB
- to go to main visibility
+     See the top of the file for an example of startup visibility. See
+     the property for this header for more specific visibility. Hit
+     C-u C-u TAB to go to main visibility
 **** Catching invisible edits
 *** Motion                                                         :practice:
- [[https://orgmode.org/manual/Motion.html#Motion][motion keys]]
- Nothing to write. Check manual
+    [[https://orgmode.org/manual/Motion.html#Motion][motion keys]]
+    Nothing to write. Check manual
 *** Structure Editing                                              :practice:
- [[https://orgmode.org/manual/Structure-Editing.html#Structure-Editing][structure editing keys]]
- All practice stuff no visuals check manual
+    [[https://orgmode.org/manual/Structure-Editing.html#Structure-Editing][structure editing keys]]
+    All practice stuff no visuals check manual
 *** Sparse Trees                                            :review:practice:
- This seems important but maybe after reading the rest of the manual
+    This seems important but maybe after reading the rest of the manual
 *** Plain Lists                                                    :practice:
- [[https://orgmode.org/manual/Plain-Lists.html#Plain-Lists][plain list keys]]
+    [[https://orgmode.org/manual/Plain-Lists.html#Plain-Lists][plain list keys]]
     - unordered
     - list
     - example :: with a description
@@ -158,21 +159,20 @@
 		      a) etc.
 			 A) etc.
 *** Drawers                                                        :practice:
-
- [[https://orgmode.org/manual/Drawers.html#Drawers][Drawer keys]]
- Drawers hide information you don't always need to see
- :DRAWERNAME:
- Stuff you don't want to see in your drawer
- like socks
- and shirts
- :END:
- After the drawer
+    [[https://orgmode.org/manual/Drawers.html#Drawers][Drawer keys]]
+    Drawers hide information you don't always need to see
+    :DRAWERNAME:
+    Stuff you don't want to see in your drawer
+    like socks
+    and shirts
+    :END:
+    After the drawer
 *** Blocks
- Blocks are like drawers but sometimes used for code and stuff
- #+BEGIN_EXAMPLE
- stuff in a block
- #+END_EXAMPLE
- Seems like it requires some kind of underscore. Not sure about specifics.
+    Blocks are like drawers but sometimes used for code and stuff
+    #+BEGIN_EXAMPLE
+    stuff in a block
+    #+END_EXAMPLE
+    Seems like it requires some kind of underscore. Not sure about specifics.
 ** Tables
    :PROPERTIES:
    :ID:       dc99d25a-8f41-435c-8fec-7a1a589c0546
@@ -202,22 +202,22 @@
  | 3 |   9 |  27 |  81 | 1.7320508 |  1.3160740 |
  #+TBLFM: $2=$1^2::$3=$1^3::$4=$1^4::$5=sqrt($1)::$6=sqrt(sqrt($1))
 *** The Orgtbl Minor Mode
- This is kind of more for emacs in general than org mode
+    This is kind of more for emacs in general than org mode
 *** The Spreadsheet
 **** References
- mostly incomplete syntax stuff
+     mostly incomplete syntax stuff
 ***** Something confusing                                              :typo:
- not '@3 = 2 * remote(FOO, @@1$$#)'
- but '@3 = 2 * remote(FOO, @1$$#)'
+      not '@3 = 2 * remote(FOO, @@1$$#)'
+      but '@3 = 2 * remote(FOO, @1$$#)'
 
- not ''remote($1, @@>$2)' => 'remote(year_2013, @@>$1)''
- but ''remote($1, @>$2)' => 'remote(year_2013, @>$2)''
+      not ''remote($1, @@>$2)' => 'remote(year_2013, @@>$1)''
+      but ''remote($1, @>$2)' => 'remote(year_2013, @>$2)''
 **** Formula syntax for Calc
- Also incomplete syntax stuff
+     Also incomplete syntax stuff
 **** Emacs Lisp forms as formulas
- incomplete syntax
+     incomplete syntax
 **** Durations and time values
- incomplete syntax
+     incomplete syntax
 **** Field and range formulas
  | header      | stuff   |
  |-------------+---------|
@@ -231,15 +231,15 @@
  |   3 |                 |      6 |
  #+TBLFM: $3=$1*2
 **** Lookup functions                                                :review:
- This seems like stuff that might be cool to checkout when I am using tables more regularly
+     This seems like stuff that might be cool to checkout when I am
+     using tables more regularly
 **** Editing and debugging formulas                                :practice:
-
- [[https://orgmode.org/manual/Editing-and-debugging-formulas.html#Editing-and-debugging-formulas][editing formula keys]]
+     [[https://orgmode.org/manual/Editing-and-debugging-formulas.html#Editing-and-debugging-formulas][editing formula keys]]
 **** Updating the table
- [[https://orgmode.org/manual/Updating-the-table.html#Updating-the-table][update table keys]]
+     [[https://orgmode.org/manual/Updating-the-table.html#Updating-the-table][update table keys]]
 **** Advanced features                                               :review:
-
- Syntax stuff that again might be more interesting when I'm using tables.
+     Syntax stuff that again might be more interesting when I'm using
+     tables.
 *** Org Plot
  I tried installing this but it doesn't seem to be working. I'd like to email
  the list serve about this.
@@ -255,7 +255,7 @@
 
 ** Hyperlinks
 *** Link Format
- [[https://orgmode.org/manual/Link-Format.html#Link-Format][link example]]
+    [[https://orgmode.org/manual/Link-Format.html#Link-Format][link example]]
 *** Internal Links
     :PROPERTIES:
     :CUSTOM_ID: custom-example
@@ -270,9 +270,9 @@
  [[Table Target Example]]
  [[Internal Links][Header Target Example]]
 *** Radio Targets
- Radio targets turn plain text into links
- uniqqq
- <<<uniqqq>>>
+    Radio targets turn plain text into links
+    uniqqq
+    <<<uniqqq>>>
 *** External Links                                                   :review:
 *** Handling Links                                                 :practice:
 *** Using Links Outside Org                                          :review:
@@ -282,16 +282,16 @@
 ** 'TODO' Items
 *** Basic TODO Functionality                                       :practice:
 **** TODO Example
- Maybe a short description
+     Maybe a short description
 *** Extended Use of TODO Keywords
 **** 'TODO' keywords as workflow states                              :review:
- Can define new TODO keywords for all org files.
+     Can define new TODO keywords for all org files.
 **** 'TODO' keywords as types
- Functionality the manual discourages
+     Functionality the manual discourages
 **** Multiple keyword sets in one file                             :practice:
- Define multiple todo sequences for all org files.
+     Define multiple todo sequences for all org files.
 **** Fast access to TODO states                                      :review:
- Cool stuff
+     Cool stuff
 **** Setting up keywords for individual files
  #+TODO: TODO NEXT | DONE
 ***** TODO something
@@ -299,12 +299,12 @@
 ***** DONE finished
       CLOSED: [2019-12-18 Wed 07:53]
 **** Faces for TODO keywords
- example .emacs line
- #+BEGIN_SRC elisp
- (setq org-todo-keyword-faces
-       '(("TODO" . org-warning) ("STARTED" . "yellow")
-         ("CANCELED" . (:foreground "blue" :weight bold))))
- #+END_SRC
+     example .emacs line
+     #+BEGIN_SRC elisp
+       (setq org-todo-keyword-faces
+	     '(("TODO" . org-warning) ("STARTED" . "yellow")
+	       ("CANCELED" . (:foreground "blue" :weight bold))))
+     #+END_SRC
 **** 'TODO' dependencies                                           :practice:
 ***** NEXT blocked until all children are finished
 ****** NEXT blocking todo
@@ -373,7 +373,7 @@
       - State "DONE"       from "NEXT"       [2019-12-18 Wed 19:52]
 
 *** Priorities                                                     :practice:
-**** [#A] Priority Example 
+**** [#A] Priority Example
 *** Breaking Down Tasks into Subtasks
 **** Organize Party [40%]
      :PROPERTIES:
@@ -457,7 +457,7 @@
       :NDisks:   2
       :END:
 *** Special Properties                                               :review:
- These help access stuff for column view
+    These help access stuff for column view
 *** Property Searches                                              :practice:
 *** Property Inheritance                                             :review:
 *** Column View
@@ -614,123 +614,146 @@
 **** Setting up capture
 **** Using capture
 **** Capture templates
-Example
-#+BEGIN_SRC emacs-lisp
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
-         "* %?\nEntered on %U\n  %i\n  %a")))
-#+END_SRC
+     Example
+     #+BEGIN_SRC emacs-lisp
+       (setq org-capture-templates
+	     '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+		"* TODO %?\n  %i\n  %a")
+	       ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
+		"* %?\nEntered on %U\n  %i\n  %a")))
+     #+END_SRC
 ***** Template elements
-#+BEGIN_SRC emacs-lisp
-(setq org-capture-templates
-      '((keys description type target template properties)
-        (keys description type target template properties)...)
-#+END_SRC
+      #+BEGIN_SRC emacs-lisp
+	(setq org-capture-templates
+	      '((keys description type target template properties)
+		(keys description type target template properties)...)
+      #+END_SRC
 ****** keys
-       When in Capture template buffer, the key/s to type to get to this particular template
+       When in Capture template buffer, the key/s to type to get to
+       this particular template
 
-       When using several keys, keys using the same prefix key must be sequential in the list
-       and preceded by a 2-element entry explaining the prefix key, for example
-#+BEGIN_SRC emacs-lisp
-(setq org-capture-templates
-      '(("b" "Templates for making stuff to buy")
-        ("bt" "buy toys" type target ...)
-	("bo" "buy office supplies" type target ...)...)
-#+END_SRC
+       When using several keys, keys using the same prefix key must be
+       sequential in the list and preceded by a 2-element entry
+       explaining the prefix key, for example
+       #+BEGIN_SRC emacs-lisp
+	 (setq org-capture-templates
+	       '(("b" "Templates for making stuff to buy")
+		 ("bt" "buy toys" type target ...)
+		 ("bo" "buy office supplies" type target ...)...)
+       #+END_SRC
 ****** description
        A short string describing the template, shown during selection.
 ****** type
-       - entry :: An Org mode node, with a headline. Will be filled as the child of the target
-		  entry or as a top-level entry. The target file should be an Org file.
-       - item :: A plain list item, placed in the first plain list at the target location.
-		 Again the target file should be an Org file.
-       - checkitem :: A checkbox item. This only differs from the plain list item by the
-		      default template
-       - table-line :: A new line in the first table at the target location. Where exactly the
-		       line will be inserted depends on the properties :prepend and 
-		       :table-line-pos
+       - entry :: An Org mode node, with a headline. Will be filled as
+         the child of the target entry or as a top-level entry. The
+         target file should be an Org file.
+       - item :: A plain list item, placed in the first plain list at
+         the target location.  Again the target file should be an Org
+         file.
+       - checkitem :: A checkbox item. This only differs from the
+         plain list item by the default template
+       - table-line :: A new line in the first table at the target
+         location. Where exactly the line will be inserted depends on
+         the properties :prepend and :table-line-pos
        - plain :: Text to be inserted as it is.
 ****** target
-       Specification of where the captured item should be placed. In Org files, targets
-       usually define a node. Entries will become children of this node. Other times will be
-       added to the table or list in the body of this node. Most target specifications
-       contain a file name. If that file name is the empty string, it defaults to
-       org-default-notes-file. A file can also be given as a variable or as a function called
-       with no argument. When an absolute path is not specified for a target, it is taken as
+       Specification of where the captured item should be placed. In
+       Org files, targets usually define a node. Entries will become
+       children of this node. Other times will be added to the table
+       or list in the body of this node. Most target specifications
+       contain a file name. If that file name is the empty string, it
+       defaults to org-default-notes-file. A file can also be given as
+       a variable or as a function called with no argument. When an
+       absolute path is not specified for a target, it is taken as
        relative to org-directory.
 
        Valid values:
-       - '(file "path/to/file")' :: Text will be placed at the beginning or end of that file
-       - '(id "id of existing org entry")' :: Filing as child of this entry, or in the body 
-            of the entry.
-       - '(file+headline "filename" "node headline")' :: Fast configuration if the target
-	    heading is unique in the file.
-       - '(file+olp "filename" "Level 1 heading" "Level 2" ...)' :: For non-unique headings,
-	    the full path is safer.
-       - '(file+regexp "filename" "regexp to find location")' :: Use a regular expression to
-	    position point
-       - '(file+olp+datetree "filename" [ "Level 1 heading" ...])' :: This target creates a
-	    heading in a date tree for today's date. If the optional outline path is given,
-	    the tree will be built under the node it is pointing to, instead of at top level.
-	    Check out the :time-prompt and :tree-type properties below for additional
-	    options.
-       - '(file+function "filename" function-finding-location)' :: A function to find the
-	    right location in the file.
-       - '(clock)' :: File to the entry that is currently being clocked.
-       - '(function function-finding-location)' :: Most general way: write your own function
-	    which poth visits the file and moves point to the right location
+       - '(file "path/to/file")' :: Text will be placed at the
+         beginning or end of that file
+       - '(id "id of existing org entry")' :: Filing as child of this
+         entry, or in the body of the entry.
+       - '(file+headline "filename" "node headline")' :: Fast
+         configuration if the target heading is unique in the file.
+       - '(file+olp "filename" "Level 1 heading" "Level 2" ...)' :: For
+         non-unique headings, the full path is safer.
+       - '(file+regexp "filename" "regexp to find location")' :: Use a
+         regular expression to position point
+       - '(file+olp+datetree "filename" [ "Level 1 heading" ...])' :: This
+         target creates a heading in a date tree for today's date. If
+         the optional outline path is given, the tree will be built
+         under the node it is pointing to, instead of at top level.
+         Check out the :time-prompt and :tree-type properties below
+         for additional options.
+       - '(file+function "filename" function-finding-location)' :: A
+         function to find the right location in the file.
+       - '(clock)' :: File to the entry that is currently being
+         clocked.
+       - '(function function-finding-location)' :: Most general way:
+         write your own function which poth visits the file and moves
+         point to the right location
 ****** template
-       The template for creating the capture item. Specifics in later section.
+       The template for creating the capture item. Specifics in later
+       section.
 ****** properties
        Additional but optional properties:
-       - :prepend :: Normally new captured information will be appended at the target
-		     location (last child, last table line, last list item, ...). Setting
-		     this property changes that.
-       - :immediate-finish :: When set, do not offer to edit the information, just file it
-	    away immediately. This makes sense if the template only needs information that
-	    can be added automatically.
-       - :empty-lines :: Set this to the number of lines to insert before and after the new
-			 item. Default 0, and the only other common value is 1.
+       - :prepend :: Normally new captured information will be
+         appended at the target location (last child, last table line,
+         last list item, ...). Setting this property changes that.
+       - :immediate-finish :: When set, do not offer to edit the
+         information, just file it away immediately. This makes sense
+         if the template only needs information that can be added
+         automatically.
+       - :empty-lines :: Set this to the number of lines to insert
+         before and after the new item. Default 0, and the only other
+         common value is 1.
        - :clock-in :: Start the clock in this item.
-       - :clock-keep :: Keep the clock running when filing the captured entry.
-       - :clock-resume :: If starting the capture interrupted a clock, restart that clock
-			  when finished with the capture. Note that :clock-keep has
-			  precedence over :clock-resume. When setting both to non-nil, the
-			  current clock will run and the previous one will not be resumed.
-       - :time-prompt :: Prompt for a date/time to be used for date/week trees and when
-			 filling the template. Without this property, capture uses the
-			 current date and time. Even if this property has not been set,
-			 you can force the same behavior by calling org-capture with a C-1
-			 prefix argument.
-       - :tree-type :: When wee, make a week tree instead of a month tree, i.e., place the
-		       headings for each day under a heading with the current ISO week.
-       - :unnarrowed :: Do not narrow the target buffer, simply show the full buffer.
-			Default is to narrow it so that you only see the new material.
-       - :kill-buffer :: If the target file was not yet visited when capture was invoked,
-			 kill the buffer again after capture is completed.
-       - :no-save :: Do not save the target file after finishing the capture
+       - :clock-keep :: Keep the clock running when filing the
+         captured entry.
+       - :clock-resume :: If starting the capture interrupted a clock,
+         restart that clock when finished with the capture. Note that
+         :clock-keep has precedence over :clock-resume. When setting
+         both to non-nil, the current clock will run and the previous
+         one will not be resumed.
+       - :time-prompt :: Prompt for a date/time to be used for
+         date/week trees and when filling the template. Without this
+         property, capture uses the current date and time. Even if
+         this property has not been set, you can force the same
+         behavior by calling org-capture with a C-1 prefix argument.
+       - :tree-type :: When wee, make a week tree instead of a month
+         tree, i.e., place the headings for each day under a heading
+         with the current ISO week.
+       - :unnarrowed :: Do not narrow the target buffer, simply show
+         the full buffer.  Default is to narrow it so that you only
+         see the new material.
+       - :kill-buffer :: If the target file was not yet visited when
+         capture was invoked, kill the buffer again after capture is
+         completed.
+       - :no-save :: Do not save the target file after finishing the
+         capture
 ******* Typo                                                           :typo:
-	in :clock-resume definition I think :clock-keep should instead be :clock-in based
-	on how the functionality is being described.
+	in :clock-resume definition I think :clock-keep should instead
+	be :clock-in based on how the functionality is being
+	described.
 ***** Template expansion
       "%-escapes" Expanded in the given order:
       - %[FILE] :: Insert the contest of the file given by FILE.
-      - %(EXP) :: Evaluate Elips expression EXP and replace it with the result. The EXP form
-		  must return a string. Only placeholders pre-existing within the template,
-		  or introduced with %[file], are expanded this way. Since this happens
-		  after expanding non-iterative "%-escapes", those can be used to fill the
-		  expression.
-      - %<FORMAT> :: The result of format-time-string on the FORMAT specification.
+      - %(EXP) :: Evaluate Elips expression EXP and replace it with
+        the result. The EXP form must return a string. Only
+        placeholders pre-existing within the template, or introduced
+        with %[file], are expanded this way. Since this happens after
+        expanding non-iterative "%-escapes", those can be used to fill
+        the expression.
+      - %<FORMAT> :: The result of format-time-string on the FORMAT
+        specification.
       - %t :: Timestamp, date only.
       - %T :: Timestamp, with date and time.
       - %u, %U :: Like %t, %T above, but inactive timestamps.
-      - %i :: Initial content, the region when capture is called while the region is active.
-	      If there is text before %i on the same line, such as indentation, and %i is
-	      not inside a %(exp) form, that prefix is added before every line in the
-	      inserted text.
-      - %a :: Annotation, normally the link creaded with org-store-link.
+      - %i :: Initial content, the region when capture is called while
+        the region is active.  If there is text before %i on the same
+        line, such as indentation, and %i is not inside a %(exp) form,
+        that prefix is added before every line in the inserted text.
+      - %a :: Annotation, normally the link creaded with
+        org-store-link.
       - %A :: Like %a, but prompt for the description part.
       - %l :: Like %a, but only insert the literal link.
       - %c :: Current kill ring head.
@@ -738,22 +761,28 @@ Example
       - %k :: Title of the currently clocked task.
       - %K :: Link to the currently clocked task.
       - %n :: User name (taken from user-full-name)
-      - %f :: File visited by current buffer when org-capture was called.
-      - %F :: Full path of the file or directory visited by current buffer.
-      - %:keyword :: Specific information for certain link types, see below.
-      - %^g :: Prompt for tags, with completion on tags in target file.
-      - %^G :: Prompt for tags, with completion all tags in all agenda files.
-      - %^t :: Like %t, but prompt for date. Similarly %^T, %^u, %^U. You may define a
-	       prompt like %^{Birthday}t
+      - %f :: File visited by current buffer when org-capture was
+        called.
+      - %F :: Full path of the file or directory visited by current
+        buffer.
+      - %:keyword :: Specific information for certain link types, see
+        below.
+      - %^g :: Prompt for tags, with completion on tags in target
+        file.
+      - %^G :: Prompt for tags, with completion all tags in all agenda
+        files.
+      - %^t :: Like %t, but prompt for date. Similarly %^T, %^u,
+        %^U. You may define a prompt like %^{Birthday}t
       - %^C :: Interactive selection of which kill or clip to use.
       - %^L :: Like %^C, but insert as link.
       - %^{PROP}p :: Prompt the user for a value for property PROP
-      - %^{PROMPT} :: Prompt the user for a string and replace this sequence with it. You may
-		      specify a default value and a completion table with
-		      %^{prompt|default|completion2|completion3...}. The arrow keys access
-		      prompt-specific history
-      - %\N :: Insert the text entered at the Nth %^{PROMPT}, where N is a number starting
-	       from 1.
+      - %^{PROMPT} :: Prompt the user for a string and replace this
+        sequence with it. You may specify a default value and a
+        completion table with
+        %^{prompt|default|completion2|completion3...}. The arrow keys
+        access prompt-specific history
+      - %\N :: Insert the text entered at the Nth %^{PROMPT}, where N
+        is a number starting from 1.
       - %? :: After completing the template, position point here.
 
 For specific link types, the following keywords are defined
@@ -778,15 +807,15 @@ For specific link types, the following keywords are defined
 | org-protocol | %:link, %:description, %:annotation |                                    |
 ***** Templates in contexts
       Use certain templates for specific contexts/modes
-#+BEGIN_SRC emacs-lisp
-(setq org-captuer-template-contexts
-      '(("p" (in-mode . "message-mode"))))
-#+END_SRC
-Use different key for template for specific contexts/modes
-#+BEGIN_SRC emacs-lisp
-(setq org-captuer-template-contexts
-      '(("p" "q" (in-mode . "message-mode"))))
-#+END_SRC
+      #+BEGIN_SRC emacs-lisp
+	(setq org-captuer-template-contexts
+	      '(("p" (in-mode . "message-mode"))))
+      #+END_SRC
+      Use different key for template for specific contexts/modes
+      #+BEGIN_SRC emacs-lisp
+	(setq org-captuer-template-contexts
+	      '(("p" "q" (in-mode . "message-mode"))))
+      #+END_SRC
 *** Attachments
 **** Attachment defaults and dispatcher
 **** Attachment options
@@ -812,12 +841,15 @@ Use different key for template for specific contexts/modes
      - | :: OR
      - + :: Positive lookup (implicit AND)
      - - :: exclude tag (implicit AND)
-     - PROPERTY OPERATOR VALUE :: a property has given relationship with value
+     - PROPERTY OPERATOR VALUE :: a property has given relationship
+       with value
      - {REGEXP} :: Regular expression to match in a tag
-     - OPERATOR :: The operator comparing the value of the given property
+     - OPERATOR :: The operator comparing the value of the given
+       property
        - NUMBER :: Numbers are compared in standard ways
        - "STRING" :: String comparisons by alphabetic order
-       - "<DATETIME>" :: Dates can be standard as defined before or any of the following
+       - "<DATETIME>" :: Dates can be standard as defined before or
+         any of the following
 	 - "<now>" :: Now including time
 	 - "<today>" :: Todays date at time 0:00 hours
 	 - "<tomorrow>" :: Tomorrow's date at time 0:00 hours
@@ -825,7 +857,8 @@ Use different key for template for specific contexts/modes
 	 - "<-2w>" :: Two weeks ago from today
 	 - "<+5m>" :: Five months from today
 	 - "<-2y>" :: Two years ago from today
-       - {REGEXP} :: only compares equal or not equal meaning matches or does not match
+       - {REGEXP} :: only compares equal or not equal meaning matches
+         or does not match
        - < :: strictly less than/earlier
        - = :: equal to/matches
        - > :: strictly greater than/later
@@ -856,40 +889,45 @@ Examples:
 **** Storing searches
      customize: org-agenda-custom-commands
 
-Big Example:
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands
-      '(("x" agenda)
-        ("y" agenda*)
-        ("w" todo "WAITING")
-	("W" todo-tree "WAITING")
-	("u" tags "+boss-urgent")
-	("v" tags-todo "+boss-urgent")
-	("U" tags-tree "+boss-urgent")
-	("f" occur-tree "\\<FIXME\\>")
-	("h" . "HOME+Name tags searches") ;description for "h" prefix
-	("hl" tags "+home+Lisa")
-	("hp" tags "+home+Peter")
-	("hk" tags "+home+Kim")))
-#+END_SRC
+     Big Example:
+     #+BEGIN_SRC emacs-lisp
+       (setq org-agenda-custom-commands
+	     '(("x" agenda)
+	       ("y" agenda*)
+	       ("w" todo "WAITING")
+	       ("W" todo-tree "WAITING")
+	       ("u" tags "+boss-urgent")
+	       ("v" tags-todo "+boss-urgent")
+	       ("U" tags-tree "+boss-urgent")
+	       ("f" occur-tree "\\<FIXME\\>")
+	       ("h" . "HOME+Name tags searches") ;description for "h" prefix
+	       ("hl" tags "+home+Lisa")
+	       ("hp" tags "+home+Peter")
+	       ("hk" tags "+home+Kim")))
+     #+END_SRC
 
      Each entry is a list like this:
 
      (key desc type match settings files)
 
-     - key :: The key (one or more characters as a string) to be associated
-              with the command.
-     - desc :: A description of the command, when omitted or nil, a default
-               description is built using MATCH.
+     - key :: The key (one or more characters as a string) to be
+       associated with the command.
+     - desc :: A description of the command, when omitted or nil, a
+       default description is built using MATCH.
      - type :: The command type, any of the following symbols:
        - agenda :: The daily/weekly agenda.
-       - agenda* :: The daily/weekly agenda for tasks with time specified
-       - todo :: Entries with a specific TODO keyword, in all agenda files.
+       - agenda* :: The daily/weekly agenda for tasks with time
+         specified
+       - todo :: Entries with a specific TODO keyword, in all agenda
+         files.
        - search :: Entries containing search words entry or headline.
        - tags :: Tags/Property/TODO match in all agenda files.
-       - tags-todo :: Tags/P/T match in all agenda files, TODO entries only.
-       - todo-tree :: Sparse tree of specific TODO keyword in *current* file.
-       - tags-tree :: Sparse tree with all tags matches in *current* file.
+       - tags-todo :: Tags/P/T match in all agenda files, TODO entries
+         only.
+       - todo-tree :: Sparse tree of specific TODO keyword in
+         *current* file.
+       - tags-tree :: Sparse tree with all tags matches in *current*
+         file.
        - occur-tree :: Occur sparse tree for *current* file.
        - ... :: A user-defined function.
      - match :: What to search for:
@@ -898,39 +936,44 @@ Big Example:
        - a word search expression for text searches.
        - a regular expression for occur searches
        For all other commands, this should be the empty string.
-     - settings :: A list of option settings, similar to that in a let form, so like
-		   this: ((opt1 val1) (opt2 val2) ...).   The values will be
-		   evaluated at the moment of execution, so quote them when needed.
-     - files :: A list of files to write the produced agenda buffer to with
-		the command ‘org-store-agenda-views’.
-		If a file name ends in ".html", an HTML version of the buffer
-		is written out.  If it ends in ".ps", a postscript version is
-		produced.  Otherwise, only the plain text is written to the file.
+     - settings :: A list of option settings, similar to that in a let
+       form, so like this: ((opt1 val1) (opt2 val2) ...).  The values
+       will be evaluated at the moment of execution, so quote them
+       when needed.
+     - files :: A list of files to write the produced agenda buffer to
+       with the command ‘org-store-agenda-views’.  If a file name ends
+       in ".html", an HTML version of the buffer is written out.  If
+       it ends in ".ps", a postscript version is produced.  Otherwise,
+       only the plain text is written to the file.
 
-When using several characters as key to a command, the first characters
-are prefix commands.  For the dispatcher to display useful information, you
-should provide a description for the prefix, like
+     When using several characters as key to a command, the first
+     characters are prefix commands.  For the dispatcher to display
+     useful information, you should provide a description for the
+     prefix, like
 
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands
-      '(("h" . "HOME + Name tag searches") ; describe prefix "h"
-        ("hl" tags "+HOME+Lisa")
-        ("hp" tags "+HOME+Peter")
-        ("hk" tags "+HOME+Kim")))
-#+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (setq org-agenda-custom-commands
+	     '(("h" . "HOME + Name tag searches") ; describe prefix "h"
+	       ("hl" tags "+HOME+Lisa")
+	       ("hp" tags "+HOME+Peter")
+	       ("hk" tags "+HOME+Kim")))
+     #+END_SRC
 **** Block agenda
-     You can also define a set of commands, to create a composite agenda buffer.
-     In this case, an entry looks like this:
-   
+     You can also define a set of commands, to create a composite
+     agenda buffer.  In this case, an entry looks like this:
+
      (key desc (cmd1 cmd2 ...) general-settings-for-whole-set files)
 
      where
 
-     - desc :: A description string to be displayed in the dispatcher menu.
-     - cmd :: An agenda command, similar to the above.  However, tree commands
-              are not allowed, but instead you can get agenda and global todo list.
+     - desc :: A description string to be displayed in the dispatcher
+       menu.
+     - cmd :: An agenda command, similar to the above.  However, tree
+       commands are not allowed, but instead you can get agenda and
+       global todo list.
 
-     key, settings, and files same as is described in previous section.
+     key, settings, and files same as is described in previous
+     section.
 
      So valid commands for a set are:
      - (agenda "" settings)
@@ -941,22 +984,22 @@ should provide a description for the prefix, like
      - (tags "match" settings files)
      - (tags-todo "match" settings files)
 
-Each command can carry a list of options, and another set of options can be
-given for the whole set of commands.  Individual command options take
-precedence over the general options.
+     Each command can carry a list of options, and another set of
+     options can be given for the whole set of commands.  Individual
+     command options take precedence over the general options.
 
-Example:
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands
-      '(("h" "Agenda and Home-related tasks"
-         ((agenda "")
-	  (tags-todo "home")
-	  (tags "garden")))
-	("o" "Agenda and Office-related tasks"
-	 ((agenda "")
-	  (tags-todo "work")
-	  (tags "office")))))
-#+END_SRC
+     Example:
+     #+BEGIN_SRC emacs-lisp
+       (setq org-agenda-custom-commands
+	     '(("h" "Agenda and Home-related tasks"
+		((agenda "")
+		 (tags-todo "home")
+		 (tags "garden")))
+	       ("o" "Agenda and Office-related tasks"
+		((agenda "")
+		 (tags-todo "work")
+		 (tags "office")))))
+     #+END_SRC
 **** Setting options for custom commands
      Some settings:
      - (org-agenda-sorting-strategy '(priority-down))
@@ -971,44 +1014,47 @@ Example:
      - (org-agenda-add-entry-text-maxlines 5)
      - (htmlize-output-type 'css)
 
-     Don't know where to find all settings possibilities or their syntax.
+     Don't know where to find all settings possibilities or their
+     syntax.
 
-     To control whether an agenda command should be accessible from a specific context, you
-     can customize org-agenda-custom-commands-contexts. Let's say for example that you have
-     an agenda command o displaying a view that you only need when reading emails. Then you
-     would configure this option like this:
+     To control whether an agenda command should be accessible from a
+     specific context, you can customize
+     org-agenda-custom-commands-contexts. Let's say for example that
+     you have an agenda command o displaying a view that you only need
+     when reading emails. Then you would configure this option like
+     this:
 
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands-contexts
-      '(("o" (in-mode . "message-mode"))))
-#+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (setq org-agenda-custom-commands-contexts
+	     '(("o" (in-mode . "message-mode"))))
+     #+END_SRC
 
-     You can also tell that the command key o should refer to another command key r. In that
-     case, add this command key like this:
+     You can also tell that the command key o should refer to another
+     command key r. In that case, add this command key like this:
 
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands-contexts
-      '(("o" "r" (in-mode . "message-mode"))))
-#+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (setq org-agenda-custom-commands-contexts
+	     '(("o" "r" (in-mode . "message-mode"))))
+     #+END_SRC
 *** Exporting Agenda Views
     Custom view to files example:
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands
-      '(("X" agenda "" nil ("agenda.html" "agenda.ps"))
-        ("Y" alltodo "" nil ("todo.html" "todo.txt" "todo.ps"))
-	("h" "Agenda and Home-related tasks"
-	 ((agenda "")
-	  (tags-todo "home")
-	  (tags "garden"))
-	 nil
-	 ("~/views/home.html"))
-	("o" "Agenda and Office-related tasks"
-	 ((agenda)
-	  (tags-todo "work")
-	  (tags "office"))
-	 nil
-	 ("~/views/office.ps" "~/calendars/office.ics"))))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (setq org-agenda-custom-commands
+	    '(("X" agenda "" nil ("agenda.html" "agenda.ps"))
+	      ("Y" alltodo "" nil ("todo.html" "todo.txt" "todo.ps"))
+	      ("h" "Agenda and Home-related tasks"
+	       ((agenda "")
+		(tags-todo "home")
+		(tags "garden"))
+	       nil
+	       ("~/views/home.html"))
+	      ("o" "Agenda and Office-related tasks"
+	       ((agenda)
+		(tags-todo "work")
+		(tags "office"))
+	       nil
+	       ("~/views/office.ps" "~/calendars/office.ics"))))
+    #+END_SRC
 *** Using Column View in the Agenda
 ** Markup for Rich Contents
 *** Paragraphs
@@ -1016,23 +1062,23 @@ Example:
 
     Second paragraph \\ Third paragraph from forced line break.
 
-#+BEGIN_VERSE
-Great clouds overhead
-Tiny black birds rise and fall
-Snow covers Emacs
+    #+BEGIN_VERSE
+    Great clouds overhead
+    Tiny black birds rise and fall
+    Snow covers Emacs
 
     ---AlexSchroeder
-#+END_VERSE
+    #+END_VERSE
 
-#+BEGIN_QUOTE
-Everything should be made as simple as possible,
-but not any simpler ---Albert Einstein
-#+END_QUOTE
+    #+BEGIN_QUOTE
+    Everything should be made as simple as possible, but not any
+    simpler ---Albert Einstein
+    #+END_QUOTE
 
-#+BEGIN_CENTER
-Everything should be made as simple as possible, \\
-but not any simpler
-#+END_CENTER
+    #+BEGIN_CENTER
+    Everything should be made as simple as possible, \\
+    but not any simpler
+    #+END_CENTER
 *** Emphasis and Monospace
     *bold* \\
     /italic/ \\
@@ -1045,7 +1091,8 @@ but not any simpler
     Subscript_ex
 *** Special Symbols
     Example: \\
-    Pro tip: Given a circle \Gamma of diameter d, the length of its circumference is \pi{}d.
+    Pro tip: Given a circle \Gamma of diameter d, the length of its
+    circumference is \pi{}d.
 *** Embedded LaTeX
 **** LaTeX fragments
      \begin{equation}
@@ -1123,6 +1170,26 @@ and I can reference the previous footnote again here[fn:deffoot] \\
 ** Exporting
 *** The Export Dispatcher
 *** Export Settings
+* New Manual
+** Introduction
+*** Summary
+*** Installation
+*** Activation
+* Vocabulary
+* Syntax
+* File Additions
+** Introduction
+*** Force org mode in Emacs
+    To turn on Org mode in a file that does not have the extension
+    '~.org~', make the first line of a file look like this:
+    #+BEGIN_SRC org
+      #    -*- mode: org -*-
+    #+END_SRC
+
+    Which selects Org mode for this buffer no matter what the file's
+    name is.
+* Modes
+* Contexts
 * Commands
   :PROPERTIES:
   :COLUMNS: %25ITEM %15TAGS %15Command %10Context %15Description
@@ -1412,44 +1479,13 @@ and I can reference the previous footnote again here[fn:deffoot] \\
     :Context:  depends headline list table
     :Link:     [[https://orgmode.org/manual/Structure-Editing.html#Structure-Editing][Structure Editing]]
     :END:
-
-* Header Colors
-** Examples
-*** Three
-**** Four
-***** Five
-****** Six
-******* Seven
-******** Eight
-********* Nine
-********** Ten
-*********** Eleven
-************ Twelve
-************* Thirteen
-************** Fourteen
-*************** Fifteen
-**************** Sixteen
-***************** Seventeen
-****************** Eighteen
-******************* Nineteen
-******************** Twenty
-********************* Twenty-one
-********************** Twenty-two
-*********************** Twenty-three
-************************ Twenty-four
-************************* Twenty-Five
-************************** Twenty-Six
-*************************** Twenty-seven
-**************************** Twenty-eight
-***************************** Twenty-nine
-****************************** Thirty
-******************************* Thirty-one
-******************************** Thirty-two
-********************************* Thirty-three
-********************************** Thirty-four
-*********************************** Thirty-five
-************************************ Thirty-six
-************************************* Thirty-seven
-************************************** Thirty-eight
-*************************************** Thirty-nine
-**************************************** Fourty
+* New Commands
+* Variables
+* Faces
+* .emacs Additions
+** Introduction
+*** Basics
+* Command Properties
+* Niche Modes
+* Notes
+* Practice

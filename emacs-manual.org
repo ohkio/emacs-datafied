@@ -1690,6 +1690,7 @@
     the end of the buffer. When the region is active, they operate on
     it instead.
 **** Unconditional Replacement
+**** Regexp Replacement
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -5367,6 +5368,26 @@
 
     A prefix argument restricts replacement to matches that are
     surrounded by word boundaries.
+*** replace-regexp                                              :search:edit:
+    :PROPERTIES:
+    :Description: Replace every match for given regexp with newstring
+    :Context:  editing
+    :END:
+    In this command, the provided newstring need not be constant: it
+    can refer to all or part of what is matched by the regexp. '~\&~'
+    in newstring stands for the entire match being replaced. '~\d~' in
+    newstring, where /d/ is a digit starting from 1, stands for
+    whatever matched the /d/-th parenthesized grouping in
+    regexp. (This is called a "back reference".) '~\#~' refers to the
+    count of replacements already made in this command, as a decimal
+    number. In the first replacement, '~\#~' stands for '~0~'; in the
+    second, for '~1~'; and so on. To include a '~\~' in the text to
+    replace with, you must enter '~\\~'.
+
+    If you want to enter part of the replacement string by hand each
+    time, use '~\?~' in the replacement string. Each replacement will
+    ask you to edit the replacement string in the minibuffer, putting
+    point where the '~\?~' was.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
