@@ -5911,6 +5911,31 @@
     in the mark ring. This command is best used for transposing
     multiple characters (or words or sentences or paragraphs) in one
     go.
+*** downcase-word                                                 :edit:word:
+    :PROPERTIES:
+    :Command:  M-l
+    :Description: Convert to lower case from point to end of word
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    With negative argument, convert previous words but do not move.
+*** upcase-word                                                   :edit:word:
+    :PROPERTIES:
+    :Command:  M-u
+    :Description: Convert to upper case from point to end of word
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    With negative argument, convert previous words but do not move.
+*** capitalize-word                                               :edit:word:
+    :PROPERTIES:
+    :Command:  M-c
+    :Description: Capitalize from point to end of word
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    With numeric argument, capitalize the next /n/ words as well. With
+    negative argument, capitalize previous words but do not move.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
