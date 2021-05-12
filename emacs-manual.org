@@ -1837,6 +1837,19 @@
    is not powerful enough as a programming language to be useful for
    writing anything intelligent or general. For such things, Lisp must
    be used.
+*** Basic Use
+    Most keyboard commands work as usual in a keyboard macro
+    definition, with some exceptions. Typing ~C-g~ (~keyboard-quit~)
+    quits the keyboard macro definition. Typing ~C-M-c~
+    (~exit-recursive-edit~) can be unreliable: it works as you'd
+    expect if exiting a recursive edit that started within the macro,
+    but if it exits a recursive edit that started before you invoked
+    the keyboard macro, it also necessarily exits the keyboard macro
+    too. Mouse events are also unreliable, even though you can use
+    them in a keyboard macro: when the macro replays the mouse event,
+    it uses the original mouse position of that event, the position
+    that the mouse had while you were defining the macro. The effect
+    of this may be hard to predict.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -6157,6 +6170,66 @@
     :Description: Pop up a menu of possible flyspell corrections
     :Context:  editing
     :END:
+** Keyboard Macros
+*** kmacro-start-macro-or-insert-counter                              :macro:
+    :PROPERTIES:
+    :Command:  <F3>
+    :Description: Start defining a keyboard macro
+    :Context:  editing
+    :Argument: plain, double
+    :END:
+    With plain argument re-execute last keyboard macro, then append
+    keys to its definition.
+
+    With double argument append keys to the last keyboard macro
+    without re-executing it.
+*** kmacro-end-or-call-macro                                          :macro:
+    :PROPERTIES:
+    :Command:  <F4>
+    :Description: End macro definition or execute most recent macro
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    You can also supply this command with a numeric prefix argument
+    /n/, which means to invoke the macro /n/ times. An argument of
+    zero repeats the macro indefinitely, until it gets an error or you
+    type ~C-g~.
+*** apply-macro-to-region-lines                                :macro:region:
+    :PROPERTIES:
+    :Command:  C-x C-k r
+    :Description: Run last macro on each line that is in region
+    :Context:  editing
+    :END:
+    This command repeats the last defined keyboard macro on each line
+    that begins in the region. It does this line by line, by moving
+    point to the beginning of the line and then executing the macro.
+*** kmacro-start-macro                                                :macro:
+    :PROPERTIES:
+    :Command:  C-x (
+    :Description: Start defining macro (old style)
+    :Context:  editing
+    :Argument: plain
+    :END:
+    With a prefix argument, append keys to the last macro
+*** kmacro-end-macro                                                  :macro:
+    :PROPERTIES:
+    :Command:  C-x )
+    :Description: End macro definition (old style)
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    Prefix argument serves as the repeat count for executing the
+    macro. The macro definition itself counts as the first repetition,
+    since it is executed as you define it, so ~C-u 4 C-x )~ executes
+    the macro immediately 3 additional times.
+*** kmacro-end-and-call-macro                                         :macro:
+    :PROPERTIES:
+    :Command:  C-x e
+    :Description: Execute most recent macro
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    Prefix argument serves as repeat count.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7196,6 +7269,14 @@
 *** ispell-complete-word-dict
     This variable specifies the file name for the word completion
     dictionary.
+** Keyboard Macros
+*** kmacro-execute-before-append
+    After terminating the definition of a keyboard macro, you can
+    append more keystrokes to its definition by typing ~C-u
+    <F3>~. This is equivalent to plain ~<F3>~ followed by retyping the
+    whole definition so far. If you change this variable to ~nil~, the
+    existing macro will not be re-executed before appending to it (the
+    default is ~t~).
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
