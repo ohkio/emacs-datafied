@@ -1726,6 +1726,27 @@
      To restart a ~query-replace~ once it is exited, use ~C-x ESC
      ESC~, which repeats the ~query-replace~ because it used the
      minibuffer to read its argument.
+*** Other Search-and-Loop Commands
+    This section details many commands that find matches for a regular
+    expression. They all ignore case in matching, if the pattern
+    contains no upper-case letters and ~case-fold-search~ is
+    non-nil. Aside from ~multi-occur~ and
+    ~multi-occur-in-matching-buffers~, which always search the whole
+    buffer, all operate on the text from point to the end of the
+    buffer, or on the region if it is active.
+
+    Check out the specifics of each command in the command section.
+
+    - ~multi-isearch-buffers~
+    - ~multi-isearch-buffers-regexp~
+    - ~multi-isearch-files~
+    - ~multi-isearch-files-regexp~
+    - ~occur~
+    - ~multi-occur~
+    - ~multi-occur-in-matching-buffers~
+    - ~how-many~
+    - ~flush-lines~
+    - ~keep-lines~
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2671,6 +2692,20 @@
     ~display-line-numbers-width~ to a large enough value, to avoid
     occasional miscalculations of space reserved for the line
     numbers.
+** Searching and Replacement
+*** Occur mode
+    Prompt for a regexp, and display a list showing each line in the
+    buffer that contains a match for it. If you type ~M-n~ at the
+    prompt, you can reuse search strings from previous incremental
+    searches. The text that matched is highlighted using the ~match~
+    face.
+
+    Note that matches for the regexp you type are extended to include
+    complete lines, and a match that starts before the previous match
+    ends is not considered a match.
+*** Occur Edit mode
+    While in this mode, edits made to the standard occur entries are
+    also applied to the text in the originating buffer.
 * Contexts
 ** anywhere
    literally anywhere
@@ -2747,6 +2782,10 @@
    A recursive edit is a situation in which you are using Emacs
    commands to perform arbitrary editing while in the middle of
    another Emacs command.
+** occur
+   Occur mode
+** occur-edit
+   Occur Edit mode
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -5547,6 +5586,139 @@
     :Description: To display a message of all QR options
     :Context:  query-replace
     :END:
+*** multi-isearch-buffers                                     :search:buffer:
+    :PROPERTIES:
+    :Description: Perform isearch in given buffers
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    With a prefix argument, prompt for a regexp and begin a
+    multi-buffer incremental search in buffers matching that regexp.
+*** multi-isearch-buffers-regexp                              :search:buffer:
+    :PROPERTIES:
+    :Description: Perform regexp isearch in given buffers
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    With a prefix argument, prompt for a regexp and begin a
+    multi-buffer incremental search in buffers matching that regexp.
+*** multi-isearch-files                                        :search:files:
+    :PROPERTIES:
+    :Description: Perform isearch in given files
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    With a prefix argument, prompt for a regexp and begin a multi-file
+    incremental search in files matching that regexp.
+*** multi-isearch-files-regexp                                 :search:files:
+    :PROPERTIES:
+    :Description: Perform regexp isearch in given files
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    With a prefix argument, prompt for a regexp and begin a multi-file
+    incremental search in files matching that regexp.
+*** occur                                                 :search:window:nav:
+    :PROPERTIES:
+    :Command:  M-s o
+    :Description: Special occur mode window of regexp matches
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    A numeric argument /n/ specifies that /n/ lines of context are to
+    be displayed before and after each matching line.
+*** occur-mode-goto-occurrence                                   :search:nav:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Visit corresponding position in buffer
+    :Context:  occur
+    :END:
+*** occur-mode-goto-occurrence-other-window               :search:nav:window:
+    :PROPERTIES:
+    :Command:  o
+    :Description: Display match in other window and make selected
+    :Context:  occur
+    :END:
+*** occur-mode-display-occurrence                         :search:nav:window:
+    :PROPERTIES:
+    :Command:  C-o
+    :Description: Display match in other window stay in occur
+    :Context:  occur
+    :END:
+*** next-error                                            :search:nav:window:
+    :PROPERTIES:
+    :Command:  M-g M-n
+    :Description: Visit occurrences one by one
+    :Context:  occur
+    :END:
+*** occur-edit-mode                                      :search:window:edit:
+    :PROPERTIES:
+    :Command:  e
+    :Description: Turn on Occur Edit mode
+    :Context:  occur
+    :END:
+*** occur-cease-edit                                          :search:window:
+    :PROPERTIES:
+    :Command:  C-c C-c
+    :Description: Return to Occur mode
+    :Context:  occur-edit
+    :END:
+*** list-matching-lines                                       :search:window:
+    :PROPERTIES:
+    :Description: See ~occur~ command
+    :Context:  navigating
+    :END:
+*** multi-occur                                        :search:window:buffer:
+    :PROPERTIES:
+    :Description: perform occur in given buffers
+    :Context:  navigating
+    :END:
+*** multi-occur-in-matching-buffers              :search:window:buffer:files:
+    :PROPERTIES:
+    :Description: perform occur in buffers where files match given regexp
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    With a prefix argument, it uses the regular expression to match
+    buffer names instead.
+*** how-many                                                  :search:inform:
+    :PROPERTIES:
+    :Description: Display number of regexp matches that are after point
+    :Context:  navigating
+    :END:
+*** flush-lines                                                 :search:edit:
+    :PROPERTIES:
+    :Description: Delete all lines that contain match after point
+    :Context:  editing
+    :END:
+    Prompt for a regexp, and delete each line that contains a match
+    for it, operating on the text after point. When the command
+    finishes, it prints the number of deleted matching lines.
+
+    The command deletes the current line if it contains a match
+    starting after point. If the region is active, it operates on the
+    region instead; if a line partially contained in the region
+    contains a match entirely contained in the region, it is deleted.
+
+    If a match is split across lines, the command deletes all those
+    lines. It deletes the line before starting to look for the next
+    match; hence, it ignores a match starting on the same line at
+    which another match ended.
+*** keep-lines                                                  :search:edit:
+    :PROPERTIES:
+    :Description: Delete each line that does not have match for given regexp
+    :Context:  editing
+    :END:
+    Prompt for a regexp, and delete each line that does not contain a
+    match for it, operating on the text after point. If point is not
+    at the beginning of a line, this command always keeps the current
+    line. If the region is active, the command operates on the region
+    instead; it never deletes lines that are only partially contained
+    in the region (a newline that ends a line counts as part of that
+    line).
+
+    If a match is split across lines, this command keeps all those
+    lines.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -6488,6 +6660,13 @@
 *** search-invisible                                                 :search:
     This variable determines how ~query-replace~ treats invisible
     text.
+*** list-matching-lines-default-context-lines  :search:display:inform:window:
+    In occur mode, the default number of context lines is specified by
+    this variable.
+*** list-matching-lines-jump-to-current-line   :search:inform:window:display:
+    When this variable is non-nil the current line is shown
+    highlighted with face ~list-matching-lines-current-line-face~ and
+    the point is set at the first match after such line.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
@@ -6668,11 +6847,14 @@
 **** glyphless-char
      The face applied to all characters that cannot find a glyph in
      any available font.
-** searching and Replacement
+** Searching and Replacement
 *** isearch-fail
     If your string is not found at all, the echo area says '~Failing
     I-Search~', and the part of the search string that failed to match
     is highlighted using this face
+*** list-matching-lines-current-line-face
+    When ~list-matching-lines-jump-to-current-line~ is non-nil the
+    current line is shown highlighted with this face.
 * .emacs additions
 ** Registers
 *** Saving Text in Registers
