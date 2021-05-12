@@ -1811,6 +1811,7 @@
     likely to happen in the future. But if you didn't expect the
     command to create such large undo data, then it is probably a bug
     and you should report it.
+*** Transposing Text
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -5803,6 +5804,113 @@
     :PROPERTIES:
     :Description: Discard all changes since buffer was last visited/saved
     :END:
+*** transpose-chars                                               :edit:char:
+    :PROPERTIES:
+    :Command:  C-t
+    :Description: Transpose two characters
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    Normally, this transposes the two characters on either side of
+    point. When given at the end of a line, rather than transposing
+    the last character of the line with the newline, which would be
+    useless, this tranpsoses the last two characters on the line.
+
+    A numeric argument to this command serves as a repeat count: it
+    tells the transpose command do move the character before point
+    across several other characters.
+
+    A numeric argument of zero is assigned a special meaning: to
+    transpose the character ending after point with the one ending
+    after the mark.
+*** transpose-words                                               :edit:word:
+    :PROPERTIES:
+    :Command:  M-t
+    :Description: Transpose two words
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    This transposes the word before or containing point with the word
+    after point. It moves point forward over a word, dragging the word
+    preceding or containing point forward as well. The punctuation
+    characters between the words do not move. When point is at the end
+    of the line, it will transpose the word before point with the
+    first word on the next line.
+
+    A numeric argument to this command serves as a repeat count: it
+    tells the transpose command to move the word before or containing
+    point across several other words.
+
+    A numeric argument of zero is assigned a special meaning: to
+    transpose the word ending after point with the one ending after
+    the mark.
+*** transpose-sexps                                                    :edit:
+    :PROPERTIES:
+    :Command:  C-M-t
+    :Description: Transpose two balanced expressions
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument to this command serves as a repeat count: it
+    tells the transpose command to move the balanced expression before
+    or containing point across several other balanced expressions.
+
+    A numeric argument of zero is assigned a special meaning: to
+    transpose the balanced expression ending after point with the one
+    ending after the mark.
+*** transpose-lines                                               :edit:line:
+    :PROPERTIES:
+    :Command:  C-x C-t
+    :Description: Transpose two lines
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument to this command serves as a repeat count: it
+    tells the transpose command to move the line before or containing
+    point across several other lines.
+
+    A numeric argument of zero is assigned a special meaning: to
+    transpose the line ending after point with the one ending after
+    the mark.
+*** transpose-sentences                                                :edit:
+    :PROPERTIES:
+    :Description: Transpose two sentences
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument to this command serves as a repeat count: it
+    tells the transpose command to move the sentence before or
+    containing point across several other sentences.
+
+    A numeric argument of zero is assigned a special meaning: to
+    transpose the sentence ending after point with the one ending
+    after the mark.
+*** transpose-paragraphs                                               :edit:
+    :PROPERTIES:
+    :Description: Transpose two paragraphs
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    A numeric argument to this command serves as a repeat count: it
+    tells the transpose command to move the paragraph before or
+    containing point across several other paragraphs.
+
+    A numeric argument of zero is assigned a special meaning: to
+    transpose the paragraphs ending after point with the one ending
+    after the mark.
+*** transpose-regions                                           :edit:region:
+    :PROPERTIES:
+    :Description: Transpose two regions
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    This transposes the text between point and mark with the text
+    between the last two marks pushed to the mark ring. With a numeric
+    prefix argument, it transposes the text between point and mark
+    with the text between two successive marks that many entries back
+    in the mark ring. This command is best used for transposing
+    multiple characters (or words or sentences or paragraphs) in one
+    go.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
