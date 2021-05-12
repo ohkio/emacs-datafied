@@ -1822,6 +1822,21 @@
     about roots and affixes of the words, which spell-checking uses to
     detect variations of words. For some languages, there is a spell
     checking dictionary but no word completion dictionary.
+** Keyboard Macros
+   You define a keyboard macro by executing and recording the commands
+   which are its definition. Put differently, as you define a keyboard
+   macro, the definition is being executed for the first time. When
+   you close the definition, the keyboard macro is defined and also
+   has been, in effect, executed once. You can then do the whole thing
+   over again by invoking the macro.
+
+   Keyboard macros differ from ordinary Emacs commands in that they
+   are written in the Emacs command language rather than in Lisp. This
+   makes it easier for the novice tow rite them, and makes them more
+   convenient as temporary hacks. However, the Emacs command language
+   is not powerful enough as a programming language to be useful for
+   writing anything intelligent or general. For such things, Lisp must
+   be used.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2475,6 +2490,10 @@
 *** Near-Misses
     A list of /near-misses/ are words that are close to an incorrect
     word.
+** Keyboard Macros
+*** Keyboard Macro
+    A /keyboard macro/ is a command defined by an Emacs user to stand
+    for another sequence of keys.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
