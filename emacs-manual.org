@@ -1193,16 +1193,16 @@
     terminal, largely out of the control of Emacs. Some terminals
     offer two different cursors: a visible static cursor, and a very
     visible blinking cursor. By default, Emacs uses the very visible
-    curosr, and switches to it when you start or resume Emacs.
+    cursor, and switches to it when you start or resume Emacs.
 
-    On a graphical display, many more properties of the text curosr
+    On a graphical display, many more properties of the text cursor
     can be altered. To customize its color, change the ~:background~
-    attribute of the face named ~cursor~. To change its chape,
+    attribute of the face named ~cursor~. To change its shape,
     customize the buffer-local variable ~cursor-type~.
 
     By default, the cursor stops blinking after 10 blinks, if Emacs
     does not get any input during that time; any input event restarts
-    the count. You can customize the variable ~blink-curosr-blinks~ to
+    the count. You can customize the variable ~blink-cursor-blinks~ to
     control that.
 
     You can change how the cursor looks when it blinks off by
@@ -1518,14 +1518,14 @@
       match at least /n/ times, but no more than /m/ times. If /m/ is
       omitted, then there is no upper limit, but the preceding regular
       expression must match at least /n/ times.
-      - '~\{0,1\}~' is equibalent to '~?~'
+      - '~\{0,1\}~' is equivalent to '~?~'
       - '~\{0,\}~' is equivalent to '~*~'
       - '~\{1,\}~' is equivalent to '~+~'
     - ~[ ... ]~ :: Is a character set, beginning with '~[~' and
       terminated by '~]~'. In the simplest case, the characters
       between the two brackets are what this set can match. You can
       also include character ranges in a character set, by writing the
-      starting and eding characters with '~-~' between them. You can
+      starting and ending characters with '~-~' between them. You can
       also include certain special character classes in a character
       set. A '~[:~' and balancing '~:]~' enclose a /character class/
       inside a character set. To include a '~]~' in a character set,
@@ -1586,7 +1586,7 @@
     - ~\|~ :: specifies an alternative. Two regular expressions /a/
       and /b/ with '~\|~' in between form an expression that matches
       some text if either /a/ matches it or /b/ matches it. It works
-      by trhing to match /a/, and if that fails, by trying to match
+      by trying to match /a/, and if that fails, by trying to match
       /b/. '~\|~' applies to the largest possible surrounding
       expressions. Only a surrounding '~\( ... \)~' grouping can limit
       the grouping power of '~\|~'. Full backtracking capability
@@ -1608,7 +1608,7 @@
       the matched substring; you can't refer back to it with '~\d~'
       (see below). This is useful in mechanically combining regular
       expressions, so that you can add groups for syntactic purposes
-      without interfereing with the numbering of the groups that are
+      without interfering with the numbering of the groups that are
       meant to be referred to.
     - ~\d~ :: matches the same text that matched the /d/-th occurrence
       of a '~\( ... \)~' construct. This is called a back
@@ -1647,7 +1647,7 @@
       determines which characters these are.
     - ~\W~ :: matches any character that is not a word-constituent.
     - ~\_< :: matches the empty string, but only at the beginning of a
-      symbol. A symbol is a seuqnce of one or more symbol-consittuent
+      symbol. A symbol is a sequence of one or more symbol-constituent
       characters. A symbol-constituent character is a character whose
       syntax is either '~w~' or '~_~'. '~\_<~' matches at the
       beginning of the buffer only if a symbol-constituent character
@@ -1683,7 +1683,7 @@
 
     An upper-case letter anywhere in the search string makes the
     search case-sensitive. This applies to regular expression search
-    as well as to literal tring search. The effect ceases if you
+    as well as to literal string search. The effect ceases if you
     delete the upper-case letter from the search string.
 *** Replacement Commands
     The replace commands normally operate on the text from point to
@@ -1812,6 +1812,16 @@
     command to create such large undo data, then it is probably a bug
     and you should report it.
 *** Transposing Text
+*** Case Conversion
+*** Checking and Correcting Spelling
+    Spell-checkers look up spelling in two dictionaries: the standard
+    dictionary and your personal dictionary.
+
+    A separate dictionary is used for word completion. The completion
+    dictionary must be different because it cannot use the information
+    about roots and affixes of the words, which spell-checking uses to
+    detect variations of words. For some languages, there is a spell
+    checking dictionary but no word completion dictionary.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -1937,7 +1947,7 @@
 ** Keys
 *** Key Sequence
     A /key sequence/, or /key/ for short, is a sequence of one or more
-    input events that is meaninful as a unit.
+    input events that is meaningful as a unit.
 *** Complete Key
     If a key sequence invokes a command, we call it a /complete key/;
     for example, ~C-f~, ~C-x C-f~ and ~C-x 4 C-f~ are all complete
@@ -1967,7 +1977,7 @@
     behaves differently according to the value that you set.
 ** Entering Emacs
 *** Startup Screen
-    When Emacs starts up, the initial fram displays a special buffer
+    When Emacs starts up, the initial frame displays a special buffer
     named '~*GNU Emacs*~'. This /startup screen/ contains information
     about Emacs and links to common tasks that are useful for
     beginning users.
@@ -2017,7 +2027,7 @@
     Many commands use the minibuffer to read a /minibuffer argument/,
     and you type ~RET~ to terminate the argument.
 *** Visiting
-    Emacs obays the command ~find-file~ by /visiting/ the file: it
+    Emacs obeys the command ~find-file~ by /visiting/ the file: it
     creates a buffer, copies the contents of the file into the buffer,
     and displays the buffer for editing.
 *** Save
@@ -2101,7 +2111,7 @@
     alternatives.
 *** Wildcard
     A '~*~' in the minibuffer text is treated as a /wildcard/ - it
-    matches any string of characters at the corrosponding position in
+    matches any string of characters at the corresponding position in
     the completion alternative.
 *** Minibuffer History List
     Every argument that you enter with the minibuffer is saved in a
@@ -2182,7 +2192,7 @@
     at point before moving point, but only if there is no active mark
     set via a previous shift-selection or mouse commands.
 *** Primary Selection
-    Under X, every timme the active region changes, Emacs saves the
+    Under X, every time the active region changes, Emacs saves the
     text in the region to the /primary selection/.
 *** Inactive Region
     The /inactive region/ is the text between point and the position
@@ -2276,7 +2286,7 @@
 *** Automatic Scrolling
     Emacs performs /automatic scrolling/ when point moves out of the
     visible portion of the text.
-*** Horizaontal Scrolling
+*** Horizontal Scrolling
     /Horizontal scrolling/ means shifting all the lines sideways
     within a window, so that some of the text near the left margin is
     not displayed.
@@ -2297,15 +2307,15 @@
     /faces/.
 *** Face Attributes
     Each face can specify various /face attributes/, such as the font,
-    height, weignt, slant, foreground and background color, and
-    underling or overling.
+    height, weight, slant, foreground and background color, and
+    underlining or overlining.
 *** Color Name
     A /color name/ is a pre-defined name, such as '~dark orange~' or
     '~medium sea green~'.
 *** RGB Triplet
     An /RGB triplet/ is a string of the form '~#RRGGBB~'. Each of the
-    primary color components is represented by a hexadecminal number
-    between '~00~' (intencity 0) and '~FF~' (the maximum intencity).
+    primary color components is represented by a hexadecimal number
+    between '~00~' (intensity 0) and '~FF~' (the maximum intensity).
 *** Fontifies
     Font Lock mode is a minor mode, always local to a particular
     buffer, which assigns faces to (or /fontifies/) the text in the buffer.
@@ -2398,7 +2408,7 @@
     special inside a character alternative. Some characters are
     special if it is preceded by '~\~'.
 *** Character Set
-    In the simiplest case, the characters between the two brackets in
+    In the simplest case, the characters between the two brackets in
     a /character set/ are what the set can match in the context of a
     regular expression.
 *** Character Class
@@ -2462,6 +2472,9 @@
     When the undo information for a buffer becomes too large, Emacs
     discards the oldest records from time to time (during /garbage
     collection/).
+*** Near-Misses
+    A list of /near-misses/ are words that are close to an incorrect
+    word.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -2781,6 +2794,18 @@
 *** Occur Edit mode
     While in this mode, edits made to the standard occur entries are
     also applied to the text in the originating buffer.
+** Commands for Fixing Typos
+*** Flyspell mode
+    Flyspell mode is a minor mode that performs automatic
+    spell-checking of the text you type as you type it. When it finds
+    a word that it does not recognize, it highlights that word. Note
+    that as Flyspell mode needs to check each word across which you
+    move, it will slow down cursor motivation and scrolling
+    commands. It also doesn't automatically check the text you didn't
+    type or move across.
+*** Flyspell Prog mode
+    Flyspell Prog mode works just like ordinary Flyspell mode, except
+    that it only checks words in comments and string contants.
 * Contexts
 ** anywhere
    literally anywhere
@@ -2861,6 +2886,10 @@
    Occur mode
 ** occur-edit
    Occur Edit mode
+** ispell
+   Interactive Spell-check mode. Check ~C-$~ (~ispell~)
+** flyspell
+   Flyspell mode is currently highlighting misspelled words
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -3993,7 +4022,7 @@
 *** indent-region                                          :edit:line:region:
     :PROPERTIES:
     :Command:  C-M-\
-    :Description: Indent each nonblank line in the region
+    :Description: Indent each non-blank line in the region
     :Context:  editing
     :END:
 *** fill-region                                                 :edit:region:
@@ -5131,7 +5160,7 @@
     :END:
 *** global-display-line-numbers-mode                  :display:buffer:window:
     :PROPERTIES:
-    :Description: Doggle Display Line Numbers mode for all buffers
+    :Description: Toggle Display Line Numbers mode for all buffers
     :Context:  navigating
     :END:
 ** Searching and Replacement
@@ -5349,7 +5378,7 @@
 *** isearch-char-by-name                                        :search:edit:
     :PROPERTIES:
     :Command:  C-x 8 <RET>
-    :Description: Add char by unicode name or hex code to search
+    :Description: Add char by Unicode name or hex code to search
     :Context:  isearch
     :END:
 *** isearch-toggle-input-method                                 :search:menu:
@@ -5396,7 +5425,7 @@
     :Description: Exit search highlighting search string matches
     :Context:  isearch
     :END:
-*** isearch-highligh-lines-matching-regexp              :search:display:line:
+*** isearch-highlight-lines-matching-regexp              :search:display:line:
     :PROPERTIES:
     :Command:  M-s h l
     :Description: Exit search highlighting lines of matches
@@ -5469,7 +5498,7 @@
     With a numeric prefix argument of /n/, this command will search
     for the /n/-th next occurrence of the symbol at point; negative
     values of /n/ search backwards.
-*** isearch-aforward-regexp                                          :search:
+*** isearch-forward-regexp                                          :search:
     :PROPERTIES:
     :Command:  C-M-s
     :Description: Begin incremental regexp search
@@ -5814,7 +5843,7 @@
     Normally, this transposes the two characters on either side of
     point. When given at the end of a line, rather than transposing
     the last character of the line with the newline, which would be
-    useless, this tranpsoses the last two characters on the line.
+    useless, this transposes the last two characters on the line.
 
     A numeric argument to this command serves as a repeat count: it
     tells the transpose command do move the character before point
@@ -5936,6 +5965,179 @@
     :END:
     With numeric argument, capitalize the next /n/ words as well. With
     negative argument, capitalize previous words but do not move.
+*** ispell-word                                                        :edit:
+    :PROPERTIES:
+    :Command:  M-$
+    :Description: Check and correct spelling of word at point
+    :Context:  editing
+    :Argument: plain
+    :END:
+    If the region is active, check and correct the spelling for all
+    words in the region instead.
+
+    With a plain argument you can restart an interrupted interactive
+    spell-checking.
+*** ispell                                                             :edit:
+    :PROPERTIES:
+    :Command:  C-$
+    :Description: Check and correct spelling of all words in buffer
+    :END:
+    If the region is active, check and correct spelling of all words
+    in the region instead.
+*** ispell-buffer                                                      :edit:
+    :PROPERTIES:
+    :Description: Check and correct spelling in the buffer
+    :Context:  editing
+    :END:
+*** ispell-region                                                      :edit:
+    :PROPERTIES:
+    :Description: Check and correct spelling in the region
+    :Context:  editing
+    :END:
+*** ispell-message                                                     :edit:
+    :PROPERTIES:
+    :Description: Check and correct spelling in a draft mail message
+    :Context:  editing
+    :END:
+*** ispell-change-dictionary                                           :edit:
+    :PROPERTIES:
+    :Description:  Restart spell-checker process using given dict as dictionary
+    :Context:  editing
+    :END:
+*** ispell-kill-ispell                                                 :undo:
+    :PROPERTIES:
+    :Description: Kill the spell-checker subprocess
+    :Context:  ispell
+    :END:
+*** ispell-complete-word                                               :edit:
+    :PROPERTIES:
+    :Command:  M-TAB OR ESC TAB OR C-M-i
+    :Description: Complete word before point based on spelling dictionary
+    :Context:  editing
+    :END:
+*** flyspell-mode                                                   :display:
+    :PROPERTIES:
+    :Description: Enable Flyspell mode
+    :Context:  navigating
+    :END:
+*** flyspell-prog-mode                                              :display:
+    :PROPERTIES:
+    :Description: Enable Flyspell mode for comments and strings only
+    :Context:  navigating
+    :END:
+*** ISP Select Near-Miss                                               :edit:
+    :PROPERTIES:
+    :Command:  /digit/
+    :Description: Replace word once with selected near-miss
+    :Context:  ispell
+    :END:
+*** ISP Skip                                                            :nav:
+    :PROPERTIES:
+    :Command:  <SPC>
+    :Description: Skip word, still incorrect
+    :Context:  ispell
+    :END:
+*** ISP Replace Once                                                   :edit:
+    :PROPERTIES:
+    :Command:  r
+    :Description: Replace word, once, with given string
+    :END:
+*** ISP Query Replace                                                  :edit:
+    :PROPERTIES:
+    :Command:  R
+    :Description: Replace word with given replacement and do ~query-replace~
+    :END:
+*** ISP Accept Session                                               :inform:
+    :PROPERTIES:
+    :Command:  a
+    :Description: Accept incorrect word only in this editing session
+    :Context:  ispell
+    :END:
+*** ISP Accept Buffer                                         :inform:buffer:
+    :PROPERTIES:
+    :Command:  A
+    :Description: Accept the incorrect word, but for session and buffer
+    :Context:  ispell
+    :END:
+*** ISP Insert Dictionary                                            :inform:
+    :PROPERTIES:
+    :Command:  i
+    :Description: Insert word in private dictionary file
+    :Context:  ispell
+    :END:
+*** ISP Insert Completion                                            :inform:
+    :PROPERTIES:
+    :Command:  m
+    :Description: like ~i~, but can specify dictionary completion
+    :Context:  ispell
+    :END:
+*** ISP Insert Downcase                                              :inform:
+    :PROPERTIES:
+    :Command:  u
+    :Description: Insert lower-case version of word in private dictionary
+    :Context:  ispell
+    :END:
+*** ISP Look Dictionary                                              :inform:
+    :PROPERTIES:
+    :Command:  l
+    :Description: Look in dictionary for word that matches given word
+    :Context:  ispell
+    :END:
+    Words that match given word become the new list of near-misses;
+    you can select one of them as the replacement by typing a
+    digit. You can use '~*~' in given word as a wildcard.
+*** ISP Exit Keep Point                                            :undo:nav:
+    :PROPERTIES:
+    :Command:  X
+    :Description: Quit ispell, leaving point at last checked word
+    :Context:  ispell
+    :END:
+*** ISP Exit Return Point                                          :undo:nav:
+    :PROPERTIES:
+    :Command:  x
+    :Description: Quit ispell, move point back to before ispell
+    :Context:  ispell
+    :END:
+*** ISP Quit Ispell                                                    :undo:
+    :PROPERTIES:
+    :Command:  q
+    :Description: Quit ispell and kill subprocess
+    :Context:  ispell
+    :END:
+*** ISP Help                                                          :helps:
+    :PROPERTIES:
+    :Command:  ?
+    :Description: Show the list of options
+    :Context:  ispell
+    :END:
+*** flyspell-region                                          :inform:display:
+    :PROPERTIES:
+    :Description: Apply Flyspell to region
+    :Context:  navigating
+    :END:
+*** flyspell-buffer                                          :inform:display:
+    :PROPERTIES:
+    :Description: Apply Flyspell to buffer
+    :Context:  navigating
+    :END:
+*** flyspell-correct-word                              :edit:inform:complete:
+    :PROPERTIES:
+    :Command:  <mouse-2>
+    :Description: When clicked on Flyspell misspell, list corrections
+    :Context:  editing
+    :END:
+*** flyspell-auto-correct-word                                         :edit:
+    :PROPERTIES:
+    :Command:  C-. OR ESC TAB
+    :Description: Propose various successive corrections for word at point
+    :Context:  editing
+    :END:
+*** flyspell-correct-word-before-point                                 :edit:
+    :PROPERTIES:
+    :Command:  C-c $
+    :Description: Pop up a menu of possible flyspell corrections
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -6100,7 +6302,7 @@
     however, if this variable is non-nil, each window highlights its
     own region.
 *** use-empty-active-region                                  :region:command:
-    If you want region specific commands to perate on the empty
+    If you want region specific commands to operate on the empty
     region, change this variable to ~t~.
 *** delete-active-region                            :region:edit:delete:kill:
     If you change this variable to ~nil~, then ~<DEL>~ and ~<Delete>~
@@ -6564,7 +6766,7 @@
     You can change how the cursor looks when it blinks off by
     customizing this list variable. Each element in the list should
     have the form ~(on-type . off-type)~; this means that if the
-    cursor is displayed as /on-type/ when it plinks on (where
+    cursor is displayed as /on-type/ when it blinks on (where
     /on-type/ is one of the cursor types described in ~cursor-type~),
     then it is displayed as /off-type/ when it blinks off.
 *** x-stretch-cursor                                            :display:nav:
@@ -6653,7 +6855,7 @@
     If an integer N > 0, highlight line number of every Nth line. The
     line number is shown with the ~line-number-major-tick~
     face. Otherwise, no special highlighting is done every Nth
-    line. Note that major ticks take precidence over minor ticks.
+    line. Note that major ticks take precedence over minor ticks.
 *** display-line-numbers-minor-tick              :display:window:buffer:line:
     If an integer N > 0, highlight line number of every Nth line. The
     line number is shown with the ~line-number-minor-tick~
@@ -6725,7 +6927,7 @@
 
     An upper-case letter anywhere in the search string makes the
     search case-sensitive. This applies to regular expression search
-    as well as to literal tring search. The effect ceases if you
+    as well as to literal string search. The effect ceases if you
     delete the upper-case letter from the search string. This variable
     controls this: if it is non-nil, an upper-case character in the
     search string makes the search case-sensitive; setting it to ~nil~
@@ -6774,7 +6976,7 @@
     not itself attempt an incremental search. This feature is disabled
     if this variable is ~nil~ (which it is by default).
 *** isearch-yank-on-move                                 :search:region:edit:
-    When this variable is customized to ~shift~, you can etend the
+    When this variable is customized to ~shift~, you can extend the
     search string by holding down the shift key while typing cursor
     motion commands. It will yank text that ends at the new position
     after moving point in the current buffer.
@@ -6898,7 +7100,7 @@
     The current match of an on-going incremental search is highlighted
     using the ~isearch~ face. This highlighting can be disabled by
     setting this variable to ~nil~.
-*** lazy-highligh-initial-delay                              :search:display:
+*** lazy-highlight-initial-delay                              :search:display:
     Time in seconds to wait before highlighting visible matches.
 *** lazy-highlight-interval                                  :search:display:
     Time in seconds between highlighting successive matches.
@@ -6920,7 +7122,7 @@
 *** search-nonincremental-instead                                    :search:
     Normally, entering ~RET~ within incremental search when the search
     string is empty launches a nonincremental search. However if you
-    customize this variable to ~nil~, typine ~RET~ will always exit
+    customize this variable to ~nil~, typing ~RET~ will always exit
     the incremental search, even if the search string is empty.
 *** isearch-hide-immediately                                 :search:display:
     By default, incremental search and query-replace commands match
@@ -6929,7 +7131,7 @@
     to ~nil~, any invisible text where matches were found stays on
     display until the search or the replace command exits.
 *** search-slow-speed                                                :search:
-    Emacs provides a special display mode for slow terminals, wherby
+    Emacs provides a special display mode for slow terminals, whereby
     search pops up a separate small window and displays the text
     surrounding the match in that window. This variable determines the
     baud rate threshold below which Emacs will use this display mode.
@@ -6955,10 +7157,26 @@
     variable. This variable sets a stricter limit: any previous
     command (though not the most recent one) that pushes the size past
     this amount is forgotten. The default value is 240,000.
-*** undo-outer-limit
+*** undo-outer-limit                                                   :undo:
     You can specify how much undo information to keep by setting this
     variable. The most recent change is never discarded unless it gets
     bigger than this variable (normally 24,000,000).
+*** ispell-local-dictionary                                          :inform:
+    The standard dictionary is specified by this variable, or if this
+    is ~nil~ by the variable ~ispell-dictionary~. If both are ~nil~,
+    the spelling program's default dictionary is used.
+*** ispell-dictionary                                                :inform:
+    The standard dictionary is specified by the variable
+    ~ispell-local-dictionary~ or, if that is ~nil~, by this
+    variable. If both are ~nil~, the spelling program's default
+    dictionary is used.
+*** ispell-personal-dictionary                                       :inform:
+    Your personal dictionary is specified by this variable. If it is
+    ~nil~, the spelling program looks for a personal dictionary in a
+    default location, which is specific to each spell-checker.
+*** ispell-complete-word-dict
+    This variable specifies the file name for the word completion
+    dictionary.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
@@ -7254,28 +7472,43 @@
     #+END_SRC
 
 ** Searching and Replacement
-*** Incremental Search
-**** Not Exiting Incremental Search
-     The ~isearch-allow-scroll~ feature also affects some other
-     commands, such as ~C-x 2~ (~split-window-below~) and ~C-x ^~
-     (~enlarge-window~), which don't exactly scroll but do affect
-     where the text appears on the screen. It applies to any command
-     whose name has a non-nil ~isearch-scroll~ property. So you can
-     control which commands are affected by changing these properties.
+*** Not Exiting Incremental Search
+    The ~isearch-allow-scroll~ feature also affects some other
+    commands, such as ~C-x 2~ (~split-window-below~) and ~C-x ^~
+    (~enlarge-window~), which don't exactly scroll but do affect
+    where the text appears on the screen. It applies to any command
+    whose name has a non-nil ~isearch-scroll~ property. So you can
+    control which commands are affected by changing these properties.
 
-     For example, to make ~C-h l~ usable within an incremental search
-     in all future Emacs sessions, use ~C-h c~ to find what command it
-     runs, which is ~view-lossage~. Then you can put the following
-     line in your init file:
+    For example, to make ~C-h l~ usable within an incremental search
+    in all future Emacs sessions, use ~C-h c~ to find what command it
+    runs, which is ~view-lossage~. Then you can put the following
+    line in your init file:
 
-     #+BEGIN_SRC emacs-lisp
-     (put 'view-lossage 'isearch-scroll t)
-     #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    (put 'view-lossage 'isearch-scroll t)
+    #+END_SRC
 
-     This feature can be applied to any command that doesn't
-     permanently change point, the buffer contents, the match data,
-     the current buffer, or the selected window and frame. The command
-     must not itself attempt an incremental search.
+    This feature can be applied to any command that doesn't
+    permanently change point, the buffer contents, the match data,
+    the current buffer, or the selected window and frame. The command
+    must not itself attempt an incremental search.
+** Commands for Fixing Typos
+*** Flyspell Hook
+    To enable Flyspell mode in all text mode buffers, add
+    ~flyspell-mode~ to ~text-mode-hook~.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'text-mode-hook 'flyspell-mode)
+    #+END_SRC
+
+    To enable Flyspell Prog mode in all programming mode buffers add
+    ~flyspell-prog-mode~ to ~prog-mode-hook~
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+    #+END_SRC
+
 * Command Properties
 ** Searching and Replacement
 *** isearch-scroll
@@ -7391,3 +7624,18 @@
    install the package ~emacs-common-non-dfsg~ for Emacs 26 and up
    onto my computer from the command line (it's a Linux package, not
    an Emacs package).
+* Extra
+
+#  LocalWords:  SRC buf pos emacsclient nn SPC RET ESC Esc Ctrl txt
+#  LocalWords:  substring PageDown PageUp sexp defun rect dir goto HL
+#  LocalWords:  eval UTF NUL CUA hscroll overlining RGB pre rgb JIT
+#  LocalWords:  RRGGBB fontification Fontifying fontifies fontified
+#  LocalWords:  jit prog Whitespace eol unix whitespace nobreak alist
+#  LocalWords:  homoglyph glyphless submenu isearch wrappedness cua
+#  LocalWords:  nonincremental Overwrapped mistyped nonincrementally
+#  LocalWords:  postfix matcher keymaps iconifies Semipermanent tmm
+#  LocalWords:  semipermanent fontify menubar nav hl lossage upcase
+#  LocalWords:  downcase ispell prepend frameset kmacro prev del eww
+#  LocalWords:  sexps tty ttm radix eldef arg ok interprogram ctl GTK
+#  LocalWords:  hbar overline foldings unexpanded setq init
+#  LocalWords:  customizability
