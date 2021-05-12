@@ -1748,6 +1748,69 @@
     - ~flush-lines~
     - ~keep-lines~
 ** Commands for Fixing Typos
+*** Undo
+    Each buffer records changes individually, and the undo command
+    always applies to the current buffer. You can undo all the changes
+    in a buffer for as far back as the buffer's records go. Usually,
+    each editing command makes a separate entry in the undo records,
+    but some commands such as ~query-replace~ divide their changes
+    into multiple entries for flexibility in undoing. Consecutive
+    character insertion commands are usually grouped together into a
+    single undo record, to make undoing less tedious.
+
+    To begin to undo, type ~C-/~. This undoes the most recent change
+    in the buffer, and moves point back to where it was before that
+    change. Consecutive repetitions of ~C-/~ undo earlier and earlier
+    changes in the current buffer. If all the recorded changes have
+    already been undone, the undo command signals an error.
+
+    Any command other than an undo command breaks the sequence of undo
+    commands. Starting from that moment, the entire sequence of undo
+    commands that you have just performed are themselves placed into
+    the undo record. Therefore, to re-apply changes you have undone,
+    type ~C-f~ or any other command that harmlessly breaks the
+    sequence of undoing; then type ~C-/~ one or more times to undo
+    some of the undo commands.
+
+    Alternatively, if you want to resume undoing, without redoing
+    previous undo commands, use the command ~undo-only~. This is like
+    ~undo~, but will not redo changes you have just undone.
+
+    If you notice that a buffer has been modified accidentally, the
+    easiest way to recover is to type ~C-/~ repeatedly until the stars
+    disappear from the front of the mode line. Whenever an undo
+    command makes the stars disappear from the mode line, it means
+    that the buffer contents are the same as they were when the file
+    was last read in or saved.
+
+    When there is an active region, any use of ~undo~ performs
+    selective undo: it undoes the most recent change within the
+    region, instead of the entire buffer. However, when Transient Mark
+    mode is off, ~C-/~ always operates on the entire buffer, ignoring
+    the region. In this case, you can perform selective undo by
+    supplying a prefix argument to the ~undo~ command: ~C-u C-/~. To
+    undo further changes in the same region, repeat the ~undo~ command
+    (no prefix argument is needed).
+
+    Some specialized buffers do not make undo records. Buffers whose
+    names start with spaces never do; these buffers are used
+    internally by Emacs to hold text that users don't normally look at
+    or edit.
+
+    When the undo information for a buffer becomes too large, Emacs
+    discards the oldest records from time to time. You can specify how
+    much undo information to keep by setting the variables
+    ~undo-limit~, ~undo-strong-limit~, and ~undo-outer-limit~. Their
+    values are expressed in bytes.
+
+    The most recent change is never discarded unless it gets bigger
+    than ~undo-outer-limit~. At that point, Emacs discarded the undo
+    data and warns you about it. This is the only situation in which
+    you cannot undo the last command. If this happens, you can
+    increase the value of ~undo-outer-limit~ to make it even less
+    likely to happen in the future. But if you didn't expect the
+    command to create such large undo data, then it is probably a bug
+    and you should report it.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2388,6 +2451,16 @@
 *** Replacement String
     When searching, the /replacement string/ is the string of text
     that you can opt to replace any match you found while searching.
+** Commands for Fixing Typos
+*** Undo
+    The /undo/ command reserves recent changes in the buffer's text.
+*** Selective Undo
+    A /selective undo/ undoes the most recent changes within an active
+    region.
+*** Garbage Collection
+    When the undo information for a buffer becomes too large, Emacs
+    discards the oldest records from time to time (during /garbage
+    collection/).
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -5720,6 +5793,16 @@
 
     If a match is split across lines, this command keeps all those
     lines.
+** Commands for Fixing Typos
+*** undo-only                                                          :undo:
+    :PROPERTIES:
+    :Description: Undo without redoing previous undo commands
+    :Context:  editing
+    :END:
+*** revert-buffer                                               :undo:buffer:
+    :PROPERTIES:
+    :Description: Discard all changes since buffer was last visited/saved
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -6727,6 +6810,22 @@
     you start searching, but if the value of this variable is
     negative, that means to put the window at the top and give it the
     number of lines that is the absolute value of the variable.
+** Commands for Fixing Typos
+*** undo-limit                                                         :undo:
+    You can specify how much undo information to keep by setting this
+    variable. This variable sets a soft limit: Emacs keeps undo data
+    for enough commands to reach this size, and perhaps exceed it, but
+    does not keep data for any earlier commands beyond that. It's
+    default value is 160,000.
+*** undo-strong-limit                                                  :undo:
+    You can specify how much undo information to keep by setting this
+    variable. This variable sets a stricter limit: any previous
+    command (though not the most recent one) that pushes the size past
+    this amount is forgotten. The default value is 240,000.
+*** undo-outer-limit
+    You can specify how much undo information to keep by setting this
+    variable. The most recent change is never discarded unless it gets
+    bigger than this variable (normally 24,000,000).
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
