@@ -1881,6 +1881,7 @@
     repetition of the macro, that accomplishes the same thing as a
     keyboard macro counter. For most purposes, it is simpler to use a
     keyboard macro counter.
+*** Executing Macros with Variations
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2964,6 +2965,11 @@
    Interactive Spell-check mode. Check ~C-$~ (~ispell~)
 ** flyspell
    Flyspell mode is currently highlighting misspelled words
+** macro
+   Some commands mostly work while defining a keyboard macro
+** macro-confirm
+   Some commands are only valid during the moment running a keyboard
+   macro asks for confirmation from the user
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -6362,6 +6368,44 @@
     step during its definition. Changes to the macro format during
     execution of a macro, like the corresponding changes during its
     definition, have no effect on subsequent macros.
+*** kbd-macro-query                                                   :macro:
+    :PROPERTIES:
+    :Command:  C-x q
+    :Description: When command is reached during macro ask for confirmation
+    :Context:  macro
+    :Argument: plain
+    :END:
+    With a plain prefix argument, performs a completely different
+    function. It enters a recursive edit reading input from the
+    keyboard, both when you type it during the definition of the
+    macro, and when it is executed from the macro. During definition,
+    the editing you do inside the recursive edit does not become part
+    of the macro. During macro execution, the recursive edit gives you
+    a chance to do some particularized editing on each repetition.
+*** MC Confirm                                                        :macro:
+    :PROPERTIES:
+    :Command:  <SPC> OR y
+    :Description: Continue executing macro
+    :Context:  macro-confirm
+    :END:
+*** MC Skip Repeat                                                    :macro:
+    :PROPERTIES:
+    :Command:  <DEL> OR n
+    :Description: Skip remainder of this macro start next repetition
+    :Context:  macro-confirm
+    :END:
+*** MC Skip Quit                                                      :macro:
+    :PROPERTIES:
+    :Command:  <RET> OR q
+    :Description: Skip remainder of this macro and cancel future macros
+    :Context:  macro-confirm
+    :END:
+*** MC Recursive Edit                                                 :macro:
+    :PROPERTIES:
+    :Command:  C-r
+    :Description: Enter a recursive editing level
+    :Context:  macro-confirm
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
