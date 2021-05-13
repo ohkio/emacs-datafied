@@ -1888,6 +1888,7 @@
     ~C-x C-k Z~ are reserved for your own keyboard macro bindings. In
     fact, to bind to one of these key sequences, you only need to type
     the digit or letter rather than the whole key sequences.
+*** Editing a Keyboard Macro
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -6438,6 +6439,24 @@
     Lisp code to record the keys (if any) that you have bound to
     /macroname/, so that the macro will be reassigned the same keys
     when you load the file.
+*** kmacro-edit-macro                                                 :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k C-e OR C-x C-k <RET>
+    :Description: Edit last defined keyboard macro
+    :Context:  editing
+    :END:
+*** edit-kbd-macro                                                    :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k e
+    :Description: Edit a previously defined macro with given name
+    :Context:  editing
+    :END:
+*** kmacro-edit-lossage                                               :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k l
+    :Description: Edit last 300 keystrokes as a macro
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7844,14 +7863,27 @@
 *** isearch-move
     See variable ~isearch-yank-on-move~ for details
 * Niche Modes
-** Bookmark Menu
-*** Description
-    Use this buffer to edit bookmark definitions or annotate the
-    bookmarks.
-*** Enter Mode
-    ~C-x r l~
-*** Find Commands
-    ~C-h m~
+** Registers
+*** Bookmark Menu
+**** Description
+     Use this buffer to edit bookmark definitions or annotate the
+     bookmarks.
+**** Enter Mode
+     ~C-x r l~
+**** Find Commands
+     ~C-h m~
+**** Exit Mode
+     ~q~
+** Keyboard Macros
+*** Edit Macro
+**** Description
+     Specialized major mode for editing a Keyboard Macro
+**** Enter Mode
+     ~C-x C-k C-e~ OR ~C-x C-k <RET>~ (~kmacro-edit-macro~)
+**** Find Commands
+     ~C-h m~
+**** Exit Mode
+     ~C-c C-c~
 * Notes
 ** Undo
    There are a few ways someone can break a sweat in Emacs and wonder
