@@ -1850,6 +1850,15 @@
     it uses the original mouse position of that event, the position
     that the mouse had while you were defining the macro. The effect
     of this may be hard to predict.
+*** The Keyboard Macro Ring
+    All defined keyboard macros are recorded in the keyboard macro
+    ring. There is only one keyboard macro ring, shared by all
+    buffers.
+
+    All commands which operate on the keyboard macro ring use the same
+    ~C-x C-k~ prefix. Most of these commands can be executed and
+    repeated immediately after each other without repeating the ~C-x
+    C-k~ prefix.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2507,6 +2516,9 @@
 *** Keyboard Macro
     A /keyboard macro/ is a command defined by an Emacs user to stand
     for another sequence of keys.
+*** Keyboard Macro Ring
+    All defined keyboard macros are recorded in the /keyboard macro
+    ring/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -6230,6 +6242,36 @@
     :Argument: numeric
     :END:
     Prefix argument serves as repeat count.
+*** kmacro-end-or-call-macro-repeat                                   :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k C-k
+    :Description: Execute macro at the head of the ring
+    :Context:  editing
+    :END:
+*** kmacro-cycle-ring-next                                            :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k C-n
+    :Description: Rotate macro ring to next macro (defined later)
+    :Context:  editing
+    :END:
+*** kmacro-cycle-ring-previous                                        :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k C-p
+    :Description: Rotate macro ring to previous macro (defined earlier)
+    :Context:  editing
+    :END:
+*** kmacro-delete-ring-head                                           :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k C-d
+    :Description: Delete current macro from keyboard macro ring
+    :Context:  editing
+    :END:
+*** kmacro-name-last-macro                                            :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k n
+    :Description: Assign a name to the last keyboard macro defined
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7266,17 +7308,20 @@
     Your personal dictionary is specified by this variable. If it is
     ~nil~, the spelling program looks for a personal dictionary in a
     default location, which is specific to each spell-checker.
-*** ispell-complete-word-dict
+*** ispell-complete-word-dict                                        :inform:
     This variable specifies the file name for the word completion
     dictionary.
 ** Keyboard Macros
-*** kmacro-execute-before-append
+*** kmacro-execute-before-append                                      :macro:
     After terminating the definition of a keyboard macro, you can
     append more keystrokes to its definition by typing ~C-u
     <F3>~. This is equivalent to plain ~<F3>~ followed by retyping the
     whole definition so far. If you change this variable to ~nil~, the
     existing macro will not be re-executed before appending to it (the
     default is ~t~).
+*** kmacro-ring-max                                                   :macro:
+    The maximum number of macros stored in the keyboard macro ring is
+    determined by this variable.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
