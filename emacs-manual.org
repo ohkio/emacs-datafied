@@ -1889,6 +1889,7 @@
     fact, to bind to one of these key sequences, you only need to type
     the digit or letter rather than the whole key sequences.
 *** Editing a Keyboard Macro
+*** Stepwise Editing a Keyboard Macro
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2977,6 +2978,15 @@
 ** macro-confirm
    Some commands are only valid during the moment running a keyboard
    macro asks for confirmation from the user
+** stepwise-macro
+   There are some commands that are only available while you are doing
+   a stepwise edit of a keyboard macro. After ~kmacro-step-edit-macro~
+   command. ~C-x C-k <SPC>~
+** stepwise-macro-editing
+   After entering a stepwise edit macro session, you can sometimes
+   start to insert and edit new commands into the macro. More
+   specifically, after doing the command ~C-x C-k <SPC>~ and then one
+   of the following commands: ~i~, ~r~, ~a~, or ~A~.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -6456,6 +6466,96 @@
     :Command:  C-x C-k l
     :Description: Edit last 300 keystrokes as a macro
     :Context:  editing
+    :END:
+*** kmacro-step-edit-macro                                            :macro:
+    :PROPERTIES:
+    :Command:  C-x C-k <SPC>
+    :Description: Interactively replay and edit last macro
+    :Context:  editing
+    :END:
+*** SM Execute One                                                    :macro:
+    :PROPERTIES:
+    :Command:  <SPC> OR y
+    :Description: Execute curr command and advance in macro
+    :Context:  stepwise-macro
+    :END:
+*** SM Delete                                                         :macro:
+    :PROPERTIES:
+    :Command:  n OR d OR <DEL>
+    :Description: Skip and delete the current command
+    :Context:  stepwise-macro
+    :END:
+*** SM Skip                                                           :macro:
+    :PROPERTIES:
+    :Command:  f
+    :Description: Skip curr command of macro but doesn't delete
+    :Context:  stepwise-macro
+    :END:
+*** SM Execute Group                                                  :macro:
+    :PROPERTIES:
+    :Command:  <TAB>
+    :Description: Execute curr command and all similar commands after
+    :Context:  stepwise-macro
+    :END:
+*** SM Continue                                                       :macro:
+    :PROPERTIES:
+    :Command:  c
+    :Description: Continue execution until finished macro no more editing
+    :Context:  stepwise-macro
+    :END:
+*** SM Kill                                                           :macro:
+    :PROPERTIES:
+    :Command:  C-k
+    :Description: Skip and delete rest of macro, save as new macro
+    :Context:  stepwise-macro
+    :END:
+*** SM Quit                                                           :macro:
+    :PROPERTIES:
+    :Command:  q OR C-g
+    :Description: Cancel step-editing of macro, discard all changes
+    :Context:  stepwise-macro
+    :END:
+*** SM Insert Many                                                    :macro:
+    :PROPERTIES:
+    :Command:  i
+    :Description: Add following keys before curr command (not ~C-j~)
+    :Context:  stepwise-macro
+    :END:
+*** SME Complete                                                      :macro:
+    :PROPERTIES:
+    :Command:  C-j
+    :Description: Indicate adding new commands in macro is complete
+    :Context:  stepwise-macro-editing
+    :END:
+*** SM Insert One                                                     :macro:
+    :PROPERTIES:
+    :Command:  I
+    :Description: add one key before curr command
+    :Context:  stepwise-macro
+    :END:
+*** SM Replace Many                                                   :macro:
+    :PROPERTIES:
+    :Command:  r
+    :Description: Add following keys replacing curr command (not ~C-j~)
+    :Context:  stepwise-macro
+    :END:
+*** SM Replace One                                                    :macro:
+    :PROPERTIES:
+    :Command:  R
+    :Description: Add one key replacing curr command
+    :Context:  stepwise-macro
+    :END:
+*** SM After One                                                      :macro:
+    :PROPERTIES:
+    :Command:  a
+    :Description: Execute curr command then add following keys (not ~C-j~)
+    :Context:  stepwise-macro
+    :END:
+*** SM After Rest                                                     :macro:
+    :PROPERTIES:
+    :Command:  A
+    :Description: Execute rest of macro and add following keys (not ~C-j~)
+    :Context:  stepwise-macro
     :END:
 * Variables
 ** The Organization of the Screen
