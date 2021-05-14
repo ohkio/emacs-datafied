@@ -1890,6 +1890,10 @@
     the digit or letter rather than the whole key sequences.
 *** Editing a Keyboard Macro
 *** Stepwise Editing a Keyboard Macro
+** File Handling
+   In addition to visiting and saving files, Emacs can delete, copy,
+   rename, and append to files, keep multiple versions of them, and
+   operate on file directories.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2558,6 +2562,19 @@
     In addition to the current counter, keyboard macros also maintain
     the /previous counter/, which records the value the current
     counter had last time it was incremented or set.
+** File Handling
+*** File
+    The operating system stores data permanently in named /files/, so
+    most of the text you edit with Emacs comes from a file and is
+    ultimately stored in a file.
+*** Visiting
+    To edit a file, you must tell Emacs to read the file and prepare a
+    buffer containing a copy of the file's text. This is called
+    /visiting/ the file.
+*** Save
+    Editing commands apply directly to text in the buffer; that is, to
+    the copy inside Emacs. Your changes appear in the file itself only
+    when you /save/ the buffer back into the file.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
