@@ -1929,6 +1929,7 @@
     quoted with '~/:~'.
 
     You can include non-ASCII characters in file names.
+*** Visiting Files
 * Vocabulary
 ** Distribution
 *** Free Software

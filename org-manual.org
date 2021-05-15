@@ -1481,10 +1481,31 @@ and I can reference the previous footnote again here[fn:deffoot] \\
     :END:
 * New Commands
 * Variables
+** Introduction
+*** org-insert-mode-line-in-empty-file                           :files:mode:
+    Non-nil means insert the first line setting Org mode in empty
+    files. When the function '~org-mode~' is called interactively in
+    an empty file, this normally means that the file name does not
+    automatically trigger Org mode. To ensure that the file will
+    always be in Org mode in the future, a line enforcing Org mode
+    will be inserted into the buffer, if this option has been set.
 * Faces
 * .emacs Additions
 ** Introduction
 *** Basics
+    For a better experience, the three Org commands ~org-store-link~,
+    ~org-capture~ and ~org-agenda~ ought to be accessible anywhere in
+    Emacs, not just in Org buffers. To that effect, you need to bind
+    them to globally available keys, like the ones reserved for
+    users. Here are suggested bindings, please modify the keys to your
+    own liking.
+
+    #+BEGIN_SRC emacs-lisp
+      (global-set-key (kbd "C-c l") 'org-store-link)
+      (global-set-key (kbd "C-c a") 'org-agenda)
+      (global-set-key (kbd "C-c c") 'org-capture)
+    #+END_SRC
+
 * Command Properties
 * Niche Modes
 * Notes
