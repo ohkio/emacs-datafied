@@ -1894,6 +1894,41 @@
    In addition to visiting and saving files, Emacs can delete, copy,
    rename, and append to files, keep multiple versions of them, and
    operate on file directories.
+*** File Names
+    Many Emacs commands that operate on a file require you to specify
+    the file name, using the minibuffer.
+
+    While in the minibuffer, you can use the usual completion and
+    history commands. Note that most commands use permissive
+    completion with confirmation for reading file names: you are
+    allowed to submit a nonexistent file name, but if you type ~<RET>~
+    immediately after completing up to a nonexistent file name, Emacs
+    prints '~[Confirm]~' and you must type a second ~<RET>~ to
+    confirm.
+
+    Minibuffer history commands offer some special features for
+    reading file names.
+
+    The character '~$~' is used to substitute an environment variable
+    into a file name. The name of the environment variable consists of
+    all the alphanumeric characters after the '~$~'; alternatively, it
+    can be enclosed in braces after the '~$~'. For example, if you
+    have used the shell command ~export FOO=rms/hacks~ to set up an
+    environment variable named ~FOO~, then both ~/u/$FOO/test.c~ and
+    ~/u/${FOO}/test.c~ are abbreviations for ~/u/rms/hacks/text.c~. If
+    the environment variable is not defined, no subsitution occurs, so
+    that the character '~$~' stands for itself. Note that environment
+    variables set outside Emacs affect Emacs only if they are applied
+    before Emacs is started.
+
+    To access a file with '~$~' in its name, if the '~$~' causes
+    expansion, type '~$$~'. This pair is converted to a single '~$~'
+    at the same time that variable substitution is performed for a
+    single '~$~'. Alternatively quote the whole vile name with
+    '~/:~'. File names which begin with a literal '~~~' should also be
+    quoted with '~/:~'.
+
+    You can include non-ASCII characters in file names.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2575,6 +2610,10 @@
     Editing commands apply directly to text in the buffer; that is, to
     the copy inside Emacs. Your changes appear in the file itself only
     when you /save/ the buffer back into the file.
+*** Default Directory
+    Each buffer has a /default directory/. Whenever Emacs reads a file
+    name using the minibuffer, it usually inserts the default
+    directory into the minibuffer as the initial contents.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -6574,6 +6613,17 @@
     :Description: Execute rest of macro and add following keys (not ~C-j~)
     :Context:  stepwise-macro
     :END:
+** File Handling
+*** pwd                                                        :files:inform:
+    :PROPERTIES:
+    :Description: See value of ~default-directory~ of current buffer
+    :Context:  navigating
+    :END:
+*** cd                                                           :files:edit:
+    :PROPERTIES:
+    :Description: Prompt for directory name and set ~default-directory~
+    :Context:  navigating
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7624,6 +7674,24 @@
 *** kmacro-ring-max                                                   :macro:
     The maximum number of macros stored in the keyboard macro ring is
     determined by this variable.
+** File Handling
+*** completion-ignored-extensions                            :files:complete:
+    File name completion ignores file names whose extensions appear in
+    this variable
+*** default-directory                                            :files:echo:
+    Each buffer has a default directory, stored in this buffer-local
+    variable.
+
+    When you visit a file, Emacs sets this variable in the visiting
+    buffer to the directory of its file. When you create a new buffer
+    that is not visiting a file, via a command like ~C-x b~, its
+    default directory is usually copied from the buffer that was
+    current at the time.
+*** insert-default-directory                                     :files:echo:
+    Whenever Emacs reads a file name using the minibuffer, it usually
+    inserts the default directory into the minibuffer as the initial
+    contents. You can inhibit this insertion by changing this variable
+    to ~nil~.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
