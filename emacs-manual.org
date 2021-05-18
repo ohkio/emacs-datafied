@@ -2027,6 +2027,7 @@
     end-of-line convention within the buffer. When you save the
     buffer, Emacs performs the inverse conversion, writing the file to
     disk with its original encoding and end-of-line convention.
+*** Saving Files
 * Vocabulary
 ** Distribution
 *** Free Software
