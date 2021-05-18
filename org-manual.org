@@ -1175,6 +1175,7 @@ and I can reference the previous footnote again here[fn:deffoot] \\
 *** Summary
 *** Installation
 *** Activation
+*** Feedback
 * Vocabulary
 * Syntax
 * File Additions

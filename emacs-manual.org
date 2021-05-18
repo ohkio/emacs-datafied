@@ -1930,6 +1930,103 @@
 
     You can include non-ASCII characters in file names.
 *** Visiting Files
+    Emacs makes a new buffer for each file that you visit.
+
+    If the specified file exists but the system does not allow you to
+    read it, an error message is displayed in the echo
+    area. Otherwise, you can tell that ~C-x C-f~ has completed
+    successfully by the appearance of new text on the screen, and by
+    the buffer name shown in the mode line. Emacs normally constructs
+    the buffer name from the file name, omitting the directory
+    name. If there is already a buffer with that name, Emacs
+    constructs a unique name; the normal method is to add a suffix
+    based on the directory name, but you can select other methods.
+
+    To create a new file, just visit it using the same command, ~C-x
+    C-f~. Emacs displays '~(New file)~' in the echo area, but in other
+    respects behaves as if you had visited an existing empty file.
+
+    After visiting a file, the changes you make with editing commands
+    are made in the Emacs buffer. They do not take effect in the
+    visited file, until you save the buffer. If a buffer contains
+    changes that have not been saved, we say the buffer is
+    modified. This implies that some changes will be lost if the
+    buffer is not saved. The mode line displays two stars near the
+    left margin to indicate that the buffer is modified.
+
+    If you visit a file that is already in Emacs, ~C-x C-f~ switches
+    to the existing buffer instead of making another copy. Before
+    doing so, it checks whether the file has changed since you last
+    visited or saved it. If the file has been changed, Emacs offers to
+    reread it.
+
+    If you try to visit a file larger than
+    ~large-file-warning-threshold~, Emacs asks you for confirmation
+    first. You can answer ~y~ to proceed with visiting the file or ~l~
+    to visit the file literally (see below). Visiting large files
+    literally speeds up navigation and editing of such files, because
+    various potentially-expensive features are turned off. Note,
+    however, that Emacs cannot visit files that are larger than the
+    maximum Emacs buffer size, which is limited by the amount of
+    memory Emacs can allocate and by the integers that Emacs can
+    represent. If you try, Emacs displays an error message saying that
+    the maximum buffer size has been exceeded.
+
+    If the file name you specify contains shell-style wildcard
+    characters, Emacs visits all the files that match it. (On
+    case-insensitive filesystems, Emacs matches the wildcards
+    disregarding the letter case.) Wildcards include '~?~', '~*~', and
+    '~[ ... ]~' sequences. To enter the wild card '~?~' in a file name
+    in the minibuffer, you need to type ~C-q ?~. You can disable the
+    wildcard feature by customizing ~find-file-wildcards~.
+
+    ~C-x C-v~ is similar to ~C-x C-f~, but it kills the current buffer
+    (after first offering to save it if it is modified). When ~C-x
+    C-v~ reads the file name to visit, it inserts the entire default
+    file name in the minibuffer, with point just after the directory
+    part; this is convenient if you made a slight error in typing the
+    name.
+
+    If you visit a file that is actually a directory, Emacs invokes
+    Dired, the Emacs directory browser. You can disable this vehavior
+    by setting the variable ~find-file-run-dired~ to ~nil~; in that
+    case, it is an error to try to visit a directory.
+
+    Files which are actually collections of other files, or file
+    archives, are visited in special modes which invoke a Dired-like
+    environment to allow operations on archive members.
+
+    If you visit a file that the operating system won't let you
+    modify, or that is marked read-only, Emacs makes the buffer
+    read-only too, so that you won't go ahead and make changes that
+    you'll have trouble saving afterward. You can make the buffer
+    writable with ~C-x C-q~.
+
+    On graphical displays, there are two additional methods for
+    visiting files. Firstly, when Emacs is built with a suitable GUI
+    toolkit, commands invoked with the mouse (by clicking on the menu
+    bar or tool bar) use the toolkit's standard file selection dialog
+    instead of prompting for the file name in the minibuffer. On
+    GNU/Linux and Unix platforms, Emacs does this when built with
+    GTK+, LessTif, and Motif toolkits; on MS-Windows and Mac, the GUI
+    version does that by default.
+
+    Secondly, Emacs supports drag and drop: dropping a file into an
+    ordinary Emacs window visits the file using that window. As an
+    exception, dropping a file into a window displaying a Dired buffer
+    moves or copies the file into the displayed directory.
+
+    On text-mode terminals and on graphical displays when Emacs was
+    built without a GUI toolkit, you can visit files via the menu-bar
+    '~File~' menu, which has the '~Visit New File~' and the '~Open
+    File~' items.
+
+    Each time you visit a file, Emacs automatically scans its contents
+    to detect what character encoding and end-of-line convention it
+    uses, and converts these to Emacs's internal encoding and
+    end-of-line convention within the buffer. When you save the
+    buffer, Emacs performs the inverse conversion, writing the file to
+    disk with its original encoding and end-of-line convention.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2615,6 +2712,13 @@
     Each buffer has a /default directory/. Whenever Emacs reads a file
     name using the minibuffer, it usually inserts the default
     directory into the minibuffer as the initial contents.
+*** Modified
+    If a buffer contains changes that have not been saved, we say the
+    buffer is /modified/.
+*** File Archives
+    Files which are actually collections of other files, or /file
+    archives/, are visited in special modes which invoke a Dired-like
+    environment to allow operations on archive members.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -2946,6 +3050,9 @@
 *** Flyspell Prog mode
     Flyspell Prog mode works just like ordinary Flyspell mode, except
     that it only checks words in comments and string contants.
+** File Handling
+*** Dired mode
+    The Emacs directory browser.
 * Contexts
 ** anywhere
    literally anywhere
@@ -3044,6 +3151,11 @@
    start to insert and edit new commands into the macro. More
    specifically, after doing the command ~C-x C-k <SPC>~ and then one
    of the following commands: ~i~, ~r~, ~a~, or ~A~.
+** large-file
+   If you try to visit a file larger than
+   ~large-file-warning-threshold~, Emacs asks you for confirmation
+   first. There are a few commands possible while Emacs is asking for
+   confirmation.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -6625,6 +6737,59 @@
     :Description: Prompt for directory name and set ~default-directory~
     :Context:  navigating
     :END:
+*** find-file                                             :files:buffer:edit:
+    :PROPERTIES:
+    :Command:  C-x C-f
+    :Description: Visit a file
+    :Context:  navigating
+    :END:
+*** find-file-read-only                                        :files:buffer:
+    :PROPERTIES:
+    :Command:  C-x C-r
+    :Description: Visit file for viewing, without allowing changes
+    :Context:  navigating
+    :END:
+*** find-alternate-file                                   :files:buffer:undo:
+    :PROPERTIES:
+    :Command:  C-x C-v
+    :Description: Visit different file instead of one just visited
+    :Context:  navigating
+    :END:
+*** find-file-other-window                         :files:window:buffer:edit:
+    :PROPERTIES:
+    :Command:  C-x 4 f
+    :Description: Visit a file, in another window
+    :Context:  navigating
+    :END:
+*** find-file-other-frame                           :files:frame:buffer:edit:
+    :PROPERTIES:
+    :Command:  C-x 5 f
+    :Description: Visit a file, in a new frame
+    :Context:  navigating
+    :END:
+*** find-file-literally                                        :files:buffer:
+    :PROPERTIES:
+    :Description: Visit a file with no conversion of contents
+    :Context:  navigating
+    :END:
+    This visits a file, like ~C-x C-f~, but does not do format
+    conversion, character code version, or automatic uncompression,
+    and does not add a final newline because of
+    ~require-final-newline~. If you have already visited the same file
+    in the usual (non-literal) manner, this command asks you whether
+    to visit it literally instead.
+*** LF Confirm                                          :files:buffer:inform:
+    :PROPERTIES:
+    :Command:  y
+    :Description: Proceed with visiting the file
+    :Context:  large-file
+    :END:
+*** LF Literal                                          :files:buffer:inform:
+    :PROPERTIES:
+    :Command:  l
+    :Description: Visit file literally
+    :Context:  large-file
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7693,6 +7858,40 @@
     inserts the default directory into the minibuffer as the initial
     contents. You can inhibit this insertion by changing this variable
     to ~nil~.
+*** large-file-warning-threshold                               :files:inform:
+    If you try to visit a file larger than this variable (the default
+    is 10,000,000, which is about 10 megabytes), Emacs asks you for
+    confirmation first.
+*** find-file-run-dired                                   :files:mode:inform:
+    If you visit a file that is actually a directory, Emacs invokes
+    Dired, the Emacs directory browser. You can disable this behavior
+    by setting this variable to ~nil~; in that case, it is an error to
+    try to visit a directory.
+*** find-file-wildcards                                          :files:edit:
+    If the file name you specify contains shell-style wildcard
+    characters, Emacs visits all the files that match it. (On
+    case-insensitive filesystems, Emacs matches the wildcards
+    disregarding the letter case.) Wildcards include '~?~', '~*~', and
+    '~[ ... ]~' sequences. To enter the wild card '~?~' in a file name
+    in the minibuffer, you need to type ~C-q ?~. You can disable the
+    wildcard feature by customizing this variable.
+* Hooks
+** Commands for Fixing Typos
+*** text-mode-hook
+    Hook for all text mode buffers
+*** prog-mode-hook
+    Hook for all programming mode buffers
+** File Handling
+*** find-file-not-found-functions
+    Visiting a file that does not exist runs the functions in
+    ~find-file-not-found-functions~; this variable holds a list of
+    functions, which are called one by one (with no arguments) until
+    one of them returns non-nil. This is nor a normal hook, and the
+    name ends in '~-functions~' rather than '~-hook~' to indicate that
+    fact.
+*** find-file-hook
+    Successful visiting of any file, whether existing or not, calls
+    the functions in this hook, with no arguments.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
