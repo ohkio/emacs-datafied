@@ -2064,6 +2064,14 @@
      wrote, Emacs notifies you of this fact, because it probably
      indicates a problem caused by simultaneous editing and requires
      your immediate attention.
+**** Backup Files
+     Emacs makes a backup for a file only the first time the file is
+     saved from a buffer. However, if you kill the buffer and then
+     visit the file again, a new backup file will be made.
+
+     At your option, Emacs can keep either a single backup for each
+     file, or make a series of numbered backup files for each file
+     that you edit.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2760,6 +2768,12 @@
     You can cancel all the changes made since the file was visited or
     saved, by reading the text from the file again. This is called
     /reverting/.
+*** Backup File
+    On most operating systems, rewriting a file automatically destroys
+    all record of what the file used to contain. Thus, saving a file
+    from Emacs throws away the old contents of the file - or it would,
+    except that Emacs carefully copies the old contents to another
+    file, called the /backup file/, before actually saving.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -6840,10 +6854,17 @@
     :Command:  C-x C-s
     :Description: Save current buffer to its file
     :Context:  editing
-    :Argument: plain
+    :Argument: plain, double, tripple
     :END:
     With a prefix argument, Emacs also marks the buffer to be backed
     up when the next save is done.
+
+    With a double prefix argument this command saves the buffer, but
+    first makes the previous file contents into a new backup file.
+
+    With a tripple prefix argument this command does both things: it
+    makes a backup file from the previous contents, and arranges to
+    make another from the newly saved contents if you save again.
 *** save-some-buffers                                     :files:edit:buffer:
     :PROPERTIES:
     :Command:  C-x s
@@ -8012,6 +8033,37 @@
 *** save-some-buffers-default-predicate                          :files:edit:
     You can customize the value of this variable to control which
     buffers Emacs will ask about.
+*** make-backup-files                                            :files:undo:
+    For most files, this variable determines whether to make backup
+    files. On most operating systems, its default value is ~t~, so
+    that Emacs does write backup files.
+*** vc-make-backup-files                                              :files:
+    For files managed by a version control system, this variable
+    determines whether to make backup files. By default it is ~nil~,
+    since backup files are redundant when you store all the previous
+    versions in a version control system.
+*** backup-enable-predicate                                           :files:
+    The default value of this variable prevents backup files from
+    being written for files in the directories used for temporary
+    files, specified by ~temporary-file-directory~ or
+    ~small-temporary-file-directory~.
+*** temporary-file-directory                                          :files:
+    The directory for writing temporary files
+*** small-temporary-file-directory                                    :files:
+    The directory for writing small temporary files. If non-nil, this
+    directory is used instead of '~temporary-file-directory~' by
+    programs that create small temporary files. This is for systems
+    that have fast storage with limited space, such as a RAM disk.
+*** backup-directory-alist                                            :files:
+    You can customize this variable to specify that files matching
+    certain patterns should be backed up in specific directories. A
+    typical use is to add an element ~("." . <dir>)~ to make all
+    backups in the directory with absolute name /dir/. Emacs modifies
+    the backup file names to avoid clashes between files with the same
+    names originating in different directories. Alternatively, adding,
+    ("." . ".~") would make backups in the invisible subdirectory .~
+    of the original file's directory. Emacs creates the directory, if
+    necessary, to make the backup.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
