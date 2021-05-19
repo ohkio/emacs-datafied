@@ -2072,6 +2072,20 @@
      At your option, Emacs can keep either a single backup for each
      file, or make a series of numbered backup files for each file
      that you edit.
+***** Single or Numbered Backups
+      When Emacs makes a backup file, its name is normally constructed
+      by appending '~' to the file name being edited; thus, the backup
+      file for ~eval.c~ would be 'eval.c~'.
+
+      If access control stops Emacs from writing backup files under
+      the usual names, it writes the backup file as
+      '~/.emacs.d/%backup%~'. Only one such file can exist, so only
+      the most recently made such backup is available.
+
+      Numbered backup file names contain '.~', the number, and another
+      '~' after the original file name. Thus, the backup files of
+      ~eval.c~ would be called 'eval.c.~1~', 'eval.c.~2~', and so on,
+      all the way through names like 'eval.c.~259~' and beyond.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2774,6 +2788,8 @@
     from Emacs throws away the old contents of the file - or it would,
     except that Emacs carefully copies the old contents to another
     file, called the /backup file/, before actually saving.
+*** Numbered Backup Files
+    Emacs can also make /numbered backup files/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -8043,6 +8059,9 @@
     since backup files are redundant when you store all the previous
     versions in a version control system.
 *** backup-enable-predicate                                           :files:
+    :PROPERTIES:
+    :Type:     global
+    :END:
     The default value of this variable prevents backup files from
     being written for files in the directories used for temporary
     files, specified by ~temporary-file-directory~ or
@@ -8064,6 +8083,37 @@
     ("." . ".~") would make backups in the invisible subdirectory .~
     of the original file's directory. Emacs creates the directory, if
     necessary, to make the backup.
+*** version-control                                                   :files:
+    :PROPERTIES:
+    :Type:     file, buffer, global, custom
+    :END:
+    This variable determines whether to make single backup files or
+    multiple numbered backup files. its possible values are:
+    - ~nil~ :: Make numbered backups for files that have numbered
+      backups already. Otherwise, make single backups. This is the
+      default.
+    - ~t~ :: Make numbered backups.
+    - ~never~ :: Never make numbered backups; always make single
+      backups.
+
+    The usual way to set this variable is globally, through your init
+    file or the customization buffer. However, you can also set it
+    locally in an individual buffer to control the making of backups
+    for that buffer's file. You can have Emacs set this variable
+    locally whenever you visit a given file. Some modes, such as Rmail
+    mode, set this variable.
+
+    If you set the environment variable ~VERSION_CONTROL~, to tell
+    various GNU utilities what to do with backup files, Emacs also
+    obeys the environment variable by setting the Lisp bariable
+    ~version-control~ accordingly at startup. If the environment
+    variable's value is '~t~' or '~numbered~', then ~version-control~
+    becomes ~t~; if the value is '~nil~' or '~esisting~', then
+    ~version-control~ becomes ~nil~; if it is '~never~' or '~simple~',
+    then ~version-control~ becomes ~never~.
+*** make-backup-file-name-function                                    :files:
+    If you set this variable to a suitable Lisp function, you can
+    override the usual way Emacs constructs backup file names.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -8558,6 +8608,59 @@
    install the package ~emacs-common-non-dfsg~ for Emacs 26 and up
    onto my computer from the command line (it's a Linux package, not
    an Emacs package).
+** Types of Variables
+   There are roughly four different ways to interact with variables in
+   Emacs.
+*** Global Variables
+    There are global variables. These are variables that apply for
+    every buffer you visit and changing this global variable changes
+    the value of the variable for all buffers immediately. The best
+    way to update global variables is with the following emacs lisp
+    code:
+    #+BEGIN_SRC emacs-lisp
+      (setq-default fill-column 75)
+    #+END_SRC
+
+    This ensures that any variable that has been given a local value
+    is not interfered with but the variable in all other buffers is
+    still updated.
+*** Customizable Variables
+    These are a subset of global variables that Emacs makes it easy
+    for you to change these variables from any buffer and
+    automatically update your init file. This is done by running the
+    command ~M-x customize-variable~.
+*** Local Variables
+    This is a variable that is only set for a particular
+    buffer. Sometimes a variable by default is always a local
+    variable, and sometimes you have to specify to make a variable
+    that is normally global to have a specific local value for the
+    current buffer. The command for the latter is ~M-x
+    make-local-variable~.
+*** File Variable
+    This is a way to define a local variable through text in a
+    file. There are two ways to define file variables. First is in the
+    first line:
+    #+BEGIN_SRC emacs-lisp
+      ;; -*- mode: Lisp; fill-column: 75; comment-column: 50; -*-
+    #+END_SRC
+
+    The first variable defined should always be the mode. The first
+    line should be commented out using the comment syntax defined by
+    this mode variable. The rest of the variables have the format
+    ~var: value~ and each local variable definition ends with a
+    semicolon.
+
+    The second way to define local variables happens more towards the
+    end in a local variables list. That looks like this:
+    #+BEGIN_SRC emacs-lisp
+      Local Variables:
+      mode: c
+      comment-column: 0
+      End:
+    #+END_SRC
+
+    Again, this should be in a comment of whatever mode you define. No
+    semicolons are needed to separate local variables.
 * Extra
 
 #  LocalWords:  SRC buf pos emacsclient nn SPC RET ESC Esc Ctrl txt
