@@ -2028,6 +2028,42 @@
     buffer, Emacs performs the inverse conversion, writing the file to
     disk with its original encoding and end-of-line convention.
 *** Saving Files
+**** Commands for Saving Files
+     After saving is finished, ~C-x C-s~ displays a message like this:
+     #+BEGIN_SRC org
+       Wrote /u/rms/gnu/gnu.tasks
+     #+END_SRC
+
+     If the current buffer is not modified (no changes have been made
+     in it since the buffer was created or last saved), saving is not
+     really done, because it would have no effect. Instead ~C-x C-s~
+     displays a message like this in the echo area:
+     #+BEGIN_SRC org
+       (No changes need to be saved)
+     #+END_SRC
+
+     ~C-x C-c~, the key sequence to exit Emacs, invokes
+     ~save-some-buffers~ and therefore asks the same questions.
+
+     If you wish to mark the buffer as visiting a different file and
+     save it right away, use ~C-x C-w~. This is equivalent to
+     ~set-visited-file-name~ followed by ~C-x C-s~, except that ~C-x
+     C-w~ asks for confirmation if the file exists. ~C-x C-s~ used on
+     a buffer that is not visiting a file has the same effect as ~C-x
+     C-w~; that is, it reads a file name, marks the buffer as visiting
+     that file, and saves it there. The default file name in a buffer
+     that is not visiting a file is made by combining the buffer name
+     with the buffer's default directory.
+
+     If the new file name implies a major mode, then ~C-x C-w~
+     switches to that major mode, in most cases. The command
+     ~set-visited-file-name~ also does this.
+
+     If Emacs is about to save a file and sees that the date of the
+     latest version on disk does not match what Emacs last read or
+     wrote, Emacs notifies you of this fact, because it probably
+     indicates a problem caused by simultaneous editing and requires
+     your immediate attention.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2720,6 +2756,10 @@
     Files which are actually collections of other files, or /file
     archives/, are visited in special modes which invoke a Dired-like
     environment to allow operations on archive members.
+*** Revert
+    You can cancel all the changes made since the file was visited or
+    saved, by reading the text from the file again. This is called
+    /reverting/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3157,6 +3197,10 @@
    ~large-file-warning-threshold~, Emacs asks you for confirmation
    first. There are a few commands possible while Emacs is asking for
    confirmation.
+** save-some-buffers
+   The command ~C-x s~ offers to save any or all modified buffers. It
+   asks you what to do with each buffer. The possible responses are
+   analogous to those of ~query-replace~.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -6791,6 +6835,95 @@
     :Description: Visit file literally
     :Context:  large-file
     :END:
+*** save-buffer                                           :files:edit:buffer:
+    :PROPERTIES:
+    :Command:  C-x C-s
+    :Description: Save current buffer to its file
+    :Context:  editing
+    :Argument: plain
+    :END:
+    With a prefix argument, Emacs also marks the buffer to be backed
+    up when the next save is done.
+*** save-some-buffers                                     :files:edit:buffer:
+    :PROPERTIES:
+    :Command:  C-x s
+    :Description: Save any or all buffers to their files
+    :Context:  navigating
+    :END:
+*** not-modified                                                :buffer:undo:
+    :PROPERTIES:
+    :Command:  M-~
+    :Description: Forget that current buffer has been changed
+    :Context:  editing
+    :Argument: plain
+    :END:
+    With prefix argument, mark the current buffer as changed.
+*** write-file                                            :files:edit:buffer:
+    :PROPERTIES:
+    :Command:  C-x C-w
+    :Description: Save current buffer with a specified file name
+    :Context:  editing
+    :END:
+*** set-visited-file-name                                 :files:edit:buffer:
+    :PROPERTIES:
+    :Description: Change file name under which current buffer will be saved
+    :Context:  editing
+    :END:
+*** SSB Yes                                               :files:buffer:edit:
+    :PROPERTIES:
+    :Command:  y OR <SPC>
+    :Description: Save this buffer and ask about the rest of buffers
+    :Context:  save-some-buffers
+    :END:
+*** SSB Next                                                   :files:buffer:
+    :PROPERTIES:
+    :Command:  n OR <DEL>
+    :Description: Don't save this buffer, but ask about rest of buffers
+    :Context:  save-some-buffers
+    :END:
+*** SSB Save All                                          :files:buffer:edit:
+    :PROPERTIES:
+    :Command:  !
+    :Description: Save this buffer and all rest with no more questions
+    :Context:  save-some-buffers
+    :END:
+*** SSB Quit                                              :files:buffer:undo:
+    :PROPERTIES:
+    :Command:  q OR <RET>
+    :Description: Terminate command without any more saving
+    :Context:  save-some-buffers
+    :END:
+*** SSB Save And Quit                                     :files:buffer:edit:
+    :PROPERTIES:
+    :Command:  .
+    :Description: Save this buffer, then exit command without asking more
+    :Context:  save-some-buffers
+    :END:
+*** SSB Review                                  :files:display:window:buffer:
+    :PROPERTIES:
+    :Command:  C-r
+    :Description: View buffer you are currently being asked about
+    :Context:  save-some-buffers
+    :END:
+*** SSB Visit                                                  :files:buffer:
+    :PROPERTIES:
+    :Command:  C-f
+    :Description: Exit command and visit buffer you are being asked about
+    :Context:  save-some-buffers
+    :END:
+*** SSB Diff                                            :files:buffer:inform:
+    :PROPERTIES:
+    :Command:  d
+    :Description: Diff buffer against its corresponding file
+    :Context:  save-some-buffers
+    :END:
+    This calls the command ~diff-buffer-with-file~
+*** SSB Help                                             :helps:files:buffer:
+    :PROPERTIES:
+    :Command:  C-h
+    :Description: Display a help message about these options
+    :Context:  save-some-buffers
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7876,6 +8009,9 @@
     '~[ ... ]~' sequences. To enter the wild card '~?~' in a file name
     in the minibuffer, you need to type ~C-q ?~. You can disable the
     wildcard feature by customizing this variable.
+*** save-some-buffers-default-predicate                          :files:edit:
+    You can customize the value of this variable to control which
+    buffers Emacs will ask about.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
