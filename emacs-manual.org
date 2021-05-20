@@ -2086,6 +2086,17 @@
       '~' after the original file name. Thus, the backup files of
       ~eval.c~ would be called 'eval.c.~1~', 'eval.c.~2~', and so on,
       all the way through names like 'eval.c.~259~' and beyond.
+***** Automatic Deletion of Backups
+      To prevent excessive consumption of disk space, Emacs can delete
+      numbered backup versions automatically. Generally Emacs keeps
+      the first few backups and the latest few backups, deleting any
+      in between. This happens every time a new backup is made.
+
+      The two variables ~kept-old-versions~ and ~kept-new-versions~
+      control this deletion.
+
+      Dired's ~.~ (Period) command can also be used to delete old
+      versions.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -8114,6 +8125,20 @@
 *** make-backup-file-name-function                                    :files:
     If you set this variable to a suitable Lisp function, you can
     override the usual way Emacs constructs backup file names.
+*** kept-old-versions                                                 :files:
+    This variable's value is the number of oldest (lowest-numbered)
+    backups to keep, each time a new backup is made. By default, the
+    value is 2.
+*** kept-new-versions                                                 :files:
+    This variable's value is the number of newest (highest-numbered)
+    backups to keep, each time a new backup is made. The newly made
+    backup is included in the count in this variable. By default, the
+    value is 2.
+*** delete-old-versions
+    If this variable is ~t~, Emacs deletes the excess backup files
+    silently. If it is ~nil~, the default, Emacs asks you whether it
+    should delete the excess backup versions. If it has any other
+    value, then Emacs never automatically deletes backups.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
