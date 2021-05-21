@@ -2131,7 +2131,7 @@
 
       When a file is managed with a version control system, Emacs does
       not normally make backups in the usual way for that file. But
-      /committing/ new versions of files is similar in some ways to
+      committing new versions of files is similar in some ways to
       making backups. One unfortunate similarity is that these
       operations typically break hard links, disconnecting the file
       name you visited from any alternate names for the same
@@ -2214,6 +2214,7 @@
      for further information.
 
      File shadowing is not available on MS Windows.
+**** Updating Time Stamps Automatically
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -7191,6 +7192,11 @@
     :Description: Cancel instruction to shadow some files
     :Context:  navigating
     :END:
+*** time-stamp                                                   :files:line:
+    :PROPERTIES:
+    :Description: Update time stamp in file manually
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8416,6 +8422,9 @@
 *** find-file-hook
     Successful visiting of any file, whether existing or not, calls
     the functions in this hook, with no arguments.
+*** before-save-hook
+    This is the hook which fires all functions in the list just before
+    saving a file.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
@@ -8604,6 +8613,48 @@
 *** list-matching-lines-current-line-face
     When ~list-matching-lines-jump-to-current-line~ is non-nil the
     current line is shown highlighted with this face.
+* File Variables
+** File Handling
+*** mode
+    Should probably be the first local variable defined. Defines what
+    major mode should be used to interpret the file. Helps to use the
+    comment syntax of that mode to comment out wherever you define
+    this file variable.
+
+    A reminder of what that syntax looks like when you define this
+    file variable as the first line of the file:
+    #+BEGIN_SRC emacs-lisp
+      ;; -*- mode: Lisp; -*-
+    #+END_SRC
+
+*** Local Variables
+    This is a variable that can be put near the end of a file. Again,
+    best to use the comment syntax of whatever mode is defined to
+    comment out any file variables. Reminder of basic syntax:
+    #+BEGIN_SRC emacs-lisp
+      Local Variables:
+      mode: c
+      comment-column: 0
+      End:
+    #+END_SRC
+
+*** Time-stamp
+    You can arrange to put a time stamp in a file, so that it is
+    updated automatically each time you edit and save the file. The
+    time stamp must be in the first eight lines of the file, and you
+    should insert it like this:
+    #+BEGIN_SRC emacs-lisp
+      ;; Time-stamp: <>
+    #+END_SRC
+
+    Or like this:
+    #+BEGIN_SRC emacs-lisp
+      ;; Time-stamp: " "
+    #+END_SRC
+
+    Then add the function ~time-stamp~ to the hook
+    ~before-save-hook~.
+
 * .emacs additions
 ** Registers
 *** Saving Text in Registers
@@ -8765,12 +8816,11 @@
     file. You can load the file later with ~load-file~. If the file
     you save in is your init file ~~/.emacs~ then the macro will be
     defined each time you run Emacs
-* Command Properties
-** Searching and Replacement
-*** isearch-scroll
-    See variable ~isearch-allow-scroll~ for details
-*** isearch-move
-    See variable ~isearch-yank-on-move~ for details
+* Custom Groups
+** File Handling
+*** time-stamp
+    Group of variables related to customizing everything concerning
+    the time stamp feature
 * Niche Modes
 ** Registers
 *** Bookmark Menu
@@ -8793,6 +8843,21 @@
      ~C-h m~
 **** Exit Mode
      ~C-c C-c~
+* Command Properties
+** Searching and Replacement
+*** isearch-scroll
+    See variable ~isearch-allow-scroll~ for details
+*** isearch-move
+    See variable ~isearch-yank-on-move~ for details
+* Functions
+** File Handling
+*** ask-user-about-lock
+    When Emacs detects a collision, it asks you what to do, by calling
+    this Lisp function. You can redefine this function for the sake of
+    customization.
+*** time-stamp
+    Function which automatically updates the time stamp in a file with
+    the current date and time.
 * Notes
 ** Undo
    There are a few ways someone can break a sweat in Emacs and wonder
