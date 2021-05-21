@@ -2137,6 +2137,23 @@
       name you visited from any alternate names for the same
       file. This has nothing to do with Emacs - the version control
       system does it.
+**** Customizing Saving of Files
+     Normally, when a program writes a file, the operating system
+     briefly caches the file's data in main memory before committing
+     the data to disk. This can greatly improve performance; for
+     example, when running on laptops, it can avoid a disk spin-up
+     each time a file is written. However, it risks data loss if the
+     operating system crashes before committing the cache to disk.
+
+     To lessen this risk, Emacs can invoke the ~fsync~ system call
+     after saving a file. Using ~fsync~ does not eliminate the risk of
+     data loss, partly because many systems do not implement ~fsync~
+     properly, and partly because Emacs's file-saving procedure
+     typically relies also on directory updates that might not survive
+     a crash even if ~fsync~ works properly.
+
+     Emacs never uses ~fsync~ when writing auto-save files, as these
+     files might lose data anyway.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -8201,6 +8218,26 @@
     though this variable is non-nil anyway.
 
     Otherwise, renaming is the default choice.
+*** require-final-newline                                        :files:char:
+    If the value of this variable is ~t~, saving or writing a file
+    silently puts a newline at the end if there isn't already one
+    there. If the value is ~visit~, Emacs adds a newline at the end of
+    any file that doesn't have one, just after it visits the
+    file. (This marks the buffer as modified, and you can undo it.) If
+    the value is ~visit-save~, Emacs adds such newlines both on
+    visiting and on saving. If the value is ~nil~, Emacs leaves the
+    end of the file unchanged; any other non-nil value means Emacs
+    asks you whether to add a newline. The default is ~nil~.
+*** mode-require-final-newline                                   :files:char:
+    Some major modes are designed for specific kinds of files that are
+    always supposed to end in newlines. such major modes set the
+    variable ~require-final-newline~ to the value of this variable,
+    which defaults to ~t~. By setting this variable, you can control
+    how these modes handle final newlines.
+*** write-region-inhibit-fsync                                        :files:
+    This variable controls whether Emacs invokes ~fsync~ after saving
+    a file. The variable's default value is ~nil~ when Emacs is
+    interactive, and ~t~ when Emacs runs in batch mode.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
