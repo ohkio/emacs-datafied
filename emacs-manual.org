@@ -2097,6 +2097,46 @@
 
       Dired's ~.~ (Period) command can also be used to delete old
       versions.
+***** Copying vs. Renaming
+      Backup files can be made by copying the old file or by renaming
+      it. This makes a difference when the old file has multiple names
+      (hard links). If the old file is renamed into the backup file,
+      then the alternate names become names for the backup file. If
+      the old file is copied instead, then the alternate names remain
+      names for the file that you are editing, and the contents
+      accessed by those names will be the new contents.
+
+      The method of making a backup file may also affect the file's
+      owner and group. If copying is used, these do not change, if
+      renaming is used, you become the file's owner, and the file's
+      group becomes the default (different operating systems have
+      different defaults for groups).
+
+      The choice of renaming or copying is made as follows:
+      - If the variable ~backup-by-copying~ is non-nil (the default is
+        ~nil~), use copying.
+      - Otherwise, if the variable ~backup-by-copying-when-linked~ is
+        non-nil (the default is ~nil~), and the file has multiple
+        names, use copying.
+      - Otherwise, if the variable ~backup-by-copying-when-mismatch~
+        is non-nil (the default is ~t~), and renaming would change the
+        file's owner or group, use copying. If you change
+        ~backup-by-copying-when-mismatch~ to ~nil~, Emacs checks the
+        numeric user-id of the file's owner and the numeric group-id
+        of the file's group. If either is no greater than
+        ~backup-by-copying-when-privileged-mismatch~, then it behaves
+        as though ~backup-by-copying-when-mismatch~ is non-nil
+        anyway.
+      - Otherwise, renaming is the default choice.
+
+      When a file is managed with a version control system, Emacs does
+      not normally make backups in the usual way for that file. But
+      /committing/ new versions of files is similar in some ways to
+      making backups. One unfortunate similarity is that these
+      operations typically break hard links, disconnecting the file
+      name you visited from any alternate names for the same
+      file. This has nothing to do with Emacs - the version control
+      system does it.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2801,6 +2841,11 @@
     file, called the /backup file/, before actually saving.
 *** Numbered Backup Files
     Emacs can also make /numbered backup files/.
+*** Committing
+    When a file is managed with a version control system, Emacs does
+    not normally make backups in the usual way for that file. But
+    /committing/ new versions of files is similar in some ways to
+    making backups.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -8134,11 +8179,28 @@
     backups to keep, each time a new backup is made. The newly made
     backup is included in the count in this variable. By default, the
     value is 2.
-*** delete-old-versions
+*** delete-old-versions                                        :files:delete:
     If this variable is ~t~, Emacs deletes the excess backup files
     silently. If it is ~nil~, the default, Emacs asks you whether it
     should delete the excess backup versions. If it has any other
     value, then Emacs never automatically deletes backups.
+*** backup-by-copying                                                 :files:
+    If this variable is non-nil (the default is ~nil~), use copying.
+*** backup-by-copying-when-linked                                     :files:
+    If ~backup-by-copying~ is ~nil~ and this variable is non-nil (the
+    default is ~nil~), and the file has multiple names, use copying.
+*** backup-by-copying-when-mismatch                                   :files:
+    If ~backup-by-copying~ and ~backup-by-copying-when-linked~ are
+    both ~nil~ and this variable is non-nil (the default is ~t~), and
+    renaming would change the file's owner or group, use copying.
+
+    If you change this variable to ~nil~, Emacs checks the numberic
+    user-id of the file's owner and the numberic group-id of the
+    file's group. If either is no greater than
+    ~backup-by-copying-when-privileged-mismatch~, then it behaves as
+    though this variable is non-nil anyway.
+
+    Otherwise, renaming is the default choice.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
