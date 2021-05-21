@@ -2257,6 +2257,18 @@
      notification on their default directory; Dired buffers is an
      example. Such notification does not include changes to files in
      that directory, only to the directory itself.
+***** Auto Reverting the Buffer Menu
+      If auto-reverting of non-file buffers is enabled, the Buffer
+      Menu automatically reverts every ~auto-revert-interval~ seconds,
+      whether there is a need for it or not.
+
+      If the Buffer Menu inappropriately gets marked modified, just
+      revert it manually using ~g~ and auto-reverting will
+      resume. However if you marked certain buffers to get deleted or
+      to be displayed, you have to be careful, because reverting
+      erases all marks. The fact that adding marks sets the buffer's
+      modified flag prevents Auto Revert from automatically erasing
+      the marks.
 * Vocabulary
 ** Distribution
 *** Free Software
