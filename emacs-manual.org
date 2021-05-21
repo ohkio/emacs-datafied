@@ -2195,6 +2195,25 @@
      been made in some other way, and will be lost if Emacs proceeds
      with saving. Emacs then displays a warning message and asks for
      confirmation before saving.
+**** Shadowing Files
+     A shadow file group is a set of identically-named files shared
+     between a list of sites. The file group is permanent and applies
+     to further Emacs sessions as well as the current one. Once the
+     group is set up, every time you exit Emacs, it will copy the file
+     you edited to the other files in its group. You can also do the
+     copying without exiting Emacs, by using the command
+     ~shadow-copy-files~.
+
+     Each shadow cluster has a name, and specifies the network address
+     of a primary host (the one we copy files to), and a regular
+     expression that matches the host name of all the other hosts in
+     the cluster.
+
+     To set up a shadow file group, use ~shadow-define-literal-group~
+     or ~shadow-define-regexp-group~. See their documentation strings
+     for further information.
+
+     File shadowing is not available on MS Windows.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2910,6 +2929,18 @@
 *** Collision
     If you begin to modify the buffer while the visited file is locked
     by someone else, this constitutes a /collision/.
+*** Shadow Copy
+    You can arrange to keep identical /shadow copies/ of certain files
+    in more than one place - possibly on different machines.
+*** Shadow File Group
+    You can arrange to keep identical shadow copies of certaing files
+    in more than one place - possibly on different machines. To do
+    this, first you must set up a /shadow file group/, which is a set
+    of identically-named files shared between a list of sites.
+*** Shadow Cluster
+    A /shadow cluster/ is a group of hosts that share directories, so
+    that copying to or from one of them is sufficient to update the
+    file on all of them.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -7129,6 +7160,36 @@
     :PROPERTIES:
     :Description: Compare buffer to its file
     :Context:  editing
+    :END:
+*** shadow-copy-files                                                 :files:
+    :PROPERTIES:
+    :Description: Copy all pending shadow files
+    :Context:  navigating
+    :END:
+*** shadow-define-cluster                                             :files:
+    :PROPERTIES:
+    :Description: Define a shadow file cluster
+    :Context:  navigating
+    :END:
+*** shadow-initialize                                                 :files:
+    :PROPERTIES:
+    :Description: Set up file shadowing
+    :Context:  navigating
+    :END:
+*** shadow-define-literal-group                                       :files:
+    :PROPERTIES:
+    :Description: Declare a single file to be shared between sites
+    :Context:  navigating
+    :END:
+*** shadow-define-regexp-group                                        :files:
+    :PROPERTIES:
+    :Description: Make all files that match regexp be shared between hosts
+    :Context:  navigating
+    :END:
+*** shadow-cancel                                                     :files:
+    :PROPERTIES:
+    :Description: Cancel instruction to shadow some files
+    :Context:  navigating
     :END:
 * Variables
 ** The Organization of the Screen
