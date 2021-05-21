@@ -2225,6 +2225,7 @@
     recalculating their contents. Buffers created explicitly with ~C-x
     b~ cannot be reverted; ~revert-buffer~ reports an error if you
     try.
+*** Auto Revert: Keeping buffers automatically up-to-date
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2952,6 +2953,10 @@
     A /shadow cluster/ is a group of hosts that share directories, so
     that copying to or from one of them is sufficient to update the
     file on all of them.
+*** File Notifications
+    By default, Auto Revert mode works using /file notifications/,
+    whereby changes in the filesystem are reported to Emacs by the
+    OS.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3286,6 +3291,42 @@
 ** File Handling
 *** Dired mode
     The Emacs directory browser.
+*** Auto Revert mode
+    A buffer can get out of sync with respect to its visited file on
+    disk if that file is changed by another program. To keep it up to
+    date, you can enable Auto Revert mode. This automatically reverts
+    the buffer when its visited file changes on disk.
+
+    Auto Revert will not revert a buffer if it has unsaved changes, or
+    if its file on disk is deleted or renamed.
+
+    One use of Auto Revert mode is to "tail" a file such as a system
+    log, so that changes made to that file by other programs are
+    continuously displayed. To do this, just move the point to the end
+    of the buffer, and it will stay there as the file contents
+    change.
+
+    By default, Auto Revert mode will poll files for changes
+    periodically even when file notifications are used. Polling is
+    unnecessary in many cases, and turning it off may save power by
+    relying on notifications only. However, notification is
+    ineffective on certain file systems; mainly network file system on
+    Unix-like machines, where files can be altered from other
+    machines. For such file systems, polling may be necessary.
+
+    In Dired buffers, Auto Revert mode refreshes the buffer when a
+    file is created or deleted in the buffer's directory.
+*** Global Auto Revert mode
+    A buffer can get out of sync with respect to its visited file on
+    disk if that file is changed by another program. To keep all file
+    buffers up to date you can enable Global Auto Revert mode. This
+    automatically reverts all buffers when its respective file changes
+    on disk.
+*** Auto Revert Tail mode
+    If you are sure that a file will only change by growing at the
+    end, use Auto Revert Tail mode instead of Auto Revert mode. It is
+    more efficient for this. Auto Revert Tail mode also works for
+    remote files.
 * Contexts
 ** anywhere
    literally anywhere
@@ -7219,6 +7260,21 @@
     file was edited only slightly, you will be at approximately the
     same part of the text as before. But if you have made major
     changes, point may end up in a totally different location.
+*** auto-revert-mode                                             :files:mode:
+    :PROPERTIES:
+    :Description: Toggle Auto Revert mode
+    :Context:  editing
+    :END:
+*** global-auto-revert-mode                                      :files:mode:
+    :PROPERTIES:
+    :Description: Toggle Global Auto Revert mode
+    :Context:  editing
+    :END:
+*** auto-revert-tail-mode                                        :files:mode:
+    :PROPERTIES:
+    :Description: Toggle Auto Revert Tail mode
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8437,6 +8493,31 @@
     it automatically if it has changed - provided the buffer itself is
     not modified. (If you have edited the text, it would be wrong to
     discard your changes.)
+*** auto-revert-verbose                                               :files:
+    The Auto Revert mode do not check or revert remote files, because
+    that is usually too slow. This behavior can be changed by setting
+    this variable to non-nil.
+*** auto-revert-use-notify                                            :files:
+    You can disable use of file notifications by customizing this
+    variable to a ~nil~ value, then Emacs will check for file changes
+    by polling every five seconds.
+*** auto-revert-interval                                              :files:
+    If ~auto-revert-use-notify~ is set to ~nil~ then Emacs will check
+    for file changes by polling every five seconds. You can change the
+    polling interval through this variable.
+*** auto-revert-avoid-polling                                         :files:
+    By default, Auto Revert mode will poll files for changes
+    periodically even when file notifications are used. Polling is
+    unnecessary in many cases, and turning it off may save power by
+    relying on notifications only. To do so, set this variable to
+    non-nil.
+*** auto-revert-notify-exclude-dir-regexp                             :files:
+    Notification is ineffective on certain file systems; mainly
+    network file system on Unix-like machines, where files can be
+    altered from other machines. For such file systems, polling may be
+    necessary. To force polling when ~auto-revert-avoid-polling~ is
+    non-nil, set this variable to match files that should be excluded
+    from using notification.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
