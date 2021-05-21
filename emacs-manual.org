@@ -2215,6 +2215,16 @@
 
      File shadowing is not available on MS Windows.
 **** Updating Time Stamps Automatically
+*** Reverting a Buffer
+    Reverting marks the buffer as not modified. However, it adds the
+    reverted changes as a single modification to the buffer's undo
+    history.
+
+    Somce kinds of buffers that are not associated with files, such as
+    Dired buffers, can also be reverted. for them, reverting means
+    recalculating their contents. Buffers created explicitly with ~C-x
+    b~ cannot be reverted; ~revert-buffer~ reports an error if you
+    try.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -7197,6 +7207,18 @@
     :Description: Update time stamp in file manually
     :Context:  editing
     :END:
+*** revert-buffer                                                :files:undo:
+    :PROPERTIES:
+    :Description: Go back to saved version of file in buffer
+    :Context:  editing
+    :END:
+    Since reverting unintentionally could lose a lot of work, Emacs
+    asks for confirmation first.
+
+    This command tries to position point in such a way that, if the
+    file was edited only slightly, you will be at approximately the
+    same part of the text as before. But if you have made major
+    changes, point may end up in a totally different location.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8401,10 +8423,20 @@
     This variable controls whether Emacs invokes ~fsync~ after saving
     a file. The variable's default value is ~nil~ when Emacs is
     interactive, and ~t~ when Emacs runs in batch mode.
-*** create-lockfiles
+*** create-lockfiles                                                  :files:
     You can prevent the creation of lock files by setting this
     variable to ~nil~. *Caution:* by doing so you will lose the
     benefits that this feature provides.
+*** revert-without-query                                              :files:
+    When you edit a file that changes automatically and frequently -
+    for example, a log of output from a process that continues to
+    run - it may be useful for Emacs to revert the file without
+    querying you. To request this behavior, wet this variable to a
+    list of regular expressions. When a file name matches one of these
+    regular expressions, ~find-file~ and ~revert-buffer~ will revert
+    it automatically if it has changed - provided the buffer itself is
+    not modified. (If you have edited the text, it would be wrong to
+    discard your changes.)
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
