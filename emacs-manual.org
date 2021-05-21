@@ -2154,6 +2154,47 @@
 
      Emacs never uses ~fsync~ when writing auto-save files, as these
      files might lose data anyway.
+**** Protection against Simultaneous Editing
+     Simultaneous editing occurs when two users visit the same file,
+     both make changes, and then both save them. If nobody is informed
+     that this is happening, whichever user saves first would later
+     find that their changes were lost.
+
+     On some systems, Emacs notices immediately when the second user
+     starts to change the file, and issues an immediate warning. On
+     all systems, Emacs checks when you save the file, and warns if
+     you are about to overwrite another user's changes. You can
+     prevent loss of the other user's work by taking proper corrective
+     action instead of saving the file.
+
+     When you make the first modification in an Emacs buffer that is
+     visiting a file, Emacs records that the file is locked by
+     you. (It does this by creating a specially-named symbolic link
+     with special contents in the same directory.) Emacs removes the
+     lock when you save the changes. The idea is that the file is
+     locked whenever an Emacs buffer visiting it has unsaved changes.
+
+     When Emacs detects a collision, it asks you what to do, by
+     calling the Lisp function ~ask-user-about-lock~. You can redefine
+     this function for the sake of customization.
+
+     If Emacs or the operating system crashes, this may leave behind
+     lock files which are stale, so you may occasionally get warnings
+     about spurious collisions.
+
+     Note that locking works on the basis of a file name; if a file
+     has multiple names, Emacs does not prevent two users from editing
+     it simultaneously under different names.
+
+     A lock file cannot be written in some circumstances, e.g., if
+     Emacs lacks the system permissions or cannot create lock files
+     for some other reason. In these cases, Emacs can still detect the
+     collision when you try to save a file, by checking the file's
+     last-modification date. If the file has changed since the last
+     time Emacs visited or saved it, that implies that changes have
+     been made in some other way, and will be lost if Emacs proceeds
+     with saving. Emacs then displays a warning message and asks for
+     confirmation before saving.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2863,6 +2904,12 @@
     not normally make backups in the usual way for that file. But
     /committing/ new versions of files is similar in some ways to
     making backups.
+*** Locked
+    When you make the first modification in an Emacs buffer that is
+    visiting a file, Emacs records that the file is /locked/ by you.
+*** Collision
+    If you begin to modify the buffer while the visited file is locked
+    by someone else, this constitutes a /collision/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3304,6 +3351,20 @@
    The command ~C-x s~ offers to save any or all modified buffers. It
    asks you what to do with each buffer. The possible responses are
    analogous to those of ~query-replace~.
+** collision
+   If you begin to modify the buffer while the visited file is locked
+   by someone else, this constitutes a collision. When Emacs detects a
+   collision, it asks you what to do. This is the context relevant
+   here.
+** modification-date-collision
+   if Emacs lacks the system permissions or cannot create lock files
+   for some other reason. In these cases, Emacs can still detect the
+   collision when you try to save a file, by checking the file's
+   last-modification date. If the file has changed since the last time
+   Emacs visited or saved it, that implies that changes have been made
+   in some other way, and will be lost if Emacs proceeds with
+   saving. Emacs then displays a warning message and asks for
+   confirmation before saving.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -7034,6 +7095,41 @@
     :Description: Display a help message about these options
     :Context:  save-some-buffers
     :END:
+*** CO Steal                                                          :files:
+    :PROPERTIES:
+    :Command:  s
+    :Description: Steal the lock
+    :Context:  collision
+    :END:
+*** CO Proceed                                                        :files:
+    :PROPERTIES:
+    :Command:  p
+    :Description: Go ahead and edit file despite being locked
+    :Context:  collision
+    :END:
+*** CO Quit                                                      :files:undo:
+    :PROPERTIES:
+    :Command:  q
+    :Description: Quit and buffer contents remain unchanged
+    :Context:  collision
+    :END:
+*** MDC Yes                                                           :files:
+    :PROPERTIES:
+    :Command:  yes
+    :Description: Save file despite potential collision
+    :Context:  modification-date-collision
+    :END:
+*** MDC No                                                       :files:undo:
+    :PROPERTIES:
+    :Command:  no OR C-g
+    :Description: Cancel save
+    :Context:  modification-date-collision
+    :END:
+*** diff-buffer-with-file                              :files:inform:display:
+    :PROPERTIES:
+    :Description: Compare buffer to its file
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8238,6 +8334,10 @@
     This variable controls whether Emacs invokes ~fsync~ after saving
     a file. The variable's default value is ~nil~ when Emacs is
     interactive, and ~t~ when Emacs runs in batch mode.
+*** create-lockfiles
+    You can prevent the creation of lock files by setting this
+    variable to ~nil~. *Caution:* by doing so you will lose the
+    benefits that this feature provides.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
