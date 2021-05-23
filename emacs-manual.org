@@ -2318,6 +2318,39 @@
     auto-saved. Errors occurring during auto-saving are caught so that
     they do not interfere with the execution of commands you have been
     typing.
+**** Auto-Save Files
+     Normally, the auto-save file name is made by appending '~#~' to
+     the front and rear of the visited file name. Most buffers that
+     are not visiting files are auto-saved only if you request it
+     explicitly; when they are auto-saved, the auto-save file name is
+     made by appending '~#~' to the front and rear of the buffer name,
+     then adding digits and letters at the end of the
+     uniqueness. Auto-save file names are made this way unless you
+     reprogram parts of Emacs to do something different (the functions
+     ~make-auto-save-file-name~ and ~auto-save-file-name-p~). The file
+     name to be used for auto-saving in a buffer iss calculated when
+     auto-saving is turned on in that buffer.
+
+     When you delete a substantial part of the text in a large buffer,
+     auto save turns off temporarily in that buffer. This is because
+     if you deleted the text unintentionally, you might find the
+     auto-save file more useful if it contains the deleted text. To
+     reenable auto-saving after this happens, save the buffer with
+     ~C-x C-s~, or use ~C-u 1 M-x auto-save-mode~
+
+     If you want auto-saving to be done in the visited file rather
+     than in a separate auto-save file, enable the global minor mode
+     Auto Save Visited mode. In this mode, auto-saving is identical to
+     explicit saving. Note that this mode is orthogonal to the Auto
+     Save mode; you can enable both at the same time. However if Auto
+     Save mode is active in some buffer and the obsolete
+     ~auto-save-visited-file-name~ variable is set to a non-nil value,
+     that buffer won't be affected by ~auto-save-visited-mode~
+
+     A buffer's auto-save file is deleted when you save the buffer in
+     its visited file. Changing the visited file name with ~C-x C-w~
+     or ~set-visited-file-name~ renames any auto-save file to go with
+     the new visited name.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3053,6 +3086,11 @@
     From time to time, Emacs automatically saves each visited file in
     a separate file, without altering the file you actually use. This
     is called /auto-saving/.
+*** Auto-Save File
+    Auto-saving does not normally save in the files that you visited,
+    because it can be very undesirable to save a change that you did
+    not want to make permanent. Instead, auto-saving is done in a
+    different file called the /auto-save file/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3425,6 +3463,18 @@
     end, use Auto Revert Tail mode instead of Auto Revert mode. It is
     more efficient for this. Auto Revert Tail mode also works for
     remote files.
+*** Auto Save mode
+    Minor mode that automatically saves the file periodically in an
+    altnerative file even if the user has not officially saved the
+    file they are working on. This mode temporarily gets turned off if
+    you delete a large block of text.
+*** Auto Save Visited mode
+    In this mode, auto-saving is identical to explicit saving. Note
+    that thiss mode is orthogonal to the Auto Save mode; you can
+    enable both at the same time. However, if Auto Save mode is active
+    in some buffer and the obsolete ~auto-save-visited-file-name~
+    variable is set to a non-nil value, that buffer won't be affected
+    by this mode.
 * Contexts
 ** anywhere
    literally anywhere
@@ -7373,6 +7423,16 @@
     :Description: Toggle Auto Revert Tail mode
     :Context:  editing
     :END:
+*** auto-save-mode                                               :files:mode:
+    :PROPERTIES:
+    :Description: Toggle Auto Save mode
+    :Context:  editing
+    :END:
+*** auto-save-visited-mode                                       :files:mode:
+    :PROPERTIES:
+    :Description: Toggle Auto Save Visited mode
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -7698,10 +7758,6 @@
     a percentage of the screen space from the top of the window. The
     default, ~(middle top bottom)~, is the cycling order described in
     the documentation of ~recenter-top-bottom~.
-*** scroll-margin                                        :window:display:nav:
-    If you change this variable to a non-zero value /n/, then
-    ~recenter-top-bottom~ always leaves at least /n/ screen lines
-    between point and the top or bottom of the window.
 *** recenter-redisplay                                       :display:window:
     If this variable has a non-nil value, each invocation of
     ~recenter-top-bottom~ also clears and redisplays the screen; The
@@ -8626,11 +8682,40 @@
     on their default directory. The major mode can indicate this by
     setting this variable to a non-nil value in that buffer, allowing
     Auto Revert to avoid periodic polling.
-*** auto-save-no-message
+*** auto-save-no-message                                         :files:echo:
     When this variable is set to ~nil~ (the default), the message
     '~Auto-saving...~' is displayed in the echo area during
     auto-saving, if any files are actually auto-saved; to disable
     these messages, customize the variable to a non-nil value.
+*** auto-save-file-name-transforms                                    :files:
+    This variable allows a degree of control over the auto-save file
+    name. It lets you specify a series of regular expressions and
+    replacements to transform the auto save file name. The default
+    value puts the auto-save file for remote files into the temporary
+    file directory on the local machine.
+*** auto-save-interval                                                :files:
+    Emacs auto-saves periodically based on how many characters you
+    have typed since the last auto save. This variable specifies how
+    many characters there are between auto-saves. By default, it
+    is 300. Emacs doesn't accept values that are too small: if you
+    customize this variable to a value less than 20, Emacs will behave
+    as if the value is 20.
+*** auto-save-timeout                                                 :files:
+    Auto-saving takes place when you stop typing for a while. By
+    default, it does this after 30 seconds of idleness. To change this
+    interval, customize this variable. The actual time period is
+    longer if the current buffer is long; this is a heuristic which
+    aims to keep out of your way when you are editing long buffers, in
+    which auto-save takes an appreciable amount of time.
+*** auto-save-visited-interval                                        :files:
+    You can use this variable to customize the interval between
+    auto-save operations in Auto Save Visited mode; by default it's
+    five seconds. ~auto-save-interval~ and ~auto-save-timeout~ have no
+    effect on ~auto-save-visited-mode~.
+*** delete-audo-save-files                                     :files:delete:
+    A buffer's auto-save file is deleted when you save the buffer in
+    its visited file. (You can inhibit this by setting this variable
+    to ~nil~.)
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -9084,6 +9169,11 @@
 *** time-stamp
     Function which automatically updates the time stamp in a file with
     the current date and time.
+*** make-auto-save-file-name
+    Return file name to use for auto-saves of current buffer
+*** auto-save-file-name-p
+    Return non-nil if given filename can be yielded by
+    ~make-auto-save-file-name~.
 * Notes
 ** Undo
    There are a few ways someone can break a sweat in Emacs and wonder
