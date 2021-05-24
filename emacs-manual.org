@@ -2361,6 +2361,7 @@
      includes killing the Emacs job with a shell command such as
      '~kill %emacs~', or disconnecting a phone line or network
      connection.
+**** Recovering Data from Auto-Saves
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3606,6 +3607,10 @@
    in some other way, and will be lost if Emacs proceeds with
    saving. Emacs then displays a warning message and asks for
    confirmation before saving.
+** recover-session
+   After running the command ~recover-session~ a mode pops up with
+   different interrupted sessions of Emacs on different lines. There
+   are some commands that work in this specific context
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -7448,6 +7453,24 @@
     :Description: Perform an auto-save explicitly
     :Context:  editing
     :END:
+*** recover-file                                                      :files:
+    :PROPERTIES:
+    :Description: Recover from loss of data with auto-save file
+    :Context:  navigating
+    :END:
+    If the auto-save file is older this command does not offer to read
+    it.
+*** recover-session                                                   :files:
+    :PROPERTIES:
+    :Description: Recover all files you were editing last session
+    :Context:  navigating
+    :END:
+*** recover-session-finish                                            :files:
+    :PROPERTIES:
+    :Command:  C-c C-c
+    :Description: Choose one saved session to recover auto-save files from
+    :Context:  recover-session
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8740,6 +8763,12 @@
     When Auto Save Visited mode is enabled, Emacs will auto-save
     file-visiting buffers after five seconds of idle time. You can
     customize this variable to change the idle time interval.
+*** auto-save-list-file-prefix                                        :files:
+    Emacs records information about interrupted sessions in files
+    named ~.saves-<pid>-<hostname>~ in the directory
+    '~/.emacs.d/auto-save-list/'. This directory is determined by this
+    variable and if you set this variable to ~nil~, sessions are not
+    recorded for recovery.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
