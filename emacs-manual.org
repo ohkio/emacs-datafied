@@ -2376,6 +2376,9 @@
     on systems that support hard or symbolic links. or if you use a
     long file name on a system that truncates long file names, or on a
     case-insensitive file system.
+*** File Directories
+    In verbose directory listings, Emacs adds information about the
+    amoung of free space on the disk that contains the directory.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3119,6 +3122,10 @@
 *** Truename
     The /truename/ of a file is made by replacing all symbolic links
     with their target names.
+*** Directory
+    The file system groups files into /directories/.
+*** Directory Listing
+    A /directory listing/ is a list of all the files in a directory.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -7488,6 +7495,36 @@
     :Description: Choose one saved session to recover auto-save files from
     :Context:  recover-session
     :END:
+*** dired                                                    :files:nav:edit:
+    :PROPERTIES:
+    :Command:  C-x d
+    :Description: Turn on directory browser feature "Dired"
+    :Context:  navigating
+    :END:
+*** list-directory                                             :files:inform:
+    :PROPERTIES:
+    :Command:  C-x C-d
+    :Description: Display a brief directory listing
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    With a plain argument, display a verbose directory listing
+
+    It reads using the minibuffer a file name which is either a
+    directory to be listed or a wildcard-containing pattern for the
+    files to be listed.
+*** make-directory                                               :files:edit:
+    :PROPERTIES:
+    :Description: Create a new directory with given name
+    :Context:  navigating
+    :END:
+*** delete-directory                                      :files:edit:delete:
+    :PROPERTIES:
+    :Description: Delete given directory by name
+    :Context:  navigating
+    :END:
+    If directory isn't empty, you will be asked whether you want to
+    delete it recursively.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8814,6 +8851,24 @@
     ordinary absolute directory name pointing to the same
     directory. Do not use '~' to stand for a home directory in the
     /to/ string; Emacs performs these substitutions separately.
+*** list-directory-brief-switches                              :files:inform:
+    The text of a directory listing is mostly optained by running ~ls~
+    in an inferior process. Two Emacs variables control the switches
+    passed to ~ls~: this variable is a string giving the switches to
+    use in brief listing ("~-CF~" by default)
+*** list-directory-verbose-switches                            :files:inform:
+    The text of a directory listing is mostly optained by running ~ls~
+    in an inferior process. Two Emacs variables control the switches
+    passed to ~ls~: this variable is a string giving the switches to
+    use in a verbose listing ("~-l~" by default).
+*** delete-by-moving-to-trash                                  :files:delete:
+    The command ~delete-directory~ prompts for a directory's name
+    using the minibuffer, and deletes the directory if it is empty. If
+    the directory is not empty, you will be asked whether you want to
+    delete it recursively. On systems that have a "Trash" (or "Recycle
+    Bin") feature, you can make this command move the specified
+    directory to the Trash instead of deleting it outright, but
+    changing this variable to ~t~.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
