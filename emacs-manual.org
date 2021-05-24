@@ -2351,6 +2351,16 @@
      its visited file. Changing the visited file name with ~C-x C-w~
      or ~set-visited-file-name~ renames any auto-save file to go with
      the new visited name.
+**** Controlling Auto-Saving
+     Auto-saving during idle periods accomplishes two things: first,
+     it makes sure all your work is saved if you go away from the
+     terminal for a while; second, it may avoid some auto-saving while
+     you are actually typing.
+
+     Emacs also does auto-saving whenever it gets a fatal error. This
+     includes killing the Emacs job with a shell command such as
+     '~kill %emacs~', or disconnecting a phone line or network
+     connection.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -7433,6 +7443,11 @@
     :Description: Toggle Auto Save Visited mode
     :Context:  editing
     :END:
+*** do-auto-save                                                      :files:
+    :PROPERTIES:
+    :Description: Perform an auto-save explicitly
+    :Context:  editing
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8716,6 +8731,15 @@
     A buffer's auto-save file is deleted when you save the buffer in
     its visited file. (You can inhibit this by setting this variable
     to ~nil~.)
+*** auto-save-default                                                 :files:
+    Each time you visit a file, auto-saving is turned on for that
+    file's buffer if this variable is non-nil. The default for this
+    variable is ~t~, so auto-saving is the usual practice for
+    file-visiting buffers.
+*** auto-save-visited-interval                                        :files:
+    When Auto Save Visited mode is enabled, Emacs will auto-save
+    file-visiting buffers after five seconds of idle time. You can
+    customize this variable to change the idle time interval.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
