@@ -2362,6 +2362,20 @@
      '~kill %emacs~', or disconnecting a phone line or network
      connection.
 **** Recovering Data from Auto-Saves
+*** File Name Aliases
+    Symbolic links and hard links both make it possible for several
+    file names to refer to the same file. Hard links are alternate
+    names that refer directly to the file; all the names are equally
+    valid, and no one of them is preferred. By contrast a symbolic
+    link is a kind of defined alias. More complex cases occur when
+    symbolic links point to directories.
+
+    Normally, if you visit a file which Emacs is already visiting
+    under a different name, Emacs displays a message in the echo area
+    and uses the existing buffer visiting that file. This can happen
+    on systems that support hard or symbolic links. or if you use a
+    long file name on a system that truncates long file names, or on a
+    case-insensitive file system.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3102,6 +3116,9 @@
     because it can be very undesirable to save a change that you did
     not want to make permanent. Instead, auto-saving is done in a
     different file called the /auto-save file/.
+*** Truename
+    The /truename/ of a file is made by replacing all symbolic links
+    with their target names.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -8769,6 +8786,34 @@
     '~/.emacs.d/auto-save-list/'. This directory is determined by this
     variable and if you set this variable to ~nil~, sessions are not
     recorded for recovery.
+*** find-file-suppress-same-file-warnings                        :files:echo:
+    Normally, if you visit a file which Emacs is already visiting
+    under a different name Emacs displays a message in the echo area
+    and uses the existing buffer visiting that file. You can suppress
+    the message by setting this variable to a non-nil value.
+*** find-file-existing-other-name                              :files:buffer:
+    Normally, if you visit a file which Emacs is already visiting
+    under a different name Emacs displays a message in the echo area
+    and uses the existing buffer visiting that file. You can disable
+    this feature entirely by setting this variable to ~nil~: then if
+    you visit the same file under two different names, you can a
+    separate buffer for each file name.
+*** find-file-visit-truename                                          :files:
+    If this variable is non-nil, then the file name recorded for a
+    buffer is the file's truename, rather than the name you specify.
+*** directory-abbrev-alist                                            :files:
+    Sometimes, a directory is ordinarily accessed through a symbolic
+    link, and you may want Emacs to preferentially show its linked
+    name. To do this, customize this variable. Each element in this
+    list should have the form ~(<from> . <to>)~, which means to
+    replace /from/ with /to/ whenever /from/ appears in a directory
+    name. The /from/ string is a regular expression. It is matched
+    against directory names anchored at the first character, and
+    should start with '~\`~' (to support directory names with embedded
+    newlines, which would defeat '~^~'). The /to/ string should be an
+    ordinary absolute directory name pointing to the same
+    directory. Do not use '~' to stand for a home directory in the
+    /to/ string; Emacs performs these substitutions separately.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
