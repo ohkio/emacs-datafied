@@ -2379,6 +2379,7 @@
 *** File Directories
     In verbose directory listings, Emacs adds information about the
     amoung of free space on the disk that contains the directory.
+*** Comparing Files
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3510,6 +3511,13 @@
     in some buffer and the obsolete ~auto-save-visited-file-name~
     variable is set to a non-nil value, that buffer won't be affected
     by this mode.
+*** Diff mode
+    The command ~diff~ prompts for two file names, using the
+    minibuffer, and displays the differences between the two files in
+    a buffer named ~*diff*~. This works by running the ~diff~ program,
+    using options taken from the variable ~diff-switches~.
+
+    The output of the ~diff~ command is shown in this major mode.
 * Contexts
 ** anywhere
    literally anywhere
@@ -7525,6 +7533,55 @@
     :END:
     If directory isn't empty, you will be asked whether you want to
     delete it recursively.
+*** diff                                                :files:inform:buffer:
+    :PROPERTIES:
+    :Description: Displays differences between two given files
+    :Context:  navigating
+    :END:
+*** ediff                                               :files:inform:buffer:
+    :PROPERTIES:
+    :Description: A much more sophisticated alternative to ~diff~
+    :Context:  navigating
+    :END:
+    [[https://www.gnu.org/software/emacs/manual/html_node/ediff/index.html#Top][manual]]
+*** diff-backup                                         :files:inform:buffer:
+    :PROPERTIES:
+    :Description: Compares given file with its most recent backup
+    :Context:  navigating
+    :END:
+    If you specify the name of a backup file, this compares it with
+    the source file that it is a backup of. In all other respects,
+    this behaves like ~diff~.
+*** diff-buffer-with-file                               :files:inform:buffer:
+    :PROPERTIES:
+    :Description: Compares given buffer with its corresponding file
+    :Context:  navigating
+    :END:
+*** diff-buffers                                              :inform:buffer:
+    :PROPERTIES:
+    :Description: Compares contents of two given buffers
+    :Context:  navigating
+    :END:
+*** compare-windows                                    :window:buffer:inform:
+    :PROPERTIES:
+    :Description: Compares text in curr window with prev window
+    :Context:  editing
+    :Argument: numeric
+    :END:
+    Comparison starts at point in each window, after pushing each
+    initial point value on the mark ring in its respective
+    buffer. Then it moves point forward in each window, one character
+    at a time, until it reaches characters that don't match. Then the
+    command exits.
+
+    If point in the two windows is followed by non-matching text when
+    this command starts, the command tries heuristically to advance up
+    to matching text in the two windows, and then exits. So if you use
+    this command repeatedly, each time it either skips one matching
+    range or finds the start of another.
+
+    With a numeric argument, this command ignores changes in
+    whitespace.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8869,6 +8926,21 @@
     Bin") feature, you can make this command move the specified
     directory to the Trash instead of deleting it outright, but
     changing this variable to ~t~.
+*** diff-switches                                       :files:inform:buffer:
+    The command ~diff~ prompts for two file names, using the
+    minibuffer, and displays the differences between the two files in
+    a buffer named ~*diff*~. This works by running the ~diff~ program,
+    using options taken from this variable. The value of this variable
+    should be a string; the default is ~"-u"~ to specify an unified
+    context diff.
+*** compare-ignore-case                                       :window:inform:
+    If this variable is non-nil, the comparison of the
+    ~compare-windows~ command ignores differences in case.
+*** compare-ignore-whitespace                                 :window:inform:
+    If this variable is non-nil, the comparison of the
+    ~compare-windows~ command ignores changes in whitespace by
+    default, but a prefix argument turns that off for that single
+    invocation of the command.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -9307,6 +9379,34 @@
      ~C-h m~
 **** Exit Mode
      ~C-c C-c~
+*** Ediff
+    [[https://www.gnu.org/software/emacs/manual/html_node/ediff/index.html#Top][manual]]
+**** Description
+     A much more sophisticated alternative to Diff mode.
+**** Enter Mode
+     ~M-x ediff~
+**** Find Commands
+     ~C-h m~
+*** Smerge mode
+**** Description
+     A minor mode for editing output from the ~diff3~ program. This is
+     typically the result of a failed merge from a version control
+     system update outside VC, due to conflicting changes to a
+     file. Smerge mode provides commands to resolve conflicts by
+     selecting specific changes
+**** Enter Mode
+     ~M-x smerge-mode~
+**** Find Commands
+     ~C-h m~
+*** Emerge
+    [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emerge.html][manual]]
+**** Description
+     Provides a powerful interface for merging files.
+**** Enter Mode
+     ~M-x emerge-files~, ~M-x emerge-files-with-ancestor~, ~M-x
+     emerge-buffers~, ~M-x emerge-buffers-with-ancestor~
+**** Find Commands
+     ~C-h m~
 * Command Properties
 ** Searching and Replacement
 *** isearch-scroll
