@@ -2399,6 +2399,7 @@
     name, the real new name is in that directory, with the same
     non-directory component as /old/.
 *** Miscellaneous File Operations
+*** Accessing Compressed Files
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3580,6 +3581,17 @@
     messages by ~M-g M-n~ and other commands that handle error
     messages. Thus you can use the compilation mode commands to visit
     the corresponding source locations.
+*** Auto Compression mode
+    Emacs automatically uncompresses compressed files when you visit
+    them, and automatically recompresses them if you alter them and
+    save them. Emacs recognizes compressed files by their file
+    names. File names ending in '~.gz~' indicate a file compressed
+    with ~gzip~. Other endings indicate other compression programs.
+
+    Automatic uncompression and compression apply to all the
+    operations in which Emacs uses the contents of a file. This
+    includes visiting it, saving it, inserting its contents into a
+    buffer, loading it, and byte compiling it.
 * Contexts
 ** anywhere
    literally anywhere
@@ -7952,6 +7964,11 @@
     :Description: Convenience alias for ~set-file-modes~
     :Context:  navigating
     :END:
+*** auto-compression-mode                                        :mode:files:
+    :PROPERTIES:
+    :Description: Toggle Auto Compression mode
+    :Context:  anywhere
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -9336,6 +9353,9 @@
     change this variable to ~t~. This affects the commands
     ~delete-file~ and ~delete-directory~, as well as the deletion
     commands in Dired.
+*** auto-compression-mode                                        :files:mode:
+    Specify whether Auto Compression mode features should be disabled
+    or not. Enabled by default
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
