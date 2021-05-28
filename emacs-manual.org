@@ -2380,6 +2380,15 @@
     In verbose directory listings, Emacs adds information about the
     amoung of free space on the disk that contains the directory.
 *** Comparing Files
+*** Diff Mode
+    Patches sometimes include trailing whitespace on modified lines,
+    as unintentional and undesired change. There are two ways to deal
+    with this problem. Firstly if you enable Whitespace mode in a Diff
+    buffer, it automatically highlights trailing whitespace in
+    modified lines. Secondly, you can use the command ~M-x
+    diff-delete-trailing-whitespace~, which searches for trailing
+    whitespace in the lines modified by the patch, and removes that
+    whitespace in both the patch and the patched source file(s).
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3127,6 +3136,23 @@
     The file system groups files into /directories/.
 *** Directory Listing
     A /directory listing/ is a list of all the files in a directory.
+*** Patch
+    The command ~diff~ prompts for two file names, using the
+    minibuffer, and displays the differences between the two files in
+    a buffer named ~*diff*~. This kind of output is called a /patch/,
+    because it can be passed to the ~patch~ shell command to
+    automatically apply the specified changes.
+*** Hunks
+    The changes specified in a patch are grouped into /hunks/, which
+    are contiguous chunks of text that contain one or more changed
+    lines. Hunks usually also include unchanged lines to provide
+    context for the changes.
+*** Hunk Header
+    Each hunk is preceded by a /hunk header/, which specifies the old
+    and new line numbers where the hunk's changes occur.
+*** Refine
+    For example, Diff mode /refines/ hunks as Emacs displays them,
+    highlighting their changes with better granularity
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3517,7 +3543,28 @@
     a buffer named ~*diff*~. This works by running the ~diff~ program,
     using options taken from the variable ~diff-switches~.
 
-    The output of the ~diff~ command is shown in this major mode.
+    The output of the ~diff~ and other similar commands is shown in
+    this major mode.
+
+    Diff mode highlights each hunk header, to distinguish it from the
+    actual contents of the hunk.
+
+    The first hunk in a patch is preceded by a file header, which
+    shows the names of the new and the old versions of the file, and
+    their time stamps. If a patch shows changes for more than one
+    file, each file has such a header before the first hunk of that
+    file's changes.
+
+    You can edit a Diff mode buffer like any other buffer. (If it is
+    read-only, you need to make it writable first.) Whenever you edit
+    a hunk, Diff mode attempts to automatically correct the line
+    numbers in the hunk headers, to ensure that the patch remains
+    correct, and could still be applied by ~patch~.
+
+    Diff mode arranges for hunks to be treated as compiler error
+    messages by ~M-g M-n~ and other commands that handle error
+    messages. Thus you can use the compilation mode commands to visit
+    the corresponding source locations.
 * Contexts
 ** anywhere
    literally anywhere
@@ -3643,6 +3690,8 @@
    After running the command ~recover-session~ a mode pops up with
    different interrupted sessions of Emacs on different lines. There
    are some commands that work in this specific context
+** diff
+   Diff mode
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -7582,6 +7631,185 @@
 
     With a numeric argument, this command ignores changes in
     whitespace.
+*** diff-mode                                            :buffer:inform:mode:
+    :PROPERTIES:
+    :Description: Toggle Diff mode manually
+    :Context:  editing
+    :END:
+*** next-error                                                          :nav:
+    :PROPERTIES:
+    :Command:  M-g M-n
+    :Description: Visit occurrences one by one
+    :Context:  diff
+    :END:
+*** diff-hunk-next                                                      :nav:
+    :PROPERTIES:
+    :Command:  M-n
+    :Description: Move to next hunk-start
+    :Context:  diff
+    :Argument: numeric
+    :END:
+    With prefix argument /n/, move forward to the /n/-th next hunk.
+
+    By default, Diff mode refines hunks as Emacs displays them,
+    highlighting their changes with better granularity. Check
+    ~diff-refine~ for some details.
+*** diff-hunk-prev                                                      :nav:
+    :PROPERTIES:
+    :Command:  M-p
+    :Description: Move to previous hunk-start
+    :Context:  diff
+    :Argument: numeric
+    :END:
+    With prefix argument /n/, move back to the /n/-th previous
+    hunk. Like ~M-n~. Check ~diff-refine~ for some details.
+*** diff-file-prev                                                      :nav:
+    :PROPERTIES:
+    :Command:  M-{
+    :Description: Move to previous file-start in a multi-file patch
+    :Context:  diff
+    :Argument: numeric
+    :END:
+    With prefix argument /n/, move forward to the start of the /n/-th
+    next file.
+*** diff-file-next                                                      :nav:
+    :PROPERTIES:
+    :Command:  M-}
+    :Description: Move to next file-start, in a multi-file patch
+    :Context:  diff
+    :Argument: numeric
+    :END:
+    With prefix argument /n/, move back to the start of the /n/-th
+    previous file.
+*** diff-hunk-kill                                                     :kill:
+    :PROPERTIES:
+    :Command:  M-k
+    :Description: Kill hunk at point
+    :Context:  diff
+    :END:
+*** diff-file-kill                                                     :kill:
+    :PROPERTIES:
+    :Command:  M-K
+    :Description: In a multi-file patch, kill current file part
+    :Context:  diff
+    :END:
+*** diff-apply-hunk                                                    :edit:
+    :PROPERTIES:
+    :Command:  C-c C-a
+    :Description: Apply this hunk to its target (old) file
+    :Context:  diff
+    :Argument: plain
+    :END:
+    With a plain prefix argument, revert this hunk, i.e. apply the
+    reverse of the hunk, which changes the "new" version into the
+    "old" version.
+*** diff-refine-hunk                                                :display:
+    :PROPERTIES:
+    :Command:  C-c C-b
+    :Description: Highlight changes of hunk at point with granularity
+    :Context:  diff
+    :END:
+*** diff-goto-source                                                    :nav:
+    :PROPERTIES:
+    :Command:  C-c C-c
+    :Description: Go to source file and line corresponding to this hunk
+    :Context:  diff
+    :Argument: plain, double
+    :END:
+    By default, this jumps to the "new" version of the file, the one
+    shown first on the header. With a prefix argument, jump to the
+    "old" version instead. If ~diff-jump-to-old-file~ is non-nil, this
+    command by default jumps to the "old" file, and the meaning of the
+    prefix argument is reversed. With a double argument, then this
+    command also sets ~diff-jump-to-old-file~ to non-nil for the next
+    invocation. If the source file is under version control, this
+    jumps to the work file by default. With a prefix argument, jump to
+    the "old" revision of the file, when point is on the old line, or
+    otherwise jump to the "new" revision.
+*** diff-ediff-patch                                       :edit:mode:inform:
+    :PROPERTIES:
+    :Command:  C-c C-e
+    :Description: Start an Ediff session with patch
+    :Context:  diff
+    :END:
+*** diff-restrict-view                                              :display:
+    :PROPERTIES:
+    :Command:  C-c C-n
+    :Description: Restrict view to the current hunk
+    :Context:  diff
+    :Argument: plain
+    :END:
+    With a prefix argument, restrict the view to the current file of a
+    multiple-file patch. To widen again, use ~C-x n w~ (~widen~).
+*** diff-reverse-direction                              :display:mode:inform:
+    :PROPERTIES:
+    :Command:  C-c C-r
+    :Description: Reverse direction of comparison for entire buffer
+    :Context:  diff
+    :END:
+    With a prefix argument, reverse the direction only inside the
+    current region. Reversing the direction means changing the hunks
+    and the file-start headers to produce a patch that would change
+    the "new" version into the "old" one.
+*** diff-split-hunk                                                  :inform:
+    :PROPERTIES:
+    :Command:  C-c C-s
+    :Description: Split hunk at point into two separate hunks
+    :Context:  diff
+    :END:
+    This inserts a hunk header and modifies the header of the current
+    hunk. This command is useful for manually editing patches, and
+    only works with the unified diff format produced by the ~-u~ or
+    ~--unified~ options to the ~diff~ program. If you need to split a
+    hunk in the context diff format produced by the ~-c~ or
+    ~--context~ options to ~diff~, first convert the buffer to the
+    unified diff format with ~C-c C-u~ (~diff-context->unified~).
+*** diff-unified->context                                       :mode:inform:
+    :PROPERTIES:
+    :Command:  C-c C-d
+    :Description: Convert entire buffer to context diff format
+    :Context:  diff
+    :Argument: plain
+    :END:
+    With a prefix argument, convert only the hunks within the region.
+*** diff-context->unified                                       :mode:inform:
+    :PROPERTIES:
+    :Command:  C-c C-u
+    :Description: Convert entire buffer to unified diff format
+    :Context:  diff
+    :Argument: plain
+    :END:
+    With a prefix argument, convert unified format to context
+    format. When the mark is active, convert only the hunks within the
+    region from context diff format to unified diff format.
+*** diff-ignore-whitespace-hunk                                      :inform:
+    :PROPERTIES:
+    :Command:  C-c C-w
+    :Description: Re-generate current hunk, disregarding whitespace changes
+    :Context:  diff
+    :END:
+*** diff-add-change-log-entries-other-window                    :inform:edit:
+    :PROPERTIES:
+    :Command:  C-x 4 A
+    :Description: Generate ChangeLog entry for each hunk
+    :Context:  diff
+    :END:
+    This creates a skeleton of the log of changes that you can later
+    fill with the actual descriptions of the changes. ~C-x 4 a~ itself
+    in Diff mode operates on behalf of the current hunk's file, but
+    gets the function name from the patch itself. This is useful for
+    making log entries for functions that are deleted by the patch.
+*** diff-delete-trailing-whitespace                             :edit:delete:
+    :PROPERTIES:
+    :Description: Search and remove trailing whitespace in patch and source
+    :Context:  diff
+    :Argument: plain
+    :END:
+    This command does not save the modification that it makes, so you
+    can decide whether to save the changes (the list of modified files
+    is displayed in the echo area). With a prefix argument it tries to
+    modify the original ("old") source files rather than the patched
+    ("new") source files.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -8941,6 +9169,25 @@
     ~compare-windows~ command ignores changes in whitespace by
     default, but a prefix argument turns that off for that single
     invocation of the command.
+*** diff-update-on-the-fly                                 :mode:inform:edit:
+    You can edit a Diff mode buffer like any other buffer. Whenever
+    you edit a hunk, Diff mode attempts to automatically correct the
+    line numbers in the hunk headers, to ensure that the patch remains
+    correct, and could still be applied by ~patch~. To disable
+    automatic line number correction, change this variable to ~nil~.
+*** diff-refine                                          :nav:display:inform:
+    By default, Diff mode refines hunks as Emacs displays them,
+    highlighting their changes with better granularity. Alternatively,
+    if you set this variable to the symbol ~navigation~, Diff mode
+    only refines the hunk you move to with the commands
+    ~diff-hunk-next~ or ~diff-hunk-prev~.
+*** diff-jump-to-old-file                                               :nav:
+    Non-nil means ~diff-goto-source~ jumps to the old file. Else, it
+    jumps to the new file. Default is ~nil~. Other commands might also
+    reference this variable like ~diff-apply-hunk~.
+*** diff-font-lock-syntax                                      :display:mode:
+    If this variable is non-nil, fragments of source in hunks are
+    highlighted according to the appropriate major mode
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
