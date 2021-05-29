@@ -2504,6 +2504,7 @@
 *** File Name Cache
     The file name cache is not persistent: it is kept and maintained
     only for the duration of the Emacs session.
+*** Convenience Features for Finding Files
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3742,6 +3743,9 @@
     manipulate the subfiles in the archive.
 *** Tramp mode
     Allows you to find and access remote files.
+*** Recentf mode
+    When this mode is enabled, the '~File~' menu includes a submenu
+    containing a list of recently opened files.
 * Contexts
 ** anywhere
    literally anywhere
@@ -8355,6 +8359,26 @@
     :Description: View contents of file name cache
     :Context:  navigating
     :END:
+*** recentf-mode                                                      :files:
+    :PROPERTIES:
+    :Description: Toggle Recentf mode
+    :Context:  navigating
+    :END:
+*** recentf-save-list                                                 :files:
+    :PROPERTIES:
+    :Description: Saves current ~recentf-list~ to a file
+    :Context:  anywhere
+    :END:
+*** recentf-edit-list                                            :files:edit:
+    :PROPERTIES:
+    :Description: Edit ~recentf-list~
+    :Context:  anywhere
+    :END:
+*** ffap                                                              :files:
+    :PROPERTIES:
+    :Description: Generalizes ~find-file~ with better heuristic defaults
+    :Context:  navigating
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -9778,6 +9802,8 @@
 *** ange-ftp-smart-gateway                                           :inform:
     Non-nil says the FTP gateway (proxy) or gateway FTP program is
     smart.
+*** recentf-list                                               :files:inform:
+    List of recently opened files
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
