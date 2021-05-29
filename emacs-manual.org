@@ -2473,6 +2473,34 @@
     remote file names wor, but the procedure is complex. You can read
     the instructions by typing ~M-x finder-commentary <RET> ange-ftp
     <RET>~.
+*** Quoted File Names
+    You can /quote/ an absolute file name to prevent special
+    characters and syntax in it from having their special effects. The
+    way to do this is to add '~/:~' at the beginning.
+
+    If you want to quote only special characters in the local part of
+    a remote file name, you can quote just the local
+    part. '~/ssh:baz:/:/foo:/bar~' refers to the file ~bar~ of
+    directory ~/foo:~ on the host ~baz~.
+
+    '~/:~' can also prevent '~' from being treated as a special
+    character for a user's home directory. For example, '/:/tmp/~hack'
+    revers to a file whose name is '~hack' in directory ~/tmp~.
+
+    Quoting with '~/:~' is also a way to enter in the minibuffer a
+    file name that contains '~$~'. In order for this to work, the
+    '~/:~' must be at the beginning of the minibuffer contents. (You
+    can also double each '~$~')
+
+    You can also qupte wildcard characters with '~/:~', for
+    visiting. For example, ~/:/tmp/foo*bar~ visits the file
+    ~/tmp/foo*bar~.
+
+    Another method of getting the same result is to enter
+    ~/tmp/foo[*]bar~, which is a wildcard specification that matches
+    only ~/tmp/foo*bar~. However, in many cases there is no need to
+    quote the wildcard characters because even unquoted they give the
+    right result.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3252,6 +3280,9 @@
     reasons. If you can log in on a /gateway/ machine from which the
     target files *are* accessible, and whose FTP server supports
     gatewaying features, you can still use remote file names.
+*** Quote File
+    You can /quote/ an absolute file name to prevent special
+    characters and syntax in it from having their special effects.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
