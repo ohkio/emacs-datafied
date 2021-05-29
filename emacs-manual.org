@@ -2501,6 +2501,9 @@
     only ~/tmp/foo*bar~. However, in many cases there is no need to
     quote the wildcard characters because even unquoted they give the
     right result.
+*** File Name Cache
+    The file name cache is not persistent: it is kept and maintained
+    only for the duration of the Emacs session.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -2997,7 +3000,8 @@
     between '~00~' (intensity 0) and '~FF~' (the maximum intensity).
 *** Fontifies
     Font Lock mode is a minor mode, always local to a particular
-    buffer, which assigns faces to (or /fontifies/) the text in the buffer.
+    buffer, which assigns faces to (or /fontifies/) the text in the
+    buffer.
 *** Just-In-Time Lock
     As you scroll through the buffer, each portion that becomes
     visible is fontified as soon as it is displayed; this type of Font
@@ -3035,7 +3039,8 @@
 *** Glyphless Characters
     On graphical displays, some characters may have no glyphs in any
     of the fonts available to Emacs. These /glyphless characters/ are
-    normally displayed as boxes containing the hexadecimal character code.
+    normally displayed as boxes containing the hexadecimal character
+    code.
 *** Truncation
     As an alternative to continuation, Emacs can display long lines by
     /truncation/. This means that all the characters that do not fit
@@ -3283,6 +3288,9 @@
 *** Quote File
     You can /quote/ an absolute file name to prevent special
     characters and syntax in it from having their special effects.
+*** File Name Cache
+    You can use the /file name cache/ to make it easy to locate a file
+    by name, without having to remember exactly where it is located.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -8307,6 +8315,45 @@
     :Command:  a
     :Description: Toggle alternative display
     :Context:  archive
+    :END:
+*** file-cache-minibuffer-complete                      :files:complete:echo:
+    :PROPERTIES:
+    :Command:  C-<TAB>
+    :Description: Completes minibuffer file name using the file name cache
+    :Context:  minibuffer
+    :END:
+    If you repeat ~C-<TAB>~, that cycles through the possible
+    completions of what you had originally typed. (However, note that
+    the ~C-<TAB>~ character cannot be typed on most text terminals.)
+*** file-cache-add-directory                                 :files:complete:
+    :PROPERTIES:
+    :Description: Add each file name in given directory to file name cache
+    :Context:  navigating
+    :END:
+*** file-cache-add-directory-using-find                      :files:complete:
+    :PROPERTIES:
+    :Description: Add all files and nested files from directory to cache
+    :Context:  navigating
+    :END:
+*** file-cache-add-directory-using-locate                    :files:complete:
+    :PROPERTIES:
+    :Description: Add each file and nexted file using ~locate~ to cache
+    :Context:  navigating
+    :END:
+*** file-cache-add-directory-list                            :files:complete:
+    :PROPERTIES:
+    :Description: Add each file in each directory from variable to cache
+    :Context:  navigating
+    :END:
+*** file-cache-clear-cache                                            :files:
+    :PROPERTIES:
+    :Description: Clear the cache
+    :Context:  navigating
+    :END:
+*** file-cache-display                                 :files:display:inform:
+    :PROPERTIES:
+    :Description: View contents of file name cache
+    :Context:  navigating
     :END:
 * Variables
 ** The Organization of the Screen
