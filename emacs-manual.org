@@ -2400,6 +2400,17 @@
     non-directory component as /old/.
 *** Miscellaneous File Operations
 *** Accessing Compressed Files
+*** File Archives
+    A file whose name ends in '~.tar~' is normally a file archive made
+    by the ~tar~ program.
+
+    If Auto Compression mode is enabled, then Tar mode is used also
+    for compressed archives - files with extensions '~.tgz~',
+    '~.tar.Z~' and '~.tar.gz~'.
+
+    You don't need the ~tar~ program to use Tar mode - Emacs reads the
+    archives directly. However, accessing compressed archives requires
+    the appropriate uncompression program.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3592,6 +3603,32 @@
     operations in which Emacs uses the contents of a file. This
     includes visiting it, saving it, inserting its contents into a
     buffer, loading it, and byte compiling it.
+*** Tar mode
+    A file whose name ends in '~.tar~' is normally an /archive/ made
+    by the ~tar~ program. Emacs views these files in a special mode
+    called Tar mode which provides a Dired-like list of the
+    contents. You can move around through the list just as you would
+    in Dired, and visit the subfiles contained in the
+    archive. However, not all Dired commands are available in Tar
+    mode.
+
+    If Auto Compression mode is enabled, then Tar mode is used also
+    for compressed archives.
+
+    Saving the Tar buffer writes a new version of the archive to disk
+    with the changes you made to the components.
+*** Archive mode
+    A separate but similar Archive mode is used for ~arc~, ~jar~,
+    ~lzh~, ~zip~, ~rar~, ~7z~, and ~zoo~ archives, as well as ~exe~
+    files that are self-extracting executables.
+
+    Operations such as renaming a subfile, or changing its mode or
+    owner, are supported only for some of the archive formats.
+
+    Unlike Tar mode, Archive mode runs the archiving programs to
+    unpack and repack archives. However, you don't need these programs
+    to look at the archive table of contents, only to extract or
+    manipulate the subfiles in the archive.
 * Contexts
 ** anywhere
    literally anywhere
@@ -3719,6 +3756,10 @@
    are some commands that work in this specific context
 ** diff
    Diff mode
+** tar
+   Tar mode
+** archive
+   Archive mode
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -6661,6 +6702,7 @@
 *** revert-buffer                                               :undo:buffer:
     :PROPERTIES:
     :Description: Discard all changes since buffer was last visited/saved
+    :Context:  editing
     :END:
 *** transpose-chars                                               :edit:char:
     :PROPERTIES:
@@ -7968,6 +8010,198 @@
     :PROPERTIES:
     :Description: Toggle Auto Compression mode
     :Context:  anywhere
+    :END:
+*** tar-extract                                                :buffer:files:
+    :PROPERTIES:
+    :Command:  e OR f OR <RET>
+    :Description: Extract component file into its own buffer
+    :Context:  tar
+    :END:
+    You can edit extracted file in new buffer, and if you save the
+    buffer, the edited version will replace the version in the Tar
+    buffer. Clicking with the mouse on the file name in the Tar buffer
+    does likewise.
+*** tar-view                                              :files:buffer:mode:
+    :PROPERTIES:
+    :Command:  v
+    :Description: Extract a file into a buffer in View mode
+    :Context:  tar
+    :END:
+*** tar-extract-other-window                            :files:buffer:window:
+    :PROPERTIES:
+    :Command:  o
+    :Description: Extract file and display in another window
+    :Context:  tar
+    :END:
+*** tar-new-entry                                                :files:edit:
+    :PROPERTIES:
+    :Command:  I
+    :Description: Adds a new regular file to the archive
+    :Context:  tar
+    :END:
+    The file is initially empty, but can readily be edited using the
+    other tar commands. The command inserts the new file before the
+    current one, so that using it on the topmost line of the Tar
+    buffer makes the new file the first one in the archive, and using
+    it at the end of the buffer makes it the last one.
+*** tar-flag-deleted                                      :files:edit:delete:
+    :PROPERTIES:
+    :Command:  d
+    :Description: Marks a file for deletion
+    :Context:  tar
+    :END:
+*** tar-expunge                                                :files:delete:
+    :PROPERTIES:
+    :Command:  x
+    :Description: Delete all files that have been marked for deletion
+    :Context:  tar
+    :END:
+*** tar-unflag                                                   :files:edit:
+    :PROPERTIES:
+    :Command:  u
+    :Description: Unmark file for deletion
+    :Context:  tar
+    :END:
+*** tar-copy                                                     :files:edit:
+    :PROPERTIES:
+    :Command:  C
+    :Description: Copies a file from archive to disk
+    :Context:  tar
+    :END:
+*** tar-rename-entry                                             :files:edit:
+    :PROPERTIES:
+    :Command:  R
+    :Description: Rename a file within the archive
+    :Context:  tar
+    :END:
+*** revert-buffer                                                :files:undo:
+    :PROPERTIES:
+    :Command:  g
+    :Description: Reverts buffer from archive on disk
+    :Context:  tar
+    :END:
+*** tar-chmod-entry                                              :files:edit:
+    :PROPERTIES:
+    :Command:  M
+    :Description: Change protection bits associated with entry
+    :Context:  tar
+    :END:
+*** tar-chgrp-entry                                              :files:edit:
+    :PROPERTIES:
+    :Command:  G
+    :Description: Change group-id associated with entry
+    :Context:  tar
+    :END:
+*** tar-chown-entry                                              :files:edit:
+    :PROPERTIES:
+    :Command:  O
+    :Description: Change user-id associated with this entry
+    :Context:  tar
+    :END:
+*** archive-extract                                            :buffer:files:
+    :PROPERTIES:
+    :Command:  e OR f OR <RET>
+    :Description: Extract component file into its own buffer
+    :Context:  archive
+    :END:
+    You can edit extracted file in new buffer, and if you save the
+    buffer, the edited version will replace the version in the Archive
+    buffer. Clicking with the mouse on the file name in the Archive buffer
+    does likewise.
+*** archive-view                                          :files:buffer:mode:
+    :PROPERTIES:
+    :Command:  v
+    :Description: Extract a file into a buffer in View mode
+    :Context:  archive
+    :END:
+*** archive-extract-other-window                        :files:buffer:window:
+    :PROPERTIES:
+    :Command:  o
+    :Description: Extract file and display in another window
+    :Context:  archive
+    :END:
+*** archive-new-entry                                            :files:edit:
+    :PROPERTIES:
+    :Command:  I
+    :Description: Adds a new regular file to the archive
+    :Context:  archive
+    :END:
+    The file is initially empty, but can readily be edited using the
+    other archive commands. The command inserts the new file before the
+    current one, so that using it on the topmost line of the Archive
+    buffer makes the new file the first one in the archive, and using
+    it at the end of the buffer makes it the last one.
+*** archive-flag-deleted                                  :files:edit:delete:
+    :PROPERTIES:
+    :Command:  d
+    :Description: Marks a file for deletion
+    :Context:  archive
+    :END:
+*** archive-expunge                                            :files:delete:
+    :PROPERTIES:
+    :Command:  x
+    :Description: Delete all files that have been marked for deletion
+    :Context:  archive
+    :END:
+*** archive-unflag                                               :files:edit:
+    :PROPERTIES:
+    :Command:  u
+    :Description: Unmark file for deletion
+    :Context:  archive
+    :END:
+*** archive-copy                                                 :files:edit:
+    :PROPERTIES:
+    :Command:  C
+    :Description: Copies a file from archive to disk
+    :Context:  archive
+    :END:
+*** archive-rename-entry                                         :files:edit:
+    :PROPERTIES:
+    :Command:  R
+    :Description: Rename a file within the archive
+    :Context:  archive
+    :END:
+*** revert-buffer                                                :files:undo:
+    :PROPERTIES:
+    :Command:  g
+    :Description: Reverts buffer from archive on disk
+    :Context:  archive
+    :END:
+*** archive-chmod-entry                                          :files:edit:
+    :PROPERTIES:
+    :Command:  M
+    :Description: Change protection bits associated with entry
+    :Context:  archive
+    :END:
+*** archive-chgrp-entry                                          :files:edit:
+    :PROPERTIES:
+    :Command:  G
+    :Description: Change group-id associated with entry
+    :Context:  archive
+    :END:
+*** archive-chown-entry                                          :files:edit:
+    :PROPERTIES:
+    :Command:  O
+    :Description: Change user-id associated with this entry
+    :Context:  archive
+    :END:
+*** archive-mark                                                 :files:edit:
+    :PROPERTIES:
+    :Command:  m
+    :Description: mark this member for group operations
+    :Context:  archive
+    :END:
+*** archive-unmark-all-files                                     :files:edit:
+    :PROPERTIES:
+    :Command:  M-<DEL>
+    :Description: Remove all marks
+    :Context:  archive
+    :END:
+*** archive-alternate-display                                 :files:display:
+    :PROPERTIES:
+    :Command:  a
+    :Description: Toggle alternative display
+    :Context:  archive
     :END:
 * Variables
 ** The Organization of the Screen
@@ -9772,6 +10006,9 @@
 *** time-stamp
     Group of variables related to customizing everything concerning
     the time stamp feature
+*** Archive
+    Details of the program names and their options as they relate to
+    Archive mode can be set in this customize group
 * Niche Modes
 ** Registers
 *** Bookmark Menu
