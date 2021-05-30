@@ -2639,6 +2639,7 @@
 
     One way to use indirect buffers is to display multiple views of an
     outline.
+*** Convenience Features and Customization of Buffer Handling
 * Vocabulary
 ** Distribution
 *** Free Software
