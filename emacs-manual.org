@@ -2651,6 +2651,7 @@
      make a unique name.
 **** Fast minibuffer selection
 **** Customizing Buffer Menus
+** Multiple Windows
 * Vocabulary
 ** Distribution
 *** Free Software
