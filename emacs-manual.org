@@ -2588,6 +2588,28 @@
 
     If several buffers are modified, it may be time to save some with
     ~C-x s~.
+*** Miscellaneous Buffer Operations
+    A buffer can be read-only, which means that commands to insert or
+    delete its text are not allowed. (However, other commands, like
+    ~C-x <RET> f~, can still mark it as modified). The mode line
+    indicates read-only buffers with '~%%~' or '~%*~' near the left
+    margin. Read-only buffers are usually made by subsystems such as
+    Dired and Rmail that have special commands to operate on the
+    text. Visiting a file whose access control says you cannot write
+    it also makes the buffer read-only.
+
+    ~rename-uniquely~ renames the current buffer to a similar name
+    with a numeric suffix added to make it both different and
+    unique. This command does not need an argument. It is useful for
+    creating multiple shell buffers: if you rename the ~*shell*~
+    buffer, then do ~M-x shell~, it makes a new shell buffer named
+    ~*shell*~; meanwhile, the old shell buffer continues to exist
+    under its new name. This method is also good for mail buffers,
+    compilation buffers, and most Emacs features that create special
+    buffers with particular names. (With some of these features, such
+    as ~M-x compile~, ~M-x grep~, you need to switch to some other
+    buffer before using the command again, otherwise it will reuse the
+    current buffer despite the name change.)
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3404,6 +3426,9 @@
     A buffer's size cannot be larger than some maximum, which is
     defined by the largest buffer position representable by /Emacs
     integers/.
+*** Read-Only Buffer
+    A buffer can be /read-only/, which means that commands to insert
+    or delete its text are not allowed.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -8710,6 +8735,38 @@
 
     This command omits buffers whose names begin with a space, unless
     they visit files: such buffers are used internally by Emacs.
+*** read-only-mode                                                   :buffer:
+    :PROPERTIES:
+    :Command:  C-x C-q
+    :Description: Toggle read-only status of buffer
+    :Context:  navigating
+    :END:
+*** rename-buffer                                               :buffer:edit:
+    :PROPERTIES:
+    :Description: Change name of the current buffer
+    :Context:  navigating
+    :END:
+*** rename-uniquely                                             :buffer:edit:
+    :PROPERTIES:
+    :Description: Rename current buffer by adding '~<number>~' to end
+    :Context:  navigating
+    :END:
+*** view-buffer                                                      :buffer:
+    :PROPERTIES:
+    :Description: Scroll through given buffer in View mode
+    :Context:  navigating
+    :END:
+*** set-buffer-file-coding-system                        :buffer:coding:edit:
+    :PROPERTIES:
+    :Command:  C-x RET f
+    :Description: Set file coding-system of current buffer to given system
+    :Context:  navigating
+    :END:
+*** shell                                                    :command:buffer:
+    :PROPERTIES:
+    :Description: Run an inferior shell
+    :Context:  anywhere
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10182,6 +10239,14 @@
     a new, empty buffer that is not visiting any file, and selects it
     for editing. The default value of this variable determines the new
     buffer's major mode; The default value is Fundamental mode.
+*** buffer-read-only                                            :buffer:edit:
+    The command ~C-x C-q~ (~read-only-mode~) makes a read-only buffer
+    writable, and makes a writable buffer read-only. This works by
+    setting this variable, which has a local value in each buffer and
+    makes the buffer read-only if its value is non-nil.
+*** view-read-only
+    If you change this variable to a non-nil value, making the buffer
+    read only with ~C-x C-q~ also enables View mode in the buffer.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
