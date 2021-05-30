@@ -2622,6 +2622,23 @@
     with Dired), or display them.
 
     A single buffer may not have both deletion and display flags.
+*** Indirect Buffers
+    The text of the indirect buffer is always identical to the text of
+    its base buffer; changes made by editing either one are visible
+    immediately in the other. But in all other respects, the indirect
+    buffer and its base buffer are completely separate. They can have
+    different names, different values of point, different narrowing,
+    different markers, different major modes, and different local
+    variables.
+
+    An indirect buffer cannot visit a file, but its base buffer
+    can. If you try to save the indirect buffer, that actually works
+    by saving the base buffer. Killing the base buffer effectively
+    kills the indirect buffer, but killing an indirect buffer has no
+    effect on its base buffer.
+
+    One way to use indirect buffers is to display multiple views of an
+    outline.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3450,6 +3467,12 @@
     The /Buffer Menu/ does not merely list buffers. It also allows you
     to perform various operations on buffers, through an interface
     similar to Dired.
+*** Indirect Buffer
+    An /indirect buffer/ shares the text of some other buffer. In some
+    ways it is a buffer analogue of a symbolic link between files.
+*** Base Buffer
+    An indirect buffer shares the text of some other buffer, which is
+    called the /base buffer/ of the indirect buffer.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -9033,6 +9056,30 @@
     :Description: update Buffer Menu
     :Context:  buffer-menu
     :END:
+*** make-indirect-buffer                                             :buffer:
+    :PROPERTIES:
+    :Description: Create indirect buffer with given name from given buffer
+    :Context:  navigating
+    :END:
+*** clonep-indirect-buffer                                           :buffer:
+    :PROPERTIES:
+    :Description: Create indirect buffer that is twin copy of curr buffer
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    With a numeric argument, it prompts for the name of the indirect
+    buffer; otherwise it uses the name of the current buffer, with a
+    '<n>' suffix added.
+*** clone-indirect-buffer-other-window                               :buffer:
+    :PROPERTIES:
+    :Command:  C-x 4 c
+    :Description: Create clone indirect buffer and select in other window
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    With a numeric argument, it prompts for the name of the indirect
+    buffer; otherwise it uses the name of the current buffer, with a
+    '<n>' suffix added.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10546,6 +10593,10 @@
 *** midnight-hook
     Commands that get run at midnight everyday if Midnight mode is
     enabled.
+*** clone-indirect-buffer-hook
+    The functions ~clone-indirect-buffer~ and
+    ~clone-indirect-buffer-other-window~ both run this hook after
+    creating the indirect buffer.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
@@ -10734,48 +10785,6 @@
 *** list-matching-lines-current-line-face
     When ~list-matching-lines-jump-to-current-line~ is non-nil the
     current line is shown highlighted with this face.
-* File Variables
-** File Handling
-*** mode
-    Should probably be the first local variable defined. Defines what
-    major mode should be used to interpret the file. Helps to use the
-    comment syntax of that mode to comment out wherever you define
-    this file variable.
-
-    A reminder of what that syntax looks like when you define this
-    file variable as the first line of the file:
-    #+BEGIN_SRC emacs-lisp
-      ;; -*- mode: Lisp; -*-
-    #+END_SRC
-
-*** Local Variables
-    This is a variable that can be put near the end of a file. Again,
-    best to use the comment syntax of whatever mode is defined to
-    comment out any file variables. Reminder of basic syntax:
-    #+BEGIN_SRC emacs-lisp
-      Local Variables:
-      mode: c
-      comment-column: 0
-      End:
-    #+END_SRC
-
-*** Time-stamp
-    You can arrange to put a time stamp in a file, so that it is
-    updated automatically each time you edit and save the file. The
-    time stamp must be in the first eight lines of the file, and you
-    should insert it like this:
-    #+BEGIN_SRC emacs-lisp
-      ;; Time-stamp: <>
-    #+END_SRC
-
-    Or like this:
-    #+BEGIN_SRC emacs-lisp
-      ;; Time-stamp: " "
-    #+END_SRC
-
-    Then add the function ~time-stamp~ to the hook
-    ~before-save-hook~.
-
 * .emacs additions
 ** Registers
 *** Saving Text in Registers
@@ -10950,6 +10959,48 @@
     #+END_SRC
     This adds a '~Filesets~' sub-menu to the menu bar's '~File~'
     menu.
+* File Variables
+** File Handling
+*** mode
+    Should probably be the first local variable defined. Defines what
+    major mode should be used to interpret the file. Helps to use the
+    comment syntax of that mode to comment out wherever you define
+    this file variable.
+
+    A reminder of what that syntax looks like when you define this
+    file variable as the first line of the file:
+    #+BEGIN_SRC emacs-lisp
+      ;; -*- mode: Lisp; -*-
+    #+END_SRC
+
+*** Local Variables
+    This is a variable that can be put near the end of a file. Again,
+    best to use the comment syntax of whatever mode is defined to
+    comment out any file variables. Reminder of basic syntax:
+    #+BEGIN_SRC emacs-lisp
+      Local Variables:
+      mode: c
+      comment-column: 0
+      End:
+    #+END_SRC
+
+*** Time-stamp
+    You can arrange to put a time stamp in a file, so that it is
+    updated automatically each time you edit and save the file. The
+    time stamp must be in the first eight lines of the file, and you
+    should insert it like this:
+    #+BEGIN_SRC emacs-lisp
+      ;; Time-stamp: <>
+    #+END_SRC
+
+    Or like this:
+    #+BEGIN_SRC emacs-lisp
+      ;; Time-stamp: " "
+    #+END_SRC
+
+    Then add the function ~time-stamp~ to the hook
+    ~before-save-hook~.
+
 * Custom Groups
 ** File Handling
 *** time-stamp
