@@ -2614,6 +2614,14 @@
     On most operating systems, killing a buffer releases the memory
     Emacs used for the buffer back to the operating system so that
     other programs can use it.
+*** Operating on Several Buffers
+    The Buffer Menu opened by ~C-x C-b~ does not merely list
+    buffers. It also allows you to perform various operations on
+    buffers, through an interface similar to Dired. You can save
+    buffers, kill them (here called deleting them, for consistency
+    with Dired), or display them.
+
+    A single buffer may not have both deletion and display flags.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3438,6 +3446,10 @@
     need. (Some other editors call this operation /close/, and talk
     about "closing the buffer" or "closing the file" visited in the
     buffer.)
+*** Buffer Menu
+    The /Buffer Menu/ does not merely list buffers. It also allows you
+    to perform various operations on buffers, through an interface
+    similar to Dired.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3907,6 +3919,18 @@
     Midnight mode operates each day at midnight; at that time, it runs
     whichever functions you have placed in the normal hook
     ~midnight-hook~.
+*** Buffer Menu mode
+    The Buffer Menu opened by ~C-x C-b~ does not merely list
+    buffers. It also allows you to perform various operations on
+    buffers, through an interface similar to Dired. You can save
+    buffers, kill them, or display them.
+
+    To use the Buffer Menu, type ~C-x C-b~ and switch to the window
+    displaying the ~*Buffer List*~ buffer.
+
+    The Buffer Menu is a read-only buffer, and can be changed only
+    through special commands. The usual cursor motion commands can be
+    used in this buffer
 * Contexts
 ** anywhere
    literally anywhere
@@ -4040,6 +4064,8 @@
    Archive mode
 ** image
    Image mode
+** buffer-menu
+   Any time a Buffer Menu is the currnet buffer.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -8817,6 +8843,196 @@
     aspects of this command's behavior, can be controlled by
     customizing several options described in the doc string of
     ~clean-buffer-list~.
+*** buffer-menu                                                      :buffer:
+    :PROPERTIES:
+    :Description: Begin editing a buffer listing all Emacs buffers
+    :Context:  anywhere
+    :END:
+*** buffer-menu-other-window                                  :buffer:window:
+    :PROPERTIES:
+    :Description: Begin editing a buffer listing in another window
+    :Context:  anywhere
+    :END:
+*** Buffer-menu-delete                                    :buffer:delete:nav:
+    :PROPERTIES:
+    :Command:  d
+    :Description: Flag buffer for deletion, then move point next line
+    :Context:  buffer-menu
+    :Argument: numeric
+    :END:
+    The deletion flag is indicated by the character '~D~' on the line,
+    before the buffer name. The deletion occurs only when you type the
+    ~Buffer-menu-execute~ command.
+
+    With a numeric argument /n/ marks next /n/ lines for deletion
+*** Buffer-menu-delete-backwards                          :buffer:delete:nav:
+    :PROPERTIES:
+    :Command:  C-d
+    :Description: Flag buffer for deletion, then move point previous line
+    :Context:  buffer-menu
+    :Argument: numeric
+    :END:
+    See ~Buffer-menu-delete~ for more details
+
+    With a numeric argument /n/ marks previous /n/ lines for deletion
+*** Buffer-menu-save                                      :buffer:files:edit:
+    :PROPERTIES:
+    :Command:  s
+    :Description: Flag buffer for saving
+    :Context:  buffer-menu
+    :END:
+    The save flag is indicated by the character '~S~' on the line,
+    before the buffer name. The saving occurs only when you use
+    ~Buffer-menu-execute~ command.
+*** Buffer-menu-execute                                         :buffer:edit:
+    :PROPERTIES:
+    :Command:  x
+    :Description: Perform all flagged deletions and saves
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-unmark                                               :buffer:
+    :PROPERTIES:
+    :Command:  u
+    :Description: Remove all flags from current line, move point down
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-backup-unmark                                        :buffer:
+    :PROPERTIES:
+    :Command:  <DEL>
+    :Description: Move to previous line and remove all flags on that line
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-unmark-all-buffers                                   :buffer:
+    :PROPERTIES:
+    :Command:  M-<DEL>
+    :Description: Remove a particular flag from all lines
+    :Context:  buffer-menu
+    :END:
+    This asks for a single character, and unmarks buffers marked with
+    that character; typing ~<RET>~ removes all marks.
+*** Buffer-menu-unmark-all                                           :buffer:
+    :PROPERTIES:
+    :Command:  U
+    :Description: Remove all flags from all lines
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-not-modified                                    :buffer:edit:
+    :PROPERTIES:
+    :Command:  ~
+    :Description: Mark buffer as unmodified
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-toggle-read-only                                :buffer:edit:
+    :PROPERTIES:
+    :Command:  %
+    :Description: Toggle buffer's read-only status
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-visit-tags-table                                :buffer:mode:
+    :PROPERTIES:
+    :Command:  t
+    :Description: Visit buffer as a tags table
+    :Context:  buffer-menu
+    :END:
+*** quit-window                                                 :buffer:undo:
+    :PROPERTIES:
+    :Command:  q
+    :Description: Quit the Buffer Menu
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-this-window                                  :buffer:display:
+    :PROPERTIES:
+    :Command:  <RET> OR f
+    :Description: Select this line's buffer replacing Buffer Menu
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-other-window                                  :buffer:window:
+    :PROPERTIES:
+    :Command:  o
+    :Description: Select this line's buffer in another window
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-switch-other-window                           :buffer:window:
+    :PROPERTIES:
+    :Command:  C-o
+    :Description: Display this line's buffer in other window unselected
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-1-window                                             :buffer:
+    :PROPERTIES:
+    :Command:  1
+    :Description: Select this line's buffer in full-frame window
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-2-window                                      :buffer:window:
+    :PROPERTIES:
+    :Command:  2
+    :Description: Set up two windows on current frame involving this line
+    :Context:  buffer-menu
+    :END:
+    Set up two windows on the current frame, with this line's buffer
+    selected in one, and a previously current buffer (aside from
+    ~*Buffer List*~) in the other.
+*** Buffer-menu-bury                                                 :buffer:
+    :PROPERTIES:
+    :Command:  b
+    :Description: Bury this line's buffer (i.e., move to end of list)
+    :Context:  buffer-menu
+    :END:
+*** Buffer-menu-mark                                          :buffer:window:
+    :PROPERTIES:
+    :Command:  m
+    :Description: Mark this line's buffer to display in other window on ~v~
+    :Context:  buffer-menu
+    :END:
+    Mark this line's buffer to by displayed in another window if you
+    exit with the ~v~ command. The display flag is indicated by the
+    character '~>~' at the beginning of the line.
+*** Buffer-menu-select                                               :buffer:
+    :PROPERTIES:
+    :Command:  v
+    :Description: Select this buffer, display flagged buffers in windows
+    :Context:  buffer-menu
+    :END:
+    Select this line's buffer, and also display in other windows any
+    buffers flagged with the ~m~ command. If you have not flagged any
+    buffers, this command is equivalent to ~1~.
+*** tabulated-list-sort                                      :buffer:display:
+    :PROPERTIES:
+    :Command:  S
+    :Description: Sort Buffer Menu entries according to column with point
+    :Context:  buffer-menu
+    :Argument: numeric
+    :END:
+    With a numeric argument /n/, sort according to the /n/-th column.
+*** tabulated-list-narrow-current-column                     :buffer:display:
+    :PROPERTIES:
+    :Command:  {
+    :Description: Narrow current column width by /n/ characters
+    :Context:  buffer-menu
+    :Argument: numeric
+    :END:
+    Numeric prefix argument defines /n/. Default is 1.
+*** tabulated-list-widen-current-column                      :buffer:display:
+    :PROPERTIES:
+    :Command:  }
+    :Description: Widen current column width by /n/ characters
+    :Context:  buffer-menu
+    :Argument: numeric
+    :END:
+    Numeric prefix argument defines /n/. Default is 1.
+*** Buffer-menu-toggle-files-only                            :buffer:display:
+    :PROPERTIES:
+    :Command:  T
+    :Description: Delete, or reinsert, lines for non-file buffers
+    :Context:  buffer-menu
+    :END:
+*** revert-buffer                                       :buffer:edit:display:
+    :PROPERTIES:
+    :Command:  g
+    :Description: update Buffer Menu
+    :Context:  buffer-menu
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10300,6 +10516,9 @@
 *** midnight-mode                                                   :startup:
     To enable Midnight mode, you can use the Customization buffer to
     set this variable to ~t~.
+*** global-auto-revert-non-file-buffers                 :startup:buffer:edit:
+    Global Auto Revert mode applies to the ~*Buffer List*~ buffer only
+    if this variable is non-nil.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
