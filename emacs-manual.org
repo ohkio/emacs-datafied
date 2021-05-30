@@ -2579,6 +2579,15 @@
     purposes. It treats these buffers specially in minor ways - for
     example, by default they do not record undo information. It is
     best to avoid using such buffer names yourself.
+*** Listing Existing Buffers
+    There are different indicators in the buffer list that mean
+    different things:
+    - ~.~ :: Indicates the buffer is current
+    - ~%~ :: Indicates a read-only buffer
+    - ~*~ :: Indicates that the buffer is modified
+
+    If several buffers are modified, it may be time to save some with
+    ~C-x s~.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -8686,6 +8695,21 @@
     :Description: Select next buffer in buffer list
     :Context:  navigating
     :END:
+*** list-buffers                               :buffer:display:inform:window:
+    :PROPERTIES:
+    :Command:  C-x C-b
+    :Description: List the existing buffers
+    :Context:  anywhere
+    :Argument: plain
+    :END:
+    The buffers are listed in the order that they were current; the
+    buffers that were current most recnetly come first.
+
+    With a plain argument, you can list only buffers that are visiting
+    files.
+
+    This command omits buffers whose names begin with a space, unless
+    they visit files: such buffers are used internally by Emacs.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
