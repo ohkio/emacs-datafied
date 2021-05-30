@@ -2514,6 +2514,20 @@
 
     The Image-Dired package can also be used to view images as
     thumbnails.
+*** Filesets
+    If you regularly edit a certain group of files, you can define
+    them as a fileset. This lets you perform certain operations, such
+    as visiting, ~query-replace~, and shell commands on all the files
+    at once.
+
+    The commands ~filesets-open~, ~filesets-close~, and
+    ~filesets-run-cmd~ are all available from the '~Filesets~' menu,
+    where each existing fileset is represented by a submenu.
+
+    When dealing with Version Control, there is a different concept of
+    filesets: groups of files bundled together for version control
+    operations. Filesets of that type are unnamed, and do not persist
+    across Emacs sessions.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3301,6 +3315,9 @@
 *** File Name Cache
     You can use the /file name cache/ to make it easy to locate a file
     by name, without having to remember exactly where it is located.
+*** Fileset
+    If you regularly edit a certain group of files, you can define
+    them as a /fileset/.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -8514,6 +8531,43 @@
     :Description: Reset the speed to the original value
     :Context:  image
     :END:
+*** filesets-add-buffer                                   :files:buffer:edit:
+    :PROPERTIES:
+    :Description: Add current file to given fileset name
+    :Context:  navigating
+    :END:
+    If there is no fileset name, this creates a new one, which
+    initially contains only the current file.
+*** filesets-remove-buffer                                :files:buffer:edit:
+    :PROPERTIES:
+    :Description: Remove current file from given fileset name
+    :Context:  navigating
+    :END:
+*** filesets-edit                                                :files:edit:
+    :PROPERTIES:
+    :Description: Edit fileset directly in a customize buffer
+    :Context:  anywhere
+    :END:
+    Normally, a fileset is a simple list of files, but you can also
+    define a fileset as a regular expression matching file names. Some
+    examples of these more complicated filesets are shown in the
+    Customize buffer. Remember to select '~Save for future sessions~'
+    if you want to use the same filesets in the future Emacs sessions.
+*** filesets-open                                      :files:display:buffer:
+    :PROPERTIES:
+    :Description: Visit all the files in a fileset
+    :Context:  navigating
+    :END:
+*** filesets-close                                               :files:undo:
+    :PROPERTIES:
+    :Description: Close all visited files in a fileset
+    :Context:  navigating
+    :END:
+*** filesets-run-cmd                                     :files:edit:command:
+    :PROPERTIES:
+    :Description: Run a shell command on all the files in a fileset
+    :Context:  navigating
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10391,6 +10445,19 @@
     file. You can load the file later with ~load-file~. If the file
     you save in is your init file ~~/.emacs~ then the macro will be
     defined each time you run Emacs
+
+** File Handling
+*** Filesets
+    If you regularly edit a certain group of files, you can define
+    them as a fileset. This lets you perform certain operations, such
+    as visiting, ~query-replace~, and shell commands on all the files
+    at once. To make use of filesets, you must first add the
+    expression:
+    #+BEGIN_SRC emacs-lisp
+      (filesets-init)
+    #+END_SRC
+    This adds a '~Filesets~' sub-menu to the menu bar's '~File~'
+    menu.
 * Custom Groups
 ** File Handling
 *** time-stamp
