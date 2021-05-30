@@ -2640,6 +2640,15 @@
     One way to use indirect buffers is to display multiple views of an
     outline.
 *** Convenience Features and Customization of Buffer Handling
+**** Making Buffer Names Unique
+     When several buffers visit identically-named files, Emacs must
+     give the buffers distinct names. The default method adds a suffix
+     based on the names of the directories that contain the files. For
+     example, if you visit files ~/foo/bar/mumble/name~ and
+     ~/baz/quux/mumble/name~ at the same time, their buffers will be
+     named '~name<bar/mumble>~' and '~name<quux/mumble>~',
+     respectively. Emacs adds as many directory parts as are needed to
+     make a unique name.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -10567,6 +10576,33 @@
 *** global-auto-revert-non-file-buffers                 :startup:buffer:edit:
     Global Auto Revert mode applies to the ~*Buffer List*~ buffer only
     if this variable is non-nil.
+*** uniquify-buffer-name-style                                       :buffer:
+    You can choose from several different styles for constructing
+    unique buffer names, by customizing this option.
+
+    Example files to make buffers unique:
+    - ~/u/rms/tmp/Makefile~
+    - ~/src/expl/tmp/Makefile~
+    - ~/usr/projects/zaphod/Makefile~
+
+    Here are some of
+    the possible values:
+    - ~forward~ :: This naming methoc includes part of the file's
+      directory name at the beginning of the buffer name; Using this
+      method, buffers visiting example files would be named
+      '~rms/tmp/Makefile~', '~expl/tmp/Makefile~' and
+      '~zaphod/Makefile~'.
+    - ~post-forward~ :: This naming method would call the example file
+      buffers '~Makefile|rms/tmp~', '~Makefile|expl/tmp~ and
+      '~Makefile|zaphod~'.
+    - ~post-forward-angle-brackets~ :: Like ~post-forward~, except
+      that it encloses the unique path in angle brackets. This is the
+      default. '~Makefile<rms/tmp>~', '~Makefile<expl/tmp>~ and
+      '~Makefile<zaphod>~'.
+    - ~reverse~ :: Example buffer names, '~Makefile\tmp\rms~',
+      '~Makefile\tmp\expl~' and '~Makefile\zaphod~'
+    - ~nil~ :: examples, '~Makefile~', '~Makefile<2>~', and
+      '~Makefile<3>~'
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
