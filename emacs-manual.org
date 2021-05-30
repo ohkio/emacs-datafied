@@ -2610,6 +2610,10 @@
     as ~M-x compile~, ~M-x grep~, you need to switch to some other
     buffer before using the command again, otherwise it will reuse the
     current buffer despite the name change.)
+*** Killing Buffers
+    On most operating systems, killing a buffer releases the memory
+    Emacs used for the buffer back to the operating system so that
+    other programs can use it.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3429,6 +3433,11 @@
 *** Read-Only Buffer
     A buffer can be /read-only/, which means that commands to insert
     or delete its text are not allowed.
+*** Kill Buffer
+    You may find it convenient to /kill/ the buffers you no longer
+    need. (Some other editors call this operation /close/, and talk
+    about "closing the buffer" or "closing the file" visited in the
+    buffer.)
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -3893,6 +3902,11 @@
     fit the window, so this is only necessary if you customize the
     default behavior by using the options ~image-auto-resize~ and
     ~image-auto-resize-on-window-resize~.
+** Using Multiple Buffers
+*** Midnight mode
+    Midnight mode operates each day at midnight; at that time, it runs
+    whichever functions you have placed in the normal hook
+    ~midnight-hook~.
 * Contexts
 ** anywhere
    literally anywhere
@@ -8767,6 +8781,42 @@
     :Description: Run an inferior shell
     :Context:  anywhere
     :END:
+*** kill-buffer                                                 :buffer:kill:
+    :PROPERTIES:
+    :Command:  C-x k
+    :Description: Kill given buffer
+    :Context:  navigating
+    :END:
+    The default, used if you type just ~<RET>~ in the minibuffer, is
+    to kill the current minibuffer. If you kill the current buffer,
+    another buffer becomes current: one that was current in the recent
+    past but is not displayed in any window now. If you ask to kill a
+    file-visiting buffer that is modified, then you must confirm with
+    ~yes~ before the buffer is killed.
+*** kill-some-buffers                                      :buffer:kill:echo:
+    :PROPERTIES:
+    :Description: Offer to kill each buffer, one by one
+    :Context:  navigating
+    :END:
+*** kill-matching-buffers                                       :buffer:kill:
+    :PROPERTIES:
+    :Description: Offer to kill all buffers matching a regular expression
+    :Context:  navigating
+    :Argument: plain
+    :END:
+    With a plain argument, this can kill internal buffers as well
+*** clean-buffer-list                                           :buffer:kill:
+    :PROPERTIES:
+    :Description: Kills all unmodified and unvisited buffers
+    :Context:  anywhere
+    :END:
+    An ordinary buffer is killed if it has not been displayed for
+    three days; however, you can specify certain buffers that should
+    never be killed automatically, and others that should be killed if
+    they have been unused for a mere hour. These defaults, and other
+    aspects of this command's behavior, can be controlled by
+    customizing several options described in the doc string of
+    ~clean-buffer-list~.
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10244,9 +10294,12 @@
     writable, and makes a writable buffer read-only. This works by
     setting this variable, which has a local value in each buffer and
     makes the buffer read-only if its value is non-nil.
-*** view-read-only
+*** view-read-only                                                   :buffer:
     If you change this variable to a non-nil value, making the buffer
     read only with ~C-x C-q~ also enables View mode in the buffer.
+*** midnight-mode                                                   :startup:
+    To enable Midnight mode, you can use the Customization buffer to
+    set this variable to ~t~.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -10267,6 +10320,13 @@
 *** before-save-hook
     This is the hook which fires all functions in the list just before
     saving a file.
+** Using Multiple Buffers
+*** kill-buffer-hook
+    If you want to do something special every time a buffer is killed,
+    you can add hook functions to this hook
+*** midnight-hook
+    Commands that get run at midnight everyday if Midnight mode is
+    enabled.
 * Faces
 ** The Minibuffer
 *** minibuffer-prompt
