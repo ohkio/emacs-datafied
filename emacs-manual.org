@@ -2505,6 +2505,15 @@
     The file name cache is not persistent: it is kept and maintained
     only for the duration of the Emacs session.
 *** Convenience Features for Finding Files
+*** Viewing Image Files
+    Displaying the file as an image works only if Emacs is compiled
+    with support for displaying such images.
+
+    If Emacs was compiled with support for the ImageMagick library, it
+    can use ImageMagick to render a wide variety of images.
+
+    The Image-Dired package can also be used to view images as
+    thumbnails.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3746,6 +3755,16 @@
 *** Recentf mode
     When this mode is enabled, the '~File~' menu includes a submenu
     containing a list of recently opened files.
+*** Image mode
+    Mode for viewing images
+
+    If the displayed image is wider or taller than the window in which
+    it is displayed, the usual point motion keys (~C-f~, ~C-p~, and so
+    forth) cause different parts of the image to be
+    displayed. However, by default images are resized automatically to
+    fit the window, so this is only necessary if you customize the
+    default behavior by using the options ~image-auto-resize~ and
+    ~image-auto-resize-on-window-resize~.
 * Contexts
 ** anywhere
    literally anywhere
@@ -3877,6 +3896,8 @@
    Tar mode
 ** archive
    Archive mode
+** image
+   Image mode
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -8379,6 +8400,120 @@
     :Description: Generalizes ~find-file~ with better heuristic defaults
     :Context:  navigating
     :END:
+*** image-toggle-display                               :files:display:coding:
+    :PROPERTIES:
+    :Command:  C-c C-c
+    :Description: Toggle between displaying image and raw byte representation
+    :Context:  image
+    :END:
+*** image-toggle-hex-display                           :files:display:coding:
+    :PROPERTIES:
+    :Command:  C-c C-x
+    :Description: Toggle between displaying image vs hex representation
+    :Context:  image
+    :END:
+*** image-transform-fit-both                                  :files:display:
+    :PROPERTIES:
+    :Command:  s b
+    :Description: Fit image to both window height and width
+    :Context:  image
+    :END:
+*** image-transform-set-scale                                 :files:display:
+    :PROPERTIES:
+    :Command:  s s
+    :Description: Scale image specifying a scale factor
+    :Context:  image
+    :END:
+*** image-transform-reset                                     :files:display:
+    :PROPERTIES:
+    :Command:  s 0
+    :Description: Reset all transformations to initial state
+    :Context:  image
+    :END:
+*** image-next-file                                               :files:nav:
+    :PROPERTIES:
+    :Command:  N
+    :Description: Visit next image file in same directory
+    :Context:  image
+    :END:
+*** image-previous-file                                           :files:nav:
+    :PROPERTIES:
+    :Command:  p
+    :Description: Visit previous image file in the same directory
+    :Context:  image
+    :END:
+*** image-mode-mark-file                                              :files:
+    :PROPERTIES:
+    :Command:  m
+    :Description: Mark current file in relevant Dired buffer
+    :Context:  image
+    :END:
+    If no such buffer is open, the directory is opened in a new
+    buffer.
+*** image-mode-unmark-file                                            :files:
+    :PROPERTIES:
+    :Command:  u
+    :Description: Unmark file in Dired buffer
+    :Context:  image
+    :END:
+*** image-mode-copy-file-name-as-kill                            :files:kill:
+    :PROPERTIES:
+    :Command:  w
+    :Description: Copy current buffers file name to kill ring
+    :Context:  image
+    :END:
+*** image-toggle-animation                                    :files:display:
+    :PROPERTIES:
+    :Command:  <RET>
+    :Description: Starts or stops animation if relevant
+    :Context:  image
+    :END:
+*** image-next-frame                                      :files:display:nav:
+    :PROPERTIES:
+    :Command:  f
+    :Description: Step through to next individual frame of animation
+    :Context:  image
+    :Argument: numeric
+    :END:
+    With a numeric argument step through several frames at once.
+*** image-previous-frame                                  :files:display:nav:
+    :PROPERTIES:
+    :Command:  b
+    :Description: Step back to the previous individual frame in animation
+    :Context:  image
+    :Argument: numeric
+    :END:
+    With a numeric argument step through several frames at once.
+*** image-goto-frame                                      :files:display:nav:
+    :PROPERTIES:
+    :Command:  F
+    :Description: Go to a specific frame indext from 1
+    :Context:  image
+    :END:
+*** image-increase-speed                                      :files:display:
+    :PROPERTIES:
+    :Command:  a +
+    :Description: Increase the speed of the animation
+    :Context:  image
+    :END:
+*** image-decrease-speed                                      :files:display:
+    :PROPERTIES:
+    :Command:  a -
+    :Description: Decrease the speed of the animation
+    :Context:  image
+    :END:
+*** image-reverse-speed                                       :files:display:
+    :PROPERTIES:
+    :Command:  a r
+    :Description: Reverse the animation with same current speed
+    :Context:  image
+    :END:
+*** image-reset-speed                                         :files:display:
+    :PROPERTIES:
+    :Command:  a 0
+    :Description: Reset the speed to the original value
+    :Context:  image
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -9804,6 +9939,47 @@
     smart.
 *** recentf-list                                               :files:inform:
     List of recently opened files
+*** image-auto-resize                                         :files:display:
+    Non-nil to resize the image upon first display. It's value should
+    be one of the following:
+    - ~nil~ :: meaning no resizing.
+    - ~t~ :: meaning to fit the image to the window height and width.
+    - '~fit-height~' :: meaning to fit the image to the window
+      height.
+    - '~fit-width~' :: meaning to fit the image to the window width.
+    - A number :: which is a scale factor (the default size is 1).
+
+    Default value is ~t~
+*** image-auto-resize-on-window-resize                        :files:display:
+    Non-nil to resize the image whenever the window's dimensions
+    change. This will always keep the image fit to the window. When
+    non-nil, the value should be a number of seconds to wait before
+    resizing according to the value specified in
+    '~image-auto-resize~'. Default value is 1.
+*** image-animate-loop                                        :files:display:
+    If an image can be animated and you opted to start the animation
+    then by default the animation plays once, unless this variable is
+    non-nil.
+*** imagemagick-enabled-types                          :files:display:inform:
+    This variable lists the image types that Emacs may render using
+    ImageMagick; each element in the list should be an internal
+    ImageMagick name for an image type, as a symbol or an equivalent
+    string. To enable ImageMagick for all possible image types change
+    this variable to ~t~.
+*** imagemagick-types-inhibit                          :files:display:inform:
+    This variable lists the image types which should never be rendered
+    using ImageMagick, regardless of the value of
+    ~imagemagick-enagled-types~ (the default list includes types like
+    ~C~ and ~HTML~, which ImageMagick can render as an image but Emacs
+    should not). To disable ImageMagick entirely, change this variable
+    to ~t~.
+*** image-use-external-converter                              :files:display:
+    If Emacs doesn't have native support for image format in question,
+    and this variable is non-nil, Emacs will try to determine whether
+    there are external utilities that can be used to transform the
+    image in question to PNG before displaying. GraphicsMagick,
+    ImageMagick and ~ffmpeg~ are currently supported for image
+    conversions.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
