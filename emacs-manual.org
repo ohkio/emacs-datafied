@@ -2649,6 +2649,7 @@
      named '~name<bar/mumble>~' and '~name<quux/mumble>~',
      respectively. Emacs adds as many directory parts as are needed to
      make a unique name.
+**** Fast minibuffer selection
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3964,6 +3965,19 @@
     The Buffer Menu is a read-only buffer, and can be changed only
     through special commands. The usual cursor motion commands can be
     used in this buffer
+*** Icomplete mode
+    Incomplete global minor mode provides a convenient way to quickly
+    select an element among the possible completions in a
+    minibuffer. When enabled, typing in the minibuffer continuously
+    displays a list of possible completions that match the string you
+    have typed.
+*** Fido mode
+    This mode is very similar to Icomplete mode, but retains some
+    functionality from a popular extension called Ido mode (in fact
+    the name is derived from "Fake Ido").
+
+    Another noteworth aspect is that ~flex~ is used as the default
+    completion style.
 * Contexts
 ** anywhere
    literally anywhere
@@ -4099,6 +4113,15 @@
    Image mode
 ** buffer-menu
    Any time a Buffer Menu is the currnet buffer.
+** icomplete
+   This is when you are in the minibuffer when Incomplete mode is
+   enabled. Fido mode also has access to all of the commands of
+   Icomplete.
+** fido
+   Commands that are only available while in the minibuffer that can
+   have completions and when Fido mode is enabled. These are Fido
+   specific commands not commands related to both Icomplete and Fido
+   mode.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -9090,6 +9113,46 @@
     With a numeric argument, it prompts for the name of the indirect
     buffer; otherwise it uses the name of the current buffer, with a
     '<n>' suffix added.
+*** icomplete-force-complete-and-exit                         :complete:echo:
+    :PROPERTIES:
+    :Command:  C-j
+    :Description: Select first completion in the list
+    :Context:  icomplete
+    :END:
+*** icomplete-forward-completions                             :complete:echo:
+    :PROPERTIES:
+    :Command:  C-.
+    :Description: Rotate icomplete list forward
+    :Context:  icomplete
+    :END:
+*** icomplete-backward-completions                            :complete:echo:
+    :PROPERTIES:
+    :Command:  C-,
+    :Description: Rotate icomplete list backwards
+    :Context:  icomplete
+    :END:
+*** icomplete-force-complete                                  :complete:echo:
+    :PROPERTIES:
+    :Command:  C-M-i OR M-<TAB>
+    :Description: Select first completion and do not exit
+    :Context:  icomplete
+    :END:
+*** icomplete-mode                                            :mode:complete:
+    :PROPERTIES:
+    :Description: Toggle Icomplete mode
+    :Context:  anywhere
+    :END:
+*** icomplete-fido-kill                                :complete:delete:kill:
+    :PROPERTIES:
+    :Command:  C-k
+    :Description: Delete completion and thing behind completion
+    :Context:  fido
+    :END:
+*** fido-mode                                                 :mode:complete:
+    :PROPERTIES:
+    :Description: Toggle Fido mode
+    :Context:  navigating
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10603,6 +10666,12 @@
       '~Makefile\tmp\expl~' and '~Makefile\zaphod~'
     - ~nil~ :: examples, '~Makefile~', '~Makefile<2>~', and
       '~Makefile<3>~'
+*** icomplete-mode                                            :complete:mode:
+    To enable Icomplete mode you can customize this variable to
+    ~t~. ~nil~ by default.
+*** fido-mode                                                 :complete:mode:
+    To enable Fido mode, customize this variable to ~t~. ~nil~ by
+    default.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -10996,6 +11065,19 @@
     #+END_SRC
     This adds a '~Filesets~' sub-menu to the menu bar's '~File~'
     menu.
+
+** Using Multiple Buffers
+*** Change Fido defaults
+    A noteworthy aspect of Fido mode is that ~flex~ is used as the
+    default completion style. To change this, add the following to
+    your initialization file.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-icomplete-styles ()
+	(setq-local completion-styles '(initials flex)))
+      (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
+    #+END_SRC
+
 * File Variables
 ** File Handling
 *** mode
