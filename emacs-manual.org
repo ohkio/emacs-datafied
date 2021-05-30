@@ -2650,6 +2650,7 @@
      respectively. Emacs adds as many directory parts as are needed to
      make a unique name.
 **** Fast minibuffer selection
+**** Customizing Buffer Menus
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -9153,6 +9154,25 @@
     :Description: Toggle Fido mode
     :Context:  navigating
     :END:
+*** bs-show                                                  :buffer:display:
+    :PROPERTIES:
+    :Description: Make list of buffers like ~list-buffers~ but customizable
+    :Context:  anywhere
+    :END:
+    For example, you can specify the list of buffer attributes to
+    show, the minimum and maximum width of buffer name column, a
+    regexp for names of buffer that will never be shown and those
+    which will always be shown, etc.
+*** ibuffer                                                  :buffer:display:
+    :PROPERTIES:
+    :Description: Make list of buffers in Dired-like fashion
+    :Context:  anywhere
+    :END:
+*** bs-customize                                             :buffer:display:
+    :PROPERTIES:
+    :Description: Customize ~bs-show~ buffer list
+    :Context:  anywhere
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -11128,6 +11148,10 @@
 *** Archive
     Details of the program names and their options as they relate to
     Archive mode can be set in this customize group
+** Using Multiple Buffers
+*** bs
+    Custom group to customize all things related to command
+    ~bs-show~.
 * Niche Modes
 ** Registers
 *** Bookmark Menu
@@ -11176,6 +11200,18 @@
 **** Enter Mode
      ~M-x emerge-files~, ~M-x emerge-files-with-ancestor~, ~M-x
      emerge-buffers~, ~M-x emerge-buffers-with-ancestor~
+**** Find Commands
+     ~C-h m~
+** Using Multiple Buffers
+*** MSB mode
+**** Description
+     "MSB" stands for "mouse select buffer". MSB mode provides a
+     different and customizable mouse buffer menu which you may
+     prefer. It replaces the ~mouse-buffer-menu~ commands, normally
+     bound to ~C-Down-mouse-1~ and ~C-F10~, with its own commands, and
+     also modifies the menu-bar buffer menu.
+**** Enter Mode
+     ~msb-mode~
 **** Find Commands
      ~C-h m~
 * Command Properties
