@@ -2569,6 +2569,16 @@
    2^{61} - 2 bytes, or about 2 EiB. For typical 32-bit machines, the
    maximum is usually 2^{29} - 2 bytes, or about 512 MiB. Buffer sizes
    are also limited by the amount of memory in the system.
+*** Creating and Selecting Buffers
+    One reason to create a new buffer is to use it for making
+    temporary notes. If you try to save it, Emacs asks for the file
+    name to use, and the buffer's major mode is re-established taking
+    that file name into account.
+
+    Emacs uses buffer names that start with a space for internal
+    purposes. It treats these buffers specially in minor ways - for
+    example, by default they do not record undo information. It is
+    best to avoid using such buffer names yourself.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4222,7 +4232,13 @@
     :Argument: numeric, plain
     :END:
     You can specify line number by giving command a numeric prefix
-    argument. Plain prefix not yet defined.
+    argument. With a plain prefix argument, reads a number /n/ using
+    the minibuffer, selects the most recently selected buffer other
+    than the current buffer in another window, and then moves point to
+    the beginning of line number /n/ in that buffer. This is mainly
+    useful in a buffer that refers to line numbers in another buffer:
+    if point is on or just after a number, this command uses that
+    number as the default for /n/.
 *** move-to-column                                                 :nav:line:
     :PROPERTIES:
     :Command:  M-g <TAB>
@@ -8635,6 +8651,41 @@
     :Description: Run a shell command on all the files in a fileset
     :Context:  navigating
     :END:
+** Using Multiple Buffers
+*** switch-to-buffer                                                 :buffer:
+    :PROPERTIES:
+    :Command:  C-x b
+    :Description: Select or create a buffer with given name
+    :Context:  navigating
+    :END:
+    If you specify a buffer that does not exist, this command creates
+    a new, empty buffer that is not visiting any file, and selects it
+    for editing. The default value is Fundamental mode. See the
+    variable ~major-mode~.
+*** switch-to-buffer-other-window                             :buffer:window:
+    :PROPERTIES:
+    :Command:  C-x 4 b
+    :Description: Select given buffer in another window
+    :Context:  navigating
+    :END:
+*** switch-to-buffer-other-frame                               :buffer:frame:
+    :PROPERTIES:
+    :Command:  C-x 5 b
+    :Description: Select given buffer in a separate frame
+    :Context:  navigating
+    :END:
+*** previous-buffer                                              :buffer:nav:
+    :PROPERTIES:
+    :Command:  C-x <LEFT>
+    :Description: Select the previous buffer in buffer list
+    :Context:  navigating
+    :END:
+*** next-buffer                                                  :buffer:nav:
+    :PROPERTIES:
+    :Command:  C-x <RIGHT>
+    :Description: Select next buffer in buffer list
+    :Context:  navigating
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10101,6 +10152,12 @@
     image in question to PNG before displaying. GraphicsMagick,
     ImageMagick and ~ffmpeg~ are currently supported for image
     conversions.
+** Using Multiple Buffers
+*** major-mode                                                  :mode:buffer:
+    If you specify a buffer that does not exist, ~C-x b~ creates
+    a new, empty buffer that is not visiting any file, and selects it
+    for editing. The default value of this variable determines the new
+    buffer's major mode; The default value is Fundamental mode.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
