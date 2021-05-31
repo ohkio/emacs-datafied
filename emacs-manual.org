@@ -2684,6 +2684,7 @@
     modification status and major and minor modes of the buffer that
     is displayed in the window. The selecected window's mode line
     appears in a different color.
+*** Splitting Windows
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4160,6 +4161,9 @@
    have completions and when Fido mode is enabled. These are Fido
    specific commands not commands related to both Icomplete and Fido
    mode.
+** mode-line
+   Sometimes mouse commands can have special things happen when
+   you click the mouse on the mode line.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -9210,6 +9214,40 @@
     :Description: Customize ~bs-show~ buffer list
     :Context:  anywhere
     :END:
+** Multiple Windows
+*** split-window-below                                               :window:
+    :PROPERTIES:
+    :Command:  C-x 2
+    :Description: Split selected window into two windows one above other
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    After splitting, the selected window is the upper one, and the
+    newly split-off window is below. Both windows have the same value
+    of point as before, and display the same portion of the buffer (or
+    as close to it as possible). If necessary, the window are scrolled
+    to keep point on-screen. By default, the two windows each get half
+    the height of the original window. A positive numeric argument
+    specifies how many lines to give to the top window; A numeric
+    argument specifies how many lines to give to the bottom window.
+*** split-window-right                                               :window:
+    :PROPERTIES:
+    :Command:  C-x 3
+    :Description: Split selected window into two, side by side
+    :Context:  navigating
+    :Argument: numeric
+    :END:
+    The left window is the selected one; the right window displays the
+    same portion of the same buffer, and has the same value of
+    point. A positive numeric argument specifies how many columns to
+    give the left window; a negative numeric argument specifies how
+    many columns to give the right window.
+*** mouse-split-window-horizontally                                  :window:
+    :PROPERTIES:
+    :Command:  C-<mouse-2>
+    :Description: Split window of mode line at location of click
+    :Context:  mode-line
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10729,6 +10767,41 @@
 *** fido-mode                                                 :complete:mode:
     To enable Fido mode, customize this variable to ~t~. ~nil~ by
     default.
+** Multiple Windows
+*** split-window-keep-point                                          :window:
+    If you change this variable to ~nil~, ~C-x 2~ instead adjusts the
+    portion of the buffer displayed by the two windows, as well as the
+    value of point in each window, in order to keep the text on the
+    screen as close as possible to what it was before; Furthermore, if
+    point was in the lower half of the original window, the bottom
+    window is selected instead of the upper one.
+*** truncate-partial-width-windows                                   :window:
+    When you split a window with ~C-x 3~, each resulting window
+    occupies less than the full width of the frame. If it becomes too
+    narrow, the buffer may be difficult to read if continuation lines
+    are in use. Therefore, Emacs automatically switches to line
+    truncation if the window width becomes narrower than 50
+    columns. This truncation is controlled by this variable. If the
+    value of this variable is a positive integer (the default is 50),
+    the specifies the minimum total width for a partial-width window
+    before automatic line truncation occurs; if the value is ~nil~,
+    automatic line truncation is disabled; and for any other non-nil
+    value, Emacs truncates lines in every partial-width window
+    regardless of its width.
+*** window-total-width                                               :window:
+    The total width of a window is in column units as reported by this
+    variable, it includes the fringes, the continuation and truncation
+    glyphs, the margins and the scroll bar.
+*** window-resize-pixelwise                                          :window:
+    By default, when you split a window, Emacs gives each of the
+    resulting windows dimensions that are an integral multiple of the
+    default font size of the fram. That might subdivide the screen
+    estate unevenly between the resulting windows. If you set this
+    variable to a non-nil value, Emacs will give each window the same
+    number of pixels (give or take one pixel if the enitial dimension
+    was an odd number of pixels). Note that when a frame's pixel size
+    is not a multiple of the frame's character size, at least one
+    window may get resized pixelwise even if this option is ~nil~.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -10948,6 +11021,10 @@
 *** list-matching-lines-current-line-face
     When ~list-matching-lines-jump-to-current-line~ is non-nil the
     current line is shown highlighted with this face.
+** Multiple Windows
+*** vertical-border
+    On text terminals, side-by-side windows are separated by a
+    vertical divider which is drawn using this face.
 * .emacs additions
 ** Registers
 *** Saving Text in Registers
