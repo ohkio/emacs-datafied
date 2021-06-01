@@ -2721,6 +2721,47 @@
     2. Prefer to either create a new frame or use a window on some
        other frame to display the desired buffer.
     Several of these commands are bound in the ~C-x 5~ prefix key.
+**** How ~display-buffer~ works
+     The ~display-buffer~ command (as well as commands that call it
+     internally) chooses a window to display by following the steps
+     given below.
+     1. If the buffer should be displayed in the selected window
+        regardless of other considerations, reuse the selected
+        window. By default, this step is skipped, but you can tell
+        Emacs not to skip it by adding a regular expression matching
+        the buffer's name together with a reference to the
+        ~display-buffer-same-window~ action function to the option
+        ~display-buffer-alist~.
+     2. Otherwise, if the buffer is already displayed in an existing
+        window, reuse that window. Normally, only windows on the
+        selected frame are considered, but windows on other frames are
+        also reusable if you use the corresponding ~reusable-frames~
+        action alist entry. See next step for an example of how to do
+        that.
+     3. Otherwise, optionally create a new frame and display the
+        buffer there. By default, this step is skipped. To enable it,
+        change the value of the option ~display-buffer-base-action~.
+     4. Otherwise, try to create a new window by splitting a window on
+        the selected frame, and display the buffer in that window.
+
+	The split can be either vertical or horizontal, depending on
+        the variables ~split-height-threshold~ and
+        ~split-width-threshold~. These variables should have integer
+        values. If ~split-height-threshold~ is smaller than the chosen
+        window's height, the split puts the new window
+        below. Otherwise if ~split-width-threshold~ is smaller than
+        the window's width, the split puts the new window on the
+        right. If neigher condition holds, Emacs tries to split so
+        that the new window is below - but only if the window was not
+        split before (to avoid excessive splitting).
+     5. Otherwise, display the buffer in a window previously showing
+        it. Normally, only windows on the selected frame are
+        considered, but with a suitable ~reusable-frames~ action alist
+        entry, the window may also be on another frame.
+     6. Otherwise, display the buffer in an existing window on the
+        selected frame.
+     7. If all the above methods fail for whatever reason, create a
+        new frame and display the buffer there.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -11012,6 +11053,15 @@
 *** window-min-width                                                 :window:
     Cannot reduce a window width below the number of columns defined
     in this variable. The default is 10.
+*** display-buffer-alist                                      :window:buffer:
+    Alist of user-defined conditional actions for ~display-buffer~. By
+    default this is nil.
+*** display-buffer-base-action                                       :window:
+    User-specified default action for ~display-buffer~
+*** split-height-threshold                                           :window:
+    Minimum height for splitting windows sensibly.
+*** split-width-threshold                                            :window:
+    Minimum width for splitting windows sensibly.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -11422,6 +11472,36 @@
       (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
     #+END_SRC
 
+** Multiple Windows
+*** Customize ~display-buffer~
+    You can tell Emacs not to skip first step of ~display-buffer~ by
+    adding a regular expression matching the buffer's name together
+    with a reference to the ~display-buffer-same-window~ action
+    function to the option ~display-buffer-alist~. For example, to
+    display the buffer ~*scratch*~ preferably in the selected window
+    write:
+    #+BEGIN_SRC emacs-lisp
+      (customize-set-variable
+       'display-buffer-alist
+       '("\\*scratech\\*" (display-buffer-same-window)))
+    #+END_SRC
+
+*** Further Customization
+    Windows on other frames are also reusable if you use the
+    corresponding ~reusable-frames~ action alist entry.
+
+    You can also enable creating a new frame and displaying the buffer
+    there by chanigng the value of the option
+    ~display-buffer-base-action~ as follows:
+    #+BEGIN_SRC emacs-lisp
+      (customize-set-variable
+       'display-buffer-base-action
+       '((display-buffer-reuse-window display-buffer-pop-up-frame)
+         (reusable-frames . 0)))
+    #+END_SRC
+
+    This customization will also try to search for a reusable window
+    on all visible or iconified frames as described earlier.
 * File Variables
 ** File Handling
 *** mode
@@ -11558,6 +11638,9 @@
 *** auto-save-file-name-p
     Return non-nil if given filename can be yielded by
     ~make-auto-save-file-name~.
+** Multiple Windows
+*** display-buffer-same-window
+    Display buffer in the selected window.
 * Notes
 ** Undo
    There are a few ways someone can break a sweat in Emacs and wonder
