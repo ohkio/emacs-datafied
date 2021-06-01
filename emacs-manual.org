@@ -2774,6 +2774,7 @@
      ~*Completions*~ buffer, on the other hand, is normally displayed
      in a window at the bottom of the selected frame, regardless of
      the number of windows already shown on that frame.
+*** Convenience Features for Window Handling
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4106,9 +4107,18 @@
 
     Another noteworth aspect is that ~flex~ is used as the default
     completion style.
+** Multiple Windows
 *** Temp Buffer Resize mode
     You can make sure other temporary buffers resize to the minimum
     possible height by turning on this mode.
+*** Winner mode
+    Winner mode is a global minor mode that records the changes in the
+    window configuration (i.e., how the frames are partitioned into
+    windows), so that you can undo them.
+*** Scroll All mode
+    Scroll All mode is a global minor mode that causes scrolling
+    commands and point motion commands to apply to every single
+    window.
 * Contexts
 ** anywhere
    literally anywhere
@@ -4261,7 +4271,13 @@
 ** prog
    Some modes are contextualized as "prog-modes" they are modes where
    you are usually writing in a programming language.
+** winner
+   Winner mode which helps to undo changes in window configuration
 * Commands
+  :PROPERTIES:
+  :COLUMNS:  %20ITEM(Command) %20Command(Key) %20Context %20TAGS %20Description
+  :ID:       commands
+  :END:
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
     :PROPERTIES:
@@ -6046,6 +6062,7 @@
 *** scroll-down                                                 :display:nav:
     :PROPERTIES:
     :Description: Like ~M-v~ but disobeys ~scroll-error-top-bottom~
+    :Context:  navigating
     :END:
 *** scroll-up-line                                              :display:nav:
     :PROPERTIES:
@@ -6818,6 +6835,7 @@
     :PROPERTIES:
     :Command:  M-s M->
     :Description: Go to the last occurrence of search string
+    :Context:  isearch
     :END:
 *** isearch-beginning-of-buffer                                  :search:nav:
     :PROPERTIES:
@@ -6994,6 +7012,7 @@
     :PROPERTIES:
     :Command:  . <Period>
     :Description: To replace this occurrence and exit with no more replace
+    :Context:  query-replace
     :END:
 *** QR Replace All                                              :search:edit:
     :PROPERTIES:
@@ -7359,6 +7378,7 @@
     :PROPERTIES:
     :Command:  C-$
     :Description: Check and correct spelling of all words in buffer
+    :Context:  editing
     :END:
     If the region is active, check and correct spelling of all words
     in the region instead.
@@ -7419,11 +7439,13 @@
     :PROPERTIES:
     :Command:  r
     :Description: Replace word, once, with given string
+    :Context:  ispell
     :END:
 *** ISP Query Replace                                                  :edit:
     :PROPERTIES:
     :Command:  R
     :Description: Replace word with given replacement and do ~query-replace~
+    :Context:  ispell
     :END:
 *** ISP Accept Session                                               :inform:
     :PROPERTIES:
@@ -9382,6 +9404,7 @@
     :PROPERTIES:
     :Command:  <mouse-1>
     :Description: In text area, selects window and moves point to mouse
+    :Context:  anywhere
     :END:
 *** next-window-any-frame                                  :window:nav:frame:
     :PROPERTIES:
@@ -9509,55 +9532,239 @@
     :Description: Toggle Temp Buffer Resize mode
     :Context:  multiple-windows
     :END:
+*** winner-mode                                         :undo:window:display:
+    :PROPERTIES:
+    :Description: Toggle Winner mode
+    :Context:  navigating
+    :END:
+*** winner-undo                                         :window:undo:display:
+    :PROPERTIES:
+    :Command:  C-c <left>
+    :Description: Undo last window configuration change
+    :Context:  winner
+    :END:
+*** winner-redo                                         :window:undo:display:
+    :PROPERTIES:
+    :Command:  C-c <right>
+    :Description: Redo changes to window you had just undone
+    :Context:  winner
+    :END:
+*** windmove-default-keybindings                            :window:nav:keys:
+    :PROPERTIES:
+    :Description: Binds ~windmove-up~ to ~S-<up>~ etc.
+    :Context:  anywhere
+    :END:
+    Running this command disables shift selection for those defaults.
+*** windmove-up                                                  :window:nav:
+    :PROPERTIES:
+    :Command:  S-<up>
+    :Description: Selects window immediately above current one
+    :Context:  multiple-windows
+    :END:
+    Only bound to key if you run ~windmove-default-keybindings~
+*** windmove-right                                               :window:nav:
+    :PROPERTIES:
+    :Command:  S-<right>
+    :Description: Select window immediately right of current one
+    :Context:  multiple-windows
+    :END:
+    Only bound to key if you run ~windmove-default-keybindings~
+*** windmove-down                                                :window:nav:
+    :PROPERTIES:
+    :Command:  S-<down>
+    :Description: Selects window immediately below current one
+    :Context:  multiple-windows
+    :END:
+    Only bound to key if you run ~windmove-default-keybindings~
+*** windmove-left                                                :window:nav:
+    :PROPERTIES:
+    :Command:  S-<left>
+    :Description: Select window immediately left of current one
+    :Context:  multiple-windows
+    :END:
+    Only bound to key if you run ~windmove-default-keybindings~
+*** windmove-display-default-keybindings            :window:nav:display:keys:
+    :PROPERTIES:
+    :Description: Set up keybindings for creating new window directionally
+    :Context:  anywhere
+    :END:
+*** windmove-display-up                                  :window:nav:display:
+    :PROPERTIES:
+    :Command:  S-M-<up>
+    :Description: Display next buffer in window above current one
+    :Context:  navigating
+    :END:
+    Only bound to key if you run ~windmove-display-default-keybindings~
+*** windmove-display-right                               :window:nav:display:
+    :PROPERTIES:
+    :Command:  S-M-<right>
+    :Description: Display next buffer in window to right of current one
+    :Context:  navigating
+    :END:
+    Only bound to key if you run ~windmove-display-default-keybindings~
+*** windmove-display-down                                :window:nav:display:
+    :PROPERTIES:
+    :Command:  S-M-<down>
+    :Description: Display next buffer in window below current one
+    :Context:  navigating
+    :END:
+    Only bound to key if you run ~windmove-display-default-keybindings~
+*** windmove-display-left                                :window:nav:display:
+    :PROPERTIES:
+    :Command:  S-M-<left>
+    :Description: Display next buffer in window to left of current one
+    :Context:  navigating
+    :END:
+    Only bound to key if you run ~windmove-display-default-keybindings~
+*** windmove-delete-default-keybindings                  :window:keys:delete:
+    :PROPERTIES:
+    :Description: Set up keybindings for directional window deletion
+    :Context:  anywhere
+    :END:
+*** windmove-delete-up                                        :window:delete:
+    :PROPERTIES:
+    :Command:  C-x S-<up>
+    :Description: Delete window above current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-delete-right                                     :window:delete:
+    :PROPERTIES:
+    :Command:  C-x S-<right>
+    :Description: Delete window to right of current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-delete-down                                      :window:delete:
+    :PROPERTIES:
+    :Command:  C-x S-<down>
+    :Description: Delete window below current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-delete-left                                      :window:delete:
+    :PROPERTIES:
+    :Command:  C-x S-<left>
+    :Description: Delete window to left of current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-swap-states-default-keybindings            :window:keys:display:
+    :PROPERTIES:
+    :Description: Set up keybindings for directional window swap states
+    :Context:  anywhere
+    :END:
+*** windmove-swap-states-up                                  :window:display:
+    :PROPERTIES:
+    :Command:  C-x @ s S-<up>
+    :Description: Swap states with window above from current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-swap-states-right                               :window:display:
+    :PROPERTIES:
+    :Command:  C-x @ s S-<right>
+    :Description: Swap states with window to right of current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-swap-states-down                                :window:display:
+    :PROPERTIES:
+    :Command:  C-x @ s S-<down>
+    :Description: Swap states with window below from current one
+    :Context:  multiple-windows
+    :END:
+*** windmove-swap-states-left                                :window:display:
+    :PROPERTIES:
+    :Command:  C-x @ s S-<left>
+    :Description: Swap states with window to left of current one
+    :Context:  multiple-windows
+    :END:
+*** scroll-all-mode                                              :window:nav:
+    :PROPERTIES:
+    :Description: Toggle Scroll All mode
+    :Context:  multiple-windows
+    :END:
 * Variables
+  :PROPERTIES:
+  :COLUMNS:  %20ITEM(Var) %20TAGS(Tags) %20Description
+  :ID:       vars
+  :END:
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
     when invoking ~menu-bar-open~ invoke ~tmm-menubar~ instead.
 ** Entering Emacs
 *** inhibit-startup-screen                                   :startup:buffer:
+    :PROPERTIES:
+    :Description: Non-nil inhibits the startup screen.
+    :END:
     If one or more files were specified on the command line, Emacs
     simply displays those files; otherwise, it displays a buffer named
     ~*scratch*~, which can be used to evaluate Emacs Lisp expressions
     interactively.
 *** initial-buffer-choice                                    :startup:buffer:
+    :PROPERTIES:
+    :Description: Buffer to show after starting Emacs.
+    :END:
     Force Emacs to display a file or directory at startup, according
     to filename, directory, or zero (0) argument Lisp Function that
     returns a buffer.
 ** Exiting Emacs
 *** confirm-kill-emacs                                           :kill:frame:
+    :PROPERTIES:
+    :Description: How to ask for confirmation when leaving Emacs.
+    :END:
     function to run before killing Emacs. If result of function is
     non-nil, the session is killed, otherwise Emacs continues to run.
 *** confirm-kill-processes                                             :kill:
+    :PROPERTIES:
+    :Description: Non-nil if Emacs should confirm killing processes on exit.
+    :END:
     If nil, does not ask for confirmation before killing sub-processes
     started by Emacs. ~t~ by default.
 ** Basic Editing Commands
 *** read-quoted-char-radix                                        :edit:char:
+    :PROPERTIES:
+    :Description: Radix for C-q and other uses of ‘read-quoted-char’.
+    :END:
     To use decimal or hexadecimal when running ~quoted-insert~
     command.
 *** line-move-visual                                             :nav:window:
+    :PROPERTIES:
+    :Description: When non-nil, ‘line-move’ moves point by visual lines.
+    :END:
     You can force navigating up and down by line to move according to
     logical lines (i.e., according to the text lines in the buffer) by
     setting this variable to ~nil~.
 *** track-eol                                                    :nav:buffer:
+    :PROPERTIES:
+    :Description: Non-nil means vertical motion starting at end of line keeps to ends of lines.
+    :END:
     When ~line-move-visual~ is nil, you can set this variable to a
     non-nil value. Then ~C-n~ and ~C-p~, when starting at the end of
     the logical line, move to the end of the next logical
     line. Default is ~nil~.
 *** next-line-add-newlines                                  :nav:edit:buffer:
+    :PROPERTIES:
+    :Description: If non-nil, ‘next-line’ inserts newline to avoid ‘end of buffer’ error.
+    :END:
     If you set this variable to a non-nil value, C-n on the last line
     of a buffer creates an additional line at the end and moves down
     into it.
 ** The Minibuffer
 *** minibuffer-eldef-shorten-default                    :buffer:display:echo:
+    :PROPERTIES:
+    :Description: If non-nil, shorten "(default ...)" to "[...]" in minibuffer prompts.
+    :END:
     with a non-nil value, the default argument is displayed as
     ~[default-arg]~ instead of ~(default /default-arg/)~, saving some
     screen space.
 *** insert-default-directory                            :buffer:display:echo:
+    :PROPERTIES:
+    :Description: Non-nil means when reading a filename start with default dir in minibuffer.
+    :END:
     To prevent Emacs from inserting the default directory when reading
     file names, change this variable to ~nil~. Relative file name
     arguments are still interpreted based on the same default
     directory.
 *** resize-mini-windows                                 :buffer:display:echo:
+    :PROPERTIES:
+    :Description: How to resize mini-windows (the minibuffer and the echo area).
+    :END:
     There are three possible values
     - nil :: Do not resize minibuffer in Echo Area.
     - grow-only :: Grow minibuffer when there is enough text to be
@@ -9565,16 +9772,25 @@
     - t :: Grow minibuffer when there is enough text to be displayed
       on a new line. Shrink when text can be displayed on fewer lines
 *** max-mini-window-height                              :buffer:display:echo:
+    :PROPERTIES:
+    :Description: Maximum height for resizing mini-windows (the minibuffer and the echo area).
+    :END:
     This variable controls the maximum height for resizing the
     minibuffer window. A floating-point number specifies a fraction of
     the frame's height; an integer specifies the maximum number of
     lines; ~nil~ means do not resize the minibuffer window
     automatically. The default value is ~0.25~.
 *** enable-recursive-minibuffers                        :buffer:command:echo:
+    :PROPERTIES:
+    :Description: Non-nil means to allow minibuffer commands while in the minibuffer.
+    :END:
     Emacs normally disallows most commands that use the minibuffer
     while the minibuffer is active. To allow such commands in the
     minibuffer, set this variable to ~t~.
 *** confirm-nonexistent-file-or-buffer                  :buffer:command:echo:
+    :PROPERTIES:
+    :Description: Whether confirmation is requested before visiting a new file or buffer.
+    :END:
     Changes behavior of "Permissive Completion with Confirmation"
     described in [[Completion Exit]]. Three possible values.
     - ~after-completion~ :: Default value. Behaves exactly as
@@ -9583,18 +9799,30 @@
       "Permissive Completion"
     - [other] :: Always asks for confirmation.
 *** completion-styles                                         :list:complete:
+    :PROPERTIES:
+    :Description: List of completion styles to use.
+    :END:
     See current list and list options defined in:
     [[How Completion Alternatives Are Chosen]]
 *** read-file-name-completion-ignore-case        :files:complete:buffer:echo:
+    :PROPERTIES:
+    :Description: Non-nil means when reading a file name completion ignores case.
+    :END:
     When completing file names, case differences are ignored if this
     variable is non-nil. The default value is nil on systems that have
     case-sensitive file-names, such as GNU/Linux; it is non-nil on
     systems that have case-insensitive file-names, such as Microsoft
     Windows.
 *** read-buffer-completion-ignore-case                 :buffer:complete:echo:
+    :PROPERTIES:
+    :Description: Non-nil means completion ignores case when reading a buffer name.
+    :END:
     When completing buffer names, case differences are ignored if this
     variable is non-nil; the default is nil.
 *** completion-ignored-extensions           :files:complete:list:buffer:echo:
+    :PROPERTIES:
+    :Description: Completion ignores file names ending in any string in this list.
+    :END:
     When completing file names, Emacs usually omits certain
     alternatives that are considered unlikely to be chosen, as
     determined by the values on this list variable. If /all/ possible
@@ -9602,6 +9830,9 @@
     ignored. Emacs disregards this variable when showing completion
     alternatives in the completion list.
 *** completion-auto-help                  :complete:inform:helps:buffer:echo:
+    :PROPERTIES:
+    :Description: Non-nil means automatically provide help for invalid completion input.
+    :END:
     If this variable is set to ~nil~, the completion commands never
     display the completion list buffer; you must type ~?~ to display
     the list. If the value is ~lazy~, Emacs only shows the completion
@@ -9609,6 +9840,9 @@
     there is nothing to complete, the first <TAB> echos 'Next char not
     unique'; the second <TAB> shows the completion list buffer.
 *** completion-cycle-threshold            :complete:inform:helps:buffer:echo:
+    :PROPERTIES:
+    :Description: Number of completion candidates below which cycling is used.
+    :END:
     If this variable is non-nil, completion commands can cycle through
     completion alternatives. Normally when the variable is ~nil~, if
     there is more than one completion alternative for the text in the
@@ -9621,22 +9855,37 @@
     number value /n/, completion commands switch to this cycling
     behavior only when there are /n/ or fewer alternatives.
 *** history-length                                         :buffer:hist:echo:
+    :PROPERTIES:
+    :Description: Maximum length of history lists before truncation takes place.
+    :END:
     This variable specifies the maximum length of a minibuffer history
     list; adding a new element deletes the oldest element if the list
     gets too long. If the value is ~t~, there is no maximum length.
 *** history-delete-duplicates                                          :hist:
+    :PROPERTIES:
+    :Description: Non-nil means to delete duplicates in history.
+    :END:
     This variable specifies whether to delete duplicates in
     history. If it is non-nil, adding a new element deletes from the
     list all other elements that are equal to it. The default is
     ~nil~.
 *** isearch-resume-in-command-history                          :command:hist:
+    :PROPERTIES:
+    :Description: If non-nil, ‘isearch-resume’ commands are added to the command history.
+    :END:
     You can make incremental search commands appear in the history by
     setting this variable to a non-nil value.
 *** command-history                                       :command:hist:list:
+    :PROPERTIES:
+    :Description: List of recent commands that read arguments from terminal.
+    :END:
     The list of previous minibuffer-using commands is stored as a Lisp
     list in this variable.
 ** Running Commands by Name
 *** suggest-key-bindings                                :inform:command:keys:
+    :PROPERTIES:
+    :Description: Non-nil means show the equivalent key-binding when M-x command has one.
+    :END:
     When the command you run with ~M-x~ has a key binding, Emacs
     mentions this in the echo area after running the command. You can
     turn off these messages by setting this variable to ~nil~. The
@@ -9644,6 +9893,9 @@
     binding for that many seconds before removing it from display. The
     default value is ~2~.
 *** extended-command-suggest-shorter                         :inform:command:
+    :PROPERTIES:
+    :Description: If non-nil, show a shorter M-x invocation when there is one.
+    :END:
     Commands that don't have key bindings can still be invoked after
     typing less than their full name at the ~M-x~ prompt. Emacs
     mentions such shorthands in the echo area if they are
@@ -9652,93 +9904,159 @@
     [[suggest-key-bindings]] is ~nil~.
 ** Help
 *** apropos-do-all                                           :search:command:
+    :PROPERTIES:
+    :Description: Non-nil means apropos commands will search more extensively.
+    :END:
     If this variable is non-nil, most apropos commands behave as if
     they had been given a prefix argument. There is one exception:
     ~apropos-variable~ without a prefix argument will always search
     for all variables, no matter what the value of this variable is.
 *** apropos-sort-by-scores                                   :search:display:
+    :PROPERTIES:
+    :Description: Non-nil means sort matches by scores; best match is shown first.
+    :END:
     If this variable is non-nil, apropos commands try to guess the
     relevance of each result, and display the most relevant ones
     first. This variable does not affect how ~apropos-documentation~
     is sorted.
 *** apropos-documentation-sort-by-scores                     :search:display:
+    :PROPERTIES:
+    :Description: Non-nil means sort matches by scores; best match is shown first.
+    :END:
     To list the results of ~apropos-documentation~ in alphabetical
     order, change this variable to nil.
 *** help-at-pt-display-when-idle                   :word:inform:display:echo:
+    :PROPERTIES:
+    :Description: Automatically show local help on point-over.
+    :END:
     To display help text automatically whenever it is available at
     point, set this variable to t.
 ** The Mark and the Region
 *** highlight-nonselected-windows                     :display:region:window:
+    :PROPERTIES:
+    :Description: Non-nil means highlight region even in nonselected windows.
+    :END:
     Ordinarily, only the selected window highlights its region;
     however, if this variable is non-nil, each window highlights its
     own region.
 *** use-empty-active-region                                  :region:command:
+    :PROPERTIES:
+    :Description: Whether "region-aware" commands should act on empty regions.
+    :END:
     If you want region specific commands to operate on the empty
     region, change this variable to ~t~.
 *** delete-active-region                            :region:edit:delete:kill:
+    :PROPERTIES:
+    :Description: Whether single-char deletion commands delete an active region.
+    :END:
     If you change this variable to ~nil~, then ~<DEL>~ and ~<Delete>~
     don't act differently when the mark is active. If you change the
     value to ~kill~, these commands kill the region instead of
     deleting it.
 *** mark-even-if-inactive                                    :region:command:
+    :PROPERTIES:
+    :Description: Non-nil means you can use the mark even when inactive.
+    :END:
     By default, if the mark is inactive, region only commands operate
     on the inactive region - that is, on the text between point and
     the position at which the mark was last set. To disable this
     behavior, change this variable to ~nil~. Then these commands will
     instead signal an error if the mark is inactive.
 *** set-mark-command-repeat-pop                        :nav:region:keys:hist:
+    :PROPERTIES:
+    :Description: Non-nil means repeating C-SPC after popping mark pops it again.
+    :END:
     If you set this variable to non-nil, then immediately after you
     type ~C-u C-<SPC>~, you can type ~C-<SPC>~ instead of
     ~C-u C-<SPC>~ to cycle through the mark ring. By default,
     ~set-mark-command-repeat-pop~ is ~nil~.
 *** mark-ring-max                                               :region:hist:
+    :PROPERTIES:
+    :Description: Maximum size of mark ring.  Start discarding off end if gets this big.
+    :END:
     This variable specifies the maximum number of entries to keep in
     the mark ring. This defaults to 16 entries. If that many entries
     exist and another one is pushed, the earliest one in the list is
     discarded. Repeating ~C-u C-<SPC>~ cycles through the positions
     currently in the ring.
 *** global-mark-ring-max                                        :region:hist:
+    :PROPERTIES:
+    :Description: Maximum size of global mark ring.  Start discarding off end if gets this big.
+    :END:
     The length of the global mark ring is controlled by this variable,
     and is 16 by default.
 *** shift-select-mode                                       :nav:region:mode:
+    :PROPERTIES:
+    :Description: When non-nil, shifted motion keys activate the mark momentarily.
+    :END:
     Variable determining whether or not Shift Select mode is active/on
     or not. To turn off set this variable to ~nil~.
 ** Killing and Moving Text
 *** kill-whole-line                                        :kill:delete:line:
+    :PROPERTIES:
+    :Description: If non-nil, ‘kill-line’ with no arg at start of line kills the whole line.
+    :END:
     If this variable is non-nil, ~C-k~ at the very beginning of a line
     kills the entire line including the following newline. The
     variable is normally ~nil~.
 *** kill-read-only-ok                                                  :kill:
+    :PROPERTIES:
+    :Description: Non-nil means don’t signal an error for killing read-only text.
+    :END:
     Normally, using a kill command in a read only buffer causes Emacs
     to beep and display an error message, but if you set this variable
     to a non-nil value, they just print a message in the echo area to
     explain why the text has not been erased.
 *** kill-do-not-save-duplicates                                   :kill:hist:
+    :PROPERTIES:
+    :Description: If non-nil, don’t add a string to ‘kill-ring’ if it duplicates the last one.
+    :END:
     If you change this variable to a non-nil value, identical
     subsequent kills yield a single kill-ring entry, without
     duplication.
 *** kill-ring-max                                                 :kill:hist:
+    :PROPERTIES:
+    :Description: Maximum length of kill ring before oldest elements are thrown away.
+    :END:
     The maximum number of entries in the kill ring is controlled by
     this variable. The default is 60.
 *** kill-ring                                                     :kill:hist:
+    :PROPERTIES:
+    :Description: List of killed text sequences.
+    :END:
     The actual contents of the kill ring are stored in this variable.
 *** x-select-request-type                                       :kill:coding:
+    :PROPERTIES:
+    :Description: Data type request for X selection.
+    :END:
     You can request a different data type to copy to clipboard by
     customizing this variable
 *** save-interprogram-paste-before-kill                           :kill:hist:
+    :PROPERTIES:
+    :Description: Save existing clipboard text into kill ring before replacing it.
+    :END:
     Optionally, you can change this variable to ~t~. Then Emacs will
     first save the clipboard to its kill ring before using a kill
     command, preventing you from losing the old clipboard data - at
     the risk of high memory consumption if that data turns out to be
     large.
 *** yank-pop-change-selection                                     :kill:hist:
+    :PROPERTIES:
+    :Description: Whether rotating the kill ring changes the window system selection.
+    :END:
     Normally rotating the kill ring with ~M-y~ (~yank-pop~) does not
     alter the clipboard. However, if you change this variable to ~t~,
     then ~M-y~ saves the new yank to the clipboard.
 *** select-enable-clipboard                                            :kill:
+    :PROPERTIES:
+    :Description: Non-nil means cutting and pasting uses the clipboard.
+    :END:
     To prevent kill and yank commands from accessing the clipboard,
     change this variable to ~nil~.
 *** x-select-enable-clipboard-manager                                  :kill:
+    :PROPERTIES:
+    :Description: Whether to enable X clipboard manager support.
+    :END:
     If you exit Emacs while it is the current "owner" of the clipboard
     data, and there is a clipboard manager running, Emacs transfers
     the clipboard data to the clipboard manager so that it is not
@@ -9746,23 +10064,38 @@
     Emacs; if you wish to prevent Emacs from transferring data to the
     clipboard manager, change this variable to ~nil~.
 *** select-enable-clipboard                                            :kill:
+    :PROPERTIES:
+    :Description: Non-nil means cutting and pasting uses the clipboard.
+    :END:
     Non-nil means cutting and pasting uses the clipboard. This can be
     in addition to, but in preference to, the primary selection, if
     applicable.
 *** select-enable-primary                                              :kill:
+    :PROPERTIES:
+    :Description: Non-nil means cutting and pasting uses the primary selection.
+    :END:
     Non-nil means cutting and pasting uses the primary selection. The
     existence of a primary selection depends on the underlying GUI you
     use. E.g. it doesn't exist under MS-Windows.
 *** mouse-drag-copy-region                                      :kill:region:
+    :PROPERTIES:
+    :Description: If non-nil, copy to kill-ring upon mouse adjustments of the region.
+    :END:
     If non-nil, copy to kill-ring upon mouse adjustments of the
     region.
 *** select-active-regions                                            :region:
+    :PROPERTIES:
+    :Description: If non-nil, an active region automatically sets the primary selection.
+    :END:
     If you change this variable to ~only~, Emacs saves only temporarily
     active regions to the primary selection, i.e., those made with the
     mouse or with shift selection. If you change this variable to
     ~nil~, Emacs avoids saving active regions to the primary selection
     entirely.
 *** mouse-yank-at-point                                                :edit:
+    :PROPERTIES:
+    :Description: If non-nil, mouse yank commands yank at point instead of at click.
+    :END:
     If this variable is non-nil, ~M-mouse-2~ yanks at point. Then it
     does not matter precisely where you click, or even which of the
     frame's windows you click on.
@@ -9775,11 +10108,17 @@
     variable to ~nil~.
 ** Registers
 *** register-preview-delay                     :register:command:echo:window:
+    :PROPERTIES:
+    :Description: If non-nil, time to wait in seconds before popping up a preview window.
+    :END:
     All commands that prompt for a register will display a preview
     window that lists the existing registers (if there are any) after
     a short delay. To change the length of the delay, customize this
     variable. To prevent this display, set this variable to ~nil~.
 *** register-separator                                             :register:
+    :PROPERTIES:
+    :Description: Register containing the text to put between collected texts, or nil if none.
+    :END:
     This variable stores which register should be considered the
     ~register-separator~ register and then will use the contents of
     this register to put in between text inserted into any other
@@ -9789,6 +10128,9 @@
     When this variable is set to ~nil~ no extra text will be put in
     between text when using the previously mentioned commands.
 *** bookmark-save-flag                                     :files:nav:buffer:
+    :PROPERTIES:
+    :Description: Controls when Emacs saves bookmarks to a file.
+    :END:
     If you set this variable to ~1~, each command that sets a bookmark
     will also save your bookmarks; this way, you don't lose any
     bookmark values even if Emacs crashes. The value, if a number,
@@ -9797,17 +10139,29 @@
     bookmarks if you explicitly use ~bookmark-save~. Default value is
     ~t~ which means bookmarks save when Emacs is killed.
 *** bookmark-default-file                                  :files:nav:buffer:
+    :PROPERTIES:
+    :Description: File in which to save bookmarks by default.
+    :END:
     The value of this variable specifies the file in which to save
     bookmarks by default.
 *** bookmark-search-size                                    :buffer:hist:nav:
+    :PROPERTIES:
+    :Description: Length of the context strings recorded on either side of a bookmark.
+    :END:
     This variable says how many characters of context to record on
     each side of the bookmark's position.
 ** Controlling the Display
 *** next-screen-context-lines                                   :display:nav:
+    :PROPERTIES:
+    :Description: Number of lines of continuity when scrolling by screenfuls.
+    :END:
     The number of lines of overlap left by the commands
     ~scroll-up-command~ and ~scroll-down-command~ is controlled by
     this variable, whose default value is 2.
 *** scroll-error-top-bottom                                     :display:nav:
+    :PROPERTIES:
+    :Description: Move point to top/bottom of buffer before signaling a scrolling error.
+    :END:
     By default, the commands ~scroll-up-command~ and
     ~scroll-down-command~ signal an error (by beeping or flashing the
     screen) if no more scrolling is possible, because the window has
@@ -9816,6 +10170,9 @@
     possible position. If point is already there, the commands signal
     an error.
 *** scroll-preserve-screen-position                             :display:nav:
+    :PROPERTIES:
+    :Description: Controls if scroll commands move point to keep its screen position unchanged.
+    :END:
     If the value is ~t~, Emacs adjusts point to keep the cursor at the
     same screen position whenever a scroll command moves it
     off-window, rather than moving it to the topmost or bottom-most
@@ -9826,6 +10183,9 @@
     wheel; in general, it affects any command that has a non-nil
     ~scroll-command~ property.
 *** recenter-positions                      :list:window:display:nav:command:
+    :PROPERTIES:
+    :Description: Cycling order for ‘recenter-top-bottom’.
+    :END:
     You can change the cycling order of the command
     ~recenter-top-bottom~ by customizing this list variable. Each list
     element should be the symbol ~top~, ~middle~, or ~bottom~, or a
@@ -9835,11 +10195,17 @@
     default, ~(middle top bottom)~, is the cycling order described in
     the documentation of ~recenter-top-bottom~.
 *** recenter-redisplay                                       :display:window:
+    :PROPERTIES:
+    :Description: Non-nil means ‘recenter’ redraws entire frame.
+    :END:
     If this variable has a non-nil value, each invocation of
     ~recenter-top-bottom~ also clears and redisplays the screen; The
     special value ~tty~ (the default) says to do this on text-terminal
     frames only.
 *** scroll-conservatively                                    :display:window:
+    :PROPERTIES:
+    :Description: Scroll up to this many lines, to bring point back on screen.
+    :END:
     If you set this variable to a small number /n/, then moving point
     just a little off screen (no more than /n/ lines) causes Emacs to
     scroll just enough to bring point back on screen; If doing so
@@ -9851,12 +10217,18 @@
     the window depending on the scroll direction. By default, the
     variable is 0, which means to always center point in the window.
 *** scroll-step                                              :display:window:
+    :PROPERTIES:
+    :Description: The number of lines to try scrolling a window by when point moves out.
+    :END:
     The value of this valuable determines the number of lines by which
     to automatically scroll, when point moves off the screen. If
     scrolling by that number of lines fails to bring point back into
     view, point is centered instead. The default value is zero, which
     (by default) causes point to always be centered after scrolling.
 *** scroll-up-aggressively                                   :display:window:
+    :PROPERTIES:
+    :Description: How far to scroll windows upward.
+    :END:
     This variable directly specifies the vertical position of point
     after scrolling. The value of this variable should be either ~nil~
     (the default), or a floating point number /f/ between 0 and 1. The
@@ -9867,6 +10239,9 @@
     text is brought into view. The default value, ~nil~, is equivalent
     to 0.5.
 *** scroll-down-aggressively                                 :display:window:
+    :PROPERTIES:
+    :Description: How far to scroll windows downward.
+    :END:
     This variable directly specifies the vertical position of point
     after scrolling. The value of this variable should be either ~nil~
     (the default), or a floating point number /f/ between 0 and 1. The
@@ -9876,6 +10251,9 @@
     /f/ means more aggressive scrolling: more new text is brought into
     view. The default value, ~nil~, is equivalent to 0.5.
 *** scroll-margin                                            :display:window:
+    :PROPERTIES:
+    :Description: Number of lines of margin at the top and bottom of a window.
+    :END:
     This variable restricts how close point can come to the top of
     bottom of a window (even if aggressive scrolling specifies a
     fraction /f/ that is larger than the window portion between the
@@ -9885,10 +10263,16 @@
     variable is 0. The effective margin size is limited to a quarter
     of the window height by default.
 *** maximum-scroll-margin                                    :display:window:
+    :PROPERTIES:
+    :Description: Maximum effective value of ‘scroll-margin’.
+    :END:
     The effective margin size is limited to a quarter of the window
     height by default, but this limit can be increased up to half (or
     decreased down to zero) by customizing this variable.
 *** auto-hscroll-mode                                        :display:window:
+    :PROPERTIES:
+    :Description: Allow or disallow automatic horizontal scrolling of windows.
+    :END:
     By default, all the lines in the window are scrolled horizontally
     together, but if you set this variable to the special value of
     ~current-line~, only the line showing the cursor will be
@@ -9898,12 +10282,18 @@
     screen, the cursor disappears to indicate that. (On text
     terminals, the cursor is left at the edge instead.)
 *** hscroll-margin                                           :display:window:
+    :PROPERTIES:
+    :Description: How many columns away from the window edge point is allowed to get
+    :END:
     This variable controlls how close point can get to the window's
     left and right edges before automatic scrolling occurs. It is
     measured in columns. For example, if the value is 5, then moving
     point within 5 columns of an edge causes horizontal scrolling away
     from that edge.
 *** hscroll-step                                             :display:window:
+    :PROPERTIES:
+    :Description: How many columns to scroll the window when point gets too close to the edge.
+    :END:
     This variable determines how many columns to scroll the window
     when point gets too close to the edge. Zero, the default value,
     means to center point horizontally within the window. A positive
@@ -9911,6 +10301,9 @@
     floating-point number (whose value should be between 0 and 1)
     specifies the fraction of the window's width to scroll by.
 *** frame-background-mode                                      :display:char:
+    :PROPERTIES:
+    :Description: The brightness of the background.
+    :END:
     By default, Emacs automatically chooses which set of face
     attributes to display on each frame, based on the frame's current
     background color. However you can override this by giving this
@@ -9919,16 +10312,28 @@
     ~light~ makes it treat all frames as if they have a light
     background.
 *** list-colors-sort                                   :display:helps:window:
+    :PROPERTIES:
+    :Description: Color sort order for ‘list-colors-display’.
+    :END:
     To control the order in which colors are shown with the command
     ~list-colors-display~, customize this variable.
 *** text-scale-mode-step                                            :display:
+    :PROPERTIES:
+    :Description: Scale factor used by ‘text-scale-mode’.
+    :END:
     Each call to ~text-scale-adjust~ scales the text height by a
     factor of 1.2; to change this factor, customize this variable.
 *** global-font-lock-mode                       :buffer:display:mode:startup:
+    :PROPERTIES:
+    :Description: Non-nil if Global Font-Lock mode is enabled.
+    :END:
     To impose the setting where Font Lock mode is either enabled or
     disabled in all buffers for future Emacs sessions, customize this
     variable.
 *** font-lock-maximum-decoration                               :display:mode:
+    :PROPERTIES:
+    :Description: Maximum decoration level for fontification.
+    :END:
     You can customize this variable to alter the amount of
     fontification applied by Font Lock mode, for major modes that
     support this feature, the value should be a number (with 1
@@ -9949,21 +10354,36 @@
     automatically choose the next face from the default list without
     prompting.
 *** fringe-mode                                   :window:frame:mode:display:
+    :PROPERTIES:
+    :Description: Default appearance of fringes on all frames.
+    :END:
     You can make your changes to the fringes permanent by customizing
     this variable. Such as setting the width of the fringes.
 *** overflow-newline-into-fringe                             :display:window:
+    :PROPERTIES:
+    :Description: Non-nil means that newline may flow into the right fringe.
+    :END:
     By default set to a non nil value. This means if the current line
     is exactly as wide as the window and point is at the end of the
     line then the fringe will draw the cursor. To disable this, change
     this variable to ~nil~; this causes Emacs to continue or truncate
     lines that are exactly as wide as the window.
 *** display-fill-column-indicator                     :display:window:buffer:
+    :PROPERTIES:
+    :Description: Non-nil means display the fill column indicator.
+    :END:
     This is a buffer-local variable used to activate the fill column
     indicator.
 *** display-fill-column-indicator-character      :display:window:buffer:char:
+    :PROPERTIES:
+    :Description: Character to draw the indicator when ‘display-fill-column-indicator’ is non-nil.
+    :END:
     This is a buffer-local variable used to control how the fill
     column indicator looks.
 *** display-fill-column-indicator-column              :display:window:buffer:
+    :PROPERTIES:
+    :Description: Column for indicator when ‘display-fill-column-indicator’ is non-nil.
+    :END:
     Specifies the column number where the indicator should be set. It
     can take positive numerical values for the column or the special
     value ~t~ which means that the variable ~fill-column~ will be
@@ -9971,6 +10391,9 @@
 
     Any other value disables the indicator. The default value is ~t~.
 *** indicate-buffer-boundaries                                :display:frame:
+    :PROPERTIES:
+    :Description: Visually indicate buffer boundaries and scrolling.
+    :END:
     This is a buffer-local variable that controls how the buffer
     boundaries and window scrolling is indicated in the fringes. If
     the value is ~left~ or ~right~, both angle and arrow bitmaps are
@@ -9989,6 +10412,9 @@
     bitmaps in the left fringe, but no arrow bitmaps, use ~((top
     . left) (bottom . left))~.
 *** show-trailing-whitespace                                        :display:
+    :PROPERTIES:
+    :Description: Non-nil means highlight trailing whitespace.
+    :END:
     You can make trailing whitespace at the end of a line visible by
     setting this buffer-local variable to ~t~.
 
@@ -9999,11 +10425,17 @@
     the location of point is enough to show you that the spaces are
     present.
 *** delete-trailing-lines                               :edit:command:buffer:
+    :PROPERTIES:
+    :Description: If non-nil, M-x delete-trailing-whitespace deletes trailing lines.
+    :END:
     Normally when using the command ~delete-trailing-whitespace~ the
     command deletes all extra space at the end of each line in the
     buffer, and all empty lines at the end of the buffer; to ignore
     the latter, change this variable to ~nil~.
 *** indicate-empty-lines                              :display:window:buffer:
+    :PROPERTIES:
+    :Description: Visually indicate empty lines after the buffer end.
+    :END:
     On graphical displays, Emacs can indicate unused lines at the end
     of the window with a small image in the left fringe. The image
     appears for screen lines that do not correspond to any buffer
@@ -10021,41 +10453,68 @@
     When highlighting ~big-indent~ customize this regular expression
     to change when to highlight a big indent at the start of a line.
 *** selective-display-ellipses                          :display:buffer:line:
+    :PROPERTIES:
+    :Description: Non-nil means display ... on previous line when a line is invisible.
+    :END:
     If you set this variable to ~nil~, when you have hidden lines
     using the command ~set-selective-display~, then the three dots do
     not appear at the end of a line that precedes hidden lines. There
     is no visible indication of the hidden lines. This variable
     becomes local automatically when set.
 *** column-number-indicator-zero-based                       :display:inform:
+    :PROPERTIES:
+    :Description: When non-nil, mode line displays column numbers zero-based.
+    :END:
     When Column Number mode is enabled, if you would prefer for the
     displayed column number to count from one, you may set this
     variable to ~nil~.
 *** line-number-display-limit                           :line:display:inform:
+    :PROPERTIES:
+    :Description: Maximum buffer size for which line number should be displayed.
+    :END:
     When the number of characters in a file is larger than the integer
     in this variable the mode line stops trying to compute the line
     number in a file. To remove this limit, set this variable to
     ~nil~.
 *** line-number-display-limit-width                     :line:display:inform:
+    :PROPERTIES:
+    :Description: Maximum line width (in characters) for line number display.
+    :END:
     Line-number computation can also be slow if the lines in the
     buffer are too long. For this reason, Emacs doesn't display line
     numbers if the average width, in characters, of lines near point
     is larger than the value of this variable. The default value is
     200 characters.
 *** display-time-24hr-format                                 :display:inform:
+    :PROPERTIES:
+    :Description: Non-nil indicates time should be displayed as hh:mm, 0 <= hh <= 23.
+    :END:
     If you have Display Time mode enabled and what the time to appear
     in 24 hour mode, set this variable to ~t~.
 *** display-time-use-mail-icon                               :display:inform:
+    :PROPERTIES:
+    :Description: Non-nil means use an icon as mail indicator on a graphic display.
+    :END:
     If you have Display Time mode enabled, and you want the mail
     indicator to be an icon instead of the word '~Mail~', then you can
     customize this variable
 *** display-time-mail-file                             :display:inform:files:
+    :PROPERTIES:
+    :Description: File name of mail inbox file, for indicating existence of new mail.
+    :END:
     Use this variable to specify the mail file to check when Display
     Time mode is enabled.
 *** display-time-mail-directory                        :display:inform:files:
+    :PROPERTIES:
+    :Description: Name of mail inbox directory, for indicating existence of new mail.
+    :END:
     Use this variable to specify the directory to check for incoming
     mail (any nonempty regular file in the directory is considered to
     be newly arrived mail).
 *** display-battery-mode                                :display:inform:mode:
+    :PROPERTIES:
+    :Description: Non-nil if Display-Battery mode is enabled.
+    :END:
     Set whether Display Battery mode is enabled or not using this
     mode.
 *** battery-mode-line-format                                 :display:inform:
@@ -10064,30 +10523,51 @@
     it usually shows the current battery charge as a percentage of the
     total charge.
 *** mode-line-in-non-selected-windows                               :display:
+    :PROPERTIES:
+    :Description: Non-nil means to use ‘mode-line-inactive’ face in non-selected windows.
+    :END:
     You can disable use of the ~mode-line-inactive~ face by setting
     this variable to ~nil~; then all mode lines are displayed in the
     ~mode-line~ face.
 *** eol-mnemonic-unix                                          :display:char:
+    :PROPERTIES:
+    :Description: String displayed in mode line for UNIX-like (LF) end-of-line format.
+    :END:
     This variable determines what character is used to indicate in the
     mode line whether the current file uses a unix style end of line
     encoding.
 *** eol-mnemonic-mac                                           :display:char:
+    :PROPERTIES:
+    :Description: String displayed in mode line for MAC-like (CR) end-of-line format.
+    :END:
     This variable determines what character is used to indicate in the
     mode line whether the current file uses a mac style end of line
     encoding.
 *** eol-mnemonic-undecided                                     :display:char:
+    :PROPERTIES:
+    :Description: String displayed in mode line when end-of-line format is not yet determined.
+    :END:
     This variable determines what character is used to indicate in the
     mode line whether the current file uses a undecided style end of
     line encoding.
 *** tab-width                                                  :display:char:
+    :PROPERTIES:
+    :Description: Distance between tab stops (for display of tab characters), in columns.
+    :END:
     The number of spaces per tab is controlled by this buffer-local
     variable, which must have an integer value between 1 and 1000,
     inclusive.
 *** ctl-arrow                                           :display:char:coding:
+    :PROPERTIES:
+    :Description: Non-nil means display control chars with uparrow.
+    :END:
     If you change this buffer-local variable to ~nil~, the ASCII
     control characters are also displayed as octal escape sequences
     instead of caret escape sequences.
 *** nobreak-char-display                                :display:char:coding:
+    :PROPERTIES:
+    :Description: Control highlighting of non-ASCII space and hyphen chars.
+    :END:
     By default Emacs will make it so that any character that looks
     like an ordinary ASCII space or hyphen, but is not coded as such
     is assigned a special face (~nobreak-space~ and ~nobreak-hyphen~
@@ -10096,21 +10576,33 @@
     displays such characters as a highlighted backslash followed by a
     space or hyphen.
 *** glyphless-char-display-control                      :display:char:coding:
+    :PROPERTIES:
+    :Description: List of directives to control display of glyphless characters.
+    :END:
     Glyphless characters are normally displayed as boxes containing
     the hexadecimal character code or, on text terminals as question
     signs. You can control the display method by customizing this
     variable.
 *** text-quoting-style                                         :display:char:
+    :PROPERTIES:
+    :Description: Style to use for single quotes in help and messages.
+    :END:
     Normally, if Emacs can display the curved quotes '~‘~' and '~’~'
     then it will translate the ASCII quotes ('~`~' and '~'~'), when
     they appear in messages and help texts, to these curved
     quotes. You can influence or inhibit this translation by
     customizing this variable.
 *** visible-cursor                                              :display:nav:
+    :PROPERTIES:
+    :Description: Non-nil means to make the cursor very visible.
+    :END:
     By default, Emacs uses the very visible cursor when it Emacs is
     being run via a text terminal. If this variable is ~nil~ when
     Emacs starts or resumes, then it uses the normal cursor.
 *** cursor-type                                                 :display:nav:
+    :PROPERTIES:
+    :Description: Cursor to use when this buffer is in the selected window.
+    :END:
     To change the shape of the cursor in graphical displays, customize
     this buffer-local variable; possible values are:
     - ~box~ :: (the default)
@@ -10121,15 +10613,24 @@
     - ~(hbar . n)~ :: a horizontal bar /n/ pixels tall
     - ~nil~ :: no cursor at all
 *** blink-cursor-blinks                                         :display:nav:
+    :PROPERTIES:
+    :Description: How many times to blink before using a solid cursor on NS, X, and MS-Windows.
+    :END:
     By default, the cursor stops blinking after 10 blinks. You can
     customize this variable to control that: its value says how many
     times to blink without input before stopping. Setting that
     variable to a zero or negative value will make the cursor blink
     forever.
 *** blink-cursor-mode                                           :display:nav:
+    :PROPERTIES:
+    :Description: Non-nil if Blink-Cursor mode is enabled.
+    :END:
     To disable cursor blinking altogether, change this variable to
     ~nil~.
 *** blink-cursor-alist                                     :display:nav:list:
+    :PROPERTIES:
+    :Description: Alist specifying how to blink the cursor off.
+    :END:
     You can change how the cursor looks when it blinks off by
     customizing this list variable. Each element in the list should
     have the form ~(on-type . off-type)~; this means that if the
@@ -10137,25 +10638,40 @@
     /on-type/ is one of the cursor types described in ~cursor-type~),
     then it is displayed as /off-type/ when it blinks off.
 *** x-stretch-cursor                                            :display:nav:
+    :PROPERTIES:
+    :Description: Non-nil means draw block cursor as wide as the glyph under it.
+    :END:
     Some characters, such as tab characters, are extra wide. When the
     cursor is positioned over such a character, it is normally drawn
     with the default character width. You can make the cursor stretch
     to cover wide characters, by changing this variable to a non-nil
     value.
 *** cursor-in-non-selected-windows                            :display:frame:
+    :PROPERTIES:
+    :Description: Non-nil means show a cursor in non-selected windows.
+    :END:
     To turn off cursors in non-selected windows, change this variable
     to ~nil~.
 *** truncate-lines                                             :display:line:
+    :PROPERTIES:
+    :Description: Non-nil means do not display continuation lines.
+    :END:
     If this variable is non-nil, long lines are truncated; if it is
     ~nil~, they are continued onto multiple screen lines. Setting this
     variable in any way makes it local to the current buffer; until
     that time, the default value, which is normally ~nil~, is in
     effect.
 *** visual-line-fringe-indicators                       :display:mode:window:
+    :PROPERTIES:
+    :Description: How fringe indicators are shown for wrapped lines in ‘visual-line-mode’.
+    :END:
     When Visual Line mode is enabled, by default, word-wrapped lines
     do not display fringe indicators. You can change this by
     customizing this variable
 *** display-line-numbers                         :display:buffer:window:line:
+    :PROPERTIES:
+    :Description: Non-nil means display line numbers.
+    :END:
     If you want to have Emacs display line numbers for every line in
     the buffer, customize this buffer-local variable; it is ~nil~ by
     default. This variable can have several different values to
@@ -10183,6 +10699,9 @@
     be active when you turn on Display Line Numbers mode. See that
     section of the document for details
 *** display-line-numbers-current-absolute        :display:buffer:window:line:
+    :PROPERTIES:
+    :Description: Non-nil means display absolute number of current line.
+    :END:
     Either when ~display-line-numbers~ is set to ~relative~ or when
     ~display-line-numbers-type~ is set to ~relative~ and Display Line
     Numbers mode is turned on for the buffer in question. This
@@ -10193,59 +10712,95 @@
     ~nil~ value, the number displayed for the current line will be
     zero.
 *** display-line-numbers-widen                   :display:buffer:window:line:
+    :PROPERTIES:
+    :Description: Non-nil means display line numbers disregarding any narrowing.
+    :END:
     In a narrowed buffer, if line numbers are being displayed
     absolutely, lines are normally numbered starting at the beginning
     of the narrowing. However, if you customize this variable to a
     non-nil value, line numbers will disregard any narrowing and will
     start at the first character of the buffer.
 *** display-line-numbers-offset                  :display:buffer:window:line:
+    :PROPERTIES:
+    :Description: A signed integer added to each absolute line number.
+    :END:
     If the value of this variable is non-zero, it is added to each
     absolute line number, and lines are counted from the beginning of
     the buffer, as if ~display-line-numbers-widen~ were non-nil. It
     has no effect when set to zero, or when line numbers are not
     absolute.
 *** display-line-numbers-width-start             :display:window:buffer:line:
+    :PROPERTIES:
+    :Description: Not documented as a variable.
+    :END:
     If non-nil, count number of lines to use for line number width.
 
     If ~nil~ when ~display-line-numbers-mode~ is turned on,
     ‘display-line-numbers-width’ is set to the minimum width necessary
     to display all line numbers in the buffer.
 *** display-line-numbers-grow-only               :display:window:buffer:line:
+    :PROPERTIES:
+    :Description: Not documented as a variable.
+    :END:
     If non-nil, do not shrink line number width.
 *** display-line-numbers-width                   :display:window:buffer:line:
+    :PROPERTIES:
+    :Description: Minimum width of space reserved for line number display.
+    :END:
     Minimum width of space reserved for line number display. A
     positive number means reserve that many columns for line numbers,
     even if the actual number needs less space. The default value of
     nil means compute the space dynamically. Any other value is
     treated as nil.
 *** display-line-numbers-major-tick              :display:window:buffer:line:
+    :PROPERTIES:
+    :Description: If an integer N > 0, highlight line number of every Nth line.
+    :END:
     If an integer N > 0, highlight line number of every Nth line. The
     line number is shown with the ~line-number-major-tick~
     face. Otherwise, no special highlighting is done every Nth
     line. Note that major ticks take precedence over minor ticks.
 *** display-line-numbers-minor-tick              :display:window:buffer:line:
+    :PROPERTIES:
+    :Description: If an integer N > 0, highlight line number of every Nth line.
+    :END:
     If an integer N > 0, highlight line number of every Nth line. The
     line number is shown with the ~line-number-minor-tick~
     face. Otherwise, no special highlighting is done every Nth
     line. Note that major ticks take precedence over minor ticks.
 *** visible-bell                                             :display:window:
+    :PROPERTIES:
+    :Description: Non-nil means try to flash the frame to represent a bell.
+    :END:
     If this variable is non-nil, Emacs attempts to make the whole
     screen blink when it would normally make an audible bell
     sound. This variable has no effect if your terminal does not have
     a way to make the screen blink.
 *** echo-keystrokes                                       :keys:echo:display:
+    :PROPERTIES:
+    :Description: Nonzero means echo unfinished commands after this many seconds of pause.
+    :END:
     This variable controls the echoing of multi-character keys; its
     value is the number of seconds of pause required to cause echoing
     to start, or zero, meaning don't echo at all. The value takes
     effect when there is something to echo.
 *** display-hourglass                                         :display:frame:
+    :PROPERTIES:
+    :Description: Non-nil means show an hourglass pointer, when Emacs is busy.
+    :END:
     On graphical displays, Emacs displays the mouse pointer as an
     hourglass if Emacs is busy. To disable this feature, set this
     variable to ~nil~.
 *** hourglass-delay                                           :display:frame:
+    :PROPERTIES:
+    :Description: Seconds to wait before displaying an hourglass pointer when Emacs is busy.
+    :END:
     This variable determines the number of seconds of busy time before
     the hourglass is shown; the default is 1.
 *** make-pointer-invisible                                    :display:frame:
+    :PROPERTIES:
+    :Description: If non-nil, make pointer invisible while typing.
+    :END:
     If the mouse pointer lies inside an Emacs frame, Emacs makes it
     invisible each time you type a character to insert text, to
     prevent it from obscuring the text. (To be precise, the hiding
@@ -10253,6 +10808,9 @@
     pointer makes it visible again. To disable this feature, set this
     variable to ~nil~.
 *** underline-minimum-offset                              :char:display:edit:
+    :PROPERTIES:
+    :Description: Minimum distance between baseline and underline.
+    :END:
     On graphical displays, this variable determines the minimum
     distance between the baseline and underline, in pixels, for
     underlined text. By default, the value is 1; increasing it may
@@ -10260,6 +10818,9 @@
     fonts. (However, Emacs will never draw the underline below the
     current line area.)
 *** x-underline-at-descent-line                           :char:display:edit:
+    :PROPERTIES:
+    :Description: Non-nil means to draw the underline at the same place as the descent line.
+    :END:
     This variable determines how to draw underlined text. The default
     is ~nil~, which means to draw it at the baseline level of the
     font; if you change it to ~t~, Emacs draws the underline at the
@@ -10267,16 +10828,25 @@
     spacing was specified for the underlined text, Emacs draws the
     underline below the additional spacing.)
 *** overline-margin                                       :char:display:edit:
+    :PROPERTIES:
+    :Description: Space between overline and text, in pixels.
+    :END:
     This variable specifies the vertical position of an overline above
     the text, including the height of the overline itself, in pixels;
     the default is 2.
 *** display-raw-bytes-as-hex                            :char:coding:display:
+    :PROPERTIES:
+    :Description: Non-nil means display raw bytes in hexadecimal format.
+    :END:
     Raw bytes are displayed in octal format by default, for example a
     byte with a decimal value of 128 is displayed as ~\200~. To change
     display to the hexadecimal format of \x80, set this variable to
     ~t~.
 ** Searching and Replacement
 *** isearch-lazy-highlight                            :search:display:buffer:
+    :PROPERTIES:
+    :Description: Controls the lazy-highlighting during incremental search.
+    :END:
     If you pause for a little while during incremental search, Emacs
     highlights all the other possible matches for the search string
     that are present on the screen. The other matches are highlighted
@@ -10284,9 +10854,15 @@
     ~lazy-highlight~. If you don't like this feature, you can disable
     it by setting this variable to ~nil~.
 *** search-ring-max                                                  :search:
+    :PROPERTIES:
+    :Description: Maximum length of search ring before oldest elements are thrown away.
+    :END:
     The number of most recently used search strings saved in the
     search ring is specified by this variable, 16 by default.
 *** search-upper-case                                                :search:
+    :PROPERTIES:
+    :Description: If non-nil, upper case chars disable case fold searching.
+    :END:
     Normally, when the search is case-insensitive, text yanked into
     the search string is converted to lower case, so that the search
     remains case-insensitive. However, if the value of this variable
@@ -10304,6 +10880,9 @@
     causes text yanked into the search string to be down-cased, so
     that such searches are case-insensitive by default.
 *** search-exit-option                                  :search:edit:command:
+    :PROPERTIES:
+    :Description: Defines what control characters do in incremental search.
+    :END:
     Normally, typing a command that is not bound by the incremental
     search exits the search before executing the command. Thus, the
     command operates on the buffer from which you invoked the
@@ -10311,6 +10890,9 @@
     characters which you type that are not interpreted by the
     incremental search are simply appended to the search string.
 *** isearch-allow-prefix                                     :search:command:
+    :PROPERTIES:
+    :Description: Whether prefix arguments are allowed during incremental search.
+    :END:
     In previous versions of Emacs, entering a prefix argument always
     terminated the search. You can revert to this behavior by setting
     this variable to ~nil~.
@@ -10320,6 +10902,9 @@
     Search", i.e., they don't terminate the search, even if this
     variable is ~nil~.
 *** isearch-allow-scroll                                     :search:command:
+    :PROPERTIES:
+    :Description: Whether scrolling is allowed during incremental search.
+    :END:
     Normally, scrolling commands exit incremental search. If you
     change this variable to a non-nil value, that enables the use of
     the scroll-bar, as well as keyboard scrolling commands like ~C-v~,
@@ -10343,6 +10928,9 @@
     not itself attempt an incremental search. This feature is disabled
     if this variable is ~nil~ (which it is by default).
 *** isearch-yank-on-move                                 :search:region:edit:
+    :PROPERTIES:
+    :Description: Motion keys yank text to the search string while you move the cursor.
+    :END:
     When this variable is customized to ~shift~, you can extend the
     search string by holding down the shift key while typing cursor
     motion commands. It will yank text that ends at the new position
@@ -10353,9 +10941,15 @@
     applies only for certain motion command that have the
     ~isearch-move~ property on their symbols.
 *** regexp-search-ring-max                                           :search:
+    :PROPERTIES:
+    :Description: Maximum length of regexp search ring before oldest elements are thrown away.
+    :END:
     The maximum number of search regexps saved in the search ring is
     determined by the value of this variable, 16 by default.
 *** search-whitespace-regexp                                    :search:char:
+    :PROPERTIES:
+    :Description: If non-nil, regular expression to match a sequence of whitespace chars.
+    :END:
     This variable specifies the regexp for the lax space matching.
 
     For example, to make spaces match sequences of newlines as well as
@@ -10367,6 +10961,9 @@
     variable to ~nil~; then each space in the search string matches
     exactly one space.
 *** case-fold-search                                     :search:buffer:char:
+    :PROPERTIES:
+    :Description: Non-nil if searches and matches should ignore case.
+    :END:
     If you set this variable to ~nil~, then all letters must match
     exactly, including case. This is a per-buffer variable; altering
     the variable normally affects only the current buffer, unless you
@@ -10374,11 +10971,17 @@
     searches also, including those performed by the replace commands
     and the minibuffer history matching commands.
 *** search-default-mode                                         :search:char:
+    :PROPERTIES:
+    :Description: Default mode to use when starting isearch.
+    :END:
     Generally, search commands in Emacs do not by default perform
     character folding in order to match equivalent character
     sequences. You can enable this behavior by customizing this
     variable to ~char-fold-to-regexp~.
 *** char-fold-symmetric                                         :search:char:
+    :PROPERTIES:
+    :Description: Non-nil means char-fold searching treats equivalent chars the same.
+    :END:
     By default, typing an explicit variant of a character, such as
     ~ä~, as part of the search string doesn't match its base
     character, such as ~a~. But if you customize this variable to ~t~,
@@ -10388,21 +10991,36 @@
     character ~ä~ matches the letter ~a~ as well as all the other
     variants like ~á~.
 *** char-fold-include                                           :search:char:
+    :PROPERTIES:
+    :Description: Additional character foldings to include.
+    :END:
     You can add new character foldings using this variable.
 *** char-fold-exclude                                           :search:char:
+    :PROPERTIES:
+    :Description: Character foldings to remove from default decompositions.
+    :END:
     You can remove existing character foldings using this variable.
 *** replace-lax-whitespace                                      :search:char:
+    :PROPERTIES:
+    :Description: Non-nil means ‘query-replace’ matches a sequence of whitespace chars.
+    :END:
     Unlike incremental search, the replacement commands do not use lax
     space matching by default. To enable lax space matching for
     replacement, change this variable to non-nil. (This only affects
     how Emacs finds the text to replace, not the replacement text.)
 *** replace-regexp-lax-whitespace                               :search:char:
+    :PROPERTIES:
+    :Description: Non-nil means ‘query-replace-regexp’ matches a sequence of whitespace chars.
+    :END:
     Unlike incremental search, the replacement commands do not use lax
     space matching by default. This is a companion variable to
     ~replace-lax-whitespace~ which controls whether the command
     ~query-replace-regexp~ uses lax whitespace matching when searching
     for patterns.
 *** case-replace                                                :search:char:
+    :PROPERTIES:
+    :Description: Non-nil means ‘query-replace’ should preserve case in replacements.
+    :END:
     If upper-case letters are used in the replacement string, they
     remain upper case every time that text is inserted. If upper-case
     letters are used in the first argument, the second argument is
@@ -10410,6 +11028,9 @@
     this variable is set to ~nil~, replacement is done without case
     conversion.
 *** replace-char-fold                                           :search:char:
+    :PROPERTIES:
+    :Description: Non-nil means replacement commands should do character folding in matches.
+    :END:
     The replacement commands by default do not use character folding
     when looking for the text to replace. To enable character folding
     for matching in ~query-replace~ and ~replace-string~, set this
@@ -10417,6 +11038,9 @@
     replacement text, only how Emacs finds the text to replace. It
     also doesn't affect ~replace-regexp~.)
 *** query-replace-from-to-separator                          :search:display:
+    :PROPERTIES:
+    :Description: String that separates FROM and TO in the history of replacement pairs.
+    :END:
     You can reuse earlier replacements with the commands
     ~query-replace~ or ~query-replace-regexp~. When either these
     commands prompts for the search string, use ~M-p~ and ~M-n~ to
@@ -10426,34 +11050,58 @@
     variable. If the value of this variable is ~nil~, replacements are
     not added to the command history, and cannot be reused.
 *** query-replace-highlight                                  :search:display:
+    :PROPERTIES:
+    :Description: Non-nil means to highlight matches during query replacement.
+    :END:
     The commands ~query-replace~ and ~query-replace-regexp~ highlight
     the current match using the face ~query-replace~. You can disable
     this highlight by setting this variable to ~nil~.
 *** query-replace-lazy-highlight                             :search:display:
+    :PROPERTIES:
+    :Description: Controls the lazy-highlighting during query replacements.
+    :END:
     The commands ~query-replace~ and ~query-replace-regexp~ highlight
     any match that is not the current match using the ~lazy-highlight~
     face just link incremental search; this can be disabled by setting
     this variable to ~nil~.
 *** query-replace-show-replacement                           :search:display:
+    :PROPERTIES:
+    :Description: Non-nil means show substituted replacement text in the minibuffer.
+    :END:
     By default, ~query-replace-regexp~ will show the substituted
     replacement string for the current match in the minibuffer. If you
     want to keep special sequences '~\&~' and '~\n~' unexpanded,
     customize this variable
 *** query-replace-skip-read-only                                 :search:nav:
+    :PROPERTIES:
+    :Description: Non-nil means ‘query-replace’ and friends ignore read-only matches.
+    :END:
     This variable, if set non-nil, will cause replacement commands to
     ignore matches in read-only text. The default is not to ignore
     them.
 *** search-invisible                                                 :search:
+    :PROPERTIES:
+    :Description: If t incremental search/query-replace can match hidden text.
+    :END:
     This variable determines how ~query-replace~ treats invisible
     text.
 *** list-matching-lines-default-context-lines  :search:display:inform:window:
+    :PROPERTIES:
+    :Description: Default number of context lines included around ‘list-matching-lines’ matches.
+    :END:
     In occur mode, the default number of context lines is specified by
     this variable.
 *** list-matching-lines-jump-to-current-line   :search:inform:window:display:
+    :PROPERTIES:
+    :Description: If non-nil, M-x list-matching-lines shows the current line highlighted.
+    :END:
     When this variable is non-nil the current line is shown
     highlighted with face ~list-matching-lines-current-line-face~ and
     the point is set at the first match after such line.
 *** search-default-mode                                              :search:
+    :PROPERTIES:
+    :Description: Default mode to use when starting isearch.
+    :END:
     The default search mode for the incremental search is specified by
     this variable. It can be ~nil~, ~t~, or a function. If it is
     ~nil~, the default mode is to do literal searches without
@@ -10464,45 +11112,78 @@
     specifies a function that only performs case folding and
     lax-whitespace matching.
 *** search-highlight                                         :search:display:
+    :PROPERTIES:
+    :Description: Non-nil means incremental search highlights the current match.
+    :END:
     The current match of an on-going incremental search is highlighted
     using the ~isearch~ face. This highlighting can be disabled by
     setting this variable to ~nil~.
 *** lazy-highlight-initial-delay                              :search:display:
+    :PROPERTIES:
+    :Description: Seconds to wait before beginning to lazily highlight all matches.
+    :END:
     Time in seconds to wait before highlighting visible matches.
 *** lazy-highlight-interval                                  :search:display:
+    :PROPERTIES:
+    :Description: Seconds between lazily highlighting successive matches.
+    :END:
     Time in seconds between highlighting successive matches.
 *** lazy-highlight-max-at-a-time                             :search:display:
+    :PROPERTIES:
+    :Description: Maximum matches to highlight at a time (for ‘lazy-highlight’).
+    :END:
     The maximum number of matches to highlight before checking for
     input. A large number can take some time to highlight, so if you
     want to continue searching and type ~C-s~ or ~C-r~ during that
     time, Emacs will not respond until it finishes highlighting all
     those matches. Thus smaller values make Emacs more responsive.
 *** isearch-lazy-count                                :search:display:inform:
+    :PROPERTIES:
+    :Description: Show match numbers in the search prompt.
+    :END:
     Show the current match number and the total number of matches in
     the search prompt
 *** lazy-count-prefix-format                          :search:display:inform:
+    :PROPERTIES:
+    :Description: Format of the current/total number of matches for the prompt prefix.
+    :END:
     This variable determines the format of showing the current match
     number for ~isearch-lazy-count~.
 *** lazy-count-suffix-format                          :search:display:inform:
+    :PROPERTIES:
+    :Description: Format of the current/total number of matches for the prompt suffix.
+    :END:
     This variable determines the format of showing the total number of
     matches for ~isearch-lazy-count~.
 *** search-nonincremental-instead                                    :search:
+    :PROPERTIES:
+    :Description: If non-nil, do a nonincremental search instead of exiting immediately.
+    :END:
     Normally, entering ~RET~ within incremental search when the search
     string is empty launches a nonincremental search. However if you
     customize this variable to ~nil~, typing ~RET~ will always exit
     the incremental search, even if the search string is empty.
 *** isearch-hide-immediately                                 :search:display:
+    :PROPERTIES:
+    :Description: If non-nil, re-hide an invisible match right away.
+    :END:
     By default, incremental search and query-replace commands match
     invisible text, but hide any such matches as soon as the current
     match moves off the invisible text. If you customize this variable
     to ~nil~, any invisible text where matches were found stays on
     display until the search or the replace command exits.
 *** search-slow-speed                                                :search:
+    :PROPERTIES:
+    :Description: Highest terminal speed at which to use "slow" style incremental search.
+    :END:
     Emacs provides a special display mode for slow terminals, whereby
     search pops up a separate small window and displays the text
     surrounding the match in that window. This variable determines the
     baud rate threshold below which Emacs will use this display mode.
 *** search-slow-window-lines                                 :search:display:
+    :PROPERTIES:
+    :Description: Number of lines in slow search display windows.
+    :END:
     Emacs provides a special display mode for slow terminals, whereby
     search pops up a separate small window and displays the text
     surrounding the match in that window. This variable controls the
@@ -10514,38 +11195,62 @@
     number of lines that is the absolute value of the variable.
 ** Commands for Fixing Typos
 *** undo-limit                                                         :undo:
+    :PROPERTIES:
+    :Description: Keep no more undo information once it exceeds this size.
+    :END:
     You can specify how much undo information to keep by setting this
     variable. This variable sets a soft limit: Emacs keeps undo data
     for enough commands to reach this size, and perhaps exceed it, but
     does not keep data for any earlier commands beyond that. It's
     default value is 160,000.
 *** undo-strong-limit                                                  :undo:
+    :PROPERTIES:
+    :Description: Don’t keep more than this much size of undo information.
+    :END:
     You can specify how much undo information to keep by setting this
     variable. This variable sets a stricter limit: any previous
     command (though not the most recent one) that pushes the size past
     this amount is forgotten. The default value is 240,000.
 *** undo-outer-limit                                                   :undo:
+    :PROPERTIES:
+    :Description: Outer limit on size of undo information for one command.
+    :END:
     You can specify how much undo information to keep by setting this
     variable. The most recent change is never discarded unless it gets
     bigger than this variable (normally 24,000,000).
 *** ispell-local-dictionary                                          :inform:
+    :PROPERTIES:
+    :Description: If non-nil, the dictionary to be used for Ispell commands in this buffer.
+    :END:
     The standard dictionary is specified by this variable, or if this
     is ~nil~ by the variable ~ispell-dictionary~. If both are ~nil~,
     the spelling program's default dictionary is used.
 *** ispell-dictionary                                                :inform:
+    :PROPERTIES:
+    :Description: Default dictionary to use if ‘ispell-local-dictionary’ is nil.
+    :END:
     The standard dictionary is specified by the variable
     ~ispell-local-dictionary~ or, if that is ~nil~, by this
     variable. If both are ~nil~, the spelling program's default
     dictionary is used.
 *** ispell-personal-dictionary                                       :inform:
+    :PROPERTIES:
+    :Description: File name of your personal spelling dictionary, or nil.
+    :END:
     Your personal dictionary is specified by this variable. If it is
     ~nil~, the spelling program looks for a personal dictionary in a
     default location, which is specific to each spell-checker.
 *** ispell-complete-word-dict                                        :inform:
+    :PROPERTIES:
+    :Description: Plain word-list dictionary used for word completion if
+    :END:
     This variable specifies the file name for the word completion
     dictionary.
 ** Keyboard Macros
 *** kmacro-execute-before-append                                      :macro:
+    :PROPERTIES:
+    :Description: Controls whether appending to a macro starts by executing the macro.
+    :END:
     After terminating the definition of a keyboard macro, you can
     append more keystrokes to its definition by typing ~C-u
     <F3>~. This is equivalent to plain ~<F3>~ followed by retyping the
@@ -10553,13 +11258,22 @@
     existing macro will not be re-executed before appending to it (the
     default is ~t~).
 *** kmacro-ring-max                                                   :macro:
+    :PROPERTIES:
+    :Description: Maximum number of keyboard macros to save in macro ring.
+    :END:
     The maximum number of macros stored in the keyboard macro ring is
     determined by this variable.
 ** File Handling
 *** completion-ignored-extensions                            :files:complete:
+    :PROPERTIES:
+    :Description: Completion ignores file names ending in any string in this list.
+    :END:
     File name completion ignores file names whose extensions appear in
     this variable
 *** default-directory                                            :files:echo:
+    :PROPERTIES:
+    :Description: Local in buffer emacs-manual.org; global value is nil
+    :END:
     Each buffer has a default directory, stored in this buffer-local
     variable.
 
@@ -10569,20 +11283,32 @@
     default directory is usually copied from the buffer that was
     current at the time.
 *** insert-default-directory                                     :files:echo:
+    :PROPERTIES:
+    :Description: Non-nil means when reading a filename start with default dir in minibuffer.
+    :END:
     Whenever Emacs reads a file name using the minibuffer, it usually
     inserts the default directory into the minibuffer as the initial
     contents. You can inhibit this insertion by changing this variable
     to ~nil~.
 *** large-file-warning-threshold                               :files:inform:
+    :PROPERTIES:
+    :Description: Maximum size of file above which a confirmation is requested.
+    :END:
     If you try to visit a file larger than this variable (the default
     is 10,000,000, which is about 10 megabytes), Emacs asks you for
     confirmation first.
 *** find-file-run-dired                                   :files:mode:inform:
+    :PROPERTIES:
+    :Description: Non-nil means allow ‘find-file’ to visit directories.
+    :END:
     If you visit a file that is actually a directory, Emacs invokes
     Dired, the Emacs directory browser. You can disable this behavior
     by setting this variable to ~nil~; in that case, it is an error to
     try to visit a directory.
 *** find-file-wildcards                                          :files:edit:
+    :PROPERTIES:
+    :Description: Non-nil means file-visiting commands should handle wildcards.
+    :END:
     If the file name you specify contains shell-style wildcard
     characters, Emacs visits all the files that match it. (On
     case-insensitive filesystems, Emacs matches the wildcards
@@ -10591,13 +11317,22 @@
     in the minibuffer, you need to type ~C-q ?~. You can disable the
     wildcard feature by customizing this variable.
 *** save-some-buffers-default-predicate                          :files:edit:
+    :PROPERTIES:
+    :Description: Default predicate for ‘save-some-buffers’.
+    :END:
     You can customize the value of this variable to control which
     buffers Emacs will ask about.
 *** make-backup-files                                            :files:undo:
+    :PROPERTIES:
+    :Description: Non-nil means make a backup of a file the first time it is saved.
+    :END:
     For most files, this variable determines whether to make backup
     files. On most operating systems, its default value is ~t~, so
     that Emacs does write backup files.
 *** vc-make-backup-files                                              :files:
+    :PROPERTIES:
+    :Description: If non-nil, backups of registered files are made as with other files.
+    :END:
     For files managed by a version control system, this variable
     determines whether to make backup files. By default it is ~nil~,
     since backup files are redundant when you store all the previous
@@ -10605,19 +11340,29 @@
 *** backup-enable-predicate                                           :files:
     :PROPERTIES:
     :Type:     global
+    :Description: Predicate that looks at a file name and decides whether to make backups.
     :END:
     The default value of this variable prevents backup files from
     being written for files in the directories used for temporary
     files, specified by ~temporary-file-directory~ or
     ~small-temporary-file-directory~.
 *** temporary-file-directory                                          :files:
+    :PROPERTIES:
+    :Description: The directory for writing temporary files.
+    :END:
     The directory for writing temporary files
 *** small-temporary-file-directory                                    :files:
+    :PROPERTIES:
+    :Description: The directory for writing small temporary files.
+    :END:
     The directory for writing small temporary files. If non-nil, this
     directory is used instead of '~temporary-file-directory~' by
     programs that create small temporary files. This is for systems
     that have fast storage with limited space, such as a RAM disk.
 *** backup-directory-alist                                            :files:
+    :PROPERTIES:
+    :Description: Alist of filename patterns and backup directory names.
+    :END:
     You can customize this variable to specify that files matching
     certain patterns should be backed up in specific directories. A
     typical use is to add an element ~("." . <dir>)~ to make all
@@ -10630,6 +11375,7 @@
 *** version-control                                                   :files:
     :PROPERTIES:
     :Type:     file, buffer, global, custom
+    :Description: Control use of version numbers for backup files.
     :END:
     This variable determines whether to make single backup files or
     multiple numbered backup files. its possible values are:
@@ -10656,28 +11402,49 @@
     ~version-control~ becomes ~nil~; if it is '~never~' or '~simple~',
     then ~version-control~ becomes ~never~.
 *** make-backup-file-name-function                                    :files:
+    :PROPERTIES:
+    :Description: A function that ‘make-backup-file-name’ uses to create backup file names.
+    :END:
     If you set this variable to a suitable Lisp function, you can
     override the usual way Emacs constructs backup file names.
 *** kept-old-versions                                                 :files:
+    :PROPERTIES:
+    :Description: Number of oldest versions to keep when a new numbered backup is made.
+    :END:
     This variable's value is the number of oldest (lowest-numbered)
     backups to keep, each time a new backup is made. By default, the
     value is 2.
 *** kept-new-versions                                                 :files:
+    :PROPERTIES:
+    :Description: Number of newest versions to keep when a new numbered backup is made.
+    :END:
     This variable's value is the number of newest (highest-numbered)
     backups to keep, each time a new backup is made. The newly made
     backup is included in the count in this variable. By default, the
     value is 2.
 *** delete-old-versions                                        :files:delete:
+    :PROPERTIES:
+    :Description: If t, delete excess backup versions silently.
+    :END:
     If this variable is ~t~, Emacs deletes the excess backup files
     silently. If it is ~nil~, the default, Emacs asks you whether it
     should delete the excess backup versions. If it has any other
     value, then Emacs never automatically deletes backups.
 *** backup-by-copying                                                 :files:
+    :PROPERTIES:
+    :Description: Non-nil means always use copying to create backup files.
+    :END:
     If this variable is non-nil (the default is ~nil~), use copying.
 *** backup-by-copying-when-linked                                     :files:
+    :PROPERTIES:
+    :Description: Non-nil means use copying to create backups for files with multiple names.
+    :END:
     If ~backup-by-copying~ is ~nil~ and this variable is non-nil (the
     default is ~nil~), and the file has multiple names, use copying.
 *** backup-by-copying-when-mismatch                                   :files:
+    :PROPERTIES:
+    :Description: Non-nil means create backups by copying if this preserves owner or group.
+    :END:
     If ~backup-by-copying~ and ~backup-by-copying-when-linked~ are
     both ~nil~ and this variable is non-nil (the default is ~t~), and
     renaming would change the file's owner or group, use copying.
@@ -10690,6 +11457,9 @@
 
     Otherwise, renaming is the default choice.
 *** require-final-newline                                        :files:char:
+    :PROPERTIES:
+    :Description: Whether to add a newline automatically at the end of the file.
+    :END:
     If the value of this variable is ~t~, saving or writing a file
     silently puts a newline at the end if there isn't already one
     there. If the value is ~visit~, Emacs adds a newline at the end of
@@ -10700,20 +11470,32 @@
     end of the file unchanged; any other non-nil value means Emacs
     asks you whether to add a newline. The default is ~nil~.
 *** mode-require-final-newline                                   :files:char:
+    :PROPERTIES:
+    :Description: Whether to add a newline at end of file, in certain major modes.
+    :END:
     Some major modes are designed for specific kinds of files that are
     always supposed to end in newlines. such major modes set the
     variable ~require-final-newline~ to the value of this variable,
     which defaults to ~t~. By setting this variable, you can control
     how these modes handle final newlines.
 *** write-region-inhibit-fsync                                        :files:
+    :PROPERTIES:
+    :Description: Non-nil means don’t call fsync in ‘write-region’.
+    :END:
     This variable controls whether Emacs invokes ~fsync~ after saving
     a file. The variable's default value is ~nil~ when Emacs is
     interactive, and ~t~ when Emacs runs in batch mode.
 *** create-lockfiles                                                  :files:
+    :PROPERTIES:
+    :Description: Non-nil means use lockfiles to avoid editing collisions.
+    :END:
     You can prevent the creation of lock files by setting this
     variable to ~nil~. *Caution:* by doing so you will lose the
     benefits that this feature provides.
 *** revert-without-query                                              :files:
+    :PROPERTIES:
+    :Description: Specify which files should be reverted without query.
+    :END:
     When you edit a file that changes automatically and frequently -
     for example, a log of output from a process that continues to
     run - it may be useful for Emacs to revert the file without
@@ -10724,24 +11506,39 @@
     not modified. (If you have edited the text, it would be wrong to
     discard your changes.)
 *** auto-revert-verbose                                               :files:
+    :PROPERTIES:
+    :Description: When nil, Auto-Revert Mode does not generate any messages.
+    :END:
     The Auto Revert mode do not check or revert remote files, because
     that is usually too slow. This behavior can be changed by setting
     this variable to non-nil.
 *** auto-revert-use-notify                                            :files:
+    :PROPERTIES:
+    :Description: If non-nil Auto-Revert Mode uses file notification functions.
+    :END:
     You can disable use of file notifications by customizing this
     variable to a ~nil~ value, then Emacs will check for file changes
     by polling every five seconds.
 *** auto-revert-interval                                              :files:
+    :PROPERTIES:
+    :Description: Time, in seconds, between Auto-Revert Mode file checks.
+    :END:
     If ~auto-revert-use-notify~ is set to ~nil~ then Emacs will check
     for file changes by polling every five seconds. You can change the
     polling interval through this variable.
 *** auto-revert-avoid-polling                                         :files:
+    :PROPERTIES:
+    :Description: Non-nil to avoid polling files when notification is available.
+    :END:
     By default, Auto Revert mode will poll files for changes
     periodically even when file notifications are used. Polling is
     unnecessary in many cases, and turning it off may save power by
     relying on notifications only. To do so, set this variable to
     non-nil.
 *** auto-revert-notify-exclude-dir-regexp                             :files:
+    :PROPERTIES:
+    :Description: Regular expression of directories to be excluded from file notifications.
+    :END:
     Notification is ineffective on certain file systems; mainly
     network file system on Unix-like machines, where files can be
     altered from other machines. For such file systems, polling may be
@@ -10749,27 +11546,42 @@
     non-nil, set this variable to match files that should be excluded
     from using notification.
 *** global-auto-revert-non-file-buffers                               :files:
+    :PROPERTIES:
+    :Description: When nil, Global Auto-Revert Mode operates only on file-visiting buffers.
+    :END:
     You can auto-revert certain non-file buffers by setting this
     variable to a non-nil value. This enables Auto Reverting for all
     types of buffers for which it is implemented (listed in the menu
     below).
 *** buffer-auto-revert-by-notification                                :files:
+    :PROPERTIES:
+    :Description: Whether a buffer can rely on notification in Auto-Revert mode.
+    :END:
     Some non-file buffers can be updated reliably by file notification
     on their default directory. The major mode can indicate this by
     setting this variable to a non-nil value in that buffer, allowing
     Auto Revert to avoid periodic polling.
 *** auto-save-no-message                                         :files:echo:
+    :PROPERTIES:
+    :Description: Non-nil means do not print any message when auto-saving.
+    :END:
     When this variable is set to ~nil~ (the default), the message
     '~Auto-saving...~' is displayed in the echo area during
     auto-saving, if any files are actually auto-saved; to disable
     these messages, customize the variable to a non-nil value.
 *** auto-save-file-name-transforms                                    :files:
+    :PROPERTIES:
+    :Description: Transforms to apply to buffer file name before making auto-save file name.
+    :END:
     This variable allows a degree of control over the auto-save file
     name. It lets you specify a series of regular expressions and
     replacements to transform the auto save file name. The default
     value puts the auto-save file for remote files into the temporary
     file directory on the local machine.
 *** auto-save-interval                                                :files:
+    :PROPERTIES:
+    :Description: Number of input events between auto-saves.
+    :END:
     Emacs auto-saves periodically based on how many characters you
     have typed since the last auto save. This variable specifies how
     many characters there are between auto-saves. By default, it
@@ -10777,6 +11589,9 @@
     customize this variable to a value less than 20, Emacs will behave
     as if the value is 20.
 *** auto-save-timeout                                                 :files:
+    :PROPERTIES:
+    :Description: Number of seconds idle time before auto-save.
+    :END:
     Auto-saving takes place when you stop typing for a while. By
     default, it does this after 30 seconds of idleness. To change this
     interval, customize this variable. The actual time period is
@@ -10784,6 +11599,9 @@
     aims to keep out of your way when you are editing long buffers, in
     which auto-save takes an appreciable amount of time.
 *** auto-save-visited-interval                                        :files:
+    :PROPERTIES:
+    :Description: Interval in seconds for ‘auto-save-visited-mode’.
+    :END:
     You can use this variable to customize the interval between
     auto-save operations in Auto Save Visited mode; by default it's
     five seconds. ~auto-save-interval~ and ~auto-save-timeout~ have no
@@ -10793,26 +11611,41 @@
     its visited file. (You can inhibit this by setting this variable
     to ~nil~.)
 *** auto-save-default                                                 :files:
+    :PROPERTIES:
+    :Description: Non-nil says by default do auto-saving of every file-visiting buffer.
+    :END:
     Each time you visit a file, auto-saving is turned on for that
     file's buffer if this variable is non-nil. The default for this
     variable is ~t~, so auto-saving is the usual practice for
     file-visiting buffers.
 *** auto-save-visited-interval                                        :files:
+    :PROPERTIES:
+    :Description: Interval in seconds for ‘auto-save-visited-mode’.
+    :END:
     When Auto Save Visited mode is enabled, Emacs will auto-save
     file-visiting buffers after five seconds of idle time. You can
     customize this variable to change the idle time interval.
 *** auto-save-list-file-prefix                                        :files:
+    :PROPERTIES:
+    :Description: Prefix for generating ‘auto-save-list-file-name’.
+    :END:
     Emacs records information about interrupted sessions in files
     named ~.saves-<pid>-<hostname>~ in the directory
     '~/.emacs.d/auto-save-list/'. This directory is determined by this
     variable and if you set this variable to ~nil~, sessions are not
     recorded for recovery.
 *** find-file-suppress-same-file-warnings                        :files:echo:
+    :PROPERTIES:
+    :Description: Non-nil means suppress warning messages for symlinked files.
+    :END:
     Normally, if you visit a file which Emacs is already visiting
     under a different name Emacs displays a message in the echo area
     and uses the existing buffer visiting that file. You can suppress
     the message by setting this variable to a non-nil value.
 *** find-file-existing-other-name                              :files:buffer:
+    :PROPERTIES:
+    :Description: Non-nil means find a file under alternative names, in existing buffers.
+    :END:
     Normally, if you visit a file which Emacs is already visiting
     under a different name Emacs displays a message in the echo area
     and uses the existing buffer visiting that file. You can disable
@@ -10820,9 +11653,15 @@
     you visit the same file under two different names, you can a
     separate buffer for each file name.
 *** find-file-visit-truename                                          :files:
+    :PROPERTIES:
+    :Description: Non-nil means visiting a file uses its truename as the visited-file name.
+    :END:
     If this variable is non-nil, then the file name recorded for a
     buffer is the file's truename, rather than the name you specify.
 *** directory-abbrev-alist                                            :files:
+    :PROPERTIES:
+    :Description: Alist of abbreviations for file directories.
+    :END:
     Sometimes, a directory is ordinarily accessed through a symbolic
     link, and you may want Emacs to preferentially show its linked
     name. To do this, customize this variable. Each element in this
@@ -10836,16 +11675,25 @@
     directory. Do not use '~' to stand for a home directory in the
     /to/ string; Emacs performs these substitutions separately.
 *** list-directory-brief-switches                              :files:inform:
+    :PROPERTIES:
+    :Description: Switches for ‘list-directory’ to pass to ‘ls’ for brief listing.
+    :END:
     The text of a directory listing is mostly optained by running ~ls~
     in an inferior process. Two Emacs variables control the switches
     passed to ~ls~: this variable is a string giving the switches to
     use in brief listing ("~-CF~" by default)
 *** list-directory-verbose-switches                            :files:inform:
+    :PROPERTIES:
+    :Description: Switches for ‘list-directory’ to pass to ‘ls’ for verbose listing.
+    :END:
     The text of a directory listing is mostly optained by running ~ls~
     in an inferior process. Two Emacs variables control the switches
     passed to ~ls~: this variable is a string giving the switches to
     use in a verbose listing ("~-l~" by default).
 *** delete-by-moving-to-trash                                  :files:delete:
+    :PROPERTIES:
+    :Description: Specifies whether to use the system’s trash can.
+    :END:
     The command ~delete-directory~ prompts for a directory's name
     using the minibuffer, and deletes the directory if it is empty. If
     the directory is not empty, you will be asked whether you want to
@@ -10854,6 +11702,9 @@
     directory to the Trash instead of deleting it outright, but
     changing this variable to ~t~.
 *** diff-switches                                       :files:inform:buffer:
+    :PROPERTIES:
+    :Description: A string or list of strings specifying switches to be passed to diff.
+    :END:
     The command ~diff~ prompts for two file names, using the
     minibuffer, and displays the differences between the two files in
     a buffer named ~*diff*~. This works by running the ~diff~ program,
@@ -10869,51 +11720,84 @@
     default, but a prefix argument turns that off for that single
     invocation of the command.
 *** diff-update-on-the-fly                                 :mode:inform:edit:
+    :PROPERTIES:
+    :Description: Non-nil means hunk headers are kept up-to-date on-the-fly.
+    :END:
     You can edit a Diff mode buffer like any other buffer. Whenever
     you edit a hunk, Diff mode attempts to automatically correct the
     line numbers in the hunk headers, to ensure that the patch remains
     correct, and could still be applied by ~patch~. To disable
     automatic line number correction, change this variable to ~nil~.
 *** diff-refine                                          :nav:display:inform:
+    :PROPERTIES:
+    :Description: If non-nil, enable hunk refinement.
+    :END:
     By default, Diff mode refines hunks as Emacs displays them,
     highlighting their changes with better granularity. Alternatively,
     if you set this variable to the symbol ~navigation~, Diff mode
     only refines the hunk you move to with the commands
     ~diff-hunk-next~ or ~diff-hunk-prev~.
 *** diff-jump-to-old-file                                               :nav:
+    :PROPERTIES:
+    :Description: Non-nil means ‘diff-goto-source’ jumps to the old file.
+    :END:
     Non-nil means ~diff-goto-source~ jumps to the old file. Else, it
     jumps to the new file. Default is ~nil~. Other commands might also
     reference this variable like ~diff-apply-hunk~.
 *** diff-font-lock-syntax                                      :display:mode:
+    :PROPERTIES:
+    :Description: If non-nil, diff hunk font-lock includes source language syntax highlighting.
+    :END:
     If this variable is non-nil, fragments of source in hunks are
     highlighted according to the appropriate major mode
 *** delete-by-moving-to-trash                                  :delete:files:
+    :PROPERTIES:
+    :Description: Specifies whether to use the system’s trash can.
+    :END:
     By default, Emacs deletion commands do not use the Trash. To use
     the Trash (when it is available) for common deletion commands,
     change this variable to ~t~. This affects the commands
     ~delete-file~ and ~delete-directory~, as well as the deletion
     commands in Dired.
 *** auto-compression-mode                                        :files:mode:
+    :PROPERTIES:
+    :Description: Non-nil if Auto-Compression mode is enabled.
+    :END:
     Specify whether Auto Compression mode features should be disabled
     or not. Enabled by default
 *** tramp-default-method                                              :files:
+    :PROPERTIES:
+    :Description: Default method to use for transferring files.
+    :END:
     Default method to use for transferring files. See ~tramp-methods~
     for possibilities. Also see ~tramp-default-method-alist~. Default
     value is ~"scp"~.
 *** tramp-mode                                                        :files:
+    :PROPERTIES:
+    :Description: Whether Tramp is enabled.
+    :END:
     You can entirely turn off the remote file name feature by setting
     this variable to ~nil~. Set to ~t~ by default.
 *** ange-ftp-default-user                                             :files:
+    :PROPERTIES:
+    :Description: User name to use when none is specified in a file name.
+    :END:
     When the Ange-FTP package is used, Emacs logs in through FTP using
     the name /user/, if that is specified in the remote file name. If
     /user/ is unspecified, Emacs logs in using your user name on the
     local system; but if you set this variable to a string, that
     string is used instead.
 *** ange-ftp-make-backup-files                                        :files:
+    :PROPERTIES:
+    :Description: Non-nil means make backup files for "magic" remote files.
+    :END:
     For performance reasons, Emacs does not make backup files for
     files accessed via FTP by default. To make it do so, change this
     variable to a non-nil value.
 *** ange-ftp-generate-anonymous-password                              :files:
+    :PROPERTIES:
+    :Description: If t, use value of ‘user-mail-address’ as password for anonymous FTP.
+    :END:
     To visit files accessible by anonymous FTP, you use special user
     names '~anonymous~' or '~ftp~'. Passwords for these user names are
     handled specially. This variable controls what happens: if the
@@ -10922,19 +11806,34 @@
     ~user-mail-address~ is used; if ~nil~, then Emacs prompts you for
     a password as usual.
 *** user-mail-address                                                :inform:
+    :PROPERTIES:
+    :Description: The email address of the current user.
+    :END:
     The email address of the current user. This defaults to either:
     the value of EMAIL environment variable; or user@host, using
     '~user-login-name~' and '~mail-host-address~' (or
     '~system-name~').
 *** ange-ftp-gateway-host                                            :inform:
+    :PROPERTIES:
+    :Description: Name of host to use as gateway machine when local FTP isn’t possible.
+    :END:
     Name of host to use as gateway machine when local FTP isn't
     possible.
 *** ange-ftp-smart-gateway                                           :inform:
+    :PROPERTIES:
+    :Description: Non-nil says the FTP gateway (proxy) or gateway FTP program is smart.
+    :END:
     Non-nil says the FTP gateway (proxy) or gateway FTP program is
     smart.
 *** recentf-list                                               :files:inform:
+    :PROPERTIES:
+    :Description: ("/usr/share/emacs/27.1/lisp/loaddefs.el" "/home/occhio/Documents/Productivity/org/org-manual/emacs-manual.org" "/home/occhio/Documents/Productivity/org/org-manual/kio-big-manual.org" "/home/occhio/Documents/Productivity/org/org-manual/commands.csv" "/home/occhio/.emacs" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-24-00.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-31-05.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-31-04.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-31-03.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-31-02.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-31-01.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-31-00.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-29-00.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-27-00.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-07.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-06.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-05.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-04.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-03.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-02.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-01.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-26-00.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-25-02.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-25-01.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-25-00.jpg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-24-04.jpeg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-24-03.jpeg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-24-02.jpeg" "/home/occhio/Pictures/Ellis/Fennec/2020/10-October/fennec-2020-10-24-01.jpg")
+    :END:
     List of recently opened files
 *** image-auto-resize                                         :files:display:
+    :PROPERTIES:
+    :Description: Non-nil to resize the image upon first display.
+    :END:
     Non-nil to resize the image upon first display. It's value should
     be one of the following:
     - ~nil~ :: meaning no resizing.
@@ -10946,22 +11845,34 @@
 
     Default value is ~t~
 *** image-auto-resize-on-window-resize                        :files:display:
+    :PROPERTIES:
+    :Description: Non-nil to resize the image whenever the window’s dimensions change.
+    :END:
     Non-nil to resize the image whenever the window's dimensions
     change. This will always keep the image fit to the window. When
     non-nil, the value should be a number of seconds to wait before
     resizing according to the value specified in
     '~image-auto-resize~'. Default value is 1.
 *** image-animate-loop                                        :files:display:
+    :PROPERTIES:
+    :Description: Non-nil means animated images loop forever, rather than playing once.
+    :END:
     If an image can be animated and you opted to start the animation
     then by default the animation plays once, unless this variable is
     non-nil.
 *** imagemagick-enabled-types                          :files:display:inform:
+    :PROPERTIES:
+    :Description: List of ImageMagick types to treat as images.
+    :END:
     This variable lists the image types that Emacs may render using
     ImageMagick; each element in the list should be an internal
     ImageMagick name for an image type, as a symbol or an equivalent
     string. To enable ImageMagick for all possible image types change
     this variable to ~t~.
 *** imagemagick-types-inhibit                          :files:display:inform:
+    :PROPERTIES:
+    :Description: List of ImageMagick types that should never be treated as images.
+    :END:
     This variable lists the image types which should never be rendered
     using ImageMagick, regardless of the value of
     ~imagemagick-enagled-types~ (the default list includes types like
@@ -10969,6 +11880,9 @@
     should not). To disable ImageMagick entirely, change this variable
     to ~t~.
 *** image-use-external-converter                              :files:display:
+    :PROPERTIES:
+    :Description: If non-nil, ‘create-image’ will use external converters for exotic formats.
+    :END:
     If Emacs doesn't have native support for image format in question,
     and this variable is non-nil, Emacs will try to determine whether
     there are external utilities that can be used to transform the
@@ -10977,25 +11891,43 @@
     conversions.
 ** Using Multiple Buffers
 *** major-mode                                                  :mode:buffer:
+    :PROPERTIES:
+    :Description: Symbol for current buffer’s major mode.
+    :END:
     If you specify a buffer that does not exist, ~C-x b~ creates
     a new, empty buffer that is not visiting any file, and selects it
     for editing. The default value of this variable determines the new
     buffer's major mode; The default value is Fundamental mode.
 *** buffer-read-only                                            :buffer:edit:
+    :PROPERTIES:
+    :Description: Non-nil if this buffer is read-only.
+    :END:
     The command ~C-x C-q~ (~read-only-mode~) makes a read-only buffer
     writable, and makes a writable buffer read-only. This works by
     setting this variable, which has a local value in each buffer and
     makes the buffer read-only if its value is non-nil.
 *** view-read-only                                                   :buffer:
+    :PROPERTIES:
+    :Description: Non-nil means buffers visiting files read-only do so in view mode.
+    :END:
     If you change this variable to a non-nil value, making the buffer
     read only with ~C-x C-q~ also enables View mode in the buffer.
 *** midnight-mode                                                   :startup:
+    :PROPERTIES:
+    :Description: Non-nil if Midnight mode is enabled.
+    :END:
     To enable Midnight mode, you can use the Customization buffer to
     set this variable to ~t~.
 *** global-auto-revert-non-file-buffers                 :startup:buffer:edit:
+    :PROPERTIES:
+    :Description: When nil, Global Auto-Revert Mode operates only on file-visiting buffers.
+    :END:
     Global Auto Revert mode applies to the ~*Buffer List*~ buffer only
     if this variable is non-nil.
 *** uniquify-buffer-name-style                                       :buffer:
+    :PROPERTIES:
+    :Description: How to construct unique buffer names for files with the same base name.
+    :END:
     You can choose from several different styles for constructing
     unique buffer names, by customizing this option.
 
@@ -11023,13 +11955,22 @@
     - ~nil~ :: examples, '~Makefile~', '~Makefile<2>~', and
       '~Makefile<3>~'
 *** icomplete-mode                                            :complete:mode:
+    :PROPERTIES:
+    :Description: Non-nil if Icomplete mode is enabled.
+    :END:
     To enable Icomplete mode you can customize this variable to
     ~t~. ~nil~ by default.
 *** fido-mode                                                 :complete:mode:
+    :PROPERTIES:
+    :Description: Non-nil if Fido mode is enabled.
+    :END:
     To enable Fido mode, customize this variable to ~t~. ~nil~ by
     default.
 ** Multiple Windows
 *** split-window-keep-point                                          :window:
+    :PROPERTIES:
+    :Description: If non-nil, C-x 2 preserves point in the new window.
+    :END:
     If you change this variable to ~nil~, ~C-x 2~ instead adjusts the
     portion of the buffer displayed by the two windows, as well as the
     value of point in each window, in order to keep the text on the
@@ -11037,6 +11978,9 @@
     point was in the lower half of the original window, the bottom
     window is selected instead of the upper one.
 *** truncate-partial-width-windows                                   :window:
+    :PROPERTIES:
+    :Description: Non-nil means truncate lines in windows narrower than the frame.
+    :END:
     When you split a window with ~C-x 3~, each resulting window
     occupies less than the full width of the frame. If it becomes too
     narrow, the buffer may be difficult to read if continuation lines
@@ -11054,6 +11998,9 @@
     variable, it includes the fringes, the continuation and truncation
     glyphs, the margins and the scroll bar.
 *** window-resize-pixelwise                                          :window:
+    :PROPERTIES:
+    :Description: Non-nil means resize windows pixelwise.
+    :END:
     By default, when you split a window, Emacs gives each of the
     resulting windows dimensions that are an integral multiple of the
     default font size of the fram. That might subdivide the screen
@@ -11064,32 +12011,78 @@
     is not a multiple of the frame's character size, at least one
     window may get resized pixelwise even if this option is ~nil~.
 *** mouse-autoselect-window                                          :window:
+    :PROPERTIES:
+    :Description: Non-nil means autoselect window with mouse pointer.
+    :END:
     If you set this variable to a non-nil value, moving the mouse over
     a different window selects that window. This feature is off by
     default.
 *** window-min-height                                                :window:
+    :PROPERTIES:
+    :Description: The minimum total height, in lines, of any window.
+    :END:
     Cannot reduce a window height below the number of lines defined in
     this variable. The default is 4.
 *** window-min-width                                                 :window:
+    :PROPERTIES:
+    :Description: The minimum total width, in columns, of any window.
+    :END:
     Cannot reduce a window width below the number of columns defined
     in this variable. The default is 10.
 *** display-buffer-alist                                      :window:buffer:
+    :PROPERTIES:
+    :Description: Alist of user-defined conditional actions for ‘display-buffer’.
+    :END:
     Alist of user-defined conditional actions for ~display-buffer~. By
     default this is nil.
 *** display-buffer-base-action                                       :window:
+    :PROPERTIES:
+    :Description: User-specified default action for ‘display-buffer’.
+    :END:
     User-specified default action for ~display-buffer~
 *** split-height-threshold                                           :window:
+    :PROPERTIES:
+    :Description: Minimum height for splitting windows sensibly.
+    :END:
     Minimum height for splitting windows sensibly.
 *** split-width-threshold                                            :window:
+    :PROPERTIES:
+    :Description: Minimum width for splitting windows sensibly.
+    :END:
     Minimum width for splitting windows sensibly.
 *** temp-buffer-max-height                                           :window:
+    :PROPERTIES:
+    :Description: Maximum height of a window displaying a temporary buffer.
+    :END:
     The maximum height of windows resized by ~temp-buffer-resize-mode~
     can be controlled by customizing this variable, and cannot exceed
     the size of the containing frame.
 *** temp-buffer-max-width                                            :window:
+    :PROPERTIES:
+    :Description: Maximum width of a window displaying a temporary buffer.
+    :END:
     The maximum width of windows resized by ~temp-buffer-resize-mode~
     can be controlled by customizing this variable, and cannot exceed
     the size of the containing frame.
+*** winner-mode                                         :window:undo:display:
+    :PROPERTIES:
+    :Description: Non-nil if Winner mode is enabled.
+    :END:
+    Can customize this variable to enable or disable Winner mode
+*** winner-dont-bind-my-keys                                    :window:keys:
+    To prevent Winner mode from binding ~C-c <left>~ and ~C-c
+    <right>~, you can customize this variable to a non-nil value.
+*** winner-ring-size                                            :window:hist:
+    By default, Winner mode stores a maximum of 200 windows
+    configurations per frame, but you can change that by modifying
+    this variable.
+*** winner-boring-buffers                                :window:hist:buffer:
+    If there are some buffers whose windows you wouldn't want Winner
+    mode to restore, add their names to this list variable.
+*** winner-boring-buffers-regexp                         :window:hist:buffer:
+    If there are some buffers whose name you wouldn't want Winner mode
+    to restore, add a regexp that would catch those buffer names to
+    this regexp variable
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -11541,6 +12534,7 @@
        'display-buffer-alist
        '(("\\*Completions\\*" display-buffer-below-selected)))
     #+END_SRC
+
 * File Variables
 ** File Handling
 *** mode

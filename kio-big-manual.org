@@ -90,6 +90,7 @@
     - line
     - sentence
     - paragraph
+    - page
 *** Window
 *** Command
     - navigate
@@ -107,6 +108,7 @@
     - information
     - style
     - time
+    - undo
 *** Help
 *** Packages
 *** Navigating
