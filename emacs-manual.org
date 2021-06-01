@@ -2775,6 +2775,12 @@
      in a window at the bottom of the selected frame, regardless of
      the number of windows already shown on that frame.
 *** Convenience Features for Window Handling
+*** Window Tab Line
+    Note that the Tab Line is different from the Tab Bar. Whereas tabs
+    on the Tab Bar at the top of each frame are used to switch between
+    window configurations containing several windows with buffers,
+    tabs on the Tab Line at the top of each window are used to switch
+    between buffers in the window.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -3613,6 +3619,10 @@
 *** Selected Window
     At any time, one Emacs window is the /selected window/; the buffer
     this window is displaying is the current buffer.
+*** Tab Line
+    The /Tab Line/ shows special buttons ("tabs") for each buffer that
+    was displayed in a window, and allows switching to any of these
+    buffers by clicking the corresponding button.
 * Modes
 ** The Organization of the Screen
 *** Size Indication mode
@@ -4119,6 +4129,13 @@
     Scroll All mode is a global minor mode that causes scrolling
     commands and point motion commands to apply to every single
     window.
+*** Global Tab Line mode
+    The /Tab Line/ shows special buttons ("tabs") for each buffer that
+    was displayed in a window, and allows switching to any of these
+    buffers by clicking the corresponding button. Clicking on the ~+~
+    icon adds a new buffer to the window-local tab line of buffers,
+    and clicking on the ~x~ icon of a tab deletes it. The mouse wheel
+    on the tab line scrolls the tabs horizontally.
 * Contexts
 ** anywhere
    literally anywhere
@@ -9679,6 +9696,11 @@
     :Description: Toggle Scroll All mode
     :Context:  multiple-windows
     :END:
+*** globa-tab-line-mode                               :window:buffer:display:
+    :PROPERTIES:
+    :Description: Toggle Global Tab Line mode
+    :Context:  navigating
+    :END:
 * Variables
   :PROPERTIES:
   :COLUMNS:  %20ITEM(Var) %20TAGS(Tags) %20Description
@@ -12083,6 +12105,14 @@
     If there are some buffers whose name you wouldn't want Winner mode
     to restore, add a regexp that would catch those buffer names to
     this regexp variable
+*** tab-line-tabs-function                            :window:buffer:display:
+    You can customize this variable to define the prefered contents of
+    the tab line. By default, it displays all buffers previously
+    visited in the window, as described above. But you can also set it
+    to display a list of buffers with the same major mode as the
+    current buffer, or to display buffers grouped by their major mode,
+    where clicking on the mode name in the first tab displays a list
+    of all major modes where you can select another group of buffers.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
