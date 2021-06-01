@@ -4164,6 +4164,8 @@
 ** mode-line
    Sometimes mouse commands can have special things happen when
    you click the mouse on the mode line.
+** multiple-windows
+   This is when multiple windows are visible on a single frame.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -9248,6 +9250,49 @@
     :Description: Split window of mode line at location of click
     :Context:  mode-line
     :END:
+*** other-window                                                 :window:nav:
+    :PROPERTIES:
+    :Command:  C-x o
+    :Description: Select another window
+    :Context:  anywhere
+    :Argument: numeric
+    :END:
+    When there are more than two windows, this command moves through
+    all the windows in a cyclic order, generally top to bottom and
+    left to right. After the rightmost and bottommost window, it goes
+    back to the one at the upper left corner. A numeric argument means
+    to move several steps in the cyclic order of windows. A negative
+    argument moves around the cycle in the opposite order. When the
+    minibuffer is active, the minibuffer window is the last window in
+    the cycle; You can switch from the minibuffer window to one of the
+    other windows, and later switch back and finish supplying the
+    minibuffer argument that is requested.
+*** scroll-other-window                                          :window:nav:
+    :PROPERTIES:
+    :Command:  C-M-v
+    :Description: Scroll the next window upward
+    :Context:  multiple-windows
+    :Argument: numeric
+    :END:
+    With a numeric argument, /n/, you scroll next window by /n/ lines
+*** scroll-other-window-down                                     :window:nav:
+    :PROPERTIES:
+    :Command:  C-M-S-v
+    :Description: Scroll the next window downward
+    :Context:  multiple-windows
+    :Argument: numeric
+    :END:
+    With a numeric argument, /n/, you scroll next window by /n/ lines
+*** mouse-set-point                                              :window:nav:
+    :PROPERTIES:
+    :Command:  <mouse-1>
+    :Description: In text area, selects window and moves point to mouse
+    :END:
+*** next-window-any-frame                                  :window:nav:frame:
+    :PROPERTIES:
+    :Description: Select next window, regardless of the frame
+    :Context:  multiple-windows
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10802,6 +10847,10 @@
     was an odd number of pixels). Note that when a frame's pixel size
     is not a multiple of the frame's character size, at least one
     window may get resized pixelwise even if this option is ~nil~.
+*** mouse-autoselect-window                                          :window:
+    If you set this variable to a non-nil value, moving the mouse over
+    a different window selects that window. This feature is off by
+    default.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
