@@ -2685,6 +2685,8 @@
     is displayed in the window. The selecected window's mode line
     appears in a different color.
 *** Splitting Windows
+*** Using Other Windows
+*** Displaying in Another Window
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4166,6 +4168,9 @@
    you click the mouse on the mode line.
 ** multiple-windows
    This is when multiple windows are visible on a single frame.
+** prog
+   Some modes are contextualized as "prog-modes" they are modes where
+   you are usually writing in a programming language.
 * Commands
 ** The Organization of the Screen
 *** what-cursor-position                                   :inform:char:echo:
@@ -9292,6 +9297,42 @@
     :PROPERTIES:
     :Description: Select next window, regardless of the frame
     :Context:  multiple-windows
+    :END:
+*** display-buffer                                    :window:display:buffer:
+    :PROPERTIES:
+    :Command:  C-x 4 C-o
+    :Description: Display given buffer in some window without selecting
+    :Context:  navigating
+    :END:
+*** find-file-other-window                          :window:files:nav:buffer:
+    :PROPERTIES:
+    :Command:  C-x 4 f
+    :Description: Visit given file and select its buffer in another window
+    :Context:  navigating
+    :END:
+*** dired-other-window                                  :window:files:buffer:
+    :PROPERTIES:
+    :Command:  C-x 4 d
+    :Description: Select a dired buffer for given directory in other window
+    :Context:  navigating
+    :END:
+*** compose-mail-other-window                                        :window:
+    :PROPERTIES:
+    :Command:  C-x 4 m
+    :Description: Start composing a mail message in another window
+    :Context:  anywhere
+    :END:
+*** xref-find-definitions-other-window                               :window:
+    :PROPERTIES:
+    :Command:  C-x 4 .
+    :Description: Find the definition of an identifier in another window
+    :Context:  prog
+    :END:
+*** find-file-read-only-other-window                           :window:files:
+    :PROPERTIES:
+    :Command:  C-x 4 r
+    :Description: Visit given file read-only and select in other window
+    :Context:  navigating
     :END:
 * Variables
 ** The Organization of the Screen
