@@ -2687,6 +2687,9 @@
 *** Splitting Windows
 *** Using Other Windows
 *** Displaying in Another Window
+*** Deleting and Resizing Windows
+    Mouse clicks on the mode line or on window dividers provide
+    another way to change window heights and to split or delete windows.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -9334,6 +9337,81 @@
     :Description: Visit given file read-only and select in other window
     :Context:  navigating
     :END:
+*** delete-window                                             :window:delete:
+    :PROPERTIES:
+    :Command:  C-x 0
+    :Description: Delete the selected window
+    :Context:  navigating
+    :END:
+    Once a window is deleted, the space that it occupied is given to
+    an adjacent window (but not the minibuffer window, even if that is
+    active at the time). Deleting the window has no effect on the
+    buffer it used to display; the buffer continues to exist, and you
+    can still switch to it with ~C-x b~.
+*** delete-other-window                                       :window:delete:
+    :PROPERTIES:
+    :Command:  C-x 1
+    :Description: Delete all windows in selected frame except selected window
+    :Context:  navigating
+    :END:
+    This command cannot be used while the minibuffer window is active;
+    attempting to do so signals an error.)
+*** kill-buffer-and-window                        :window:kill:buffer:delete:
+    :PROPERTIES:
+    :Command:  C-x 4 0
+    :Description: Delete selected window and kill buffer in window
+    :Context:  navigating
+    :END:
+*** delete-windows-on                                  :window:delete:buffer:
+    :PROPERTIES:
+    :Description: Delete windows showing the specified buffer
+    :Context:  navigating
+    :Argument: zero
+    :END:
+    With a prefix argument of zero, ~C-u 0~, this command deletes
+    windows only on the current display's frames.
+*** enlarge-window                                                   :window:
+    :PROPERTIES:
+    :Command:  C-x ^
+    :Description: Make selected window taller
+    :Context:  multiple-windows
+    :Argument: numeric
+    :END:
+    With a positive numeric argument, this command increases the
+    window height by that many lines; with a negative argument, it
+    reduces the height by that many lines. If there are no vertically
+    adjacent windows (i.e., the window is at the full frame height),
+    that signals an error. The command also signals an error if you
+    attempt to reduce the height of any window below a certain minimum
+    number of lines, specified by the variable ~window-min-height~
+    (the default is 4).
+*** shrink-window-horizontally                                       :window:
+    :PROPERTIES:
+    :Command:  C-x {
+    :Description: Make selected window narrower
+    :Context:  multiple-windows
+    :END:
+*** enlarge-window-horizontally                                      :window:
+    :PROPERTIES:
+    :Command:  C-x }
+    :Description: Make selected window wider
+    :Context:  multiple-windows
+    :END:
+    This command signals an error if you attempt to reduce the width
+    of any window below a certain minimum number of columns, specified
+    by the variable ~window-min-width~ (the default is 10)
+*** shrink-window-if-larger-than-buffer                              :window:
+    :PROPERTIES:
+    :Command:  C-x -
+    :Description: Shrink this window if its buffer doesn't need all lines
+    :Context:  multiple-windows
+    :END:
+*** balance-windows                                                  :window:
+    :PROPERTIES:
+    :Command:  C-x +
+    :Description: Make all windows the same height
+    :Context:  multiple-windows
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -10892,6 +10970,12 @@
     If you set this variable to a non-nil value, moving the mouse over
     a different window selects that window. This feature is off by
     default.
+*** window-min-height                                                :window:
+    Cannot reduce a window height below the number of lines defined in
+    this variable. The default is 4.
+*** window-min-width                                                 :window:
+    Cannot reduce a window width below the number of columns defined
+    in this variable. The default is 10.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
