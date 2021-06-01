@@ -2762,6 +2762,18 @@
         selected frame.
      7. If all the above methods fail for whatever reason, create a
         new frame and display the buffer there.
+**** Displaying non-editable buffers
+     Some buffers are shown in windows for perusal rather than for
+     editing. Help commands typically use a buffer called ~*Help*~ for
+     that purpose, minibuffer completion uses a buffer called
+     ~*Completions*~, etc. such buffers are usually displayed only for
+     a short period of time.
+
+     Normally, Emacs chooses the window for such temporary displays
+     via ~display-buffer~, as described in the previous section. The
+     ~*Completions*~ buffer, on the other hand, is normally displayed
+     in a window at the bottom of the selected frame, regardless of
+     the number of windows already shown on that frame.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4094,6 +4106,9 @@
 
     Another noteworth aspect is that ~flex~ is used as the default
     completion style.
+*** Temp Buffer Resize mode
+    You can make sure other temporary buffers resize to the minimum
+    possible height by turning on this mode.
 * Contexts
 ** anywhere
    literally anywhere
@@ -9489,6 +9504,11 @@
     :Description: Display given buffer and select its window
     :Context:  navigating
     :END:
+*** temp-buffer-resize-mode                              :mode:window:buffer:
+    :PROPERTIES:
+    :Description: Toggle Temp Buffer Resize mode
+    :Context:  multiple-windows
+    :END:
 * Variables
 ** The Organization of the Screen
 *** tty-menu-open-use-ttm                                              :menu:
@@ -11062,6 +11082,14 @@
     Minimum height for splitting windows sensibly.
 *** split-width-threshold                                            :window:
     Minimum width for splitting windows sensibly.
+*** temp-buffer-max-height                                           :window:
+    The maximum height of windows resized by ~temp-buffer-resize-mode~
+    can be controlled by customizing this variable, and cannot exceed
+    the size of the containing frame.
+*** temp-buffer-max-width                                            :window:
+    The maximum width of windows resized by ~temp-buffer-resize-mode~
+    can be controlled by customizing this variable, and cannot exceed
+    the size of the containing frame.
 * Hooks
 ** Commands for Fixing Typos
 *** text-mode-hook
@@ -11502,6 +11530,17 @@
 
     This customization will also try to search for a reusable window
     on all visible or iconified frames as described earlier.
+*** Temp buffer display
+    If you prefer Emacs to display a temporary buffer in a different
+    fashion, customize the variable ~display-buffer-alist~
+    appropriately. For example, to display ~*Completions*~ always
+    below the selected window, use the following form in your
+    initialization file:
+    #+BEGIN_SRC emacs-lisp
+      (customize-set-variable
+       'display-buffer-alist
+       '(("\\*Completions\\*" display-buffer-below-selected)))
+    #+END_SRC
 * File Variables
 ** File Handling
 *** mode
