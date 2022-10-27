@@ -1,1513 +1,1252 @@
-#+STARTUP: overview
-#+STARTUP: shrink
-#+STARTUP: logdone
 
-* Manual                                                             :ATTACH:
-  :PROPERTIES:
-  :Attachments: The%20Org%20Manual.html
-  :ID:       9e565568-1a32-4c8d-acc5-5424926c8cea
-  :END:
+* Manual
 ** Introduction
 *** Summary
-    Nothing to practice
 *** Installation
-    Already installed wanna keep moving
 *** Activation
-**** Activate Org Mode
-***** File Extension
-      Any file that ends in '.org' will turn on org mode.
-***** File Text                                                    :confused:
-      Start a file of any extension with the following text
-      #+BEGIN_SRC org
-	MY PROJECTS    -*- mode: org; -*-
-      #+END_SRC
-      Not able to get this to work, must need something else unspoken.
-**** Suggested Key Bindings
-***** .emacs addition
-      #+BEGIN_SRC emacs-lisp
-	(global-set-key (kbd "C-c l") 'org-store-link)
-	(global-set-key (kbd "C-c a") 'org-agenda)
-	(global-set-key (kbd "C-c c") 'org-capture)
-      #+END_SRC
 *** Feedback
-**** Problems, Questions, Remarks, Ideas
-***** email
-      emacs-orgmode@gnu.org
-***** mailing list
-      [[https://lists.gnu.org/mailman/listinfo/emacs-orgmode][mailing list]]
-**** Bug Report
-***** Componant Parts
-****** Summary
-       + emacs-version
-       + org-version
-       + org lines in emacs init file
-****** Commands
-       + M-x emacs-version <RET>
-       + M-x org-version <RET>
-
-       Everything at once:
-       M-x org-submit-bug-report <RET>
-**** Minimal mode                                                  :confused:
-     I don't fully understand this yet, but minimal mode should have
-     the following code
-     #+BEGIN_SRC emacs-lisp
-       ;;; Minimal setup to load latest `org mode'.
-
-       ;; Activation debugging.
-       (setq debug-on-error t
-	     debug-on-signal nil
-	     debug-on-quit nil)
-
-       ;; Add latest Org mode to load path.
-       (add-to-list 'load-path (expand-file-name "/path/to/org-mode/listp"))
-       (add-to-list 'load-path (expand-file-name "/path/to/org-mode/contrib/lisp" t))
-     #+END_SRC
-     The paths to org-mode confuse me a little. And I'm not sure if
-     there's a specific place I'm supposed to store this code. I'm
-     supposed to start it like this:
-     #+BEGIN_SRC sh
-       $emacs -Q -l /path/to/minimal-org.el
-     #+END_SRC
-**** Backtrace
-     When encountering a bug do the following:
-     1) Reload uncompiled versions of org mode. This helps make helpful backtrace
-     C-u M-x org-reload <RET>
-     2) Activate debugger
-     M-x toggle-debug-on-error <RET>
-     3) Recreate error
-     4) Save backtrace buffer to file
-     C-x C-w
-
-***** Note                                                             :typo:
-      Current: M-x toggle-debug-or-error <RET>
-      Fixed:   M-x toggle-debug-on-error <RET>
-*** Typesetting Conventions Used in this Manual
-**** 'TODO' keywords
-***** built in keywords
-      All caps:
-      TODO
-      DONE
-***** user defined
-      still all caps:
-      WAITING
-      FOUND
-      FIXED
-**** tags
-     case-sensitive
-***** user defined
-      should be all lower case:
-      confused
-      typo
-***** built in tags
-      use whatever is specified, usually all caps:
-      ARCHIVE
-**** property keywords
-***** user defined
-      Capitalized:
-      Release
-      Information
-***** built in
-      all caps:
-      PRIORITY
-      CUSTOM_ID
-**** other keywords and blocks
-     Normally written in upper case for "readability" but lower case still works:
-     TITLE
-     BEGIN...END
+Instructions for helpful backtrace:
+ 1. Reload uncompiled version of all Org mode Lisp files.
+    - C-u M-x org-reload <RET>
+ 2. Activate the Debugger
+    - M-x toggle-debug-on-error <RET>
+ 3. Reproduce error (document each step you take)
+ 4. Save \*Backtrace* buffer to a file and attach to bug report
+    - C-x C-w (example)
+*** Conventions
 ** Document Structure
 *** Headlines
-**** This
-***** Is
-****** An
-******* Elaborate
-****** Example
+There are options to reduce visual noise of the stars in headlines
+
+There are options to have headlines dynamically numbered
 *** Visibility Cycling
-**** Global and local cycling                                      :practice:
-     [[https://orgmode.org/manual/Global-and-local-cycling.html#Global-and-local-cycling][cycling keys]] Basically use tab or shift tab or variations on tab
-     to get the visibility you want
+**** Global and local cycling
 **** Initial visibility
-     :PROPERTIES:
-     :VISIBILITY: all
-     :END:
-     See the top of the file for an example of startup visibility. See
-     the property for this header for more specific visibility. Hit
-     C-u C-u TAB to go to main visibility
 **** Catching invisible edits
-*** Motion                                                         :practice:
-    [[https://orgmode.org/manual/Motion.html#Motion][motion keys]]
-    Nothing to write. Check manual
-*** Structure Editing                                              :practice:
-    [[https://orgmode.org/manual/Structure-Editing.html#Structure-Editing][structure editing keys]]
-    All practice stuff no visuals check manual
-*** Sparse Trees                                            :review:practice:
-    This seems important but maybe after reading the rest of the manual
-*** Plain Lists                                                    :practice:
-    [[https://orgmode.org/manual/Plain-Lists.html#Plain-Lists][plain list keys]]
-    - unordered
-    - list
-    - example :: with a description
-      + different
-      + header
-	* different
-	* again
-	  1. Ordered
-	  2. List
-	  3. example
-	     1) etc.
-		a. etc.
-		   A. etc.
-		      a) etc.
-			 A) etc.
-*** Drawers                                                        :practice:
-    [[https://orgmode.org/manual/Drawers.html#Drawers][Drawer keys]]
-    Drawers hide information you don't always need to see
-    :DRAWERNAME:
-    Stuff you don't want to see in your drawer
-    like socks
-    and shirts
-    :END:
-    After the drawer
-*** Blocks
-    Blocks are like drawers but sometimes used for code and stuff
-    #+BEGIN_EXAMPLE
-    stuff in a block
-    #+END_EXAMPLE
-    Seems like it requires some kind of underscore. Not sure about specifics.
-** Tables
-   :PROPERTIES:
-   :ID:       dc99d25a-8f41-435c-8fec-7a1a589c0546
-   :END:
-*** Built-in Table Editor                                          :practice:
- [[https://orgmode.org/manual/Built_002din-Table-Editor.html#Built_002din-Table-Editor][Table keys]]
- | Name  | Phone | Age |
- |-------+-------+-----|
- | Peter |  1234 |  17 |
- | Anna  |  4321 |  25 |
-
-*** Column Width and Alignment                                     :practice:
- [[https://orgmode.org/manual/Column-Width-and-Alignment.html#Column-Width-and-Alignment][alignment keys]]
- |---+---------------------+--------|
- |   | <6>                 |        |
- | 1 | one                 | some   |
- | 2 | two                 | boring |
- | 3 | This is a long text | column |
- |---+---------------------+--------|
-*** Column Groups
- This does cool things when you export the table.
- | N | N^2 | N^3 | N^4 |   sqrt(n) | sqrt[4](N) |
- |---+-----+-----+-----+-----------+------------|
- | / |   < |     |   > |         < |          > |
- | 1 |   1 |   1 |   1 |         1 |          1 |
- | 2 |   4 |   8 |  16 | 1.4142136 |  1.1892071 |
- | 3 |   9 |  27 |  81 | 1.7320508 |  1.3160740 |
- #+TBLFM: $2=$1^2::$3=$1^3::$4=$1^4::$5=sqrt($1)::$6=sqrt(sqrt($1))
-*** The Orgtbl Minor Mode
-    This is kind of more for emacs in general than org mode
-*** The Spreadsheet
-**** References
-     mostly incomplete syntax stuff
-***** Something confusing                                              :typo:
-      not '@3 = 2 * remote(FOO, @@1$$#)'
-      but '@3 = 2 * remote(FOO, @1$$#)'
-
-      not ''remote($1, @@>$2)' => 'remote(year_2013, @@>$1)''
-      but ''remote($1, @>$2)' => 'remote(year_2013, @>$2)''
-**** Formula syntax for Calc
-     Also incomplete syntax stuff
-**** Emacs Lisp forms as formulas
-     incomplete syntax
-**** Durations and time values
-     incomplete syntax
-**** Field and range formulas
- | header      | stuff   |
- |-------------+---------|
- | ':=example' | example |
- #+TBLFM: @2$2=example
-**** Column formulas
- | num | double equation | double |
- |-----+-----------------+--------|
- |   1 | '=$1*2'         |      2 |
- |   2 |                 |      4 |
- |   3 |                 |      6 |
- #+TBLFM: $3=$1*2
-**** Lookup functions                                                :review:
-     This seems like stuff that might be cool to checkout when I am
-     using tables more regularly
-**** Editing and debugging formulas                                :practice:
-     [[https://orgmode.org/manual/Editing-and-debugging-formulas.html#Editing-and-debugging-formulas][editing formula keys]]
-**** Updating the table
-     [[https://orgmode.org/manual/Updating-the-table.html#Updating-the-table][update table keys]]
-**** Advanced features                                               :review:
-     Syntax stuff that again might be more interesting when I'm using
-     tables.
-*** Org Plot
- I tried installing this but it doesn't seem to be working. I'd like to email
- the list serve about this.
- | Sede          | Max cities |              |
- |---------------+------------+--------------|
- | Chile         |     257.72 | WWWWWWWWWWWW |
- | Leeds         |     165.77 | WWWWWWWh     |
- | Sao Paolo     |      71.00 | WWW;         |
- | Stockholm     |     134.19 | WWWWWW:      |
- | Morelia       |     257.56 | WWWWWWWWWWWW |
- | Rochefourchat |       0.00 |              |
- #+TBLFM: $3='(orgtbl-ascii-draw $2 0.0 257.72 12)
-
-** Hyperlinks
-*** Link Format
-    [[https://orgmode.org/manual/Link-Format.html#Link-Format][link example]]
-*** Internal Links
-    :PROPERTIES:
-    :CUSTOM_ID: custom-example
-    :END:
- [[#custom-example][custom id example]]
- <<Dedicated Target>>
- [[Dedicated Target][Dedicated Target Example]]
- #+NAME: Table Target Example
- | a  | table      |
- |----+------------|
- | of | four cells |
- [[Table Target Example]]
- [[Internal Links][Header Target Example]]
-*** Radio Targets
-    Radio targets turn plain text into links
-    uniqqq
-    <<<uniqqq>>>
-*** External Links                                                   :review:
-*** Handling Links                                                 :practice:
-*** Using Links Outside Org                                          :review:
-*** Link Abbreviations                                               :review:
-*** Search Options in File Links                                     :review:
-*** Custom Searches                                                  :review:
-** 'TODO' Items
-*** Basic TODO Functionality                                       :practice:
-**** TODO Example
-     Maybe a short description
-*** Extended Use of TODO Keywords
-**** 'TODO' keywords as workflow states                              :review:
-     Can define new TODO keywords for all org files.
-**** 'TODO' keywords as types
-     Functionality the manual discourages
-**** Multiple keyword sets in one file                             :practice:
-     Define multiple todo sequences for all org files.
-**** Fast access to TODO states                                      :review:
-     Cool stuff
-**** Setting up keywords for individual files
- #+TODO: TODO NEXT | DONE
-***** TODO something
-***** NEXT next step
-***** DONE finished
-      CLOSED: [2019-12-18 Wed 07:53]
-**** Faces for TODO keywords
-     example .emacs line
-     #+BEGIN_SRC elisp
-       (setq org-todo-keyword-faces
-	     '(("TODO" . org-warning) ("STARTED" . "yellow")
-	       ("CANCELED" . (:foreground "blue" :weight bold))))
-     #+END_SRC
-**** 'TODO' dependencies                                           :practice:
-***** NEXT blocked until all children are finished
-****** NEXT blocking todo
-******* DONE subtask
-	CLOSED: [2019-12-18 Wed 08:01]
-******* TODO other subtask
-****** DONE unblocked todo
-       CLOSED: [2019-12-18 Wed 08:01]
-******* DONE subtask
-	CLOSED: [2019-12-18 Wed 08:01]
-******* DONE other subtask
-	CLOSED: [2019-12-18 Wed 19:19]
-****** TODO ordered blocking
-       :PROPERTIES:
-       :ORDERED:  t
-       :END:
-******* DONE a
-	CLOSED: [2019-12-18 Wed 08:04]
-******* DONE b, needs to wait for (a)
-	CLOSED: [2019-12-18 Wed 08:04]
-******* TODO c, needs to wait for (a) and (b)
-******* NEXT d, waits for everyone
-*** Progress Logging
-**** Closing items
-**** Tracking TODO state changes                                     :review:
- #+TODO: START(s) WAIT(w@/!) | FINISHED(f!) CANCELED(c@)
-***** CANCELED Standard
-      CLOSED: [2019-12-18 Wed 19:24]
-      - State "CANCELED"   from "FINISHED"   [2019-12-18 Wed 19:24] \\
-	Canceled for silly reasons
-      - State "FINISHED"   from "WAIT"       [2019-12-18 Wed 19:24]
-      - State "WAIT"       from "START"      [2019-12-18 Wed 19:23] \\
-	This is a note
-***** TODO log each state with only a time
-      :PROPERTIES:
-      :LOGGING:  START(!) WAIT(!) FINISHED(!) CANCELED(!)
-      :END:
-****** CANCELED New Example
-       - State "CANCELED"   from "FINISHED"   [2019-12-18 Wed 19:25]
-       - State "FINISHED"   from "WAIT"       [2019-12-18 Wed 19:25]
-       - State "WAIT"       from "START"      [2019-12-18 Wed 19:25]
-       - State "START"      from              [2019-12-18 Wed 19:25]
-***** Only log when switching to WAIT, and when repeating
-      :PROPERTIES:
-      :LOGGING:  WAIT(@) logrepeat
-      :END:
-****** FINISHED logrepeat example
-       - State "WAIT"       from "START"      [2019-12-18 Wed 19:28] \\
-	 new note
-       - State "WAIT"       from "START"      [2019-12-18 Wed 19:27] \\
-	 waiting note
-***** No logging at all
-      :PROPERTIES:
-      :LOGGING:  nil
-      :END:
-****** DONE no logging
-***** DONE Basic log
-      CLOSED: [2019-12-18 Wed 19:30]
-**** Tracking your habits                                            :review:
-***** TODO Journal
-      SCHEDULED: <2019-12-20 Fri .+2d/5d>
-      :PROPERTIES:
-      :STYLE:    habit
-      :LAST_REPEAT: [2019-12-18 Wed 19:52]
-      :END:
-      - State "DONE"       from "NEXT"       [2019-12-18 Wed 19:52]
-
-*** Priorities                                                     :practice:
-**** [#A] Priority Example
-*** Breaking Down Tasks into Subtasks
-**** Organize Party [40%]
-     :PROPERTIES:
-     :COOKIE_DATA: todo recursive
-     :END:
-     - [ ] Distracting
-     - [X] Stuff
-***** TODO Call people [1/2]
-****** TODO Peter
-****** DONE Sarah
-***** TODO Buy food
-***** DONE Talk to neighbor
-*** Checkboxes                                                     :practice:
-**** TODO Organize party [2/4]
-     - [-] call people [1/3]
-       - [ ] Peter
-       - [X] Sarah
-       - [ ] Sam
-     - [X] order food
-     - [ ] think about what music to play
-     - [X] talk to the neighbors
-** Tags
-*** Tag Inheritance                                                  :review:
-**** Meeting with the French group                                     :work:
-***** Summary by Frank                                           :boss:notes:
-****** TODO Prepare slides for him                                   :action:
-*** Setting Tags                                            :practice:review:
- #+TAGS: practice(p) review(r) confused(c) typo(t) { good(g) bad(b) }
- white space is mandatory
-**** flip                                                               :bad:
-*** Tag Hierarchy
- #+TAGS: [ GTD : Control Persp ]
- #+TAGS: [ Control : Context Task ]
- #+TAGS: [ Persp : Version Goal AOF Project ]
- #+TAGS: { Context : @Home @Work @Call }
- #+TAGS: [ Vision : {V@.+} ]
- #+TAGS: [ GOAL : {G@.+} ]
- #+TAGS: [ AOF : {AOF@.+} ]
- #+TAGS: [ Project : {P@.+} ]
- Visualize tag hierarchy:
- - GTD
-   - Persp
-     - Vision
-       - r"""P@.+"""
-     - Goal
-       - r"""G@.+"""
-     - AOF
-       - r"""AOF@.+"""
-     - Project
-       - r"""P@.+"""
-   - Control
-     - Context
-       - @Home
-       - @Work
-       - @Call
-     - Task
-*** Tag Searches                                                   :practice:
-** Properties and Columns
-*** Property Syntax                                         :practice:review:
-**** CD collection
-     :PROPERTIES:
-     :NDisks_ALL: 1 2 3 4
-     :Publisher_ALL: "Deutsche Grammophon" Philips EMI
-     :END:
-***** Classic
-      :PROPERTIES:
-      :Genres:   Classic
-      :END:
-****** Goldberg Variations
-       :PROPERTIES:
-       :TITLE:    Goldberg Variations
-       :Composer: J.S. Bach
-       :Artist:   Glenn Gould
-       :Publisher: Deutche Grammophon
-       :NDisks:   1
-       :Genres+:  Baroque
-       :END:
-***** test
-      :PROPERTIES:
-      :TITLE:    Test
-      :NDisks:   2
-      :END:
-*** Special Properties                                               :review:
-    These help access stuff for column view
-*** Property Searches                                              :practice:
-*** Property Inheritance                                             :review:
-*** Column View
-**** Defining columns
-***** Scope of column definitions
-***** Column attributes                                              :review:
-**** Using column view                                             :practice:
-**** Capturing column view                                  :practice:review:
-** Dates and Times
-*** Timestamps
-**** Plain Time Stamp
-     <2018-04-11>
-     <2018-03-22 Thu>
-     <2018-04-13 Fri 09:50>
-     <2018-04-27 Fri 12:50-14:00>
-**** Timestamp with repeater
-     <2018-05-27 Sun 01:15 +5d>
-     <2018-02-12 Mon 08:10 +8w>
-     <2018-04-02 Mon 13:25 +1m>
-     <2018-04-25 Wed 17:00 +4y>
-     <2018-10-05 Fri +6w>
-**** Diary-style expression entries
-     <%%(diary-float t 4 2)>
-**** Time/Date range
-     <2018-01-22 Mon>--<2018-03-22 Thu>
-**** Inactivate timestamp
-     [2018-04-23 Mon]
-*** Creating Timestamps
-*** Deadlines and Scheduling
-**** Deadlines and Scheduling
-***** TODO Deadline Example
-      DEADLINE: <2018-02-03 Sat>
-***** TODO Deadline with Custom warning time
-      DEADLINE: <2018-04-03 Tue -4d>
-***** TODO Scheduled Example
-      SCHEDULED: <2018-05-19 Sat>
-***** TODO Scheduled with delayed display example
-      SCHEDULED: <2018-08-02 Thu -9d>
-***** TODO Scheduled with delayed display on first instance
-      SCHEDULED: <2018-08-20 Mon --4d>
-**** Inserting deadline/schedule
-**** Repeated tasks
-***** TODO Deadline with simple repeater
-      DEADLINE: <2018-03-14 Wed +1m>
-***** TODO Deadline with simple repeater and warning period
-      DEADLINE: <2018-04-01 Sun +1m -6d>
-***** TODO Deadline after done repeat example
-      DEADLINE: <2018-07-30 Mon +1m>
-      :PROPERTIES:
-      :LAST_REPEAT: [2018-07-18 Wed 12:00]
-      :END:
-      - State "DONE"       from "NEXT"       [2018-07-18 Wed 12:00]
-***** TODO Call Father
-      DEADLINE: <2018-09-08 Sat ++1w>
-      Marking this DONE shifts the date by at least one week, but also
-      by as many weeks as it takes to get this date into the future.
-      However, it stays on a Sunday, even if you called and marked it
-      done on Saturday.
-***** TODO Empty kitchen trash
-      DEADLINE: <2018-01-20 Sat 02:00 ++1d>
-      Marking this DONE shifts the date by at least one day, and also
-      by as many days as it takes to get the timestamp into the future.
-      Since there is a time in the timestamp, the next deadline in the
-      future will be on today's date if you complete the task before 02:00
-***** TODO Check the batteries in the smoke detectors
-      DEADLINE: <2018-05-20 Sun .+1m>
-      Marking this DONE will shift the date to one month after today.
-*** Clocking Work Time
-**** Clocking commands
-**** The clock table
-#+BEGIN: clocktable :maxlevel 2 :emphasize nil :scope file
-#+END: clocktable
-- clocktable options
-  - :maxlevel :: Maximum level depth to which times are listed in the
-		 table. Clocks at deeper levels are summed into the
-		 upper level.
-  - :scope :: The cope to consider. This can be any of the following:
-    - nil :: The current buffer or narrowed region
-    - file :: the full current buffer
-    - subtree :: the subtree where the clocktable is located
-    - treeN :: the surrounding level N tree, for example 'tree3'
-    - tree :: the surrounding level 1 tree
-    - agenda :: all agenda files
-    - ("file" ...) :: scan these files
-    - FUNCTION :: scan files returned by calling FUNCTION with no argument
-    - file-with-archives :: current file and its archives
-    - agenda-with-archives :: all agenda files, including archives
-  - :block :: The time block to consider. Default is this year. This block 
-              is specified either absolutely, or relative to the current 
-              time and may be any of these formats:
-    - 2007-12-31 :: New year eve 2007
-    - 2007-12 :: December 2007
-    - 2007-W50 :: ISO-week 50 in 2007
-    - 2007-Q2 :: 2nd quarter in 2007
-    - 2007 :: the year 2007
-    - today, yesterday, today-N :: a relative day
-    - thisweek, lastweek, thisweek-N :: a relative week
-    - thismonth, lastmonth, thismonth-N :: a relative month
-    - thisyear, lastyear, thisyear-N :: a relative year
-    - untilnow :: all clocked time ever
-  - :tstart :: A time string specifying when to start considering times.
-	       Relative times like "<-2w>" can also be used.
-  - :tend :: A time string specifying when to stop considering times.
-	     Relative times like "<now>" can also be used.
-  - :wstart :: The starting day of the week. The default is 1 for Monday.
-  - :mstart :: The starting day of the month. The default is 1 for the first.
-  - :step :: Set to 'day', 'week', 'month', or 'year' to split the table into 
-             chunks. To use this, either ':block', or ':tstart' and ':tend'
-	     are required.
-  - :stepskip0 :: when non-nil, do not show steps that have zero time.
-  - :fileskip0 :: when non-nil, do not show table sections from files which
-		  did not contribute.
-  - :match :: A tags match to select entries that should contribute.
-  - :emphasize :: When non-nil, emphasize level one and level two items
-  - :lang :: Language to use for descriptive cells like "Task".
-  - :link :: Link the item headlines in the table to their origins
-  - :narrow :: An integer to limit the width of the headline column in the
-	       Org table. If you write it like '50!', then the headline is
-	       also shortened in export.
-  - :indent :: Indent each headline field according to its level.
-  - :hidefiles :: Hide the file column when multiple files are used to 
-		  produce the table.
-  - :tcolumns :: Number of columns to be used for times. If this is smaller
-		 than ':maxlevel', lower levels are lumped into one column
-  - :level :: Should a level number column be included?
-  - :sort :: A cons cell containing the column to sort and a sorting type. E.g.,
-	     ':sort (1 . ?a)' sorts the first column alphabetically.
-  - :compact :: Abbreviation for ':level nil :indent t :narrow 40! :tcolumns 1'.
-		All are overwritten except if there is an explicit ':narrow'.
-  - :timestamp :: A timestamp for the entry, when available. Look for 'SCHEDULED',
-		  'DEADLINE', 'TIMESTAMP' and 'TIMESTAMP_IA' special properties,
-		  in this order.
-  - :tags :: When this flat is non-nil, show the headline's tags.
-  - :properties :: List of properties shown in the table. Each property gets
-		   its own column.
-  - :inherit-props :: When this flag is non-nil, the values for ':properties'
-		      are inherited.
-  - :formula :: Content of a 'TBLFM' keyword to be added and evaluated. As a
-		special case, ':formula %' adds a column with % time. If you
-		do not specify a formula here, any existing formula below the
-		clock table survives updates and is evaluated
-  - :formatter :: a function to format clock data and insert it into the buffer.
-**** Resolving Idle time and continuous clocking
-*** Effort Estimates
-*** Taking Notes with a relative Timer
-** Refiling and Archiving
-*** Refile and Copy
-*** Archiving
-**** Movint a tree to an archive file
-**** Internal archiving
-     Use 'ARCHIVE' tag
-** Capture and Attachments
-*** Capture
-**** Setting up capture
-**** Using capture
-**** Capture templates
-     Example
-     #+BEGIN_SRC emacs-lisp
-       (setq org-capture-templates
-	     '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-		"* TODO %?\n  %i\n  %a")
-	       ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
-		"* %?\nEntered on %U\n  %i\n  %a")))
-     #+END_SRC
-***** Template elements
-      #+BEGIN_SRC emacs-lisp
-	(setq org-capture-templates
-	      '((keys description type target template properties)
-		(keys description type target template properties)...)
-      #+END_SRC
-****** keys
-       When in Capture template buffer, the key/s to type to get to
-       this particular template
-
-       When using several keys, keys using the same prefix key must be
-       sequential in the list and preceded by a 2-element entry
-       explaining the prefix key, for example
-       #+BEGIN_SRC emacs-lisp
-	 (setq org-capture-templates
-	       '(("b" "Templates for making stuff to buy")
-		 ("bt" "buy toys" type target ...)
-		 ("bo" "buy office supplies" type target ...)...)
-       #+END_SRC
-****** description
-       A short string describing the template, shown during selection.
-****** type
-       - entry :: An Org mode node, with a headline. Will be filled as
-         the child of the target entry or as a top-level entry. The
-         target file should be an Org file.
-       - item :: A plain list item, placed in the first plain list at
-         the target location.  Again the target file should be an Org
-         file.
-       - checkitem :: A checkbox item. This only differs from the
-         plain list item by the default template
-       - table-line :: A new line in the first table at the target
-         location. Where exactly the line will be inserted depends on
-         the properties :prepend and :table-line-pos
-       - plain :: Text to be inserted as it is.
-****** target
-       Specification of where the captured item should be placed. In
-       Org files, targets usually define a node. Entries will become
-       children of this node. Other times will be added to the table
-       or list in the body of this node. Most target specifications
-       contain a file name. If that file name is the empty string, it
-       defaults to org-default-notes-file. A file can also be given as
-       a variable or as a function called with no argument. When an
-       absolute path is not specified for a target, it is taken as
-       relative to org-directory.
-
-       Valid values:
-       - '(file "path/to/file")' :: Text will be placed at the
-         beginning or end of that file
-       - '(id "id of existing org entry")' :: Filing as child of this
-         entry, or in the body of the entry.
-       - '(file+headline "filename" "node headline")' :: Fast
-         configuration if the target heading is unique in the file.
-       - '(file+olp "filename" "Level 1 heading" "Level 2" ...)' :: For
-         non-unique headings, the full path is safer.
-       - '(file+regexp "filename" "regexp to find location")' :: Use a
-         regular expression to position point
-       - '(file+olp+datetree "filename" [ "Level 1 heading" ...])' :: This
-         target creates a heading in a date tree for today's date. If
-         the optional outline path is given, the tree will be built
-         under the node it is pointing to, instead of at top level.
-         Check out the :time-prompt and :tree-type properties below
-         for additional options.
-       - '(file+function "filename" function-finding-location)' :: A
-         function to find the right location in the file.
-       - '(clock)' :: File to the entry that is currently being
-         clocked.
-       - '(function function-finding-location)' :: Most general way:
-         write your own function which poth visits the file and moves
-         point to the right location
-****** template
-       The template for creating the capture item. Specifics in later
-       section.
-****** properties
-       Additional but optional properties:
-       - :prepend :: Normally new captured information will be
-         appended at the target location (last child, last table line,
-         last list item, ...). Setting this property changes that.
-       - :immediate-finish :: When set, do not offer to edit the
-         information, just file it away immediately. This makes sense
-         if the template only needs information that can be added
-         automatically.
-       - :empty-lines :: Set this to the number of lines to insert
-         before and after the new item. Default 0, and the only other
-         common value is 1.
-       - :clock-in :: Start the clock in this item.
-       - :clock-keep :: Keep the clock running when filing the
-         captured entry.
-       - :clock-resume :: If starting the capture interrupted a clock,
-         restart that clock when finished with the capture. Note that
-         :clock-keep has precedence over :clock-resume. When setting
-         both to non-nil, the current clock will run and the previous
-         one will not be resumed.
-       - :time-prompt :: Prompt for a date/time to be used for
-         date/week trees and when filling the template. Without this
-         property, capture uses the current date and time. Even if
-         this property has not been set, you can force the same
-         behavior by calling org-capture with a C-1 prefix argument.
-       - :tree-type :: When wee, make a week tree instead of a month
-         tree, i.e., place the headings for each day under a heading
-         with the current ISO week.
-       - :unnarrowed :: Do not narrow the target buffer, simply show
-         the full buffer.  Default is to narrow it so that you only
-         see the new material.
-       - :kill-buffer :: If the target file was not yet visited when
-         capture was invoked, kill the buffer again after capture is
-         completed.
-       - :no-save :: Do not save the target file after finishing the
-         capture
-******* Typo                                                           :typo:
-	in :clock-resume definition I think :clock-keep should instead
-	be :clock-in based on how the functionality is being
-	described.
-***** Template expansion
-      "%-escapes" Expanded in the given order:
-      - %[FILE] :: Insert the contest of the file given by FILE.
-      - %(EXP) :: Evaluate Elips expression EXP and replace it with
-        the result. The EXP form must return a string. Only
-        placeholders pre-existing within the template, or introduced
-        with %[file], are expanded this way. Since this happens after
-        expanding non-iterative "%-escapes", those can be used to fill
-        the expression.
-      - %<FORMAT> :: The result of format-time-string on the FORMAT
-        specification.
-      - %t :: Timestamp, date only.
-      - %T :: Timestamp, with date and time.
-      - %u, %U :: Like %t, %T above, but inactive timestamps.
-      - %i :: Initial content, the region when capture is called while
-        the region is active.  If there is text before %i on the same
-        line, such as indentation, and %i is not inside a %(exp) form,
-        that prefix is added before every line in the inserted text.
-      - %a :: Annotation, normally the link creaded with
-        org-store-link.
-      - %A :: Like %a, but prompt for the description part.
-      - %l :: Like %a, but only insert the literal link.
-      - %c :: Current kill ring head.
-      - %x :: Content of the X clipboard
-      - %k :: Title of the currently clocked task.
-      - %K :: Link to the currently clocked task.
-      - %n :: User name (taken from user-full-name)
-      - %f :: File visited by current buffer when org-capture was
-        called.
-      - %F :: Full path of the file or directory visited by current
-        buffer.
-      - %:keyword :: Specific information for certain link types, see
-        below.
-      - %^g :: Prompt for tags, with completion on tags in target
-        file.
-      - %^G :: Prompt for tags, with completion all tags in all agenda
-        files.
-      - %^t :: Like %t, but prompt for date. Similarly %^T, %^u,
-        %^U. You may define a prompt like %^{Birthday}t
-      - %^C :: Interactive selection of which kill or clip to use.
-      - %^L :: Like %^C, but insert as link.
-      - %^{PROP}p :: Prompt the user for a value for property PROP
-      - %^{PROMPT} :: Prompt the user for a string and replace this
-        sequence with it. You may specify a default value and a
-        completion table with
-        %^{prompt|default|completion2|completion3...}. The arrow keys
-        access prompt-specific history
-      - %\N :: Insert the text entered at the Nth %^{PROMPT}, where N
-        is a number starting from 1.
-      - %? :: After completing the template, position point here.
-
-For specific link types, the following keywords are defined
-| Link type    | Available keywords                  | Description                        |
-|--------------+-------------------------------------+------------------------------------|
-| bbdb         | %:name, %:company                   |                                    |
-|--------------+-------------------------------------+------------------------------------|
-| irc          | %:server, %:port, %:nick            |                                    |
-|--------------+-------------------------------------+------------------------------------|
-| mh, rmail    | %:type, %:subject, %:message-id     |                                    |
-|              | %:from, %:fromname, %:fromaddress   |                                    |
-|              | %:to, %:toname, %:toaddress         |                                    |
-|              | %:date                              | message date header field          |
-|              | %:date-timestamp                    | date as active timestamp           |
-|              | %:date-timestamp-inactive           | date as inactive timestamp         |
-|              | %:fromto                            | either "to NAME" or "from NAME"    |
-|--------------+-------------------------------------+------------------------------------|
-| gnus         | %:group                             | for messages also all email fields |
-| w3, w3m      | %:url                               |                                    |
-| info         | %:file, %:node                      |                                    |
-| calendar     | %:date                              |                                    |
-| org-protocol | %:link, %:description, %:annotation |                                    |
-***** Templates in contexts
-      Use certain templates for specific contexts/modes
-      #+BEGIN_SRC emacs-lisp
-	(setq org-captuer-template-contexts
-	      '(("p" (in-mode . "message-mode"))))
-      #+END_SRC
-      Use different key for template for specific contexts/modes
-      #+BEGIN_SRC emacs-lisp
-	(setq org-captuer-template-contexts
-	      '(("p" "q" (in-mode . "message-mode"))))
-      #+END_SRC
-*** Attachments
-**** Attachment defaults and dispatcher
-**** Attachment options
-**** Attachment links
-**** Automatic version-control with Git
-     I don't fully understand this. It honestly seems scary.
-**** Attach from Dired
-     I don't use Dired enough for this (yet?)
-*** RSS Feeds
-    Might need lots of work to get syncing from lots of sources.
-** Agenda Views
-*** Agenda Files
-*** The Agenda Dispatcher
-**** Regular Expression search                                         :typo:
-     in section describing a search for a regular expression in all agenda files, the very end
-     says "Default is" with no indication of what is the actual default.
-*** The Built-in Agenda Views
-**** Weekly/daily agenda
-**** The global TODO list
-**** Matching tags and properties
-     Syntax:
-     - & :: AND
-     - | :: OR
-     - + :: Positive lookup (implicit AND)
-     - - :: exclude tag (implicit AND)
-     - PROPERTY OPERATOR VALUE :: a property has given relationship
-       with value
-     - {REGEXP} :: Regular expression to match in a tag
-     - OPERATOR :: The operator comparing the value of the given
-       property
-       - NUMBER :: Numbers are compared in standard ways
-       - "STRING" :: String comparisons by alphabetic order
-       - "<DATETIME>" :: Dates can be standard as defined before or
-         any of the following
-	 - "<now>" :: Now including time
-	 - "<today>" :: Todays date at time 0:00 hours
-	 - "<tomorrow>" :: Tomorrow's date at time 0:00 hours
-	 - "<+5d>" :: Five days from today
-	 - "<-2w>" :: Two weeks ago from today
-	 - "<+5m>" :: Five months from today
-	 - "<-2y>" :: Two years ago from today
-       - {REGEXP} :: only compares equal or not equal meaning matches
-         or does not match
-       - < :: strictly less than/earlier
-       - = :: equal to/matches
-       - > :: strictly greater than/later
-       - <= :: less than or equal to/earlier or matches
-       - >= :: greater than or equal to/later or matches
-       - <> :: does not equal/does not match
-
-Examples:
-| syntax                                     | explanation                                                                          |
-|--------------------------------------------+--------------------------------------------------------------------------------------|
-|                                            | <40>                                                                                 |
-| +work-boss                                 | Select headlines tagged 'work', but discard those also tagged 'boss'.                |
-| work[OR]laptop                             | Selects lines tagged 'work' or 'laptop'.                                             |
-| work[OR]laptop+night                       | Like before, but require the 'laptop' lines to be tagged also 'night'                |
-| work+{^boss.*}                             | matches headlines that contain the tag ':work: and also any tag starting with 'boss' |
-| work+TODO="WAITING"                        | Select 'work'-tagged TODO lines with the specific TODO keyword 'waiting'             |
-| work+TODO="WAITING"[OR]home+TODO="WAITING" | Waiting tasks both at work and at home                                               |
-**** Search view
-**** Stuck projects
-*** Presentation and Sorting
-**** Categories
-     Broad. Seems pretty useful. Inheretid property or file level.
-**** Time-of-day specifications
-**** Sorting of agenda items
-**** Filtering/limiting agenda items
-*** Commands in the Agenda Buffer
-*** Custom Agenda Views
-**** Storing searches
-     customize: org-agenda-custom-commands
-
-     Big Example:
-     #+BEGIN_SRC emacs-lisp
-       (setq org-agenda-custom-commands
-	     '(("x" agenda)
-	       ("y" agenda*)
-	       ("w" todo "WAITING")
-	       ("W" todo-tree "WAITING")
-	       ("u" tags "+boss-urgent")
-	       ("v" tags-todo "+boss-urgent")
-	       ("U" tags-tree "+boss-urgent")
-	       ("f" occur-tree "\\<FIXME\\>")
-	       ("h" . "HOME+Name tags searches") ;description for "h" prefix
-	       ("hl" tags "+home+Lisa")
-	       ("hp" tags "+home+Peter")
-	       ("hk" tags "+home+Kim")))
-     #+END_SRC
-
-     Each entry is a list like this:
-
-     (key desc type match settings files)
-
-     - key :: The key (one or more characters as a string) to be
-       associated with the command.
-     - desc :: A description of the command, when omitted or nil, a
-       default description is built using MATCH.
-     - type :: The command type, any of the following symbols:
-       - agenda :: The daily/weekly agenda.
-       - agenda* :: The daily/weekly agenda for tasks with time
-         specified
-       - todo :: Entries with a specific TODO keyword, in all agenda
-         files.
-       - search :: Entries containing search words entry or headline.
-       - tags :: Tags/Property/TODO match in all agenda files.
-       - tags-todo :: Tags/P/T match in all agenda files, TODO entries
-         only.
-       - todo-tree :: Sparse tree of specific TODO keyword in
-         *current* file.
-       - tags-tree :: Sparse tree with all tags matches in *current*
-         file.
-       - occur-tree :: Occur sparse tree for *current* file.
-       - ... :: A user-defined function.
-     - match :: What to search for:
-       - a single keyword for TODO keyword searches
-       - a tags match expression for tags searches
-       - a word search expression for text searches.
-       - a regular expression for occur searches
-       For all other commands, this should be the empty string.
-     - settings :: A list of option settings, similar to that in a let
-       form, so like this: ((opt1 val1) (opt2 val2) ...).  The values
-       will be evaluated at the moment of execution, so quote them
-       when needed.
-     - files :: A list of files to write the produced agenda buffer to
-       with the command ‘org-store-agenda-views’.  If a file name ends
-       in ".html", an HTML version of the buffer is written out.  If
-       it ends in ".ps", a postscript version is produced.  Otherwise,
-       only the plain text is written to the file.
-
-     When using several characters as key to a command, the first
-     characters are prefix commands.  For the dispatcher to display
-     useful information, you should provide a description for the
-     prefix, like
-
-     #+BEGIN_SRC emacs-lisp
-       (setq org-agenda-custom-commands
-	     '(("h" . "HOME + Name tag searches") ; describe prefix "h"
-	       ("hl" tags "+HOME+Lisa")
-	       ("hp" tags "+HOME+Peter")
-	       ("hk" tags "+HOME+Kim")))
-     #+END_SRC
-**** Block agenda
-     You can also define a set of commands, to create a composite
-     agenda buffer.  In this case, an entry looks like this:
-
-     (key desc (cmd1 cmd2 ...) general-settings-for-whole-set files)
-
-     where
-
-     - desc :: A description string to be displayed in the dispatcher
-       menu.
-     - cmd :: An agenda command, similar to the above.  However, tree
-       commands are not allowed, but instead you can get agenda and
-       global todo list.
-
-     key, settings, and files same as is described in previous
-     section.
-
-     So valid commands for a set are:
-     - (agenda "" settings)
-     - (alltodo "" settings)
-     - (stuck "" settings)
-     - (todo "match" settings files)
-     - (search "match" settings files)
-     - (tags "match" settings files)
-     - (tags-todo "match" settings files)
-
-     Each command can carry a list of options, and another set of
-     options can be given for the whole set of commands.  Individual
-     command options take precedence over the general options.
-
-     Example:
-     #+BEGIN_SRC emacs-lisp
-       (setq org-agenda-custom-commands
-	     '(("h" "Agenda and Home-related tasks"
-		((agenda "")
-		 (tags-todo "home")
-		 (tags "garden")))
-	       ("o" "Agenda and Office-related tasks"
-		((agenda "")
-		 (tags-todo "work")
-		 (tags "office")))))
-     #+END_SRC
-**** Setting options for custom commands
-     Some settings:
-     - (org-agenda-sorting-strategy '(priority-down))
-     - (org-agenda-prefix-format "  Mixed; ")
-     - (org-show-context-detail 'minimal)
-     - (org-agenda-files '("~org/notes.org"))
-     - (org-agenda-text-search-extra-files nil)
-     - (ps-number-of-columns 2)
-     - (ps-landscape-mode t)
-     - (org-agenda-with-colors nil)
-     - (org-agenda-remove-tags t)
-     - (org-agenda-add-entry-text-maxlines 5)
-     - (htmlize-output-type 'css)
-
-     Don't know where to find all settings possibilities or their
-     syntax.
-
-     To control whether an agenda command should be accessible from a
-     specific context, you can customize
-     org-agenda-custom-commands-contexts. Let's say for example that
-     you have an agenda command o displaying a view that you only need
-     when reading emails. Then you would configure this option like
-     this:
-
-     #+BEGIN_SRC emacs-lisp
-       (setq org-agenda-custom-commands-contexts
-	     '(("o" (in-mode . "message-mode"))))
-     #+END_SRC
-
-     You can also tell that the command key o should refer to another
-     command key r. In that case, add this command key like this:
-
-     #+BEGIN_SRC emacs-lisp
-       (setq org-agenda-custom-commands-contexts
-	     '(("o" "r" (in-mode . "message-mode"))))
-     #+END_SRC
-*** Exporting Agenda Views
-    Custom view to files example:
-    #+BEGIN_SRC emacs-lisp
-      (setq org-agenda-custom-commands
-	    '(("X" agenda "" nil ("agenda.html" "agenda.ps"))
-	      ("Y" alltodo "" nil ("todo.html" "todo.txt" "todo.ps"))
-	      ("h" "Agenda and Home-related tasks"
-	       ((agenda "")
-		(tags-todo "home")
-		(tags "garden"))
-	       nil
-	       ("~/views/home.html"))
-	      ("o" "Agenda and Office-related tasks"
-	       ((agenda)
-		(tags-todo "work")
-		(tags "office"))
-	       nil
-	       ("~/views/office.ps" "~/calendars/office.ics"))))
-    #+END_SRC
-*** Using Column View in the Agenda
-** Markup for Rich Contents
-*** Paragraphs
-    First paragraph
-
-    Second paragraph \\ Third paragraph from forced line break.
-
-    #+BEGIN_VERSE
-    Great clouds overhead
-    Tiny black birds rise and fall
-    Snow covers Emacs
-
-    ---AlexSchroeder
-    #+END_VERSE
-
-    #+BEGIN_QUOTE
-    Everything should be made as simple as possible, but not any
-    simpler ---Albert Einstein
-    #+END_QUOTE
-
-    #+BEGIN_CENTER
-    Everything should be made as simple as possible, \\
-    but not any simpler
-    #+END_CENTER
-*** Emphasis and Monospace
-    *bold* \\
-    /italic/ \\
-    _underlined_ \\
-    =verbatim= \\
-    ~code~ \\
-    +strike-through+
-*** Subscripts and Superscripts
-    Superscript^ex \\
-    Subscript_ex
-*** Special Symbols
-    Example: \\
-    Pro tip: Given a circle \Gamma of diameter d, the length of its
-    circumference is \pi{}d.
-*** Embedded LaTeX
-**** LaTeX fragments
-     \begin{equation}
-     x=\sqrt{b}
-     \end{equation}
-
-     If $a^2=b$ and \( b=2 \), then the solution must be
-     either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
-**** Previewing LaTeX fragments
-**** Using CDLaTeX to enter math
-*** Literal Examples
-
-#+BEGIN_EXAMPLE
-  Some example from a text file.
-,* Comma escape character
-,,* Another comma escape character
-,#+ escaping block
-,,#+ escaping comma block
-#+END_EXAMPLE
-
-Here is an example
-     : Some example from a text file.
-
-#+BEGIN_SRC emacs-lisp
-  (defun org-xor (a b)
-    "Exclusive or."
-    (if a (not b) b))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp -n 20
-  ;; This exports with line number 20.
-  (message "This is line 21")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp +n 10
-  ;; This is listed as line 31.
-  (message "This is line 32")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp -n -r
-  (save-excursion                (ref:sc)
-     (goto-char (point-min))     (ref:jump)
-#+END_SRC
-In line [[(sc)]] we remember the current position. [[(jump)][Line (jump)]]
-jumps to point-min.
-
-the -r removes the reference name from the block and just uses the line number
-*** Images
-#+BEGIN_EXAMPLE
-,#+CAPTION: This is the caption for the next figure link (or table)
-,#+NAME:    fig:SED-HR4049
-[[./img/a.jpg]]
-#+END_EXAMPLE
-*** Captions
-#+CAPTION: This is a catpion for the next table (or link)
-| table | example |
-|-------+---------|
-| what  | ever    |
-
-#+CAPTION[Short caption]: Longer caption.
-[[Captions]]
-*** Horizontal Rules
-Horizontal line
------
-Under the line
-*** Creating Footnotes
-Here is a generic reference[fn:1] to a footnote \\
-Here is a reference[fn:footnote] to a named footnote \\
-Here is an anonymous footnote [fn:: This is the inline definition of this footnote] \\
-Here is an inline footnote[fn:deffoot: a definition] with a definition \\
-and I can reference the previous footnote again here[fn:deffoot] \\
-
-[fn:1] The example footnote
-[fn:footnote] named footnote example
-** Exporting
-*** The Export Dispatcher
-*** Export Settings
-* New Manual
-** Introduction
-*** Summary
-*** Installation
-*** Activation
-*** Feedback
+*** Motion
+*** Structure Editing
+Skipping ~org-refile~ since it seems like the details will be more
+relevant later.
 * Vocabulary
+** Introduction
+*** Agenda View
+A view that can pull together specific entries in queries to create a
+dynamic view that also integrates the Emacs calendar and diary.
+*** TODO Keyword
+A syntactical element
+*** Tag
+A syntactical element
+*** Property
+A syntactical element
+*** Keyword
+A syntactical element
+*** Block
+A syntactical element
+** Document Structure
+*** Headline
+Headlines define the structure of an outline tree. Org headlines start
+on the left margin with one or more stars followed by a space.
+*** Subtree Cycling
+Rotating the current subtree among the relevant states:
+ 1. Folded
+ 2. Children
+ 3. Subtree
+*** Global Cycling
+Rotating the entire buffer of headlines among the following states:
+ 1. Overview
+ 2. Contents
+ 3. Show All
 * Syntax
+** Introduction
+*** TODO Keywords
+~TODO~
+~WAITING~
+
+TODO Keywords are written with all capitals, even if they are
+user-defined.
+*** Tags
+~boss~
+~ARCHIVE~
+
+Tags are case-sensitive. User-defined tags are usually written in
+lowercase; built-in tags with special meaning are written as they
+should appear in the document, usually with all capitals.
+*** Properties
+~Release~
+~PRIORITY~
+
+User-defined properties are capitalized; built-in properties with
+special meaning are written with all capitals.
+*** Keywords and Blocks
+~TITLE~
+~BEGIN~ ... ~END~
+
+Keywords and blocks are written in uppercase to enhance their
+readability, but you can use lowercase in your Org files.
+** Document Structure
+*** Headlines
+#+BEGIN_SRC org
+  ,* Top level headline
+  ,** Second level
+  ,*** Third level
+  ,some text
+  ,*** Third level
+  ,more text
+  ,* Another top level headline
+#+END_SRC
+
+* Subject
+** Introduction
+*** Bug Report
+Anything relating to creating a bug report of an org mode session.
+*** Org-Buffer
+Relating to a buffer that has org-mode turned on.
+** Document Structure
+*** Headline
+Relating to a headline in org-mode
+*** Subtree
+Anything relating to a headline and all sub headlines branching from
+it.
+*** Org-Text
+Anything relating to any and all text in an Org-Mode enabled buffer.
+*** Org-Goto
+Anything relating to the command, context, and theoretical mode that
+is started when you use the command ~org-goto~
+*** Sparse-Tree
+Anything related to the creation, navigation and general information
+about a Sparse Tree
+*** List-Like
+Anything relating to all the features that are list like so headings,
+plain lists, or tables
+*** Todo
+Anything relating to the Todo feature that you can use with headings.
 * File Additions
 ** Introduction
 *** Force org mode in Emacs
-    To turn on Org mode in a file that does not have the extension
-    '~.org~', make the first line of a file look like this:
-    #+BEGIN_SRC org
-      #    -*- mode: org -*-
-    #+END_SRC
+To turn on Org mode in a file that does not have the extension
+'~.org~', make the first line of a file look like this:
+#+BEGIN_SRC org
+  #    -*- mode: org -*-
+#+END_SRC
 
-    Which selects Org mode for this buffer no matter what the file's
-    name is.
+Which selects Org mode for this buffer no matter what the file's name
+is.
+** Document Structure
+*** Initial Visibility
+You can define what the initial global visibility should be for an Org
+Buffer on a per-file basis by adding one of the following lines
+anywhere in the buffer. Please note all of these start with ~#+~.
+#+BEGIN_SRC org
+  STARTUP: overview
+  STARTUP: content
+  STARTUP: showall
+  STARTUP: show2levels
+  STARTUP: show3levels
+  STARTUP: show4levels
+  STARTUP: show5levels
+  STARTUP: showeverything
+#+END_SRC
+
 * Modes
 * Contexts
+** Introduction
+*** org-buffer
+Indicates commands that work anywhere inside of a buffer where org
+mode is turned on.
+** Document Structure
+*** headline
+Any command that only works if point is currently on an org headline.
+*** not-table
+Any command that is valid anywhere in an org buffer except if it is in
+a table.
+*** not-list
+Any command that is valid anywhere in an org buffer except if it is in
+a list
+*** sparse-tree
+Any command that is valid only after a command that creates a sparse
+tree.
+*** agenda
+Any command that is valid in a buffer displaying an agenda-view
+(unsure of exact mode name yet)
+*** subtree
+Any command that is executed within a subtree in an Org Buffer. This
+should be most places in an Org Buffer except for the very top of a
+file before the first headline.
+*** org-goto
+Any command that is executed after the ~org-goto~ command
+*** empty-headline
+Any command that is executed on a headline that currently only has the
+asterisks without any text for the headline.
 * Commands
-  :PROPERTIES:
-  :COLUMNS: %25ITEM %15TAGS %15Command %10Context %15Description
-  :END:
-** Files                                                              :emacs:
-   :PROPERTIES:
-   :Link:     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Files.html#Files][File Handling]]
-   :END:
-*** write-file                                           :write:files:buffer:
-    :PROPERTIES:
-    :Command:  C-x C-w
-    :Description: Save the current buffer with a specified file name
-    :Context:  anywhere
-    :END:
-[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Save-Commands.html#Save-Commands][Commands for Saving Files]]
-** Multiple Windows                                                   :emacs:
-   :PROPERTIES:
-   :Link:     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html#Windows][Multiple Windows]]
-   :END:
-*** split-window-below                                       :window:details:
-    :PROPERTIES:
-    :Command:  C-x 2
-    :Description: Split the selected window into two windows, one above the other
-    :Context:  anywhere
-    :Link:     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Split-Window.html#Split-Window][Splitting Windows]]
-    :END:
-*** split-window-right                                       :details:window:
-    :PROPERTIES:
-    :Command:  C-x 3
-    :Description: Split the selected window into two windows, positioned side by side
-    :Context:  anywhere
-    :Link:     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Split-Window.html#Split-Window][Splitting Windows]]
-    :END:
-*** other-window                                            :navigate:window:
-    :PROPERTIES:
-    :Command:  C-x o
-    :Description: Select another window
-    :Context:  anywhere
-    :Link:     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Other-Window.html#Other-Window][Using Other Windows]]
-    :END:
-*** scroll-other-window                                     :window:navigate:
-    :PROPERTIES:
-    :Command:  C-M-v
-    :Description: Scroll down the next window without selecting
-    :Context:  anywhere
-    :Link:     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Other-Window.html#Other-Window][Using Other Windows]]
-    :END:
-*** switch-to-buffer-other-window            :buffer:navigate:window:details:
-    :PROPERTIES:
-    :Command:  C-x 4 b <bufname>
-    :Description: Select buffer /bufname/ in another window
-    :Context:  anywhere
-    :END:
-*** display-buffer                                    :buffer:window:details:
-    :PROPERTIES:
-    :Command:  C-x 4 C-o <bufname>
-    :Description: Display buffer /bufname/ in some window, without trying to select it
-    :Context:  anywhere
-    :END:
-*** find-file-other-window                    :files:navigate:details:window:
-    :PROPERTIES:
-    :Command:  C-x 4 f <filename>
-    :Description: Visit file /filename/ and select its buffer in another window
-    :Context:  anywhere
-    :END:
-*** dired-other-window                        :navigate:details:window:dired:
-    :PROPERTIES:
-    :Command:  C-x 4 d <directory>
-    :Description: Select a Dired buffer for directory /directory/ in another window
-    :Context:  anywhere
-    :END:
-*** find-file-read-only-other-window          :files:navigate:details:window:
-    :PROPERTIES:
-    :Command:  C-x 4 r <filename>
-    :Description: Visit the file /filename/ read-only, and select its buffer in another window
-    :Context:  anywhere
-    :END:
-*** delete-window                                  :navigate:window:simplify:
-    :PROPERTIES:
-    :Command:  C-x 0
-    :Description: Delete the selcted window
-    :Context:  window
-    :END:
-*** delete-other-windows                                    :window:simplify:
-    :PROPERTIES:
-    :Command:  C-x 1
-    :Description: Delete all windows in the selected frame except the selected window
-    :Context:  window
-    :END:
-*** enlarge-window                                           :display:window:
-    :PROPERTIES:
-    :Command:  C-x ^
-    :Description: Make selected window taller
-    :Context:  window
-    :END:
-*** enlarge-window-horizontally                              :window:display:
-    :PROPERTIES:
-    :Command:  C-x }
-    :Description: Make selected window wider
-    :Context:  window
-    :END:
-*** shrink-window-horizontally                               :display:window:
-    :PROPERTIES:
-    :Command:  C-x {
-    :Description: Make selected window narrower
-    :Context:  window
-    :END:
-*** shrink-window-if-larger-than-buffer                      :display:window:
-    :PROPERTIES:
-    :Command:  C-x -
-    :Description: Shrink this window if its buffer doesn't need so many lines
-    :Context:  window
-    :END:
-*** balance-windows                                          :window:display:
-    :PROPERTIES:
-    :Command:  C-x +
-    :Description: Make all windows the same height
-    :Context:  anywhere
-    :END:
-** Introduction                                                     :orgmode:
-*** emacs-version                                              :debug:inform:
-    :PROPERTIES:
-    :Command:  M-x emacs-version
-    :Description: Print emacs version
-    :END:
-*** org-version                                                :debug:inform:
-    :PROPERTIES:
-    :Command:  M-x org-version
-    :Description: Print org-mode version
-    :END:
-*** org-submit-bug-report                                      :debug:buffer:
-    :PROPERTIES:
-    :Command:  M-x org-submit-bug-report
-    :Description: Put bug report info into mail buffer
-    :END:
-*** prefix org-reload                                         :refresh:debug:
-    :PROPERTIES:
-    :Command:  C-u M-x org-reload
-    :Description: Reload uncompiled version of org mode lisp files
-    :END:
-*** toggle-debug-on-error                                     :details:debug:
-    :PROPERTIES:
-    :Command:  M-x toggle-debug-on-error
-    :Description: Toggle debugger when an error happens
-    :END:
-** Document Structure                                               :orgmode:
-*** org-cycle                                   :subtree:visibility:navigate:
-    :PROPERTIES:
-    :Command:  TAB
-    :Description: Subtree visibility cycling
-    :Context:  headline
-    :END:
-*** org-global-cycle                                    :visibility:navigate:
-    :PROPERTIES:
-    :Command:  [S-TAB], [C-u TAB]
-    :Description: Global visibility cycling
-    :Context:  not-table
-    :END:
-*** number prefix org-global-cycle                      :navigate:visibility:
-    :PROPERTIES:
-    :Command:  M-<#> S-TAB
-    :Description: See contents up to headlines of level #
-    :Context:  not-table
-    :END:
-*** org-set-startup-visibility                          :visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-u C-u TAB
-    :Description: Switch back to the startup visibility of the buffer
-    :Context:  anywhere
-    :END:
-*** outline-show-all                                    :visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-u C-u C-u TAB
-    :Description: Show all, including drawers
-    :Context:  anywhere
-    :END:
-*** org-reveal                                   :agenda:visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-c C-r
-    :Description: Reveal context around point
-    :Context:  sparse-tree agenda
-    :END:
-*** prefix org-reveal                            :agenda:visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-u C-c C-r
-    :Description: Reveal context and all sibling headings
-    :Context:  sparse-tree agenda
-    :END:
-*** double prefix org-reveal                     :agenda:visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-u C-u C-c C-r
-    :Description: Reveal context and entire subtree
-    :Context:  sparse-tree agenda
-    :END:
-*** outline-show-branches                       :subtree:visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-c C-k
-    :Description: Expose all the headings of the subtree
-    :Context:  headline
-    :END:
-*** outline-show-children                       :subtree:visibility:navigate:
-    :PROPERTIES:
-    :Command:  C-c TAB
-    :Description: Expose all direct children of the subtree
-    :Context:  headline
-    :END:
-*** number prefix outline-show-children         :subtree:navigate:visibility:
-    :PROPERTIES:
-    :Command:  M-<#> C-c TAB
-    :Description: Expose all children down to level #
-    :Context:  headline
-    :END:
-*** org-tree-to-indirect-buffer               :details:buffer:export:subtree:
-    :PROPERTIES:
-    :Command:  C-c C-x b
-    :Description: Show the current subtree in an indirect buffer
-    :Context:  headline
-    :END:
-*** number prefix org-tree-to-indirect buffer :details:buffer:export:subtree:
-    :PROPERTIES:
-    :Command:  M-<#> C-c C-x b
-    :Description: Go up to level N and then take that tree. If N is negative then go up that many levels.
-    :Context:  headline
-    :END:
-*** org-copy-visible                        :region:killring:copy:visibility:
-    :PROPERTIES:
-    :Command:  C-c C-x v
-    :Description: Copy the visible text in the region into the kill ring
-    :Context:  anywhere region
-    :END:
-*** org-next-visible-heading                      :headline:subtree:navigate:
-    :PROPERTIES:
-    :Command:  C-c C-n
-    :Description: Next headline
-    :Context:  headline
-    :END:
-*** org-previous-visible-heading                  :navigate:subtree:headline:
-    :PROPERTIES:
-    :Command:  C-c C-p
-    :Description: Previous headline
-    :Context:  headline
-    :END:
-*** org-forward-heading-same-level                :headline:subtree:navigate:
-    :PROPERTIES:
-    :Command:  C-c C-f
-    :Description: Next headline same level
-    :Context:  headline
-    :END:
-*** org-backward-heading-same-level               :navigate:subtree:headline:
-    :PROPERTIES:
-    :Command:  C-c C-b
-    :Description: Previous headline same level
-    :Context:  headline
-    :END:
-*** outline-up-heading                            :navigate:subtree:headline:
-    :PROPERTIES:
-    :Command:  C-c C-u
-    :Description: Backward to higher level headline
-    :Context:  headline
-    :END:
-*** org-goto              :controls:details:buffer:headline:subtree:navigate:
-    :PROPERTIES:
-    :Command:  C-c C-j
-    :Description: Jump to a different place, shows document structure in a temp buffer
-    :Context:  anywhere
-    :END:
-**** Cycle Visibility
-     :PROPERTIES:
-     :Command:  TAB
-     :END:
-**** Next/previous visible headline
-     :PROPERTIES:
-     :Command:  DOWN / UP
-     :END:
-**** Select this location
-     :PROPERTIES:
-     :Command:  RET
-     :END:
-**** Do a sparse-tree search
-     :PROPERTIES:
-     :Command:  /
-     :END:
-*** org-meta-return                                    :subtree:headline:new:
-    :PROPERTIES:
-    :Command:  M-RET
-    :Description: Insert a new heading, item or row
-    :Context:  depends headline list table
-    :Link:     [[https://orgmode.org/manual/Structure-Editing.html#Structure-Editing][Structure Editing]]
-    :END:
-* New Commands
+** Introduction
+*** org-submit-bug-report                                            :inform:
+:PROPERTIES:
+:Subject:  Bug Report
+:Context:  org-buffer
+:Description: Puts relevant version information into mail buffer
+:Importance: 3
+:END:
+ - Subject :: Bug Report
+ - Function :: inform
+ - Context :: org-buffer
+ - Description :: Puts relevant version information into mail buffer
+ - Importance :: 3
+*** org-reload                                                        :start:
+:PROPERTIES:
+:Subject:  Org-Buffer
+:Context:  org-buffer
+:Description: Reload all Org Lisp files
+:Argument: prefix
+:Importance: 3
+:END:
+ - Subject :: Org-Buffer
+ - Function :: start
+ - Context :: org-buffer
+ - Description :: Reload all Org Lisp files
+ - Argument :: plain
+ - Importance :: 3
+** Document Structure
+*** org-cycle                                                         :style:
+:PROPERTIES:
+:Binding:  <TAB>
+:Subject:  Headline
+:Context:  headline
+:Description: Cycle through headline visibility options
+:Importance: 1
+:END:
+ - Binding :: <TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: headline
+ - Description :: Cycle through headline visibility options
+ - Importance :: 1
+*** org-global-cycle                                                  :style:
+:PROPERTIES:
+:Binding:  S-<TAB>
+:Subject:  Headline
+:Context:  not-table
+:Description: Rotate the entire buffer among the global states
+:Importance: 2
+:END:
+ - Binding :: S-<TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: not-table
+ - Description :: Rotate the entire buffer among the global states
+ - Importance :: 2
+ - Argument :: numeric
+
+When called with a numeric prefix argument N, view contents only up to
+headlines of level N.
+*** org-global-cycle                                                  :style:
+:PROPERTIES:
+:Binding:  C-u <TAB>
+:Subject:  Headline
+:Context:  headline
+:Description: Rotate the entire buffer among the global states
+:Importance: 3
+:END:
+ - Binding :: C-u <TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: not-list
+ - Description :: Rotate the entire buffer among the global states
+ - Importance :: 3
+*** org-set-startup-visibility                                        :style:
+:PROPERTIES:
+:Binding:  C-u C-u <TAB>
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Switch back to the startup visibility of the buffer
+:Importance: 2
+:END:
+ - Binding :: C-u C-u <TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: org-buffer
+ - Description :: Switch back to the startup visibility of the buffer
+ - Importance :: 2
+*** outline-show-all                                                  :style:
+:PROPERTIES:
+:Binding:  C-u C-u C-u <TAB>
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Show all, including drawers
+:Importance: 4
+:END:
+ - Binding :: C-u C-u C-u <TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: org-buffer
+ - Description :: Show all, including drawers
+ - Importance :: 4
+*** org-reveal                                                       :inform:
+:PROPERTIES:
+:Binding:  C-c C-r
+:Subject:  Subtree
+:Context:  sparse-tree
+:Description: Reveal subtree of headline in sparse tree
+:Importance: 4
+:END:
+ - Binding :: C-c C-r
+ - Subject :: Headline
+ - Function :: inform
+ - Context :: sparse-tree
+ - Description :: Reveal hierarchy of headline in sparse tree
+ - Importance :: 4
+
+Reveal context around point, showing the current entry, the following
+headline and the hierarchy above.
+*** org-reveal                                                       :inform:
+:PROPERTIES:
+:Binding:  C-c C-r
+:Subject:  Subtree
+:Context:  sparse-tree
+:Description: Reveal subtree of headline in sparse tree
+:Importance: 4
+:END:
+ - Binding :: C-c C-r
+ - Subject :: Headline
+ - Function :: inform
+ - Context :: agenda
+ - Description :: Reveal tree path of headline in sparse tree
+ - Importance :: 4
+
+Reveal context around point, showing the current entry, the following
+headline and the hierarchy above.
+*** outline-show-branches                                            :inform:
+:PROPERTIES:
+:Binding:  C-c C-k
+:Subject:  Subtree
+:Context:  headline
+:Description: Expose all the headlines of the subtree, not body
+:Importance: 3
+:END:
+ - Binding :: C-c C-k
+ - Subject :: Subtree
+ - Function :: inform
+ - Context :: subtree
+ - Description :: Expose all the headlines of the subtree, not body
+ - Importance :: 3
+*** outline-show-children                                            :inform:
+:PROPERTIES:
+:Binding:  C-c <TAB>
+:Subject:  Subtree
+:Context:  subtree
+:Description: Expose all direct chilren of the subtree
+:Importance: 3
+:Argument: numeric
+:END:
+ - Binding :: C-c <TAB>
+ - Subject :: Subtree
+ - Function :: inform
+ - Context :: subtree
+ - Description :: Expose all direct chilren of the subtree
+ - Importance :: 3
+ - Argument :: numeric
+
+With a numeric prefix argument N, expose all children down to level
+N.
+*** org-tree-to-indirect-buffer                           :inform:edit:style:
+:PROPERTIES:
+:Binding:  C-c C-x b
+:Subject:  Subtree
+:Context:  subtree
+:Description: Show the current subtree in an indirect buffer
+:Importance: 5
+:Argument: numeric, plain
+:END:
+ - Binding :: C-c C-x b
+ - Subject :: Subtree
+ - Function :: inform:edit:style:
+ - Context :: subtree
+ - Description :: Show the current subtree in an indirect buffer
+ - Importance :: 5
+ - Argument :: numeric, plain
+
+With a numeric prefix argument N, go up to level N and then take that
+tree. If N is negative then go up that many levels. With a plain
+argument, do not remove the previously used indirect buffer.
+*** org-copy-visible                                               :remember:
+:PROPERTIES:
+:Binding:  C-c C-x v
+:Subject:  Org-Text
+:Context:  region
+:Description: Copy the _visible_ text in region into kill ring
+:Importance: 2
+:END:
+ - Binding :: C-c C-x v
+ - Subject :: Org-Text
+ - Function :: remember
+ - Context :: region
+ - Description :: Copy the _visible_ text in region into kill ring
+ - Importance :: 2
+*** org-set-startup-visibility                                        :style:
+:PROPERTIES:
+:Binding:  C-u C-u <TAB>
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Switch back to startup visibility of org buffer
+:Importance: 2
+:END:
+ - Binding :: C-u C-u <TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: org-buffer
+ - Description :: Switch back to startup visibility of org buffer
+ - Importance :: 2
+*** org-next-visible-heading                                            :nav:
+:PROPERTIES:
+:Binding:  C-c C-n
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Next headline
+:Importance: 1
+:END:
+ - Binding :: C-c C-n
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Next headline
+ - Importance :: 1
+*** org-previous-visible-heading                                        :nav:
+:PROPERTIES:
+:Binding:  C-c C-p
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Previous headline
+:Importance: 1
+:END:
+ - Binding :: C-c C-p
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Previous headline
+ - Importance :: 1
+*** org-forward-heading-same-level                                      :nav:
+:PROPERTIES:
+:Binding:  C-c C-f
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Next headline same level
+:Importance: 1
+:END:
+ - Binding :: C-c C-f
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Next headline same level
+ - Importance :: 1
+*** org-backward-heading-same-level                                     :nav:
+:PROPERTIES:
+:Binding:  C-c C-b
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Previous headline same level
+:Importance: 1
+:END:
+ - Binding :: C-c C-b
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Previous headline same level
+ - Importance :: 1
+*** outline-up-heading                                                  :nav:
+:PROPERTIES:
+:Binding:  C-c C-u
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Backward to higher level headline
+:Importance: 1
+:END:
+ - Binding :: C-c C-u
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Backward to higher level headline
+ - Importance :: 1
+*** org-goto                                                          :start:
+:PROPERTIES:
+:Binding:  C-c C-j
+:Subject:  Org-Goto
+:Context:  org-buffer
+:Description: Jump without changing current outline visibility
+:Importance: 3
+:END:
+ - Binding :: C-c C-j
+ - Subject :: Org-Goto
+ - Function :: start
+ - Context :: org-buffer
+ - Description :: Jump without changing current outline visibility
+ - Importance :: 3
+
+After command, if variable ~org-goto-auto-isearch~ is turned on
+(default) then typing any visible character will start an isearch in
+the file for where to go
+*** OG Cycle Visibility                                               :style:
+:PROPERTIES:
+:Binding:  <TAB>
+:Subject:  Headline
+:Context:  org-goto
+:Description: Cycle visibility
+:Importance: 3
+:END:
+ - Binding :: <TAB>
+ - Subject :: Headline
+ - Function :: style
+ - Context :: org-goto
+ - Description :: Cycle visibility
+ - Importance :: 3
+*** OG Next Visible Headline                                            :nav:
+:PROPERTIES:
+:Binding:  <DOWN>
+:Subject:  Headling
+:Context:  org-goto
+:Description: Next visible headline
+:Importance: 3
+:END:
+ - Binding :: <DOWN>
+ - Subject :: Headling
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Next visible headline
+ - Importance :: 3
+*** OG Prev Visible Headline                                            :nav:
+:PROPERTIES:
+:Binding:  <UP>
+:Subject:  Headline
+:Context:  org-goto
+:Description: Previous visible headline
+:Importance: 3
+:END:
+ - Binding :: <UP>
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Previous visible headline
+ - Importance :: 3
+*** OG Select Location                                                  :nav:
+:PROPERTIES:
+:Binding:  <RET>
+:Subject:  Headline
+:Context:  org-goto
+:Description: Select this location
+:Importance: 3
+:END:
+ - Binding :: <RET>
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Select this location
+ - Importance :: 3
+*** OG Sparse Tree                                                    :start:
+:PROPERTIES:
+:Binding:  /
+:Subject:  Sparse-Tree
+:Context:  org-goto
+:Description: Do a Sparse-tree search
+:Importance: 4
+:END:
+ - Binding :: /
+ - Subject :: Sparse-Tree
+ - Function :: start
+ - Context :: org-goto
+ - Description :: Do a Sparse-tree search
+ - Importance :: 4
+*** OG Next Visible Headline                                            :nav:
+:PROPERTIES:
+:Binding:  n
+:Subject:  Headline
+:Context:  org-goto
+:Description: Next visible headline
+:Importance: 4
+:END:
+ - Binding :: n
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Next visible headline
+ - Importance :: 4
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** OG Prev Visible Headline                                            :nav:
+:PROPERTIES:
+:Binding:  p
+:Subject:  Headline
+:Context:  org-goto
+:Description: Previous visible headline
+:Importance: 4
+:END:
+ - Binding :: p
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Previous visible headline
+ - Importance :: 4
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** OG Next Headline Same                                               :nav:
+:PROPERTIES:
+:Binding:  f
+:Subject:  Headline
+:Context:  org-goto
+:Description: Next headline same level
+:Importance: 4
+:END:
+ - Binding :: f
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Next headline same level
+ - Importance :: 4
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** OG Prev Headline Same                                               :nav:
+:PROPERTIES:
+:Binding:  b
+:Subject:  Headline
+:Context:  org-goto
+:Description: Previous headline same level
+:Importance: 4
+:END:
+ - Binding :: b
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: Previous headline same level
+ - Importance :: 4
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** OG Headline Up                                                      :nav:
+:PROPERTIES:
+:Binding:  u
+:Subject:  Headline
+:Context:  org-goto
+:Description: One level up
+:Importance: 4
+:END:
+ - Binding :: u
+ - Subject :: Headline
+ - Function :: nav
+ - Context :: org-goto
+ - Description :: One level up
+ - Importance :: 4
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** OG Digit                                                          :style:
+:PROPERTIES:
+:Binding:  0 <THRU> 9
+:Subject:  Command
+:Context:  org-goto
+:Description: Digit argument
+:Importance: 5
+:END:
+ - Binding :: 0 <THRU> 9
+ - Subject :: Command
+ - Function :: style
+ - Context :: org-goto
+ - Description :: Digit argument
+ - Importance :: 5
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** OG Quit                                                            :stop:
+:PROPERTIES:
+:Binding:  q
+:Subject:  Org-Goto
+:Context:  org-goto
+:Description: quit
+:Importance: 3
+:END:
+ - Binding :: q
+ - Subject :: Org-Goto
+ - Function :: stop
+ - Context :: org-goto
+ - Description :: quit
+ - Importance :: 3
+
+Works if you turn off variable ~org-goto-auto-isearch~
+*** org-meta-return                                                     :add:
+:PROPERTIES:
+:Binding:  M-<RET>
+:Subject:  List-Like
+:Context:  org-buffer
+:Description: Insert a new headline, item or row
+:Importance: 1
+:Argument: plain, double
+:END:
+ - Binding :: M-<RET>
+ - Subject :: List-Like
+ - Function :: add
+ - Context :: org-buffer
+ - Description :: Insert a new headline, item or row
+ - Importance :: 1
+ - Argument :: plain, double
+
+If the command is used at the _beginning_ of a line, and if there is a
+headline or a plain list item at point, the new headline/item is created
+_before_ the current line. When used at the beginning of a regular
+line of text, turn that line into a headline.
+
+When this command is used in the middle of a line, the line is split
+and the rest of the line becomes the new item or headline. If you do
+not want the line to be split, customize ~org-M-RET-may-split-line~
+
+Calling the command with a plain prefix unconditionally inserts a new
+headline at the end of the current subtree, thus preserving its
+contents. With a double prefix, the new headline is created at the end
+of the parent subtree instead.
+*** org-insert-heading-respect-content                                  :add:
+:PROPERTIES:
+:Binding:  C-<RET>
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Insert a new headline at end of current subtree
+:Importance: 1
+:END:
+ - Binding :: C-<RET>
+ - Subject :: Headline
+ - Function :: add
+ - Context :: org-buffer
+ - Description :: Insert a new headline at end of current subtree
+ - Importance :: 1
+*** org-insert-todo-heading                                             :add:
+:PROPERTIES:
+:Binding:  M-S-<RET>
+:Subject:  Todo
+:Context:  org-buffer
+:Description: Insert new TODO entry at same current level
+:Importance: 3
+:END:
+ - Binding :: M-S-<RET>
+ - Subject :: Todo
+ - Function :: add
+ - Context :: org-buffer
+ - Description :: Insert new TODO entry at same current level
+ - Importance :: 3
+
+See also the variable ~org-treat-insert-todo-heading-as-state-change~
+*** org-insert-todo-heading-respect-content                             :add:
+:PROPERTIES:
+:Binding:  C-S-<RET>
+:Subject:  Todo
+:Context:  org-buffer
+:Description: Insert new Todo with same as current level
+:Importance: 3
+:END:
+ - Binding :: C-S-<RET>
+ - Subject :: Todo
+ - Function :: add
+ - Context :: org-buffer
+ - Description :: Insert new Todo with same as current level
+ - Importance :: 3
+*** org-cycle                                                          :edit:
+:PROPERTIES:
+:Binding:  <TAB>
+:Subject:  Headline
+:Context:  empty-headline
+:Description: When empty, change headline level
+:Importance: 1
+:END:
+ - Binding :: <TAB>
+ - Subject :: Headline
+ - Function :: edit
+ - Context :: empty-headline
+ - Description :: When empty, change headline level
+ - Importance :: 1
+
+In a new entry with no text yet, the first ~<TAB>~ demotes the entry
+to become a child of the previous one. The next ~<TAB>~ makes it a
+parent, and so on, all the way to top level. Yet another ~<TAB>~, and
+you are back to the initial level.
+*** org-do-promote                                                :edit:move:
+:PROPERTIES:
+:Binding:  M-<LEFT>
+:Subject:  Headline
+:Context:  not-table
+:Description: Promote current heading by one level
+:Importance: 1
+:END:
+ - Binding :: M-<LEFT>
+ - Subject :: Headline
+ - Function :: edit:move
+ - Context :: headline
+ - Description :: Promote current heading by one level
+ - Importance :: 1
+
+When there is an active region-i.e., when Transient Mark mode is
+active-promotion and demotion work on all headlines in the region. To
+select a region of headlines, it is best to place both point and mark
+at the beginning of a line, mark at the beginning of the first
+headline, and point at the line just after the last headline to change
+*** org-do-demote                                                 :edit:move:
+:PROPERTIES:
+:Binding:  M-<RIGHT>
+:Subject:  Headline
+:Context:  headline
+:Description: Demote current headling by one level
+:Importance: 1
+:END:
+ - Binding :: M-<RIGHT>
+ - Subject :: Headline
+ - Function :: edit:move
+ - Context :: headline
+ - Description :: Demote current headling by one level
+ - Importance :: 1
+
+When there is an active region-i.e., when Transient Mark mode is
+active-promotion and demotion work on all headlines in the region. To
+select a region of headlines, it is best to place both point and mark
+at the beginning of a line, mark at the beginning of the first
+headline, and point at the line just after the last headline to change
+*** org-promote-subtree                                           :edit:move:
+:PROPERTIES:
+:Binding:  M-S-<LEFT>
+:Subject:  Subtree
+:Context:  subtree
+:Description: Promote current subtree one level
+:Importance: 1
+:END:
+ - Binding :: M-S-<LEFT>
+ - Subject :: Subtree
+ - Function :: edit:move
+ - Context :: subtree
+ - Description :: Promote current subtree one level
+ - Importance :: 1
+*** org-demote-subtree                                            :edit:move:
+:PROPERTIES:
+:Binding:  M-S-<RIGHT>
+:Subject:  Subtree
+:Context:  subtree
+:Description: Demote current subtree one level
+:Importance: 1
+:END:
+ - Binding :: M-S-<RIGHT>
+ - Subject :: Subtree
+ - Function :: edit:move
+ - Context :: subtree
+ - Description :: Demote current subtree one level
+ - Importance :: 1
+*** org-move-subtree-up                                                :move:
+:PROPERTIES:
+:Binding:  M-<UP>
+:Subject:  Subtree
+:Context:  subtree
+:Description: Move subtree up
+:Importance: 1
+:END:
+ - Binding :: M-<UP>
+ - Subject :: Subtree
+ - Function :: move
+ - Context :: subtree
+ - Description :: Move subtree up
+ - Importance :: 1
+
+I.e., swap with previous subtree of same level
+*** org-move-subtree-down                                              :move:
+:PROPERTIES:
+:Binding:  M-<DOWN>
+:Subject:  Subtree
+:Context:  subtree
+:Description: Move subtree down
+:Importance: 1
+:END:
+ - Binding :: M-<DOWN>
+ - Subject :: Subtree
+ - Function :: move
+ - Context :: subtree
+ - Description :: Move subtree down
+ - Importance :: 1
+
+I.e., swap with next subtree of same level.
+*** org-mark-subtree                                                   :mark:
+:PROPERTIES:
+:Binding:  C-c @
+:Subject:  Subtree
+:Context:  subtree
+:Description: Mark subtree at point
+:Importance: 2
+:END:
+ - Binding :: C-c @
+ - Subject :: Subtree
+ - Function :: mark
+ - Context :: subtree
+ - Description :: Mark subtree at point
+ - Importance :: 2
+
+Hitting repeatedly marks subsequent subtrees of the same level as the
+marked subtree.
+*** org-cut-subtree                                         :delete:remember:
+:PROPERTIES:
+:Binding:  C-c C-x C-w
+:Subject:  Subtree
+:Context:  subtree
+:Description: Kill subtree
+:Importance: 2
+:Argument: numeric
+:END:
+ - Binding :: C-c C-x C-w
+ - Subject :: Subtree
+ - Function :: delete:remember
+ - Context :: subtree
+ - Description :: Kill subtree
+ - Importance :: 2
+ - Argument :: numeric
+
+I.e., remove it from buffer but save in kill ring. With a numeric
+prefix argument N, kill N sequential subtrees
+*** org-copy-subtree                                               :remember:
+:PROPERTIES:
+:Binding:  C-c C-x M-w
+:Subject:  Subtree
+:Context:  subtree
+:Description: Copy subtree to kill ring
+:Importance: 2
+:Argument: numeric
+:END:
+ - Binding :: C-c C-x M-w
+ - Subject :: Subtree
+ - Function :: remember
+ - Context :: subtree
+ - Description :: Copy subtree to kill ring
+ - Importance :: 2
+ - Argument :: numeric
+
+With a numeric prefix argument N, copy the N sequential subtrees.
+*** org-paste-subtree                                                :recall:
+:PROPERTIES:
+:Binding:  C-c C-x C-y
+:Subject:  Subtree
+:Context:  subtree
+:Description: Yank subtree from kill ring
+:Importance: 2
+:Argument: numeric
+:END:
+ - Binding :: C-c C-x C-y
+ - Subject :: Subtree
+ - Function :: recall
+ - Context :: subtree
+ - Description :: Yank subtree from kill ring
+ - Importance :: 2
+ - Argument :: numeric
+
+This does modify the level of the subtree to make sure the tree fits
+in nicely at the yank position. The yank level can also be specified
+with a numeric prefix argument, or by yanking after a headline marker
+like '****'.
+*** org-yank                                                         :recall:
+:PROPERTIES:
+:Binding:  C-y
+:Subject:  Subtree
+:Context:  org-buffer
+:Description: yanks text and can be clever about subtrees
+:Importance: 1
+:Argument: plain
+:END:
+ - Binding :: C-y
+ - Subject :: Subtree
+ - Function :: recall
+ - Context :: org-buffer
+ - Description :: yanks text and can be clever about subtrees
+ - Importance :: 1
+ - Argument :: plain
+
+Depending on the variables ~org-yank-adjusted-subtrees~ and
+~org-yank-folded-subtrees~, Org's internal ~yank~ command pastes
+subtrees folded and in a clever way, using the same command as
+~org-paste-subtree~. With the default settings, no level adjustment
+takes place, but the yanked tree is folded unless doing so would
+swallow text previously visible. Any prefix argument to this command
+forces a normal ~yank~ to be executed, with the prefix passed along. A
+good way to force a normal yank is ~C-u C-y~. If you use ~yank-pop~
+after a yank, it yanks previous kill items plainly, without adjustment
+and folding.
+*** org-clone-subtree-with-time-shift                            :recall:add:
+:PROPERTIES:
+:Binding:  C-c C-x c
+:Subject:  Subtree
+:Context:  subtree
+:Description: Clone subtree by making sibling copies
+:Importance: 2
+:Argument: plain
+:END:
+ - Binding :: C-c C-x c
+ - Subject :: Subtree
+ - Function :: recall:add
+ - Context :: subtree
+ - Description :: Clone subtree by making sibling copies
+ - Importance :: 2
+ - Argument :: plain
+
+Clone a subtree by making a number of sibling copies of it. You are
+prompted for the number of copies to make, and you can also specify if
+any timestamps in the entry should be shifted. This can be useful, for
+example, to create a number of tasks related to a series of lectures
+to prepare. For more details, see the docstring of this command.
+
+To disable timestamp shift, you can call the function with a plain
+argument.
+*** org-sort                                                      :edit:move:
+:PROPERTIES:
+:Binding:  C-c ^
+:Subject:  Subtree
+:Context:  subtree
+:Description: Sort immediate children of current headline
+:Importance: 2
+:Argument: plain
+:END:
+ - Binding :: C-c ^
+ - Subject :: Subtree
+ - Function :: edit:move
+ - Context :: subtree
+ - Description :: Sort immediate children of current headline
+ - Importance :: 2
+ - Argument :: plain
+
+Sort same-level entries. When there is an active region, all entries
+in the region are sorted. Otherwise the children of the current
+headline are sorted. The command prompts for the sorting method, which
+can be alphabetically, numerically, by time-first timestamp with
+active preferred, creation time, scheduled time, deadline time-by
+priority, by TODO Keyword-in the sequence the keywords have been
+defined in the setup-or by the value of a property. Reverse sorting is
+possible as well. You can also supply your own functions to extract
+the sorting key. With a plain prefix, sorting is case-sensitive.
+*** org-narrow-to-subtree                                             :style:
+:PROPERTIES:
+:Binding:  C-x n s
+:Subject:  Subtree
+:Context:  subtree
+:Description: Narrow buffer to current subtree
+:Importance: 4
+:END:
+ - Binding :: C-x n s
+ - Subject :: Subtree
+ - Function :: style
+ - Context :: subtree
+ - Description :: Narrow buffer to current subtree
+ - Importance :: 4
+*** org-narrow-to-block                                               :style:
+:PROPERTIES:
+:Binding:  C-x n b
+:Subject:  Block
+:Context:  block
+:Description: Narrow buffer to current block
+:Importance: 5
+:END:
+ - Binding :: C-x n b
+ - Subject :: Block
+ - Function :: style
+ - Context :: block
+ - Description :: Narrow buffer to current block
+ - Importance :: 5
+*** widen                                                              :stop:
+:PROPERTIES:
+:Binding:  C-x n w
+:Subject:  Narrow
+:Context:  narrow
+:Description: Widen buffer to remove narrowing
+:Importance: 3
+:END:
+ - Binding :: C-x n w
+ - Subject :: Narrow
+ - Function :: stop
+ - Context :: narrow
+ - Description :: Widen buffer to remove narrowing
+ - Importance :: 3
+*** org-toggle-heading                                           :start:stop:
+:PROPERTIES:
+:Binding:  C-c *
+:Subject:  Headline
+:Context:  org-buffer
+:Description: Turn normal line into headline or vice versa
+:Importance: 2
+:END:
+ - Binding :: C-c *
+ - Subject :: Headline
+ - Function :: start:stop
+ - Context :: org-buffer
+ - Description :: Turn normal line into headline or vice versa
+ - Importance :: 2
+
+Turn a normal line or plain list item into a headline-so that it
+becomes a subheading at its location. Also turn a headline into a
+normal line by removing the stars. If there is an active region, turn
+all lines in the region into headlines. If the first line in the
+region was an item, turn only the item lines into headlines. Finally,
+if the first line is a headline, remove the stars from all headlines
+in the region.
 * Variables
 ** Introduction
 *** org-insert-mode-line-in-empty-file                           :files:mode:
-    Non-nil means insert the first line setting Org mode in empty
-    files. When the function '~org-mode~' is called interactively in
-    an empty file, this normally means that the file name does not
-    automatically trigger Org mode. To ensure that the file will
-    always be in Org mode in the future, a line enforcing Org mode
-    will be inserted into the buffer, if this option has been set.
+Non-nil means insert the first line setting Org mode in empty
+files. When the function '~org-mode~' is called interactively in an
+empty file, this normally means that the file name does not
+automatically trigger Org mode. To ensure that the file will always be
+in Org mode in the future, a line enforcing Org mode will be inserted
+into the buffer, if this option has been set.
+** Document Structure
+*** org-footnote-section
+Outline headline containing footnote definitions. By default
+"Footnotes". Avoid using this title for an ordinary headline it will
+behave unusually.
+*** org-cycle-separator-lines
+Positive number: if this many empty lines or more appears from the end
+of a subtree and the following headline then exactly 1 empty line will
+appear when subtree is collapsed.
+
+Negative number: If this many empty lines or fewer appears from the
+end of a subtree and the following headline then every empty line will
+appear when the subtree is collapsed.
+
+When 0: never leave empty lines in collapsed view.
+*** org-special-ctrl-a/e
+Non-nil means 'C-a' and 'C-e' behave specially in headlines and
+items.
+
+When t, 'C-a' will bring back the cursor to the beginning of the
+headline text, i.e. after the stars and after a possible TODO
+keyword. In an item, this will be the position after bullet and
+check-box, if any. When the cursor is already at that position,
+another 'C-a' will bring it to the beginning of the line.
+
+'C-e' will jump to the end of the headline, ignoring the presence of
+tags in the headline. A second 'C-e' will then jump to the true end of
+the line, after any tags. This also means that, when this variable is
+non-nil, 'C-e' also will never jump behond the end of the headline of a
+folded section, i.e. not after the elipses.
+
+When set to the symbol 'reversed', the first 'C-a' or 'C-e' works
+normally, going to the true line boundary first. Only a directly
+following, identical keypress will bring the cursor to the special
+positions.
+
+This may also be a cons cell where the behavior for 'C-a' and 'C-e' is
+set separately.
+*** org-special-ctrl-k
+Non-nil means 'C-k' will behave specially in headlines.
+When nil, 'C-k' will call the default 'kill-line' command.
+When t, the following will happen while the cursor is in the headline:
+
+ - When at the beginning of a headline, kill the entire subtree.
+ - When in the middle of the headline text, kill the text up to the
+   tags.
+ - When after the headline text and before the tags, kill all the
+   tags.
+*** org-ctrl-k-protect-subtree
+Non-nil means, do not delete a hidden subtree with 'C-k'.
+When set to the symbol 'error', simply throw an error when 'C-k' is
+used to kill (part-of) a headline that has hidden text behind it.
+Any other non-nil value will result in a query to the user, if it is
+OK to kill that hidden subtree. When nil, kill without remorse.
+*** org-cycle-global-at-bob
+When non nil, cycle globally if cursor is at beginning of buffer and
+not at a headline.
+*** org-startup-folded
+When Emacs first visits an Org file, the global state is set to
+'showeverything', i.e., all file content is visible. This can be
+configured through this variable.
+*** org-agenda-inhibit-startup
+Inhibit startup when preparing agenda buffers.
+When this variable is t, the initialization of the Org agenda buffers
+is inhibited: e.g. the visibility state is not set, the tables are not
+re-aligned, etc.
+*** org-catch-invisible-edits
+Check if in invisible region before inserting or deleting a
+character.
+
+See documentation for more details.
+*** org-goto-auto-isearch
+Non-nil means typing characters in ~org-goto~ starts incremental
+search. When nil, you can use these keybindings to navigate the
+buffer:
+ - q :: Quite the Org Goto interface
+ - n :: Go to the next visible headline
+ - p :: Go to the previous visible headline
+ - f :: Go one headline forward on the same level
+ - b :: Go one headline backward on the same level
+ - u :: Go one headline up
+*** org-goto-interface
+Allowed values are:
+
+ - outline :: The interface shows an outline of the relevant file and
+   the correct headline is found by moving through the outline or by
+   searching with incremental search
+ - outline-path-completion :: Headlines in the current buffer are
+   offered via completion. This is the interface also used by the
+   refile command
+*** org-treat-insert-todo-heading-as-state-change
+Non-nil means inserting a TODO headline is treated as state change. So
+when the command ~M-x org-insert-todo-heading~ is used, state change
+logging will apply if appropriate. When nil, the new TODO item will be
+inserted directly, and no logging will take place.
+*** org-yank-adjusted-subtrees
+Non-nil means when yanking subtrees, adjust the level. With this
+setting, ~org-paste-subtree~ is used to insert the subtree, see this
+function for details.
+*** org-yank-folded-subtrees
+Non-nil means when yanking subtrees, fold them. If the kill is a
+single subtree, or a sequal of subtrees, i.e. if it starts with a
+heading and all other headings in it are either children or siblings,
+then fold all the subtrees. However, do this only if no text after the
+yank would be swallowed into a folded tree by this action.
+* Properties
+** Document Structure
+*** VISIBILITY
+Any headline with this property get's their visibility adapted
+accordingly. Allowed values for this property are:
+ - folded
+ - children
+ - content
+ - all
 * Faces
 * .emacs Additions
 ** Introduction
 *** Basics
-    For a better experience, the three Org commands ~org-store-link~,
-    ~org-capture~ and ~org-agenda~ ought to be accessible anywhere in
-    Emacs, not just in Org buffers. To that effect, you need to bind
-    them to globally available keys, like the ones reserved for
-    users. Here are suggested bindings, please modify the keys to your
-    own liking.
+For a better experience, the three Org commands ~org-store-link~,
+~org-capture~ and ~org-agenda~ ought to be accessible anywhere in
+Emacs, not just in Org buffers. To that effect, you need to bind them
+to globally available keys, like the ones reserved for users. Here are
+suggested bindings, please modify the keys to your own liking.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key (kbd "C-c l") 'org-store-link)
-      (global-set-key (kbd "C-c a") 'org-agenda)
-      (global-set-key (kbd "C-c c") 'org-capture)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+#+END_SRC
+
+*** Font Lock
+If you do not use Font Lock globally turn it on in Org buffer with
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook #'turn-on-font-lock)
+#+END_SRC
+
+* Other .el Suggestions
+** Introduction
+*** minimal-org.el
+#+BEGIN_SRC elisp
+  ;;; Minimal setup to load latest `org-mode'.
+
+  ;; Activate debugging.  (setq debug-on-error t debug-on-signal nil
+  debug-on-quit nil)
+
+  ;; Add latest Org mode to load path.  (add-to-list 'load-path
+  (expand-file-name "/path/to/org-mode/lisp"))
+#+END_SRC
 
 * Command Properties
+* Command Line Suggestions
+** Introduction
+*** Minimal Emacs session
+Suggested bash command to open emacs with as few bells and wistles as
+possible. Ensure that the problem is actually with org-mode and not
+just with your Emacs setup.
+#+BEGIN_SRC bash
+emacs -Q -l /path/to/minimal-org.el
+#+END_SRC
+
 * Niche Modes
 * Notes
 * Practice
+* Extra
+

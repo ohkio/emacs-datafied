@@ -1,0 +1,1241 @@
+* By Necessity
+** Necessary
+*** Emacs
+**** C-x C-c (save-buffers-kill-terminal)
+     - Subject :: Emacs
+     - Function :: stop, remember
+     - Context :: anywhere
+     - Description :: Kill Emacs
+     - Importance :: Necessary
+*** Window
+**** C-x 2 (split-window-below)
+     - Subject :: Window
+     - Function :: add
+     - Context :: navigating
+     - Description :: Split selected window into two windows one above
+       the other
+     - Importance :: Necessary
+**** C-x o (other-window)
+     - Subject :: Window
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Select another window
+     - Importance :: Necessary
+**** C-x 1 (delete-other-window)
+     - Subject :: Window
+     - Function :: delete
+     - Context :: navigating
+     - Description :: Delete all windows in selected frame except
+       selected window
+     - Importance :: Necessary
+*** Buffer
+**** C-x b (switch-to-buffer)
+     - Subject :: Buffer
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Select or create a buffer with given name
+     - Importance :: Necessary
+*** Text
+**** <RIGHT> (right-char)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move right one character
+     - Importance :: Necessary
+**** <LEFT> (left-char)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move left one character
+     - Importance :: Necessary
+**** <DOWN> (next-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move down one screen line
+     - Importance :: Necessary
+**** <UP> (previous-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move up one screen line
+     - Importance :: Necessary
+**** C-f (forward-char)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move forward one character
+     - Importance :: Necessary
+**** C-b (backward-char)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move backward one character
+     - Importance :: Necessary
+**** C-n (next-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move down one screen line
+     - Importance :: Necessary
+**** C-p (previous-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move up one screen line
+     - Importance :: Necessary
+**** M-< OR C-<HOME> (beginning-of-buffer)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move to the top of the buffer
+     - Importance :: Necessary
+**** M-> OR C-<END> (end-of-buffer)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move to the end of the buffer
+     - Importance :: Necessary
+**** C-v OR <PageDown> OR <next> (scroll-up-command)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Scroll the display one screen forward
+     - Importance :: Necessary
+**** M-v OR <PageUp> OR <prior> (scroll-down-command)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Scroll one screen backward
+     - Importance :: Necessary
+**** <mouse-1> (mouse-set-point)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: anywhere
+     - Description :: In text area, selects window and moves point to
+       mouse
+     - Importance :: Necessary
+**** <RET> (newline-and-indent)
+     - Subject :: Text
+     - Function :: edit
+     - Context :: editing
+     - Description :: insert newline then indent according to mode
+     - Importance :: Necessary
+     - Note :: Sometimes this command and the next command have their
+       key-binding swapped
+**** C-j (newline)
+     - Subject :: Text
+     - Function :: edit
+     - Context :: editing
+     - Description :: End a line and start a new one
+     - Importance :: Necessary
+     - Note :: Sometimes this command and the previous command have
+       their key-binding swapped
+**** C-/ OR C-x u OR C-_ (undo)
+     - Subject :: Text
+     - Function :: undo
+     - Context :: editing
+     - Description :: Undo one entry of the undo records
+     - Importance :: Necessary
+**** <DEL> OR <BACKSPACE> (delete-backward-char)
+     - Subject :: Text
+     - Function :: delete
+     - Context :: editing
+     - Description :: Delete character before point, or region if
+       active
+     - Importance :: Necessary
+**** <Delete> (delete-forward-char)
+     - Subject :: Text
+     - Function :: delete
+     - Context :: editing
+     - Description :: Delete character after point, or region if
+       active
+     - Importance :: Necessary
+**** C-k (kill-line)
+     - Subject :: Text
+     - Function :: delete, remember
+     - Context :: editing
+     - Description :: Kill to the end of the line
+     - Importance :: Necessary
+**** C-y (yank)
+     - Subject :: Text
+     - Function :: recall
+     - Context :: editing
+     - Description :: Yank the last kill into the buffer, at point
+     - Importance :: Necessary
+**** M-y (yank-pop)
+     - Subject :: Text
+     - Function :: recall
+     - Context :: after-yank
+     - Description :: Replace recent yanked text with earlier batch of
+       killed text
+     - Importance :: Necessary
+*** Region
+**** <drag-mouse-1> (mouse-set-region)
+     - Subject :: Region
+     - Function :: mark
+     - Context :: anywhere
+     - Description :: Set point and the mark around the text you drag
+       across.
+     - Importance :: Necessary
+**** C-w (kill-region)
+     - Subject :: Region
+     - Function :: delete, remember
+     - Context :: editing
+     - Description :: Kill ("cut") text between point and mark
+     - Importance :: Necessary
+**** M-w (kill-ring-save)
+     - Context :: Region
+     - Function :: remember
+     - Context :: navigating
+     - Description :: Save the region as if killed, but don't kill
+       it. ("Copy")
+     - Importance :: Necessary
+*** Point
+**** C-<SPC> OR C-@ (set-mark-command)
+     - Subject :: Point
+     - Function :: mark
+     - Context :: anywhere
+     - Description :: Set the mark at point, and activate it
+     - Importance :: Necessary
+*** File
+**** C-x C-f (find-file)
+     - Subject :: File
+     - Function :: add, recall
+     - Context :: anywhere
+     - Description :: Copy file into buffer
+     - Importance :: Necessary
+**** C-x C-s (save-buffer)
+     - Subject :: File
+     - Function :: remember
+     - Context :: editing
+     - Description :: Save current buffer into associated file
+     - Importance :: Necessary
+*** Minibuffer
+**** <UP> (previous-line-or-history-element)
+     - Subject :: Minibuffer
+     - Function :: navigate, recall
+     - Context :: minibuffer
+     - Description :: Move previous line if exists, else previous
+       minibuffer item
+     - Importance :: Necessary
+**** <DOWN> (next-line-or-history-element)
+     - Subject :: Minibuffer
+     - Function :: navigate, recall
+     - Context :: minibuffer
+     - Description :: Move next line if exists, else move next
+       minibuffer item
+     - Importance :: Necessary
+**** <TAB> (minibuffer-complete)
+     - Subject :: Minibuffer
+     - Function :: inform, recall
+     - Context :: minibuffer
+     - Description :: Complete the text in the minibuffer as much as
+       possible
+     - Importance :: Necessary
+**** <RET> (exit-minibuffer)
+     - Subject :: Minibuffer
+     - Function :: stop
+     - Context :: minibuffer
+     - Description :: Submit provided argument and exit minibuffer
+     - Importance :: Necessary
+*** Command
+**** C-h a (apropos-command)
+     - Subject :: Command
+     - Function :: inform, recall
+     - Context :: navigating
+     - Description :: Searches for commands whose names match provided
+       input
+     - Importance :: Necessary
+**** C-h m (describe-mode)
+     - Subject :: Command
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: Display documentation of current major and minor
+       modes
+     - Importance :: Necessary
+**** C-h w (where-is)
+     - Subject :: Command
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: Show which keys run the command provided
+     - Importance :: Necessary
+**** M-[0-9] (digit-argument)
+     - Subject :: Command
+     - Function :: mark
+     - Context :: anywhere
+     - Description :: Compile numeric argument for next command
+     - Importance :: Necessary
+**** M-- (negative-argument)
+     - Subject :: Command
+     - Function :: mark
+     - Context :: anywhere
+     - Description :: Compile negative numeric argument for next
+       command
+     - Importance :: Necessary
+**** C-u (universal-argument)
+     - Subject :: Command
+     - Function :: mark
+     - Context :: anywhere
+     - Description :: start numeric, plain, double argument
+     - Importance :: Necessary
+**** M-x (execute-extended-command)
+     - Subject :: Command
+     - Function :: start
+     - Context :: anywhere
+     - Description :: Run a command by name
+     - Importance :: Necessary
+**** C-g (keyboard-quit)
+*** Key
+**** C-h k (describe-key)
+     - Subject :: Key
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: find out what a key does
+     - Importance :: Necessary
+*** Help
+**** C-h C-h (help-for-help)
+     - Subject :: Help
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: View a list of help commands
+     - Importance :: Necessary
+**** <SPC> (scroll-up-command)
+     - Subject :: Help
+     - Function :: navigate
+     - Context :: help
+     - Description :: Scroll contents of help window up
+     - Importance :: Necessary
+**** <DEL> (scroll-down-command)
+     - Subject :: Help
+     - Function :: navigate
+     - Context :: help
+     - Description :: Scroll contents of help window down.
+     - Importance :: Necessary
+**** <RET> (help-follow)
+     - Subject :: Help
+     - Function :: navigate
+     - Context :: help-link
+     - Description :: Follow cross-reference at point
+     - Importance :: Necessary
+**** <RET> (push-button)
+     - Subject :: Help
+     - Function :: start
+     - Context :: help-button
+     - Description :: Perform action specified by a button at relevant
+       location
+     - Importance :: Necessary
+*** Info
+**** C-h r (info-emacs-manual)
+     - Subject :: Info
+     - Function :: start
+     - Context :: anywhere
+     - Description :: Display the Emacs manual in Info
+     - Importance :: Necessary
+**** q (quit-window)
+     - Subject :: Info
+     - Function :: stop
+     - Context :: info
+     - Description :: Quit window/buffer of an info-mode based
+       window/buffer
+     - Importance :: Necessary
+*** Tutorial
+**** C-h t (help-with-tutorial)
+     - Subject :: Tutorial
+     - Function :: start
+     - Context :: anywhere
+     - Description :: Open the Emacs tutorial
+     - Importance :: Necessary
+*** isearch
+**** C-s (isearch-forward)
+     - Subject :: isearch
+     - Function :: start
+     - Context :: navigating
+     - Description :: Incremental search forward
+     - Importance :: Necessary
+**** C-r (isearch-backward)
+     - Subject :: isearch
+     - Function :: start
+     - Context :: navigating
+     - Description :: Incremental search backward
+     - Importance :: Necessary
+**** C-s (isearch-repeat-forward)
+     - Subject :: isearch
+     - Function :: navigate
+     - Context :: isearch
+     - Description :: Move to the next occurrence of the search string
+     - Importance :: Necessary
+**** C-r (isearch-repeat-backward)
+     - Subject :: isearch
+     - Function :: navigate
+     - Context :: isearch
+     - Description :: Move to the previous occurrence of the search
+       string
+     - Importance :: Necessary
+**** C-h C-h (isearch-help-map)
+     - Subject :: isearch
+     - Function :: inform
+     - Context :: isearch
+     - Description :: Access interactive help options
+     - Importance :: Necessary
+**** C-j (isearch-printing-char)
+     - Subject :: isearch
+     - Function :: edit
+     - Context :: isearch
+     - Description :: Search for a newline character
+     - Importance :: Necessary
+**** <DEL> (isearch-delete-char)
+     - Subject :: isearch
+     - Function :: undo
+     - Context :: isearch
+     - Description :: cancel the last input item entered during
+       isearch
+     - Importance :: Necessary
+**** <RET> (isearch-exit)
+     - Subject :: isearch
+     - Function :: stop
+     - Context :: isearch
+     - Description :: Stops searching, leaving the cursor at search
+       result
+     - Importance :: Necessary
+**** <ESC> <ESC> <ESC> (isearch-cancel)
+     - Subject :: isearch
+     - Function :: stop, recall
+     - Context :: isearch
+     - Description :: Abandon the search and return to where you
+       started
+     - Importance :: Necessary
+**** C-g C-g (isearch-abort)
+     - Subject :: isearch
+     - Function :: stop, recall
+     - Context :: isearch
+     - Description :: Abandon the search and return to where you
+       started
+     - Importance :: Necessary
+** Common
+*** Window
+**** M-r (move-to-window-line-top-bottom)
+     - Subject :: Window
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move point to left margin center, top, bottom
+     - Importance :: Common
+**** C-l (recenter-top-bottom)
+     - Subject :: Window
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Scroll selected window so current line is center
+     - Importance :: Common
+**** C-x 3 (split-window-right)
+     - Subject :: Window
+     - Function :: add
+     - Context :: navigating
+     - Description :: Split selected window into two, side by side
+     - Importance :: Common
+**** C-x 0 (delete-window)
+     - Subject :: Window
+     - Function :: delete
+     - Context :: navigating
+     - Description :: Delete the selected window
+     - Importance :: Common
+**** C-M-v (scroll-other-window)
+     - Subject :: Window
+     - Function :: navigate
+     - Context :: multiple-windows
+     - Description :: Scroll the next window upward
+     - Importance :: Common
+**** C-M-S-v (scroll-other-window-down)
+     - Subject :: Window
+     - Function :: navigate
+     - Context :: multiple-windows
+     - Description :: Scroll the next window downward
+     - Importance :: Common
+**** C-x ^ (enlarge-window)
+     - Subject :: Window
+     - Function :: style
+     - Context :: multiple-windows
+     - Description :: Make selected window taller
+     - Importance :: Common
+**** C-x { (shrink-window-horizontally)
+     - Subject :: Window
+     - Function :: style
+     - Context :: multiple-windows
+     - Description :: Make selected window narrower
+     - Importance :: Common
+**** C-x } (enlarge-window-horizontally)
+     - Subject :: Window
+     - Function :: style
+     - Context :: multiple-windows
+     - Description :: Make selected window wider
+     - Importance :: Common
+**** C-x - (shrink-window-if-larger-than-buffer)
+     - Subject :: Window
+     - Function :: style
+     - Context :: multiple-windows
+     - Description :: Shrink this window if its buffer doesn't need
+       all lines
+     - Importance :: Common
+**** C-x + (balance-windows)
+     - Subject :: Window
+     - Function :: style
+     - Context :: multiple-windows
+     - Description :: Make all windows the same height
+     - Importance :: Common
+*** Buffer
+**** C-x C-b (list-buffers)
+     - Subject :: Buffer
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: List the existing buffers
+     - Importance :: Common
+**** C-x k (kill-buffer)
+     - Subject :: Buffer
+     - Function :: delete
+     - Context :: navigating
+     - Description :: Kill given buffer
+     - Importance :: Common
+**** C-x n w (widen)
+     - Subject :: Buffer
+     - Function :: recall
+     - Context :: navigating
+     - Description :: Widen to make the entire buffer accessible again.
+     - Importance :: Common
+**** (hi-lock-mode)
+     - Subject :: Buffer
+     - Function :: style
+     - Context :: navigating
+     - Description :: Toggle Hi Lock mode
+     - Importance :: Common
+**** C-x $ (set-selective-display)
+     - Subject :: Buffer
+     - Function :: style
+     - Context :: navigating
+     - Description :: Hide lines with indent given by numeric argument
+     - Importance :: Common
+*** Text
+**** M-f (forward-word)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move forward one word
+     - Importance :: Common
+**** C-<RIGHT> OR M-<RIGHT> (right-word)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move right one word
+     - Importance :: Common
+**** M-b (backward-word)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move backward one word
+     - Importance :: Common
+**** C-<LEFT> OR M-<LEFT> (left-word)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move left one word
+     - Importance :: Common
+**** C-a OR <Home> (move-beginning-of-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move to the beginning of the line
+     - Importance :: Common
+**** C-e OR <End> (move-end-of-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Move to the end of the line
+     - Importance :: Common
+**** M-g M-g OR M-g g (goto-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Goto 1 indexed line number
+     - Importance :: Common
+**** C-x C-<SPC> (pop-global-mark)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: navigating
+     - Description :: Jumps to last buffer and position of global mark ring
+     - Importance :: Common
+**** M-l (downcase-word)
+     - Subject :: Text
+     - Function :: edit
+     - Context :: editing
+     - Description :: Convert to lower case from point to end of word
+     - Importance :: Common
+**** M-u (upcase-word)
+     - Subject :: Text
+     - Function :: edit
+     - Context :: editing
+     - Description :: Convert to upper case from point to end of word
+     - Importance :: Common
+**** M-c (capitalize-word)
+     - Subject :: Text
+     - Function :: edit
+     - Context :: editing
+     - Description :: Capitalize from point to end of word
+     - Importance :: Common
+**** C-o (open-line)
+     - Subject :: Text
+     - Function :: add
+     - Context :: editing
+     - Description :: Insert a blank line after the cursor
+     - Importance :: Common
+**** C-d (delete-char)
+     - Subject :: Text
+     - Function :: delete
+     - Context :: editing
+     - Description :: Delete the character after point
+     - Importance :: Common
+**** M-d (kill-word)
+     - Subject :: Text
+     - Function :: delete:remember
+     - Context :: editing
+     - Description :: Kill forward to the end of the next word
+     - Importance :: Common
+**** M-<DEL> OR M-<BACKSPACE> (backward-kill-word)
+     - Subject :: Text
+     - Function :: delete:remember
+     - Context :: editing
+     - Description :: Kill back to the beginning of the previous word
+     - Importance :: Common
+**** C-x C-o (delete-blank-lines)
+     - Subject :: Text
+     - Function :: delete
+     - Context :: editing
+     - Description :: Delete all but one of many consecutive blank lines
+     - Importance :: Common
+**** (flyspell-mode)
+     - Subject :: Text
+     - Function :: style
+     - Context :: navigating
+     - Description :: Enable Flyspell mode
+     - Importance :: Common
+**** (flyspell-prog-mode)
+     - Subject :: Text
+     - Function :: style
+     - Context :: navigating
+     - Description :: Enable Flyspell mode for comments and strings only
+     - Importance :: Common
+**** C-a (beginning-of-visual-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: visual-line-mode
+     - Description :: Moves to the beginning of the screen line
+     - Importance :: Common
+**** C-e (end-of-visual-line)
+     - Subject :: Text
+     - Function :: navigate
+     - Context :: visual-line-mode
+     - Description :: Moves to the end of the screen line
+     - Importance :: Common
+**** C-k (kill-visual-line)
+     - Subject :: Text
+     - Function :: delete:remember
+     - Context :: visual-line-mode
+     - Description :: Kills test to the end of the screen line
+     - Importance :: Common
+*** Region
+**** M-s M-w (eww-search-words)
+     - Subject :: Region
+     - Function :: inform
+     - Context :: navigating
+     - Description :: Search the Web for the text in region
+     - Importance :: Common
+**** (delete-selection-mode)
+     - Subject :: Region
+     - Function :: delete:edit
+     - Context :: editing
+     - Description :: Toggle Delete Selection mode
+     - Importance :: Common
+**** C-x h (mark-whole-buffer)
+     - Subject :: Region
+     - Function :: mark
+     - Context :: anywhere
+     - Description :: Move point to start of buffer, set mark at end
+     - Importance :: Common
+*** Point
+**** C-x C-x (exchange-point-and-mark)
+     - Subject :: Point
+     - Function :: navigate
+     - Context :: anywhere
+     - Description :: Swap mark and point and activate mark
+     - Importance :: Common
+*** File
+**** y OR <SPC> (SSB Yes)
+     - Subject :: File
+     - Function :: remember
+     - Context :: save-some-buffers
+     - Description :: Save this buffer and ask about the rest of buffers
+     - Importance :: Common
+**** ! (SSB Save All)
+     - Subject :: File
+     - Function :: remember
+     - Context :: save-some-buffers
+     - Description :: Save this buffer and all rest with no more questions
+     - Importance :: Common
+**** y (LF Confirm)
+     - Subject :: File
+     - Function :: style
+     - Context :: large-file
+     - Description :: Proceed with visiting the file
+     - Importance :: Common
+**** l (LF Literal)
+     - Subject :: File
+     - Function :: style
+     - Context :: large-file
+     - Description :: Visit file literally
+     - Importance :: Common
+*** Highlight
+**** M-s h r (highlight-regexp)
+     - Subject :: Highlight
+     - Function :: add
+     - Context :: navigating
+     - Description :: Highlight text that matches given regexp using given face
+     - Importance :: Common
+**** M-s h u (unhighlight-regexp)
+     - Subject :: Highlight
+     - Function :: delete
+     - Context :: navigating
+     - Description :: Unhighlight given regexp
+     - Importance :: Common
+*** Mode-Line
+**** (line-number-mode)
+     - Subject :: Mode-Line
+     - Function :: style
+     - Context :: navigating
+     - Description :: Toggle automatic display of current line number
+     - Importance :: Common
+**** (column-number-mode)
+     - Subject :: Mode-Line
+     - Function :: style
+     - Context :: navigating
+     - Description :: Toggle automatic display of current column number
+     - Importance :: Common
+**** (size-indication-mode)
+     - Subject :: Mode-Line
+     - Function :: style
+     - Context :: navigating
+     - Description :: Toggle automatic display of size of buffer
+     - Importance :: Common
+*** Fringes
+**** (display-line-numbers-mode)
+     - Subject :: Fringes
+     - Function :: style
+     - Context :: navigating
+     - Description :: Toggle displaying line numbers for every line in buffer
+     - Importance :: Common
+*** Minibuffer
+**** M-v OR <PageUp> OR <prior> (switch-to-completions)
+     - Subject :: Minibuffer
+     - Function :: navigate
+     - Context :: minibuffer
+     - Description :: Selects the window showing the completion list
+     - Importance :: Common
+**** ? (minibuffer-completion-help)
+     - Subject :: Minibuffer
+     - Function :: inform
+     - Context :: minibuffer
+     - Description :: Display a list of completions
+     - Importance :: Common
+**** <SPC> (minibuffer-complete-word)
+     - Subject :: Minibuffer
+     - Function :: recall:inform
+     - Context :: minibuffer
+     - Description :: Complete up to one word from the minibuffer text before point
+     - Importance :: Common
+**** M-p (previous-history-element)
+     - Subject :: Minibuffer
+     - Function :: recall
+     - Context :: minibuffer
+     - Description :: Move to the previous item in the minibuffer history
+     - Importance :: Common
+**** M-n (next-history-element)
+     - Subject :: Minibuffer
+     - Function :: recall
+     - Context :: minibuffer
+     - Description :: Move to the next item in the minibuffer history
+     - Importance :: Common
+**** <RET> (minibuffer-complete-and-exit)
+     - Subject :: Minibuffer
+     - Function :: stop
+     - Context :: minibuffer
+     - Description :: Submit minibuffer argument
+     - Importance :: Common
+**** M-n (next-history-element)
+     - Subject :: Minibuffer
+     - Function :: navigate
+     - Context :: mini-select-list
+     - Description :: Select next available list option in minibuffer
+     - Importance :: Common
+**** M-p (previous-history-element)
+     - Subject :: Minibuffer
+     - Function :: navigate
+     - Context :: mini-select-list
+     - Description :: Select previous available list option in minibuffer
+     - Importance :: Common
+*** Completion
+**** <RIGHT> (next-completion)
+     - Subject :: Completion
+     - Function :: navigate
+     - Context :: completion-buffer
+     - Description :: This moves point to the following completion alternative
+     - Importance :: Common
+**** <LEFT> (previous-completion)
+     - Subject :: Completion
+     - Function :: navigate
+     - Context :: completion-buffer
+     - Description :: This moves point to the previous completion alternative
+     - Importance :: Common
+**** <RET> OR mouse-1 OR mouse-2 (choose-completion)
+     - Subject :: Completion
+     - Function :: start
+     - Context :: completion-buffer
+     - Description :: Chooses the completion at point
+     - Importance :: Common
+*** User-Input
+**** C-h d (apropos-documentation)
+     - Subject :: User-Input
+     - Function :: recall:inform
+     - Context :: navigating
+     - Description :: Display commands and variables with matching documentation
+     - Importance :: Common
+**** C-h o (describe-symbol)
+     - Subject :: User-Input
+     - Function :: recall:inform
+     - Context :: anywhere
+     - Description :: Display documentation of Lisp symbol provided
+     - Importance :: Common
+*** Command
+**** C-x z (repeat)
+     - Subject :: Command
+     - Function :: recall
+     - Context :: anywhere
+     - Description :: repeat the previous Emacs command.
+     - Importance :: Common
+*** Function
+**** C-h f (describe-function)
+     - Subject :: Function
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: Display documentation on function with provided name
+     - Importance :: Common
+*** Variable
+**** C-h v (describe-variable)
+     - Subject :: Variable
+     - Function :: inform
+     - Context :: anywhere
+     - Description :: Display the documentation of the Lisp variable provided
+     - Importance :: Common
+*** Help
+**** C-c C-c (help-follow-symbol)
+     - Subject :: Help
+     - Function :: navigate
+     - Context :: help
+     - Description :: Show all documentation about the symbol at point
+     - Importance :: Common
+*** Info
+**** C-h i (info)
+     - Subject :: Info
+     - Function :: start
+     - Context :: navigating
+     - Description :: Enter Info, the documentation browser
+     - Importance :: Common
+**** d (Info-directory)
+     - Subject :: Info
+     - Function :: navigate
+     - Context :: info
+     - Description :: Go to the Info directory node.
+     - Importance :: Common
+**** m (Info-menu)
+     - Subject :: Info
+     - Function :: recall:navigate
+     - Context :: info
+     - Description :: Go to the node pointed to by the menu item indicated
+     - Importance :: Common
+**** i (Info-index)
+     - Subject :: Info
+     - Function :: recall:navigate
+     - Context :: info
+     - Description :: Look up given string in this manual's index and go there
+     - Importance :: Common
+**** s (Info-search)
+     - Subject :: Info
+     - Function :: navigate
+     - Context :: info
+     - Description :: Search for given REGEXP, starting from point, go to node
+     - Importance :: Common
+*** Save-Some-Buffers
+**** C-x s (save-some-buffers)
+     - Subject :: Save-Some-Buffers
+     - Function :: start
+     - Context :: navigating
+     - Description :: Save any or all buffers to their files
+     - Importance :: Common
+**** n OR <DEL> (SSB Next)
+     - Subject :: Save-Some-Buffers
+     - Function :: navigate
+     - Context :: save-some-buffers
+     - Description :: Don't save this buffer, but ask about rest of buffers
+     - Importance :: Common
+**** C-h (SSB Help)
+     - Subject :: Save-Some-Buffers
+     - Function :: inform
+     - Context :: save-some-buffers
+     - Description :: Display a help message about these options
+     - Importance :: Common
+**** q OR <RET> (SSB Quit)
+     - Subject :: Save-Some-Buffers
+     - Function :: stop
+     - Context :: save-some-buffers
+     - Description :: Terminate command without any more saving
+     - Importance :: Common
+*** isearch
+**** M-s M-> (isearch-end-of-buffer)
+     - Subject :: isearch
+     - Function :: navigate
+     - Context :: isearch
+     - Description :: Go to the last occurrence of search string
+     - Importance :: Common
+**** M-s M-< (isearch-beginning-of-buffer)
+     - Subject :: isearch
+     - Function :: navigate
+     - Context :: isearch
+     - Description :: Go to the first occurrence of search string
+     - Importance :: Common
+**** C-w (isearch-yank-word-or-char)
+     - Subject :: isearch
+     - Function :: edit
+     - Context :: isearch
+     - Description :: Appends next char or word at point to search string
+     - Importance :: Common
+**** C-M-d (isearch-del-char)
+     - Subject :: isearch
+     - Function :: edit
+     - Context :: isearch
+     - Description :: Deletes the last character from the search string
+     - Importance :: Common
+**** C-M-y (isearch-yank-char)
+     - Subject :: isearch
+     - Function :: edit
+     - Context :: isearch
+     - Description :: Appends character after point to search string
+     - Importance :: Common
+**** M-p (isearch-ring-retreat)
+     - Subject :: isearch-Ring
+     - Function :: navigate
+     - Context :: isearch
+     - Description :: Iterate through the search ring backwards
+     - Importance :: Common
+**** M-n (isearch-ring-advance)
+     - Subject :: isearch-Ring
+     - Function :: navigate
+     - Context :: isearch
+     - Description :: Iterate through the search ring forwards
+     - Importance :: Common
+*** q-replace
+**** M-% (query-replace)
+     - Subject :: q-replace
+     - Function :: start
+     - Context :: editing
+     - Description :: Replace some occurrences of one string with another
+     - Importance :: Common
+**** M-% (isearch-query-replace)
+     - Subject :: q-replace
+     - Function :: start
+     - Context :: isearch
+     - Description :: Invokes find replace with current search string
+     - Importance :: Common
+**** C-M-% (isearch-query-replace-regexp)
+     - Subject :: q-replace
+     - Function :: start
+     - Context :: isearch
+     - Description :: Invokes find replace with current string as regexp
+     - Importance :: Common
+**** <RET> OR q (QR Quit)
+     - Subject :: q-replace
+     - Function :: stop
+     - Context :: query-replace
+     - Description :: To exit without doing any more replacements
+     - Importance :: Common
+**** <SPC> OR y (QR Yes)
+     - Subject :: q-replace
+     - Function :: execute:navigate
+     - Context :: query-replace
+     - Description :: to replace the occurrence with newstring
+     - Importance :: Common
+**** <DEL> OR <Delete> OR <BACKSPACE> OR n (QR Next)
+     - Subject :: q-replace
+     - Function :: navigate
+     - Context :: query-replace
+     - Description :: to skip to the next occurrence without replacing this one
+     - Importance :: Common
+**** C-h OR ? OR <F1> (QR Help)
+     - Subject :: q-replace
+     - Function :: inform
+     - Context :: query-replace
+     - Description :: To display a message of all QR options
+     - Importance :: Common
+*** ispell
+**** C-$ (ispell)
+     - Subject :: ispell
+     - Function :: start
+     - Context :: editing
+     - Description :: Check and correct spelling of all words in buffer
+     - Importance :: Common
+**** (ispell-kill-ispell)
+     - Subject :: ispell
+     - Function :: stop
+     - Context :: ispell
+     - Description :: Kill the spell-checker subprocess
+     - Importance :: Common
+**** X (ISP Exit Keep Point)
+     - Subject :: ispell
+     - Function :: stop
+     - Context :: ispell
+     - Description :: Quit ispell, leaving point at last checked word
+     - Importance :: Common
+**** x (ISP Exit Return Point)
+     - Subject :: ispell
+     - Function :: stop
+     - Context :: ispell
+     - Description :: Quit ispell, move point back to before ispell
+     - Importance :: Common
+**** q (ISP Quit Ispell)
+     - Subject :: ispell
+     - Function :: stop
+     - Context :: ispell
+     - Description :: Quit ispell and kill subprocess
+     - Importance :: Common
+**** ? (ISP Help)
+     - Subject :: ispell
+     - Function :: inform
+     - Context :: ispell
+     - Description :: Show the list of options
+     - Importance :: Common
+**** <SPC> (ISP Skip)
+     - Subject :: ispell
+     - Function :: navigate
+     - Context :: ispell
+     - Description :: Skip word, still incorrect
+     - Importance :: Common
+**** a (ISP Accept Session)
+     - Subject :: ispell
+     - Function :: edit:navigate
+     - Context :: ispell
+     - Description :: Accept incorrect word only in this editing session
+     - Importance :: Common
+**** A (ISP Accept Buffer)
+     - Subject :: ispell
+     - Function :: edit:navigate:remember
+     - Context :: ispell
+     - Description :: Accept the incorrect word, but for session and buffer
+     - Importance :: Common
+**** i (ISP Insert Dictionary)
+     - Subject :: ispell
+     - Function :: edit:navigate:remember
+     - Context :: ispell
+     - Description :: Insert word in private dictionary file
+     - Importance :: Common
+**** [digit] (ISP Select Near-Miss)
+     - Subject :: Text
+     - Function :: edit
+     - Context :: ispell
+     - Description :: Replace word once with selected near-miss
+     - Importance :: Common
+*** rec-edit
+**** C-M-c (exit-recursive-edit)
+     - Subject :: rec-edit
+     - Function :: stop
+     - Context :: recursive-edit
+     - Description :: Exit recursive edit to previous command
+     - Importance :: Common
+*** Macro
+**** <F3> (kmacro-start-macro-or-insert-counter)
+     - Subject :: Macro
+     - Function :: edit
+     - Context :: editing
+     - Description :: Start defining a keyboard macro
+     - Importance :: Common
+**** <F4> (kmacro-end-or-call-macro)
+     - Subject :: Macro
+     - Function :: start:remember:recall
+     - Context :: editing
+     - Description :: End macro definition or execute most recent macro
+     - Importance :: Common
+*** View-mode
+**** q (View-quit)
+     - Subject :: view-Mode
+     - Function :: stop
+     - Context :: view
+     - Description :: Disables View mode, restoring prev buffer and position
+     - Importance :: Common
+* Subject Outline
+** Emacs
+*** Frame
+**** Window
+***** Buffer
+****** Text
+******* Region
+******* Rectangle
+******* prog
+****** Point
+****** File
+******* Shadow-File
+****** Face
+****** Highlight
+****** Directory
+******* tar
+******* archive
+****** image
+***** Mode-Line
+***** Fringes
+**** Minibuffer
+***** Completion
+***** icomplete
+***** fido
+***** Password
+***** Yes-No
+**** Menu
+*** User-Input
+**** Command
+**** Key
+**** Variable
+**** Input-Method
+**** Language-Environment
+*** Help
+**** Info
+**** Tutorial
+*** Ring Memory
+**** Kill-Ring
+**** isearch-Ring
+**** save-some-buffers
+**** Macro-Ring
+**** file-cache
+**** recentf-list
+*** Features
+**** isearch
+**** q-replace
+**** ispell
+**** rec-edit
+**** Macro
+***** Macro-Counter
+**** filesets
+**** shell
+**** tags-table
+**** Register
+**** Bookmark
+**** parallel
+*** Modes
+**** View-mode
+**** Occur-mode
+**** Dired
+**** diff
+***** ediff
+**** buffer-menu
+**** winner
+**** windmove
+**** mail
+* List of Functions
+  Search by one of the following tags:
+  - start
+  - stop
+  - information
+  - navigate
+  - edit
+  - undo
+  - name
+  - add
+  - move
+  - delete
+  - find
+  - remember
+  - recall
+  - forget
+  - mark
+  - execute
+  - style
+  - time
+* Context Outline
+** anywhere
+*** navigating
+**** editing
+***** after-yank
+***** ispell
+***** flyspell
+***** prog
+***** cua
+****** cua-rectangle
+***** recursive-edit
+***** diff
+**** help
+**** info
+**** special-text
+**** view
+**** visual-line-mode
+**** macro
+***** macro-confirm
+***** stepwise-macro
+***** stepwise-macro-editing
+**** large-file
+**** dired
+***** tar
+***** archive
+**** image
+**** rectangle
+**** bookmark
+*** minibuffer
+**** completion-buffer
+***** icomplete
+***** fido
+**** password
+**** yes-no
+**** register
+**** mini-select-list
+*** searching
+**** isearch
+***** isearch-after-edit
+***** isearch-after-yank
+**** query-replace
+**** occur
+**** occur-edit
+*** multiple-windows
+**** follow-ready
+*** system
+**** save-some-buffers
+**** collision
+**** modification-date-collision
+**** recover-session
+**** buffer-menu
+**** winner
+** mode-line
+* Text Units
+** Char
+** Word
+** Regexp
+** Symbol
+** Line
+** Sentence
+** Sexp
+** Paragraph
+** Defun
+** Page
+* Manual Componants
+** Details
+** Vocabulary
+** Syntax
+** File Additions
+** Modes
+** Contexts
+** Commands
+** Variables
+** Faces
+** .emacs Additions
+** Command Properties
+** Niche Modes
+** Notes
+** Practice

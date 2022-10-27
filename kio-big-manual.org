@@ -42,6 +42,8 @@
 ***** Command Summary
 ***** Command Context
 ***** Command Argument
+***** Command Subject
+***** Command Function
 ***** Command Details
 **** Modes
 ***** Major Modes

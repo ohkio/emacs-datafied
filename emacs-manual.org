@@ -1646,13 +1646,13 @@
     - ~\w~ :: matches any word-constituent character. The syntax table
       determines which characters these are.
     - ~\W~ :: matches any character that is not a word-constituent.
-    - ~\_< :: matches the empty string, but only at the beginning of a
-      symbol. A symbol is a sequence of one or more symbol-constituent
-      characters. A symbol-constituent character is a character whose
-      syntax is either '~w~' or '~_~'. '~\_<~' matches at the
-      beginning of the buffer only if a symbol-constituent character
-      follows. As with words, the syntax table determines which
-      characters are symbol constituent.
+    - ~\_<~ :: matches the empty string, but only at the beginning of
+      a symbol. A symbol is a sequence of one or more
+      symbol-constituent characters. A symbol-constituent character is
+      a character whose syntax is either '~\w~' or '~_~'. '~\_<~'
+      matches at the beginning of the buffer only if a
+      symbol-constituent character follows. As with words, the syntax
+      table determines which characters are symbol constituent.
     - ~\_>~ :: matches the empty string, but only at the end of a
       symbol. '~\_>~' matches at the end of the buffer only if the
       contents end with a symbol-constituent character.
@@ -2787,6 +2787,37 @@
    data. For instance, if a buffer is being shown in more than one
    frame, any changes made to it in one frame show up immediately in
    other frames too.
+
+   Skipping the rest of this section because honestly I don't care
+   about commands that affect the frame all that much.
+** International Character Set Support
+   Also Skipping this because I still don't really give a damn
+** Major and Minor Modes
+   Important section although shorter than I assumed because many of
+   the major and minor modes were already described in previous
+   sections.
+** Indentation
+   This seems like another important section but just going to skip
+   again for now. This seems fine to rely on the Emacs manual, it's
+   labeled as an advaned section.
+** Commands for Human Languages
+   Also seems like a pretty important section. Honestly I should
+   probably review this one at some point. It looks like this section
+   has some important concepts
+** Editing Programs
+   More opportunities for fun commands and such
+** Compiling and Testing Programs
+   This seems extremely involved in a way I'm not sure I want to dig
+   into.
+** Maintaining Large Programs
+   Again, Emacs might not be the tool for this as I keep looking at
+   it.
+** Abbrevs
+   This seems extremely helpful to review at some point
+** Dired, the Directory Editor
+   This is honestly the section I really want to get to, but as I'm
+   reviewing I think I am ready to just start tackling Org mode if I
+   am being honest with myself.
 * Vocabulary
 ** Distribution
 *** Free Software
@@ -4015,9 +4046,9 @@
     you delete a large block of text.
 *** Auto Save Visited mode
     In this mode, auto-saving is identical to explicit saving. Note
-    that thiss mode is orthogonal to the Auto Save mode; you can
-    enable both at the same time. However, if Auto Save mode is active
-    in some buffer and the obsolete ~auto-save-visited-file-name~
+    that this mode is orthogonal to the Auto Save mode; you can enable
+    both at the same time. However, if Auto Save mode is active in
+    some buffer and the obsolete ~auto-save-visited-file-name~
     variable is set to a non-nil value, that buffer won't be affected
     by this mode.
 *** Diff mode
@@ -4118,7 +4149,7 @@
     through special commands. The usual cursor motion commands can be
     used in this buffer
 *** Icomplete mode
-    Incomplete global minor mode provides a convenient way to quickly
+    Icomplete global minor mode provides a convenient way to quickly
     select an element among the possible completions in a
     minibuffer. When enabled, typing in the minibuffer continuously
     displays a list of possible completions that match the string you
@@ -4170,6 +4201,16 @@
 ** help
    Window that appears below buffer with some contents of a help
    buffer. One such help window is activated with [[help-for-help]]
+** help-link
+   Sometimes in a help-mode page there will be a cross reference to
+   another help-mode page. There is at least one command that only
+   works when the point is currently on one of these cross
+   references.
+** help-button
+   Sometimes a help-mode page will have a button that doesn't lead
+   anywhere but will perform an action in emacs. There is at least one
+   command that only works when the point is currently on one of these
+   buttons
 ** info
    The documentation browser. Able to read just every possible
    documentation imaginable.
@@ -4305,7 +4346,7 @@
    Winner mode which helps to undo changes in window configuration
 * Commands
   :PROPERTIES:
-  :COLUMNS:  %20ITEM(Command) %20Command(Key) %20Context %20TAGS %20Description
+  :COLUMNS:  %20ITEM(Command) %20Command(Key) %20Context %20Argument %20TAGS %20Description
   :ID:       commands
   :END:
 ** The Organization of the Screen
@@ -5886,7 +5927,6 @@
     :Description: Display a description of what given register contains
     :Context:  anywhere
     :END:
-    test
 *** Display Available Registers                  :window:register:char:helps:
     :PROPERTIES:
     :Command:  C-h OR <F1>
@@ -9709,7 +9749,7 @@
     :Description: Toggle Scroll All mode
     :Context:  multiple-windows
     :END:
-*** globa-tab-line-mode                               :window:buffer:display:
+*** global-tab-line-mode                              :window:buffer:display:
     :PROPERTIES:
     :Description: Toggle Global Tab Line mode
     :Context:  navigating
