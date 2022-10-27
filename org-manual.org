@@ -27,6 +27,16 @@ There are options to have headlines dynamically numbered
 *** Structure Editing
 Skipping ~org-refile~ since it seems like the details will be more
 relevant later.
+*** Sparse Trees
+The main sparse tree command ~org-occur~ searches an org document
+using regular expressions. The other sparse tree commands select
+headings based on TODO keywords, tags, or properties and are discussed
+later in this manual.
+
+To print a sparse tree, you can use the Emacs command
+~ps-print-buffer-with-faces~ which does not print invisible parts of
+the document. Or you can use the command ~C-c C-e C-v~ to export only
+the visible part of the document and print the resulting file.
 * Vocabulary
 ** Introduction
 *** Agenda View
@@ -43,9 +53,9 @@ A syntactical element
 *** Block
 A syntactical element
 ** Document Structure
-*** Headline
-Headlines define the structure of an outline tree. Org headlines start
-on the left margin with one or more stars followed by a space.
+*** Headlines
+<<<Headline>>> define the structure of an outline tree. Org headlines
+start on the left margin with one or more stars followed by a space.
 *** Subtree Cycling
 Rotating the current subtree among the relevant states:
  1. Folded
@@ -56,6 +66,11 @@ Rotating the entire buffer of headlines among the following states:
  1. Overview
  2. Contents
  3. Show All
+*** Sparse Trees
+An important feature of Org mode is the ability to construct a
+<<<Sparse Tree>>> for selected information in an outline tree, so that
+the entire document is folded as much as possible, but the selected
+information is made visible along with theheadline structure above it.
 * Syntax
 ** Introduction
 *** TODO Keywords
@@ -1075,6 +1090,87 @@ all lines in the region into headlines. If the first line in the
 region was an item, turn only the item lines into headlines. Finally,
 if the first line is a headline, remove the stars from all headlines
 in the region.
+*** org-sparse-tree                                                   :start:
+:PROPERTIES:
+:Binding:  C-c /
+:Subject:  Sparse Tree
+:Context:  org-buffer
+:Description: prompts to select sparse tree command
+:Importance: 3
+:END:
+ - Binding :: C-c /
+ - Subject :: Sparse Tree
+ - Function :: start
+ - Context :: org-buffer
+ - Description :: prompts to select sparse tree command
+ - Importance :: 3
+*** org-occur                                                          :edit:
+:PROPERTIES:
+:Binding:  C-c / r OR C-c / /
+:Subject:  Sparse Tree
+:Context:  org-buffer
+:Description: sparse tree via regex
+:Importance: 3
+:Argument: plain
+:END:
+ - Binding :: C-c / r OR C-c / /
+ - Subject :: Sparse Tree
+ - Function :: edit
+ - Context :: org-buffer
+ - Description :: sparse tree via regex
+ - Importance :: 3
+ - Argument :: plain
+
+Prompts for a regexp and shows a sparse tree with all matches. If the
+match is in a headline, the headline is made visible. If the match is
+in the body of an entry, headline and body are made visible. In order
+to provide minimal context, also the full hierarchy of headlines above
+the match is shown, as well as the headline following the match. Each
+match is also highlighted; the highlights disappear when the buffer is
+changed by an editing command, or by pressing ~C-c C-c~.
+
+When called with a ~C-u~ prefix argument, previous highlights are
+kept, so several calls to this command can be stacked.
+*** next-error                                                          :nav:
+:PROPERTIES:
+:Binding:  M-g n OR M-g M-n
+:Subject:  Sparse Tree
+:Context:  sparse-tree
+:Description: Jump to next sparse tree match in this buffer
+:Importance: 3
+:END:
+ - Binding :: M-g n OR M-g M-n
+ - Subject :: Sparse Tree
+ - Function :: nav
+ - Context :: sparse-tree
+ - Description :: Jump to next sparse tree match in this buffer
+ - Importance :: 3
+*** previous-error                                                      :nav:
+:PROPERTIES:
+:Binding:  M-g p OR M-g M-p
+:Subject:  Sparse Tree
+:Context:  sparse-tree
+:Description: Jump to previous sparse tree match in this buffer
+:Importance: 3
+:END:
+ - Binding :: M-g p OR M-g M-p
+ - Subject :: Sparse Tree
+ - Function :: nav
+ - Context :: sparse-tree
+ - Description :: Jump to previous sparse tree match in this buffer
+ - Importance :: 3
+*** ps-print-buffer-with-faces                                     :remember:
+:PROPERTIES:
+:Subject:  Sparse Tree
+:Context:  sparse-tree
+:Description: Generate and print PostScript image of buffer
+:Importance: 5
+:END:
+ - Subject :: Sparse Tree
+ - Function :: remember
+ - Context :: sparse-tree
+ - Description :: Generate and print PostScript image of buffer
+ - Importance :: 5
 * Variables
 ** Introduction
 *** org-insert-mode-line-in-empty-file                           :files:mode:
@@ -1189,6 +1285,66 @@ single subtree, or a sequal of subtrees, i.e. if it starts with a
 heading and all other headings in it are either children or siblings,
 then fold all the subtrees. However, do this only if no text after the
 yank would be swallowed into a folded tree by this action.
+*** org-agenda-custom-commands
+For frequently used sparse trees of specific search strings, you can
+use this variable to define fast keyboard access to specific sparse
+trees. These commands will then be accessible through the agenda
+dispatcher. For example:
+
+#+BEGIN_SRC elisp
+  (setq org-atenda-custom-commands
+	'(("f" occur-tree "FIXME")))
+#+END_SRC
+
+defines the key 'f' as a shortcut for creating a sparse tree matching
+the string 'FIXME'.
+*** org-show-context-detail
+Alist between context and visibility span when revealing a
+location. Some actions may move point into invisible locations. As a
+consequence, Org always exposes a neighborhood around point. How much
+is shown depends on the initial action, or context. Valid contexts
+are:
+
+ - agenda :: when exposing an entry from the agenda
+ - org-goto :: when using the command ~org-goto~ (~C-c C-j~)
+ - occur-tree :: when using the command ~org-occur~ (~C-c / /~)
+ - tags-tree :: when constructing a sparse tree based on tags matches
+ - link-search :: when exposing search matches associated with a link
+ - mark-goto :: when exposing the jump goal of a mark
+ - bookmark-jump :: when exposing a bookmark location
+ - isearch :: when exiting from an incremental search
+ - default :: default for all contexts not set explicitly
+
+Allowed visibility spans are:
+
+ - minimal :: show current headline; if point is not on headline, also
+   show entry
+ - local :: show current headline, entry and next headline
+ - ancesotrs :: show current headline and its direct ancestors; if
+   point is not on headline, also show entry
+ - ancestors-full :: show current subtree and its direct ancestors
+ - lineage :: show current headline, its direct ancestors and all
+   their children; if point is not on headline, also show entry and
+   first child
+ - tree :: show current headline, its direct ancestors and all their
+   children; if point is not on headline, also show entry and all
+   children
+ - canonical :: show current headline, its direct ancestors along with
+   their entries and children; if point is not located on the
+   headline, also show current entry and all children
+
+As special cases, a nil or t value means show all contexts in minimal
+or canonical view, respectively.
+
+Some views can make displayed information very compact, but also make
+it harder to edit the location of the match. In such a case use the
+command ~org-reveal~ (~C-c C-r~) to show more context
+*** org-remove-highlights-with-change
+Non-nil means any change to the buffer will remove temporary
+highlights. Such highlights are created by ~org-occur~ and
+~org-clock-display~. When nil, ~C-c C-c~ needs to be used to get rid
+of the highlights. The highlights created by ~org-latex-preview~
+always need ~C-c C-s C-l~ to be removed.
 * Properties
 ** Document Structure
 *** VISIBILITY
