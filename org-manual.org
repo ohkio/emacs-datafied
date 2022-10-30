@@ -37,6 +37,22 @@ To print a sparse tree, you can use the Emacs command
 ~ps-print-buffer-with-faces~ which does not print invisible parts of
 the document. Or you can use the command ~C-c C-e C-v~ to export only
 the visible part of the document and print the resulting file.
+*** Plain Lists
+Org supports plain lists by tuning filling and wrapping commands to
+deal with them correctly, and by exporting them properly. Since
+indentation is what governs the structure of these lists, many
+structural constructs like ~#+BEGIN_~ blocks can be indented to signal
+that they belong to a particular item.
+
+When using ~*~ as a bullet, lines must be indented so that they are
+not interrupted as headlines. Also, when you are hiding leading stars
+to get a clean outline view, plain list items starting with a star may
+be hard to distinguish from true headlines. In short: even though ~*~
+is supported, it may be better to not use it for plain list items.
+
+If there's a checkbox in the item, the counter cookies must be put
+_before_ the checkbox. If you have activated alphabetical lists, you
+can also use counters like ~[@b]~.
 * Vocabulary
 ** Introduction
 *** Agenda View
@@ -71,6 +87,23 @@ An important feature of Org mode is the ability to construct a
 <<<Sparse Tree>>> for selected information in an outline tree, so that
 the entire document is folded as much as possible, but the selected
 information is made visible along with theheadline structure above it.
+*** Plain Lists
+Within an entry of the outline tree, a hand-formatted <<<plain list>>>
+can provide additional structure. They also provide a way to create
+lists of checkboxes. Org supports editing such lists, and every
+exporter can parse and format them.
+
+Org knows ordered lists, unordered lists and description lists.
+
+Items belonging to the same list must have the same indentation on the
+first line. In particular, if an ordered list reaches number ~10.~,
+then the 2 digit number must be written left-aligned with the other
+numbers in the list. An item ends before the next line that is less or
+equally indented than its bullet/number.
+
+A list ends whenever every item has ended, which means before any line
+less or equally indented than items at top level. It also ends before
+two blank lines. In that case, all items are closed.
 * Syntax
 ** Introduction
 *** TODO Keywords
@@ -110,6 +143,38 @@ readability, but you can use lowercase in your Org files.
   ,* Another top level headline
 #+END_SRC
 
+*** Unordered List
+#+BEGIN_SRC org
+  - Example Item 1
+  - Example Item 2
+
+  + Other unordered start 1
+  + Other unordered start 2
+
+  * Another unordered list 1
+  * Another unordered list 2
+#+END_SRC
+
+*** Ordered List
+#+BEGIN_SRC org
+  1. Ordered List Item 1
+  2. Ordered List Item 2
+  3. Ordered List Item 3
+
+  1) Other Format Item 1
+  2) Other Format Item 2
+
+  1. [@20] This item will start at 20
+  2. And so this item will number with 21
+#+END_SRC
+
+*** Description List
+#+BEGIN_SRC org
+  - Example :: this is an example of how maybe defining a vocab word
+    might look in a description list
+  - Triangle :: A 2d shape with 3 straight sides
+#+END_SRC
+
 * Subject
 ** Introduction
 *** Bug Report
@@ -134,7 +199,10 @@ about a Sparse Tree
 Anything relating to all the features that are list like so headings,
 plain lists, or tables
 *** Todo
-Anything relating to the Todo feature that you can use with headings.
+Anything relating to the Todo feature that you can use with
+headlines.
+*** Plain-List
+Anything relating to a plain list
 * File Additions
 ** Introduction
 *** Force org mode in Emacs
@@ -192,6 +260,9 @@ Any command that is executed after the ~org-goto~ command
 *** empty-headline
 Any command that is executed on a headline that currently only has the
 asterisks without any text for the headline.
+*** plain-list
+Any command that act on items when point is in the first line of an
+item-the line with the bullet or number.
 * Commands
 ** Introduction
 *** org-submit-bug-report                                            :inform:
@@ -1171,6 +1242,390 @@ kept, so several calls to this command can be stacked.
  - Context :: sparse-tree
  - Description :: Generate and print PostScript image of buffer
  - Importance :: 5
+*** org-cycle                                                         :style:
+:PROPERTIES:
+:Binding:  <TAB>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Items can be folded just like headline levels
+:Importance: 3
+:END:
+ - Binding :: <TAB>
+ - Subject :: Plain-List
+ - Function :: style
+ - Context :: plain-list
+ - Description :: Items can be folded just like headline levels
+ - Importance :: 3
+
+Items can be folded just like headline levels. Normally this works
+only if point is on a plain list item. For more details, see the
+variable ~org-cycle-include-plain-lists~. In a new item with no text
+yet, the first ~<TAB>~ demotes the item to become a child of the
+previous one. Subsequent ~<TAB>~'s move the item to meaninful levels
+in the list and eventually get it back to its initial position
+*** org-insert-heading                                                  :add:
+:PROPERTIES:
+:Binding:  M-<RET>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Insert new item at current level
+:Importance: 2
+:Argument: plain
+:END:
+ - Binding :: M-<RET>
+ - Subject :: Plain-List
+ - Function :: add
+ - Context :: plain-list
+ - Description :: Insert new item at current level
+ - Importance :: 2
+ - Argument :: plain
+
+With a prefix argument, force a new heading. If this command is used
+in the middle of an item, that item is _split_ in two, and the second
+part becomes the new item. If this command is executed _before item's
+body_, the new item is created _before_ the current one.
+*** org-insert-todo-heading                                             :add:
+:PROPERTIES:
+:Binding:  M-S-<RET>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Insert a new item with a checkbox
+:Importance: 3
+:END:
+ - Binding :: M-S-<RET>
+ - Subject :: Plain-List
+ - Function :: add
+ - Context :: plain-list
+ - Description :: Insert a new item with a checkbox
+ - Importance :: 3
+*** org-previous-item                                                   :nav:
+:PROPERTIES:
+:Binding:  S-<UP>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Move to beginning of previousitem
+:Importance: 2
+:END:
+ - Binding :: S-<UP>
+ - Subject :: Plain-List
+ - Function :: nav
+ - Context :: plain-list
+ - Description :: Move to beginning of previousitem
+ - Importance :: 2
+*** org-next-item                                                       :nav:
+:PROPERTIES:
+:Binding:  S-<DOWN>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Move to beginning of next item
+:Importance: 2
+:END:
+ - Binding :: S-<DOWN>
+ - Subject :: Plain-List
+ - Function :: nav
+ - Context :: plain-list
+ - Description :: Move to beginning of next item
+ - Importance :: 2
+*** org-backward-paragraph                                              :nav:
+:PROPERTIES:
+:Binding:  C-<UP>
+:Subject:  Org-Text
+:Context:  org-buffer
+:Description: Move backward by a paragraph, or equivalent, unit
+:Importance: 3
+:Argument: numeric
+:END:
+ - Binding :: C-<UP>
+ - Subject :: Org-Text
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Move backward by a paragraph, or equivalent, unit
+ - Importance :: 3
+ - Argument :: numeric
+
+With argument ARG, do it ARG times;
+a negative argument ARG = -N means move forward N paragraphs.
+
+The function moves point between two structural elements (paragraphs,
+tables, lists, etc.).
+
+It also provieds the following special moves for convenience:
+
+ - on a table or a property drawer, move to its beginning;
+ - on comment, example, export, source and verse blocks, stop at blank
+   lines;
+ - skip consecutive clocks, diary S-exps, and keywords.
+*** org-forward-paragraph                                               :nav:
+:PROPERTIES:
+:Binding:  C-<DOWN>
+:Subject:  org-text
+:Context:  org-buffer
+:Description: Move forward by a paragraph, or equivalent, unit
+:Importance: 3
+:Argument: numeric
+:END:
+ - Binding :: C-<DOWN>
+ - Subject :: org-text
+ - Function :: nav
+ - Context :: org-buffer
+ - Description :: Move forward by a paragraph, or equivalent, unit
+ - Importance :: 3
+ - Argument :: numeric
+
+With an argument ARG, do it ARG times;
+a negative argument ARG = -N means move backward N paragraphs
+
+The function moves point between two structural elements (paragraphs,
+tables, lists, etc.).
+
+It also provieds the following special moves for convenience:
+
+ - on a table or a property drawer, move to its beginning;
+ - on comment, example, export, source and verse blocks, stop at blank
+   lines;
+ - skip consecutive clocks, diary S-exps, and keywords.
+*** org-move-item-up                                                   :move:
+:PROPERTIES:
+:Binding:  M-<UP>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Move item at point up
+:Importance: 1
+:END:
+ - Binding :: M-<UP>
+ - Subject :: Plain-List
+ - Function :: move
+ - Context :: plain-list
+ - Description :: Move item at point up
+ - Importance :: 1
+*** org-move-item-down                                                 :move:
+:PROPERTIES:
+:Binding:  M-<DOWN>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Move item at point down
+:Importance: 1
+:END:
+ - Binding :: M-<DOWN>
+ - Subject :: Plain-List
+ - Function :: move
+ - Context :: plain-list
+ - Description :: Move item at point down
+ - Importance :: 1
+*** org-outdent-item                                                   :move:
+:PROPERTIES:
+:Binding:  M-<LEFT>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Outdent a local list item, but not its children
+:Importance: 1
+:END:
+ - Binding :: M-<LEFT>
+ - Subject :: Plain-List
+ - Function :: move
+ - Context :: plain-list
+ - Description :: Outdent a local list item, but not its children
+ - Importance :: 1
+
+If a region is active, all items inside will be moved.
+*** org-indent-item                                                    :move:
+:PROPERTIES:
+:Binding:  M-<RIGHT>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Indent a local list item, but not its children
+:Importance: 1
+:END:
+ - Binding :: M-<RIGHT>
+ - Subject :: Plain-List
+ - Function :: move
+ - Context :: plain-list
+ - Description :: Indent a local list item, but not its children
+ - Importance :: 1
+*** org-outdent-item-tree                                              :move:
+:PROPERTIES:
+:Binding:  M-S-<LEFT>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Outdent a local list item including its children
+:Importance: 1
+:END:
+ - Binding :: M-S-<LEFT>
+ - Subject :: Plain-List
+ - Function :: move
+ - Context :: plain-list
+ - Description :: Outdent a local list item including its children
+ - Importance :: 1
+
+If a region is active, all items inside will be moved.
+
+Initially, the item tree is selected based on current
+indentation. When these commands are executed several times in direct
+succession, the initially selected region is used, even if the new
+indentation would imply a different hierarchy. To use the new
+hierarcy, break the command chain by moving point.
+
+As a special case, using this command on the very first item of a list
+moves the whole list. This behavior can be disabled by configuring
+~org-list-automatic-rules~. The global indentation of a list has no
+influence on the text _after_ the list.
+*** org-indent-item-gree                                               :move:
+:PROPERTIES:
+:Binding:  M-S-<RIGHT>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Indent a local list item including its children
+:Importance: 1
+:END:
+ - Binding :: M-S-<RIGHT>
+ - Subject :: Plain-List
+ - Function :: move
+ - Context :: plain-list
+ - Description :: Indent a local list item including its children
+ - Importance :: 1
+
+If a region is active, all items inside will be moved.
+
+Initially, the item tree is selected based on current
+indentation. When these commands are executed several times in direct
+succession, the initially selected region is used, even if the new
+indentation would imply a different hierarchy. To use the new
+hierarcy, break the command chain by moving point.
+
+As a special case, using this command on the very first item of a list
+moves the whole list. This behavior can be disabled by configuring
+~org-list-automatic-rules~. The global indentation of a list has no
+influence on the text _after_ the list.
+*** org-ctrl-c-ctrl-c                                                 :style:
+:PROPERTIES:
+:Binding:  C-c C-c
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Verify bullets and indentation consistency
+:Importance: 3
+:END:
+ - Binding :: C-c C-c
+ - Subject :: Plain-List
+ - Function :: style
+ - Context :: plain-list
+ - Description :: Verify bullets and indentation consistency
+ - Importance :: 3
+*** org-cycle-list-bullet                                             :style:
+:PROPERTIES:
+:Binding:  C-c -
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Cycle through the different itemize bullets
+:Importance: 3
+:END:
+ - Binding :: C-c -
+ - Subject :: Plain-List
+ - Function :: style
+ - Context :: plain-list
+ - Description :: Cycle through the different itemize bullets
+ - Importance :: 3
+*** org-toggle-heading                                           :add:delete:
+:PROPERTIES:
+:Binding:  C-c *
+:Subject:  Headline
+:Context:  not-table
+:Description: Convert headings to normal text or vice versa
+:Importance: 3
+:Argument: plain, numeric
+:END:
+ - Binding :: C-c *
+ - Subject :: Headline
+ - Function :: add:delete
+ - Context :: not-table
+ - Description :: Convert headings to normal text or vice versa
+ - Importance :: 3
+ - Argument :: plain, numeric
+
+With a plain prefix, convert the whole list at point into heading.
+
+In a region:
+ - If the first non blank line is a headline, remove the stars from
+   all headlines in the region.
+ - If it is a normal line, turn each and every normal line (i.e., not
+   an heading or an item) in the region into headings. If you want to
+   convert only the first line of this region, use one universal
+   prefix argument.
+ - If it is a plain list item, turn all plain list items into
+   headings.
+
+When converting a line into a heading, the number of stars is chosen
+such that the lines become children of the current entry. However,
+when a numeric prefix argument is given, its value determines the
+number of stars to add.
+*** org-list-make-subtree                                               :add:
+:PROPERTIES:
+:Binding:  C-c C-*
+:Subject:  Headline
+:Context:  plain-list
+:Description: Convert the plain list at point into a subtree
+:Importance: 4
+:END:
+ - Binding :: C-c C-*
+ - Subject :: Headline
+ - Function :: add
+ - Context :: plain-list
+ - Description :: Convert the plain list at point into a subtree
+ - Importance :: 4
+*** org-shiftleft                                                     :style:
+:PROPERTIES:
+:Binding:  S-<LEFT>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Switch entire list to previous bullet type
+:Importance: 3
+:END:
+ - Binding :: S-<LEFT>
+ - Subject :: Plain-List
+ - Function :: style
+ - Context :: plain-list
+ - Description :: Switch entire list to previous bullet type
+ - Importance :: 3
+*** org-shiftright                                                    :style:
+:PROPERTIES:
+:Binding:  S-<RIGHT>
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Switch entire list to next bullet type
+:Importance: 3
+:END:
+ - Binding :: S-<RIGHT>
+ - Subject :: Plain-List
+ - Function :: style
+ - Context :: plain-list
+ - Description :: Switch entire list to next bullet type
+ - Importance :: 3
+*** org-sort-list                                                      :edit:
+:PROPERTIES:
+:Binding:  C-c ^
+:Subject:  Plain-List
+:Context:  plain-list
+:Description: Sort list items
+:Importance: 2
+:END:
+ - Binding :: C-c ^
+ - Subject :: Plain-List
+ - Function :: edit
+ - Context :: plain-list
+ - Description :: Sort list items
+ - Importance :: 2
+
+The cursor may be at any item of the list that should be
+sorted. Sublists are not sorted. Checkboxes, if any, are ignored.
+
+Sorting can be alphabetically numerically, by date/time as given by a
+time stamp, by property or by priority.
+
+Comparing entries ignores case by default.
+
+The command prompts for the sorting type.
+
+Sorting is done against the visible part of the headlines, it ignores
+hidden links.
 * Variables
 ** Introduction
 *** org-insert-mode-line-in-empty-file                           :files:mode:
@@ -1345,6 +1800,126 @@ highlights. Such highlights are created by ~org-occur~ and
 ~org-clock-display~. When nil, ~C-c C-c~ needs to be used to get rid
 of the highlights. The highlights created by ~org-latex-preview~
 always need ~C-c C-s C-l~ to be removed.
+*** org-list-demote-modify-bullet
+Default bullet type installed when demoting an item. This is an
+association list, for each bullet type, this alist will point to the
+bullet that should be used when this item is demoted.
+*** org-list-indent-offset
+Additional indentation for sub-items in a list. By setting this to a
+small number, usually 1 or 2, one can more clearly distinguish
+sub-items in a list.
+*** org-list-automatic-rules
+Non-nil means apply set of ules when acting on lists.
+
+By default, automatic actions are taken when using
+ - ~M-RET~
+ - ~<M-right>~
+ - ~<M-left>~
+ - ~<M-S-right>~
+ - ~<M-S-left>~
+ - ~C-c -~
+ - ~C-c C-x C-b~
+ - ~<M-S-return>~
+
+You can disable individually these rules by setting them to nil.
+
+Valid rules are:
+ - checkbox :: When non-nil, checkbox statistics is updated each time
+   you either insert a new checkbox or toggle a checkbox.
+ - indent :: when non-nil, indenting or outdenting list top-item with
+   its subtree will move the whole list and outdenting a list whose
+   bullet is * to column 0 will change that bullet to "-".
+*** org-cycle-include-plain-lists
+When t, make TAB cycle visibility on plain list items. Cycling plain
+lists works only when the cursor is on a plain list item. When the
+cursor is on an outline heading, plain lists are treated as text. This
+is the most stable way of handling this, which is why it is the
+default.
+
+When this is the symbol 'integrate', then integrate plain list items
+when cycling, as if they were children of outlin headings.
+
+This setting can lead to strange effects when switching visibility to
+'children', because the first "child" in a subtree decides what
+children should be listed. If that first "child" is a plain list item
+with an implied large level number, all true children and grand
+children of the outline heading will be exposed in a children' view.
+*** org-list-use-circular-motion
+Non-nil means commands implying motion in lists should be cyclic.
+
+In that case, the item following the last item is the first one, and
+the item preceding the first item is the last one.
+
+This affects the behavior of
+ - ~org-move-item-up~
+ - ~org-move-item-down~
+ - ~org-next-item~
+ - ~org-previous-item~
+*** org-support-shift-select
+Non-nil means make shift-cursor commands select text when possible.
+
+In Emacs 23, when ~shift-select-mode~ is on, shifted cursor keys start
+selecting a region, or enlarge regions started in this way. In Org
+mode, in special contexts, these same keys are used for other
+purposes, important enough to compete with shift selection. Org tries
+to balance these needs by supporting ~shift-select-mode~ outside these
+special contests, under control of this variable.
+
+The default of this variable is nil, to avoid confusing
+behavior. Shifted cursor keys will then execute Org commands in the
+following contexts:
+- on a headline, changing TODO state (left/right) and priority
+  (up/down)
+- on a time stamp, changing the time
+- in a plain list item, changing the bullet type
+- in a property definition line, switching between allowed values
+- in the BEGIN line of a click table (changing the time block)
+- in a table, moving the cell in the specified direction
+Outside these contests, the command will throw an error.
+
+When this variable is t and the cursor is not in a special context,
+Org mode will support shift-selection for making and enlarging
+regions. To make this more effective, the bullet cycling will no
+longer happen anywhere in an item line, but only if the cursor is
+exactly on the bullet.
+
+If you set this variable to the symbol 'always', then the keyws will
+not be special in headlines, property lines, item lines, and table
+cells, to make shift selection work there as well. If this is what you
+want, you can use the following alternate commands:
+- ~C-c C-t~ and ~C-c ,~ to change TODO state and priority
+- ~C-u C-u C-c C-t~ can be used to switch TODO sets
+- ~C-c -~ to cycle item bullet types
+and properties can be edited by hand or in column view.
+
+However, when the cursor is on a timestamp, shift-cursor commands will
+still edit the time stamp - this is just too good to give up.
+*** org-plain-list-ordered-item-terminator
+The character that makes a line with leading number an ordered list
+item. Valid values are ?. and ?\). To get both terminators, use t.
+*** org-list-allow-alphabetical
+Non-nil means single character alphabetical bullets are allowed.
+
+Both uppercase and lowercase are handled. Lists with more than 26
+items will fallback to standard numbering. Alphabetical counters like
+"[@c]" will be recognized.
+
+This variable needs to be set before org.el is loaded. If you need to
+make a change while Emacs is running, use the customize interface or
+run the following code after updating it:
+
+~M-x org-element-update-syntax~
+*** org-M-RET-may-split-line
+Non-nil means M-RET will split the line at the cursor position. When
+nil, it will go to the end of the line before making a new line. You
+may also set this option in a different way for different
+contests. Valid contexts are:
+
+ - headline :: when creating a new headline
+ - item :: when creating a new item
+ - table :: in a table field
+ - default :: the value to be used for all contexts not explicitly
+   customized
 * Properties
 ** Document Structure
 *** VISIBILITY
@@ -1404,5 +1979,16 @@ emacs -Q -l /path/to/minimal-org.el
 * Niche Modes
 * Notes
 * Practice
+** Document Structure
+*** Plain List
+ * test
+   + hello
+     - Cool
+     - nice
+       + Yeah
+     - Whoa
+   + Yeah
+ * again
+ * Again
 * Extra
 
