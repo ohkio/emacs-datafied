@@ -53,6 +53,19 @@ is supported, it may be better to not use it for plain list items.
 If there's a checkbox in the item, the counter cookies must be put
 _before_ the checkbox. If you have activated alphabetical lists, you
 can also use counters like ~[@b]~.
+*** Drawers
+Completion over drawer keywords is also possible using ~M-<TAB>~
+
+Equivalent is aparently ~C-M-i~ or ~<ESC> <TAB>~
+
+Visibility cycling on the headline hides and shows the entry, but keep
+the drawer collapsed to a single line. In order to look inside the
+drawer, you need to move point to the drawer line and press ~<TAB>~
+there.
+
+You can also arrange for state change notes and clock times to be
+stored in a ~LOGBOOK~ drawer. If you want to store a quick note there,
+in a similar way to state changes, use ~C-c C-z~
 * Vocabulary
 ** Introduction
 *** Agenda View
@@ -104,6 +117,11 @@ equally indented than its bullet/number.
 A list ends whenever every item has ended, which means before any line
 less or equally indented than items at top level. It also ends before
 two blank lines. In that case, all items are closed.
+*** Drawers
+Sometimes you want to keep information associated with an entry, but
+you normally do not want to see it. For this, Org mode has a
+<<<drawer>>>. They can contain anything but a headline and another
+drawer.
 * Syntax
 ** Introduction
 *** TODO Keywords
@@ -175,6 +193,17 @@ readability, but you can use lowercase in your Org files.
   - Triangle :: A 2d shape with 3 straight sides
 #+END_SRC
 
+*** Drawers
+Drawers look like this:
+#+BEGIN_SRC org
+  ,** This is a headline
+  Still outside the drawer
+  :DRAWERNAME:
+  This is inside the drawer.
+  :END:
+  After the drawer
+#+END_SRC
+
 * Subject
 ** Introduction
 *** Bug Report
@@ -203,6 +232,11 @@ Anything relating to the Todo feature that you can use with
 headlines.
 *** Plain-List
 Anything relating to a plain list
+*** Drawer
+Anything relating to a drawer
+*** State-Change
+Anything relating to the various ways you can indicate an update or
+time stamp a headline in org mode.
 * File Additions
 ** Introduction
 *** Force org mode in Emacs
@@ -263,6 +297,9 @@ asterisks without any text for the headline.
 *** plain-list
 Any command that act on items when point is in the first line of an
 item-the line with the bullet or number.
+*** unfin-drawer
+Any command that act when point is in a position as if you are in the
+middle of creating a drawer. An "unfinished drawer".
 * Commands
 ** Introduction
 *** org-submit-bug-report                                            :inform:
@@ -1626,6 +1663,75 @@ The command prompts for the sorting type.
 
 Sorting is done against the visible part of the headlines, it ignores
 hidden links.
+*** org-insert-drawer                                                   :add:
+:PROPERTIES:
+:Binding:  C-c C-x d
+:Subject:  Drawer
+:Context:  org-buffer
+:Description: insert a drawer at point
+:Importance: 2
+:Argument: plain
+:END:
+ - Binding :: C-c C-x d
+ - Subject :: Drawer
+ - Function :: add
+ - Context :: org-buffer
+ - Description :: insert a drawer at point
+ - Importance :: 2
+ - Argument :: plain
+
+With an active region, this command puts the region inside the
+drawer. With a prefix argument, this command calls
+~org-insert-property-drawer~ which creates a ~PROPERTIES~ drawer right
+below the current headline.
+*** org-insert-property-drawer                                    :add:style:
+:PROPERTIES:
+:Binding:  C-u C-c C-x d
+:Subject:  Drawer
+:Context:  org-buffer
+:Description: Creates a ~PROPERTIES~ drawer below curr headline
+:Importance: 4
+:END:
+ - Binding :: C-u C-c C-x d
+ - Subject :: Drawer
+ - Function :: add:style
+ - Context :: org-buffer
+ - Description :: Creates a ~PROPERTIES~ drawer below curr headline
+ - Importance :: 4
+*** complete-symbol                                                  :recall:
+:PROPERTIES:
+:Binding:  C-M-i OR M-<TAB> OR <ESC> <TAB>
+:Subject:  Drawer
+:Context:  unfin-drawer
+:Description: Perform completion on the text around point
+:Importance: 2
+:Argument: plain
+:END:
+ - Binding :: C-M-i OR M-<TAB> OR <ESC> <TAB>
+ - Subject :: Drawer
+ - Function :: recall
+ - Context :: unfin-drawer
+ - Description :: Perform completion on the text around point
+ - Importance :: 2
+ - Argument :: plain
+
+With a prefix argument, this command does completion within the
+collection of symbols listed in the index of the manual for the
+language you are using.
+*** org-add-note                                                        :add:
+:PROPERTIES:
+:Binding:  C-c C-z
+:Subject:  State-Change
+:Context:  subtree
+:Description: Add a note to the current entry
+:Importance: 4
+:END:
+ - Binding :: C-c C-z
+ - Subject :: State-Change
+ - Function :: add
+ - Context :: subtree
+ - Description :: Add a note to the current entry
+ - Importance :: 4
 * Variables
 ** Introduction
 *** org-insert-mode-line-in-empty-file                           :files:mode:
@@ -1990,5 +2096,14 @@ emacs -Q -l /path/to/minimal-org.el
    + Yeah
  * again
  * Again
+*** Drawer
+**** Location 1
+:DRAWERNAME:
+
+:END:
+**** Location 2
+:DRAWERNAME:
+
+:END:
 * Extra
 
