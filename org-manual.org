@@ -66,6 +66,7 @@ there.
 You can also arrange for state change notes and clock times to be
 stored in a ~LOGBOOK~ drawer. If you want to store a quick note there,
 in a similar way to state changes, use ~C-c C-z~
+*** Blocks
 * Vocabulary
 ** Introduction
 *** Agenda View
@@ -122,6 +123,10 @@ Sometimes you want to keep information associated with an entry, but
 you normally do not want to see it. For this, Org mode has a
 <<<drawer>>>. They can contain anything but a headline and another
 drawer.
+*** Blocks
+Org mode uses ~#+BEGIN~ ... ~#+END~ to define a <<<Block>>> for
+various purposes from including source code examples to capturing time
+logging information.
 * Syntax
 ** Introduction
 *** TODO Keywords
@@ -204,6 +209,22 @@ Drawers look like this:
   After the drawer
 #+END_SRC
 
+*** Blocks
+Blocks look like this:
+#+BEGIN_SRC org
+  Outside of block
+  ,#+BEGIN_KEYWORD
+    Inside of block
+
+    Please note that the "keyword" can be any word as long as the
+    begin and end matches. Some keywords appear to be special. Known
+    special keywords are
+    - EXAMPLE
+    - SRC
+  ,#+END_KEYWORD
+  After the block
+#+END_SRC
+
 * Subject
 ** Introduction
 *** Bug Report
@@ -237,6 +258,8 @@ Anything relating to a drawer
 *** State-Change
 Anything relating to the various ways you can indicate an update or
 time stamp a headline in org mode.
+*** Block
+Anything relating to a Block.
 * File Additions
 ** Introduction
 *** Force org mode in Emacs
@@ -252,16 +275,23 @@ is.
 *** Initial Visibility
 You can define what the initial global visibility should be for an Org
 Buffer on a per-file basis by adding one of the following lines
-anywhere in the buffer. Please note all of these start with ~#+~.
+anywhere in the buffer.
 #+BEGIN_SRC org
-  STARTUP: overview
-  STARTUP: content
-  STARTUP: showall
-  STARTUP: show2levels
-  STARTUP: show3levels
-  STARTUP: show4levels
-  STARTUP: show5levels
-  STARTUP: showeverything
+  ,#+STARTUP: overview
+  ,#+STARTUP: content
+  ,#+STARTUP: showall
+  ,#+STARTUP: show2levels
+  ,#+STARTUP: show3levels
+  ,#+STARTUP: show4levels
+  ,#+STARTUP: show5levels
+  ,#+STARTUP: showeverything
+#+END_SRC
+
+*** Block Visibility
+You can define the visibility of blocks on a per-file basis with
+#+BEGIN_SRC org
+  ,#+STARTUP: hideblocks
+  ,#+STARTUP: showblocks
 #+END_SRC
 
 * Modes
@@ -1732,6 +1762,20 @@ language you are using.
  - Context :: subtree
  - Description :: Add a note to the current entry
  - Importance :: 4
+*** org-cycle                                                         :style:
+:PROPERTIES:
+:Binding:  <TAB>
+:Subject:  Block
+:Context:  block-begin
+:Description: visibility cycling for a block
+:Importance: 1
+:END:
+ - Binding :: <TAB>
+ - Subject :: Block
+ - Function :: style
+ - Context :: block-begin
+ - Description :: visibility cycling for a block
+ - Importance :: 1
 * Variables
 ** Introduction
 *** org-insert-mode-line-in-empty-file                           :files:mode:
@@ -2026,6 +2070,8 @@ contests. Valid contexts are:
  - table :: in a table field
  - default :: the value to be used for all contexts not explicitly
    customized
+*** org-hide-block-startup
+Non-nil means entering Org mode will fold all blocks.
 * Properties
 ** Document Structure
 *** VISIBILITY
@@ -2105,5 +2151,10 @@ emacs -Q -l /path/to/minimal-org.el
 :DRAWERNAME:
 
 :END:
+*** Block
+#+BEGIN_APPlE
+
+#+END_APPLE
+
 * Extra
 
